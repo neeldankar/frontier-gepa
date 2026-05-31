@@ -1,0 +1,13 @@
+# Frontier-Band Reflection Selection for GEPA, runtime deps.
+# Pin minimums only; the build window is 2 days, prefer letting pip resolve.
+
+dspy>=2.6
+gepa>=0.0.1
+datasets>=2.20
+matplotlib>=3.8
+numpy>=1.26
+pyyaml>=6.0
+python-dotenv>=1.0
+litellm>=1.50
+openai>=1.40
+tqdm>=4.66

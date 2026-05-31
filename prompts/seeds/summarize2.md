@@ -1,0 +1,1 @@
+You are given a question, a summary of the information gathered so far, and a set of additional passages. Write a brief summary of the facts relevant to answering the question, combining the new passages with what was already gathered.

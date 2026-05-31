@@ -1,0 +1,69 @@
+# Frontier-Band Reflection Selection for GEPA, locked parameters.
+# Mirror of PREREGISTRATION.md (canonical preregistration to be authored before the main run).
+# Do not tune these on results. Any change here is a protocol break.
+
+splits:
+  d_feedback: 100         # reflection pool, GEPA Algorithm 1 line 9
+  accept_batch: 20        # fixed shared accept batch A (decoupled accept test)
+  d_pareto: 75            # validation set for candidate selection (P)
+  test: 300               # held-out test, scored once at the end of each run
+  seed_splits: 0          # seed for the disjoint split assignment, held constant across all runs
+
+bands:
+  scheme: equal_terciles  # bottom / middle / top thirds of D_feedback by base-system F1 rank
+  draw_mix:               # band arms draw their size-b minibatch from (target / off-1 / off-2)
+    target: 0.70
+    off_band_1: 0.15
+    off_band_2: 0.15
+
+minibatch:
+  b: 3                    # reflection minibatch size (Appendix E.4)
+
+stopping:
+  rule: iterations        # stop on N iterations, not on a rollout budget (Fix 2)
+  n: 44                   # tuned so that at r~0.3 per-arm budget lands near 2,000 rollouts
+
+acceptance:
+  test_set: accept_batch  # decoupled onto the fixed shared batch A (Section 4 decoupling)
+  rule: strict_improvement  # ">", not ">="
+  cache_parent: true      # cache parent's A-score once per candidate
+
+arms:
+  - random                # uniform draw over D_feedback (floor)
+  - static_easy           # target = top tercile by base-system F1
+  - static_frontier       # target = middle tercile (method under test)
+  - static_hard           # target = bottom tercile
+
+reference:
+  - vanilla_coupled_gepa  # random reflection, acceptance on the minibatch (stock GEPA)
+
+seeds: [0, 1, 2]
+total_runs: 15            # 4 arms x 3 seeds + reference x 3 seeds
+
+task_model:
+  # LiteLLM-style model string sourced from env so provider stays unhardcoded (Section 9).
+  name_env: TASK_MODEL
+  api_key_env: TASK_MODEL_API_KEY
+  base_url_env: TASK_MODEL_BASE_URL
+  # Qwen3-8B inference settings (Appendix E.2).
+  temperature: 0.6
+  top_p: 0.95
+  top_k: 20
+  max_tokens: 16384
+
+reflection_model:
+  # Mini-class (gpt-4.1-mini or gpt-4o-mini), held constant across arms.
+  name_env: REFLECTION_MODEL
+  api_key_env: OPENAI_API_KEY
+
+retrieval:
+  backend: colbertv2_hosted     # DSPy hosted ColBERTv2 Wikipedia index (default)
+  fallback: hotpotqa_distractor # gold paragraphs, no retrieval, drops create_query_hop2
+
+dataset:
+  name: hotpotqa
+  split: dev                    # ~7.4k dev pool
+
+budget:
+  cap_usd: 300
+  per_rollout_assumed_usd: 0.006  # validate in the 50-example pilot before launching the matrix
