@@ -28,7 +28,10 @@ FIXED_SEED = 42
 # 1. Seed files -- are the files there and does the program load them?
 # ---------------------------------------------------------------------------
 
-SEED_MODULES = ["summarize1", "create_query_hop2", "summarize2", "final_answer"]
+# §9 distractor fallback: create_query_hop2 is dropped because there is no
+# retrieval call (the program consumes the provided distractor paragraphs
+# directly). prompts/seeds/create_query_hop2.md is left in place but unused.
+SEED_MODULES = ["summarize1", "summarize2", "final_answer"]
 
 
 def test_seed_files_exist():
@@ -166,56 +169,62 @@ def test_config_locked_params(config):
 
 
 # ---------------------------------------------------------------------------
-# 5. Integration: program smoke test (requires retrieval + model, ~1 rollout)
+# 5. Integration: program smoke test (LM only; no retrieval in distractor mode)
 # ---------------------------------------------------------------------------
 
 @pytest.mark.integration
 class TestProgramSmoke:
 
     @pytest.fixture(scope="class")
-    def result(self):
+    def example(self):
         splits = load_splits(seed=FIXED_SEED)
-        example = splits[0][0]  # first D_feedback example
+        return splits[0][0]  # first D_feedback example
+
+    @pytest.fixture(scope="class")
+    def result(self, example):
         program = build_program()
-        return program(question=example["question"])
+        return program(**dict(example.inputs()))
 
     def test_answer_present_and_nonempty(self, result):
         answer = getattr(result, "answer", result.get("answer", ""))
         assert isinstance(answer, str) and answer.strip(), "Program returned an empty answer"
 
     def test_hop1_titles_present_and_nonempty(self, result):
-        """hop1_titles is required by the Chunk 3 feedback function to compute the retrieval gap."""
+        """hop1_titles is required by the Chunk 3 feedback function."""
         assert hasattr(result, "hop1_titles") or "hop1_titles" in result, (
             "hop1_titles missing from program output. "
             "Chunk 3 mu_f cannot compute the retrieval gap without it."
         )
         titles = getattr(result, "hop1_titles", result.get("hop1_titles"))
-        assert len(titles) > 0, (
-            "Hop-1 returned no passages. ColBERTv2 may be down -- consider the distractor fallback."
-        )
+        assert len(titles) > 0, "Hop-1 had no paragraphs assigned in the context split."
 
-    def test_hop2_titles_present_and_nonempty(self, result):
-        """hop2_titles required for the Chunk 3 feedback function."""
-        assert hasattr(result, "hop2_titles") or "hop2_titles" in result, (
-            "hop2_titles missing from program output."
+    def test_gold_paragraphs_in_context(self, example):
+        """Distractor mode: both gold supporting paragraphs must be in the provided
+        10-paragraph context. Replaces the old hop2_titles retrieval check, which
+        no longer applies (no retrieval, just first/last-half split of context)."""
+        gold_titles = set(example["supporting_facts"]["title"])
+        context_titles = set(example["context_titles"])
+        assert gold_titles, "Example has no gold supporting titles -- malformed data."
+        missing = gold_titles - context_titles
+        assert not missing, (
+            f"Gold supporting titles missing from the distractor context: {sorted(missing)}. "
+            "If this fires, the dataset row is malformed or the loader corrupted context_titles."
         )
-        titles = getattr(result, "hop2_titles", result.get("hop2_titles"))
-        assert len(titles) > 0, "Hop-2 returned no passages."
 
     def test_intermediate_fields_present(self, result):
-        """summary_1, hop2_query, and summary_2 must be in the output for traces to be complete."""
-        for field in ["summary_1", "hop2_query", "summary_2"]:
+        """summary_1 and summary_2 must be in the output for traces to be complete.
+        hop2_query was dropped in the §9 distractor fallback (no create_query_hop2)."""
+        for field in ["summary_1", "summary_2"]:
             assert hasattr(result, field) or field in result, (
                 f"Intermediate field '{field}' missing. "
                 "The feedback function and trace logging both depend on this."
             )
 
-    def test_hops_retrieved_different_passages(self, result):
-        """Hop-2 uses a different query, so it should pull at least some different passages."""
+    def test_hops_split_into_two_halves(self, result):
+        """In distractor mode, the 10 provided paragraphs are split into a first-half
+        hop1 bucket and a second-half hop2 bucket; the two halves must be disjoint."""
         hop1 = frozenset(getattr(result, "hop1_titles", result.get("hop1_titles", [])))
         hop2 = frozenset(getattr(result, "hop2_titles", result.get("hop2_titles", [])))
-        assert hop1 != hop2, (
-            "Hop-1 and hop-2 retrieved identical passages. "
-            "Either create_query_hop2 is not generating a distinct query, "
-            "or retrieval is ignoring the query and returning the same results."
-        )
+        assert hop1 and hop2, "One of the hop buckets is empty -- context split is broken."
+        overlap = hop1 & hop2
+        assert not overlap, f"hop1 and hop2 buckets overlap on titles: {sorted(overlap)}"

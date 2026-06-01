@@ -1,22 +1,32 @@
-"""Four-module multi-hop DSPy program (paper Appendix L: HoVer-MultiHop with
-the last hop replaced by a final answerer).
+"""Three-module multi-hop DSPy program over HotpotQA distractor paragraphs.
 
-The four predictors are named to match the candidate dict keys gepa's
-dspy_adapter expects (it iterates `program.named_predictors()` and updates
-each predictor's signature via `signature.with_instructions(candidate[name])`,
-see `gepa/adapters/dspy_adapter/dspy_adapter.py:198-200`).
+§9 fallback: the hosted ColBERTv2 endpoint is chronically unreachable, so the
+program now consumes the 10 distractor-config paragraphs (2 gold + 8 distractor)
+that HotpotQA provides per example, instead of running retrieval. The
+create_query_hop2 module is dropped; the experimental design (band-sampled
+reflection minibatches over an N-iteration loop) is unchanged for the remaining
+three modules.
 
-Component names: summarize1, create_query_hop2, summarize2, final_answer.
+The three predictors are named to match the candidate dict keys gepa's
+dspy_adapter expects (it iterates `program.named_predictors()` and updates each
+predictor's signature via `signature.with_instructions(candidate[name])`, see
+`gepa/adapters/dspy_adapter/dspy_adapter.py:198-200`).
+
+Component names: summarize1, summarize2, final_answer.
 Seed instruction texts live in `prompts/seeds/<name>.md` and are loaded into
-the predictor signatures at program-init time.
+the predictor signatures at program-init time. `prompts/seeds/create_query_hop2.md`
+is left in place but is unused in distractor mode.
 
 Per-instance flow:
-  hop1_passages = retrieve(question)
-  summary_1     = summarize1(question, hop1_passages)
-  hop2_query    = create_query_hop2(question, summary_1)
-  hop2_passages = retrieve(hop2_query)
-  summary_2     = summarize2(question, summary_1, hop2_passages)
-  answer        = final_answer(question, summary_1, summary_2)
+  hop1_paragraphs, hop2_paragraphs = split(context_paragraphs, by first/last half)
+  summary_1 = summarize1(question, hop1_paragraphs as wiki17-formatted blocks)
+  summary_2 = summarize2(question, summary_1, hop2_paragraphs as blocks)
+  answer    = final_answer(question, summary_1, summary_2)
+
+Gold-vs-distractor annotation: forward receives `supporting_facts` as a kwarg
+(declared input on the Example) and uses it only to compute per-hop gold-title
+lists in the output Prediction. No predictor sees supporting_facts, so the
+reflection LM never receives gold labels via the dspy trace.
 """
 
 from __future__ import annotations
@@ -25,25 +35,17 @@ from pathlib import Path
 
 import dspy
 
-from src.retrieval import parse_titles
-
 
 class Summarize1(dspy.Signature):
     question: str = dspy.InputField()
-    passages: str = dspy.InputField(desc="Passages retrieved with the original question.")
+    passages: str = dspy.InputField(desc="Paragraphs from the first half of the provided context.")
     summary: str = dspy.OutputField()
-
-
-class CreateQueryHop2(dspy.Signature):
-    question: str = dspy.InputField()
-    summary_1: str = dspy.InputField(desc="Summary of information gathered so far.")
-    query: str = dspy.OutputField()
 
 
 class Summarize2(dspy.Signature):
     question: str = dspy.InputField()
-    summary_1: str = dspy.InputField(desc="Summary from the first hop.")
-    passages: str = dspy.InputField(desc="Additional passages retrieved in the second hop.")
+    summary_1: str = dspy.InputField(desc="Summary from the first pass over the context.")
+    passages: str = dspy.InputField(desc="Paragraphs from the second half of the provided context.")
     summary: str = dspy.OutputField()
 
 
@@ -54,12 +56,7 @@ class FinalAnswer(dspy.Signature):
     answer: str = dspy.OutputField()
 
 
-COMPONENT_NAMES: tuple[str, str, str, str] = (
-    "summarize1",
-    "create_query_hop2",
-    "summarize2",
-    "final_answer",
-)
+COMPONENT_NAMES: tuple[str, str, str] = ("summarize1", "summarize2", "final_answer")
 
 
 def load_seed_instructions(prompts_dir: Path | str) -> dict[str, str]:
@@ -71,17 +68,19 @@ def load_seed_instructions(prompts_dir: Path | str) -> dict[str, str]:
     return instructions
 
 
+def _format_block(title: str, body: str) -> str:
+    """Render a paragraph in the wiki17 ColBERTv2 format the original prompts
+    were designed against: leading title in quotes, then ' | ', then the body."""
+    return f'"{title}" | {body}'
+
+
 class MultiHopQA(dspy.Module):
     def __init__(
         self,
-        k_retrieve: int = 5,
         seed_instructions: dict[str, str] | None = None,
     ):
         super().__init__()
-        self.k_retrieve = k_retrieve
-        self.retrieve = dspy.Retrieve(k=k_retrieve)
         self.summarize1 = dspy.Predict(Summarize1)
-        self.create_query_hop2 = dspy.Predict(CreateQueryHop2)
         self.summarize2 = dspy.Predict(Summarize2)
         self.final_answer = dspy.Predict(FinalAnswer)
         if seed_instructions is not None:
@@ -98,43 +97,57 @@ class MultiHopQA(dspy.Module):
                 return pred.signature.instructions
         raise KeyError(f"No predictor named {name!r}; have {[n for n, _ in self.named_predictors()]}")
 
-    def forward(self, question: str) -> dspy.Prediction:
-        hop1_passages = self.retrieve(question).passages
-        summary_1 = self.summarize1(
-            question=question, passages="\n\n".join(hop1_passages)
-        ).summary
+    def forward(
+        self,
+        question: str,
+        context_titles: list[str],
+        context_paragraphs: list[str],
+        supporting_facts: dict,
+    ) -> dspy.Prediction:
+        assert len(context_titles) == len(context_paragraphs), (
+            f"context_titles ({len(context_titles)}) != context_paragraphs "
+            f"({len(context_paragraphs)})"
+        )
+        n = len(context_paragraphs)
+        mid = n // 2
+        hop1_titles = list(context_titles[:mid])
+        hop2_titles = list(context_titles[mid:])
+        hop1_paragraphs = list(context_paragraphs[:mid])
+        hop2_paragraphs = list(context_paragraphs[mid:])
 
-        hop2_query = self.create_query_hop2(question=question, summary_1=summary_1).query
-        hop2_passages = self.retrieve(hop2_query).passages
+        hop1_blocks = [_format_block(t, b) for t, b in zip(hop1_titles, hop1_paragraphs)]
+        hop2_blocks = [_format_block(t, b) for t, b in zip(hop2_titles, hop2_paragraphs)]
+
+        summary_1 = self.summarize1(
+            question=question, passages="\n\n".join(hop1_blocks)
+        ).summary
         summary_2 = self.summarize2(
             question=question,
             summary_1=summary_1,
-            passages="\n\n".join(hop2_passages),
+            passages="\n\n".join(hop2_blocks),
         ).summary
-
         answer = self.final_answer(
             question=question, summary_1=summary_1, summary_2=summary_2
         ).answer
 
+        gold_set = set(supporting_facts.get("title", []))
+        hop1_gold_titles = [t for t in hop1_titles if t in gold_set]
+        hop2_gold_titles = [t for t in hop2_titles if t in gold_set]
+
         return dspy.Prediction(
             answer=answer,
-            hop1_passages=hop1_passages,
-            hop2_passages=hop2_passages,
-            hop1_titles=parse_titles(hop1_passages),
-            hop2_titles=parse_titles(hop2_passages),
-            hop2_query=hop2_query,
             summary_1=summary_1,
             summary_2=summary_2,
+            hop1_titles=hop1_titles,
+            hop2_titles=hop2_titles,
+            hop1_paragraphs=hop1_paragraphs,
+            hop2_paragraphs=hop2_paragraphs,
+            hop1_gold_titles=hop1_gold_titles,
+            hop2_gold_titles=hop2_gold_titles,
         )
 
 
-def build_program(
-    k_retrieve: int = 5,
-    seeds_dir: Path | str | None = None,
-) -> MultiHopQA:
+def build_program(seeds_dir: Path | str | None = None) -> MultiHopQA:
     if seeds_dir is None:
         seeds_dir = Path(__file__).resolve().parents[1] / "prompts" / "seeds"
-    return MultiHopQA(
-        k_retrieve=k_retrieve,
-        seed_instructions=load_seed_instructions(seeds_dir),
-    )
+    return MultiHopQA(seed_instructions=load_seed_instructions(seeds_dir))

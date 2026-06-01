@@ -1,16 +1,18 @@
-"""Chunk 2 smoke test.
+"""Chunk 2 smoke test, §9 distractor substrate.
 
-Structural part (no LM, no ColBERT call):
+Structural part (no LM):
   - splits load with the right sizes,
   - ids across the four splits are disjoint,
   - two calls with the same seed return identical id lists per split,
-  - program initializes, named_predictors() lists the four expected names,
+  - program initializes, named_predictors() lists the three expected names
+    (summarize1, summarize2, final_answer),
   - each predictor's signature carries its seed instruction text.
 
 Rollout part (only if TASK_MODEL is set in the env):
-  - configure the task LM and the hosted ColBERTv2 retriever,
-  - run the program on one example from d_feedback,
-  - print predicted answer, hop-2 query, and per-hop titles.
+  - configure the task LM,
+  - run the program on one example from d_feedback (no retrieval call;
+    the example carries the 10 distractor paragraphs directly),
+  - print predicted answer, summaries, per-hop titles, and gold-in-context info.
 
 Run as: .venv/bin/python -m src.smoke_chunk2
 """
@@ -30,7 +32,6 @@ if str(REPO) not in sys.path:
 
 from src.data import SPLIT_ORDER, load_splits  # noqa: E402
 from src.program import COMPONENT_NAMES, build_program, load_seed_instructions  # noqa: E402
-from src.retrieval import configure_retrieval  # noqa: E402
 
 
 def _load_config() -> dict:
@@ -70,7 +71,7 @@ def structural_checks(config: dict):
         assert loaded == seeds[name], (
             f"seed instruction not wired into {name}: got {loaded[:80]!r}"
         )
-    print("seed instructions wired into all four signatures")
+    print("seed instructions wired into all three signatures")
     return splits
 
 
@@ -96,7 +97,6 @@ def lm_rollout(config: dict, splits) -> None:
 
     lm = dspy.LM(**lm_kwargs)
     dspy.settings.configure(lm=lm)
-    configure_retrieval(k=5)
 
     program = build_program()
     d_feedback = splits[0]
@@ -106,13 +106,17 @@ def lm_rollout(config: dict, splits) -> None:
     print(f"  Q:      {example['question']}")
     print(f"  Gold A: {example['answer']}")
     print(f"  Gold supporting titles: {example['supporting_facts']['title']}")
+    print(f"  Context (10 titles): {example['context_titles']}")
 
-    out = program(question=example["question"])
+    out = program(**dict(example.inputs()))
     print()
     print(f"  Predicted A: {out.answer}")
-    print(f"  Hop2 query:  {out.hop2_query}")
+    print(f"  summary_1: {out.summary_1!r}")
+    print(f"  summary_2: {out.summary_2!r}")
     print(f"  Hop1 titles: {out.hop1_titles}")
     print(f"  Hop2 titles: {out.hop2_titles}")
+    print(f"  Hop1 gold-titles: {out.hop1_gold_titles}")
+    print(f"  Hop2 gold-titles: {out.hop2_gold_titles}")
 
 
 def main() -> int:

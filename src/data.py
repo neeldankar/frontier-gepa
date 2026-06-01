@@ -1,4 +1,9 @@
-"""HotpotQA loading and disjoint split assignment.
+"""HotpotQA loading and disjoint split assignment, distractor substrate.
+
+The §9 fallback path: the hosted ColBERTv2 endpoint is chronically unreachable,
+so we use the `distractor` config of HotpotQA, which provides 10 paragraphs per
+example (the 2 gold supporting paragraphs plus 8 distractors). The program in
+`src/program.py` summarizes over those paragraphs directly, no retrieval call.
 
 Splits are sliced off a single deterministic shuffle of the HotpotQA dev set
 keyed by `seed`. Same seed -> same ids in each split, across runs.
@@ -6,10 +11,20 @@ keyed by `seed`. Same seed -> same ids in each split, across runs.
 Returned tuple is (d_feedback, accept_batch, d_pareto, test) in that order.
 Sizes come from `config['splits']` (loaded from config/experiment.yaml by
 default). Each example is a dspy.Example carrying:
-  - id: the stable HotpotQA id
-  - question, answer, type, level
-  - supporting_facts: {title: list[str], sent_id: list[int]}, the gold
-    supporting-fact payload that the Chunk-3 feedback function consumes
+
+  Inputs (passed to MultiHopQA.forward):
+    - question:          the HotpotQA question string
+    - context_titles:    list[str], the 10 paragraph titles
+    - context_paragraphs:list[str], the 10 paragraph texts (sentences joined)
+    - supporting_facts:  {title: list[str], sent_id: list[int]}, the gold
+      payload. Carried as a forward kwarg so the program can annotate which
+      provided paragraphs are gold vs distractor in its output. No predictor
+      sees this field, so the reflection LM does not see gold labels.
+
+  Labels (not inputs):
+    - id:    the stable HotpotQA id
+    - answer: the gold answer string
+    - type, level: HotpotQA metadata (bridge/comparison, easy/medium/hard)
 """
 
 from __future__ import annotations
@@ -28,21 +43,25 @@ _DEFAULT_CONFIG_PATH = _REPO / "config" / "experiment.yaml"
 SplitTuple = tuple[list[dspy.Example], list[dspy.Example], list[dspy.Example], list[dspy.Example]]
 SPLIT_ORDER = ("d_feedback", "accept_batch", "d_pareto", "test")
 
+INPUT_FIELDS = ("question", "context_titles", "context_paragraphs", "supporting_facts")
+
 
 def _row_to_example(row: dict[str, Any]) -> dspy.Example:
-    sf = row["supporting_facts"]
-    supporting_facts = {
-        "title": list(sf["title"]),
-        "sent_id": list(sf["sent_id"]),
-    }
+    sf_titles = list(row["supporting_facts"]["title"])
+    sf_sent_ids = list(row["supporting_facts"]["sent_id"])
+    ctx_titles = list(row["context"]["title"])
+    ctx_paragraphs = [" ".join(sents) for sents in row["context"]["sentences"]]
+
     return dspy.Example(
         question=row["question"],
         answer=row["answer"],
         id=row["id"],
         type=row["type"],
         level=row["level"],
-        supporting_facts=supporting_facts,
-    ).with_inputs("question")
+        supporting_facts={"title": sf_titles, "sent_id": sf_sent_ids},
+        context_titles=ctx_titles,
+        context_paragraphs=ctx_paragraphs,
+    ).with_inputs(*INPUT_FIELDS)
 
 
 def _normalize_split_name(name: str) -> str:
