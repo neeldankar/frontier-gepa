@@ -311,6 +311,7 @@ def run(
     config: Mapping[str, Any] | None = None,
     logger: LoggerProtocol | None = None,
     raise_on_exception: bool = True,
+    lm_capture: dict | None = None,
 ) -> GEPAState:
     """Run one (arm, seed) cell. Returns the final GEPAState.
 
@@ -363,6 +364,12 @@ def run(
     task_lm = task_lm_config.to_lm()
     dspy.settings.configure(lm=task_lm)
     reflection_lm_obj = reflection_lm_config.to_lm()
+
+    # Expose the LMs to the caller for cost tracking; the orchestrator reads
+    # .history off these instances after the run completes.
+    if lm_capture is not None:
+        lm_capture["task_lm"] = task_lm
+        lm_capture["refl_lm"] = reflection_lm_obj
 
     @retryable(max_attempts=5, base_delay=1.0, max_delay=30.0, label="reflection_lm")
     def reflection_lm_callable(x: str | list[dict[str, str]]) -> list[str]:
