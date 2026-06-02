@@ -1,66 +1,99 @@
-# Feedback string template for mu_f (retrieval HotpotQA)
+# Feedback string template for mu_f (HotpotQA distractor substrate, 3 modules)
 
-`mu_f(example, trace) -> (score, feedback_string)`. `score` is answer F1. This file
-fixes the wording of `feedback_string`. Detection (computing the slots and selecting
-the diagnosis branch) is yours; the wording here is fixed.
+`mu_f(example, trace) -> (score, feedback_string)`. `score` is answer F1. This
+file fixes the wording of `feedback_string`. Detection (computing the slots and
+selecting the branch) is yours; the wording here is fixed.
+
+Substrate note: this is the distractor substrate. Both gold supporting paragraphs
+are always present in the provided context, so there is NO retrieval gap to report.
+The program reads the 10 provided paragraphs in two buckets (summarize1 over the
+first, summarize2 over the second plus summary_1), then final_answer. Feedback
+therefore localizes failure to summarization vs answering, not retrieval.
 
 Design rule: the string states specific facts about this one instance. It does not
 give generic advice. Turning facts into instruction edits is the reflection
 meta-prompt's job. Keep it factual.
 
-This is a single trajectory-level string. It is shown for whichever module
-round-robin selects this iteration, so it covers the whole trajectory; the module's
-own inputs and outputs supply the local context.
-
 ## Emitted string
 
 ```
 F1 {f1:.2f}. Predicted answer: "{pred_answer}". Gold answer: "{gold_answer}".
-Gold supporting documents: {gold_titles}.
-Hop 1 (original question as the query) retrieved: {hop1_titles}. Gold documents still missing after hop 1: {missing_after_hop1}.
-Hop 2 query: "{hop2_query}". Retrieved: {hop2_titles}. Gold documents still missing after hop 2: {missing_after_hop2}.
-Gold answer string present in the gathered context: {answer_in_context}.
+Gold supporting paragraphs (always provided): {gold_titles}.
+In summarize-1's paragraphs: {hop1_gold_titles}. In summarize-2's paragraphs: {hop2_gold_titles}.
+{summary_signal_line}
 Diagnosis: {diagnosis}
 ```
 
+`{summary_signal_line}` varies by branch:
+- **Partial branch (0 < F1 < 1):**
+  - Sub-case 2c (verbose, `missing_tokens` is empty): omitted entirely
+    (the string is four lines).
+  - Sub-cases 2a / 2b: `Missing token(s) present in the summaries: {missing_in_summaries}.`
+- **Neutral branch (yes/no or comparison with F1 < 1):** omitted entirely
+  (the string is four lines, not five).
+- **All other branches (exact, answering, summarization):**
+  `Gold answer present in the summaries: {answer_in_summaries}.`
+
 ## Slots (your computation)
 
-- `f1`: answer F1 in [0,1].
-- `pred_answer`, `gold_answer`: the predicted and gold answer strings.
-- `gold_titles`: titles of the gold supporting documents.
-- `hop1_titles`, `hop2_titles`: titles retrieved at each hop. Cap each to the top 3 to keep the string legible.
-- `hop2_query`: the query string create_query_hop2 produced.
-- `missing_after_hop1`, `missing_after_hop2`: gold titles not yet retrieved after each hop. Render "none" if all found.
-- `answer_in_context`: "yes" or "no", from the substring check of `gold_answer` against the retrieved passages and the summaries.
+- `f1`, `pred_answer`, `gold_answer`.
+- `gold_titles`: the gold supporting-paragraph titles (2, always in context).
+- `hop1_gold_titles` / `hop2_gold_titles`: which gold paragraphs fell into each
+  summarize stage's bucket. Render "none" if none.
+- `answer_in_summaries`: "yes" or "no", substring check of `gold_answer` against
+  summary_1 concatenated with summary_2. Used by branches 1, 3, 4.
+- `missing_in_summaries`: "yes" or "no", whether the missing gold tokens (gold
+  tokens not in the predicted answer, under the F1 normalization) **all** appear
+  in the normalized token set of summary_1 concatenated with summary_2. Used
+  only by sub-cases 2a/2b. When `missing_tokens` is empty (sub-case 2c), the
+  slot is vacuous and the line is dropped entirely from the emitted string.
+- `overlap_tokens` / `missing_tokens` / `extra_tokens`: token diff from the F1
+  computation, under the F1 normalization (lowercase, strip punctuation, drop
+  articles, collapse whitespace). Render each as a comma-separated list, or
+  "none" if empty.
 - `diagnosis`: one sentence, selected per the branches below.
 
 ## Diagnosis branches (you select, wording fixed)
 
-1. `missing_after_hop2` is non-empty:
-   `A required document ({missing_after_hop2}) was never retrieved. The hop-2 query did not surface it, so the information needed to answer was never gathered. This is a retrieval and query-formation failure.`
+1. F1 == 1.0:
+   `The answer matches the gold. Nothing to correct.`
 
-2. all gold docs retrieved, span answer, `answer_in_context` == yes, F1 < 1.0:
-   `All gold documents were retrieved and the gold answer is present in the gathered context, but the final answer is wrong. The answer was available and not used. The failure is in the final answering step, not in retrieval or summarization.`
+2. 0 < F1 < 1 (partial). Sub-branches, checked in order:
 
-3. all gold docs retrieved, span answer, `answer_in_context` == no, F1 < 1.0:
-   `All gold documents were retrieved, but the gold answer is not in the gathered context. The supporting fact was lost during summarization, or the answer must be composed from facts that are present. The failure is downstream of retrieval.`
+   2c. `missing_tokens` is empty (prediction is a superset of gold; F1 < 1
+   only because of extra tokens):
+   `The answer is partially correct. It contains the full gold answer ({overlap_tokens}) but adds extra tokens ({extra_tokens}) that lower its precision. The supporting content was present, so the fix is a more concise final answer, not summarization.`
 
-4. all gold docs retrieved, yes/no or comparison answer, F1 < 1.0:
-   `All gold documents were retrieved, so this yes/no or comparison question failed in reasoning over the retrieved facts, not in retrieval.`
+   2a. else, `missing_in_summaries` == yes:
+   `The answer is partially correct. It overlaps the gold on {overlap_tokens} but does not match exactly (missing from the answer: {missing_tokens}; extra in the answer: {extra_tokens}). The missing token(s) appear in the summaries, so the failure is in the final answering step, not in summarization.`
 
-5. F1 == 1.0:
-   `All gold documents were retrieved and the answer matches. Nothing to correct.`
+   2b. else, `missing_in_summaries` == no:
+   `The answer is partially correct. It overlaps the gold on {overlap_tokens} but does not match exactly (missing from the answer: {missing_tokens}; extra in the answer: {extra_tokens}). The missing token(s) did not survive into the summaries, so the failure is in summarization, not in the final answering step.`
+
+3. F1 == 0, `answer_in_summaries` == yes:
+   `The gold answer appears in the summaries, but the final answer did not use it. The failure is in the final answering step, not in reading the paragraphs.`
+
+4. F1 == 0, `answer_in_summaries` == no:
+   `Both gold paragraphs were provided (summarize-1 bucket: {hop1_gold_titles}; summarize-2 bucket: {hop2_gold_titles}), but the gold answer did not survive into the summaries. A summarization stage dropped the supporting fact or was pulled toward a distractor paragraph. The failure is in summarization, not in what was provided.`
 
 ## Notes
 
-- Branches 2 vs 3 use `answer_in_context`, which is a span-answer signal. It is not
-  reliable for yes/no or comparison answers, which is why those route to branch 4
-  instead. Detect the answer type from `gold_answer in {"yes","no"}` or the HotpotQA
-  `type` field, and record in the logs which branch fired.
-- Optional bridge-entity field (Chunk 3): if you can detect whether `hop2_query`
-  references the bridge entity, insert a line `Hop-2 query references the bridge entity: {yes/no}.`
-  before the Diagnosis line. If you cannot extract the bridge entity reliably, omit
-  the line. Branch 1 already carries the "wrong target" signal via the query versus
-  the missing title, so this field is a bonus, not a dependency.
-- Keep the whole string to roughly six short lines so three concatenated examples
-  stay readable to the reflection LM.
+- Branches 2a/2b use token-overlap and a token-set check against the summaries;
+  branches 3 and 4 use the answer-string substring check against the summaries.
+  Both signal families are span-answer oriented. For yes/no and comparison
+  answers (`gold_answer` in {"yes","no"} or HotpotQA `type` == "comparison"),
+  do not report token overlap or any substring claim; use a neutral diagnosis:
+  `The supporting paragraphs were provided, so this yes/no or comparison
+  question failed in reasoning over them, not in what was available.` Omit the
+  summary-signal line entirely for the neutral branch. Record which branch
+  fired in the logs.
+- There is intentionally no retrieval-gap branch. In distractor both golds are
+  always present, so a "missing document" diagnosis would always be false. The
+  whole diagnostic axis here is summarization-and-answering.
+- The first-half/last-half bucket split is arbitrary (gold positions in the
+  provided 10 are not meaningful), so the feedback leans on the
+  summarization-vs-answering localization rather than the bucket structure. The
+  bucket fields are included only to point the reflection LM at which
+  summarize stage saw the gold.
+- Keep the whole string to roughly four-to-five short lines so three
+  concatenated examples stay readable to the reflection LM.
