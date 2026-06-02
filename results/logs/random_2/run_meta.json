@@ -1,0 +1,25 @@
+{
+  "arm": "random",
+  "seed": 2,
+  "config_locked": {
+    "splits": {
+      "d_feedback": 150,
+      "accept_batch": 20,
+      "d_pareto": 75,
+      "test": 300,
+      "seed_splits": 0
+    },
+    "minibatch": {
+      "b": 3
+    },
+    "stopping": {
+      "rule": "iterations",
+      "n": 44
+    },
+    "acceptance": {
+      "test_set": "accept_batch",
+      "rule": "strict_improvement",
+      "cache_parent": true
+    }
+  }
+}

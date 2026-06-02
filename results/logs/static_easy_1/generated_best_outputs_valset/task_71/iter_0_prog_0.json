@@ -1,0 +1,38 @@
+{
+    "answer": "Nebo Zovyot",
+    "summary_1": "I Was a Satellite of the Sun is a 1959 Soviet feature film. No scenes from this movie are mentioned in the passages for the other films, such as Queen of Blood or Battle Beyond the Sun.",
+    "summary_2": "\"Queen of Blood\" is a 1966 science fiction-horror film based on the screenplay for the earlier Soviet film \"Mechte Navstrechu\". The film reused special effects footage from \"Mechte Navstrechu\" and \"Nebo Zovyot\", a 1959 Soviet science fiction film directed by Mikhail Karyukov and Aleksandr Kozyr. \"Nebo Zovyot\" is the English-dubbed and re-edited U.S. version of a 1959 Soviet science fiction film, which tells of the \"space race\" of two future nations competing to become the first to land a spacecraft on Mars.",
+    "hop1_titles": [
+        "I Was a Satellite of the Sun",
+        "Tracker (1987 film)",
+        "Girl Seeks Father",
+        "Battle Beyond the Stars",
+        "All Costs Paid"
+    ],
+    "hop2_titles": [
+        "Battle Beyond the Sun",
+        "The Scarlet Flower (1952 film)",
+        "The Key (1961 film)",
+        "Queen of Blood",
+        "Older Sister"
+    ],
+    "hop1_paragraphs": [
+        "I Was a Satellite of the Sun - (Russian: \u042f \u0431\u044b\u043b \u0441\u043f\u0443\u0442\u043d\u0438\u043a\u043e\u043c \u0421\u043e\u043b\u043d\u0446\u0430 ) Soviet feature dramatic science-fiction film of 1959 with animation elements.",
+        "Tracker (Russian: \u0424\u0438\u043b\u0451\u0440 ) is a Soviet feature film, a drama directed by Roman Balayan.  The film was shot in 1987 in Kaluga.",
+        "Girl Seeks Father (Russian: \u0414\u0435\u0432\u043e\u0447\u043a\u0430 \u0438\u0449\u0435\u0442 \u043e\u0442\u0446\u0430 / Devochka ishchet otsa) is a 1959 Soviet drama film that was produced by Yuri Bulychyov at the Belarusfilm, directed by Lev Golub, and which stars Anna Kamenkova, Vladimir Guskov, Nikolai Barmin.  Writers: Konstantin Gubarevich, Yevgeny Ryss.  In 1959, it was the fifth film in Soviet Union in terms of the box office.  It was watched by over 35 millions spectators, which makes it the third watched Belarusian film ever.",
+        "Battle Beyond the Stars is a 1980 American space opera film produced by Roger Corman and directed by Jimmy T. Murakami that stars Richard Thomas, Robert Vaughn, George Peppard, John Saxon, Sybil Danning, and Darlanne Fluegel.  \"Battle Beyond the Stars\", intended as a \"\"Magnificent Seven\" in outer space\", is based on \"The Magnificent Seven\" (in which Vaughn also appeared), the Western remake of Akira Kurosawa's film \"Seven Samurai\".  The screenplay was written by John Sayles, the score was composed by James Horner, and the special effects were designed by James Cameron.",
+        "All Costs Paid (Russian: \"\u0417\u0430 \u0432\u0441\u0451 \u0437\u0430\u043f\u043b\u0430\u0447\u0435\u043d\u043e\" translit. \u00a0\"Za vsyo zaplacheno\") is a Soviet TV miniseries produced by Studio Ekran.  The director Aleksei Saltykov well known for his film \"The Chairman\" (Russian: \"\"\u041f\u0440\u0435\u0434\u0441\u0435\u0434\u0430\u0442\u0435\u043b\u044c\"\" translit. \u00a0\"\"Predsedatel\"\" ) with Mikhail Ulyanov, an acclaimed Russian actor playing a main character.  \"All Costs Paid\" is one of the first Soviet feature films that shows the war in Afghanistan.  Film has unusually truthful point of view on that period of Soviet Era and on the Soviet war in Afghanistan."
+    ],
+    "hop2_paragraphs": [
+        "Battle Beyond the Sun is the English-dubbed and re-edited U.S. version of \"Nebo Zovyot\", a 1959 Soviet science fiction film directed by Mikhail Karyukov and Aleksandr Kozyr.  It tells of the \"space race\" of two future nations competing to become the first to land a spacecraft on the planet Mars.",
+        "The Scarlet Flower (Russian: \u0410\u043b\u0435\u043d\u044c\u043a\u0438\u0439 \u0446\u0432\u0435\u0442\u043e\u0447\u0435\u043a , Alenkiy tsvetochek) is a 1952 Soviet feature animated film directed Lev Atamanov.  It was produced at the Soyuzmultfilm studio in Moscow and is based on the story of the same name by Sergei Aksakov.  Nastenka's song \"During this time in a darling party\"/\"\u0412 \u044d\u0442\u0443 \u043f\u043e\u0440\u0443 \u0432 \u0440\u043e\u0434\u0438\u043c\u043e\u0439 \u0441\u0442\u043e\u0440\u043e\u043d\u0443\u0448\u043a\u0435\" was sung by the famous chamber singer Victoria Ivanova.",
+        "The Key (Russian: \u041a\u043b\u044e\u0447 ; tr. :Klyuch) is a 1961 Soviet feature animated film directed by Lev Atamanov.  It was produced at the Soyuzmultfilm studio in Moscow.",
+        "Queen of Blood is a 1966 color science fiction-horror film based on the screenplay for the earlier, Soviet film called \"Mechte Navstrechu\".  The film was produced by George Edwards and Samuel Z. Arkoff, directed by Curtis Harrington, and stars John Saxon, Basil Rathbone, Dennis Hopper, and Judi Meredith.  \"Queen of Blood\" was released by American International Pictures on a double bill with \"Blood Bath\".  Director Harrington reused special effects footage from the Soviet features \"Mechte Navstrechu\" and \"Nebo Zovyot\".",
+        "Older Sister (Russian: \u0421\u0442\u0430\u0440\u0448\u0430\u044f \u0441\u0435\u0441\u0442\u0440\u0430 ) is a Soviet feature film, shot in 1966, Georgy Natanson on the play by Alexander Volodin \"My older sister\"."
+    ],
+    "hop1_gold_titles": [],
+    "hop2_gold_titles": [
+        "Battle Beyond the Sun",
+        "Queen of Blood"
+    ]
+}

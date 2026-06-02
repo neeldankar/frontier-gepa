@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>GEPA Candidate Tree</title>
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  html, body { height: 100%; width: 100%; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; background: #f8f9fa; display: flex; flex-direction: column; }
+  #header { background: #fff; border-bottom: 1px solid #dee2e6; padding: 12px 20px; display: flex; align-items: center; gap: 16px; flex-shrink: 0; }
+  #header h1 { font-size: 18px; font-weight: 600; color: #212529; }
+  .legend { display: flex; gap: 14px; font-size: 13px; color: #495057; }
+  .legend-item { display: flex; align-items: center; gap: 4px; }
+  .legend-dot { width: 12px; height: 12px; border-radius: 50%; border: 1px solid #adb5bd; }
+  #graph-container { flex: 1 1 auto; width: 100%; overflow: auto; padding: 20px; text-align: center; }
+  #graph-container svg { width: 100%; height: 100%; }
+  #tooltip {
+    display: none; position: fixed; background: #fff; border: 1px solid #dee2e6;
+    border-radius: 8px; padding: 14px 16px; max-width: 560px; max-height: 70vh; overflow-y: auto;
+    box-shadow: 0 4px 16px rgba(0,0,0,0.18); z-index: 1000; font-size: 13px; line-height: 1.5;
+  }
+  #tooltip .tt-header { font-weight: 700; font-size: 15px; margin-bottom: 6px; color: #212529; }
+  #tooltip .tt-meta { color: #6c757d; margin-bottom: 4px; }
+  #tooltip .tt-hint { color: #adb5bd; font-size: 11px; font-style: italic; margin-bottom: 10px; }
+  #tooltip .tt-comp-name { font-weight: 600; color: #495057; margin-top: 10px; border-bottom: 1px solid #e9ecef; padding-bottom: 2px; }
+  #tooltip .tt-comp-text {
+    white-space: pre-wrap; word-break: break-word; background: #f8f9fa;
+    border: 1px solid #e9ecef; border-radius: 4px; padding: 8px 10px; margin-top: 4px;
+    font-family: "SF Mono", SFMono-Regular, Menlo, Consolas, monospace; font-size: 12px;
+    max-height: 200px; overflow-y: auto;
+  }
+  .role-badge { display: inline-block; padding: 2px 8px; border-radius: 4px; font-size: 11px; font-weight: 600; margin-left: 6px; }
+  .role-best { background: #00e5ff33; color: #006064; }
+  .role-pareto { background: #ff980033; color: #e65100; }
+  .role-seed { background: #e0e0e0; color: #424242; }
+</style>
+</head>
+<body>
+<div id="header">
+  <h1>GEPA Candidate Tree</h1>
+  <div class="legend">
+    <div class="legend-item"><div class="legend-dot" style="background:cyan"></div> Best</div>
+    <div class="legend-item"><div class="legend-dot" style="background:orange"></div> Pareto Front</div>
+    <div class="legend-item"><div class="legend-dot" style="background:lightgray"></div> Other</div>
+  </div>
+</div>
+<div id="graph-container"><p>Loading graph&hellip;</p></div>
+<div id="tooltip"></div>
+
+<script type="module">
+const NODES = [{"idx": 0, "score": 0.5963, "parents": "seed", "role": "Pareto Front", "components": {"final_answer": "You are given a question and summaries of the information gathered to answer it. Provide the answer to the question. Respond with only the answer, as a short phrase or entity, with no explanation.", "summarize1": "You are given a question and a set of passages. Write a brief summary of the facts in the passages that are relevant to answering the question.", "summarize2": "You are given a question, a summary of the information gathered so far, and a set of additional passages. Write a brief summary of the facts relevant to answering the question, combining the new passages with what was already gathered."}},
+{"idx": 1, "score": 0.5615, "parents": "0", "role": "", "components": {"final_answer": "You will be given a question and multiple summaries containing factual information relevant to answering that question. Your task is to provide a concise and accurate answer to the question based solely on the information contained in the summaries.  \n\n- Respond with only the answer, expressed as a short phrase or entity, without any explanation, elaboration, or additional commentary.  \n- Extract the key factual information that directly answers the question.  \n- If the answer involves a list of entities (e.g., teams, names), provide them as a comma-separated list without extra formatting.  \n- Use exact names or terms as presented in the summaries to maintain factual accuracy.  \n- Do not infer or add information beyond what is explicitly stated in the summaries.  \n- Ensure your answer aligns with the domain-specific context provided (e.g., fictional characters, music albums, sports teams).  \n\nThis approach ensures clarity, precision, and relevance in your response, making it suitable for tasks requiring succinct factual answers derived from multiple information sources.", "summarize1": "You are given a question and a set of passages. Write a brief summary of the facts in the passages that are relevant to answering the question.", "summarize2": "You are given a question, a summary of the information gathered so far, and a set of additional passages. Write a brief summary of the facts relevant to answering the question, combining the new passages with what was already gathered."}},
+{"idx": 2, "score": 0.57, "parents": "1", "role": "Pareto Front", "components": {"final_answer": "You will be given a question and multiple summaries containing factual information relevant to answering that question. Your task is to provide a concise and accurate answer to the question based solely on the information contained in the summaries.  \n\n- Respond with only the answer, expressed as a short phrase or entity, without any explanation, elaboration, or additional commentary.  \n- Extract the key factual information that directly answers the question.  \n- If the answer involves a list of entities (e.g., teams, names), provide them as a comma-separated list without extra formatting.  \n- Use exact names or terms as presented in the summaries to maintain factual accuracy.  \n- Do not infer or add information beyond what is explicitly stated in the summaries.  \n- Ensure your answer aligns with the domain-specific context provided (e.g., fictional characters, music albums, sports teams).  \n\nThis approach ensures clarity, precision, and relevance in your response, making it suitable for tasks requiring succinct factual answers derived from multiple information sources.", "summarize1": "You are given a question and a set of passages. Write a brief summary of the facts in the passages that are relevant to answering the question.", "summarize2": "You are given three inputs:  \n1. A question that asks for specific factual information or a comparison.  \n2. A summary of the information gathered so far relevant to the question.  \n3. A set of additional passages that may contain new, relevant facts or context.\n\nYour task is to produce a concise, integrated summary of all the facts relevant to answering the question. This summary should:  \n- Combine the information from the existing summary with any new relevant details found in the additional passages.  \n- Focus only on facts that directly help answer the question, omitting irrelevant information.  \n- Clearly and accurately reflect any updates or refinements to the answer based on the new passages.  \n- Preserve domain-specific factual details (e.g., specific names, dates, numbers, relationships, titles, or classifications) that are essential for precision.  \n- Avoid introducing unsupported information or speculation.\n\nWhen integrating the new passages:  \n- Identify whether the passages contain relevant data that confirm, extend, or refine the existing summary.  \n- If the new passages do not add relevant information, reaffirm the existing summary's conclusions.  \n- If multiple passages provide overlapping information, synthesize them into a coherent statement without redundancy.  \n- Maintain clarity, accuracy, and brevity.\n\nThe overall goal is to provide a well-informed, factually accurate, and succinct summary that reflects the most complete understanding of the question based on all available inputs."}},
+{"idx": 3, "score": 0.5709, "parents": "2", "role": "", "components": {"final_answer": "You will be provided with a question and multiple summaries containing factual information relevant to answering that question. Your task is to produce a concise, precise, and accurate answer to the question strictly based on the information contained within the summaries.\n\nFollow these guidelines:\n\n- Respond only with the direct answer to the question, expressed as a short phrase or entity, without any explanation, commentary, or additional information.\n- Extract only the key factual information that directly answers the question, without adding or inferring anything beyond what is explicitly stated in the summaries.\n- If the answer involves multiple entities (e.g., names, teams, places), list them separated by commas without additional formatting (such as bullets, numbers, or quotation marks).\n- Use the exact names or terms exactly as they appear in the summaries to maintain factual accuracy and domain specificity.\n- Ensure that your answer aligns with the domain context of the question, whether it relates to geography, education institutions, fictional characters, or any other specific field.\n- Do not include any qualifiers, dates, or contextual details unless they are the explicit and sole answer to the question.\n- Avoid paraphrasing or summarizing the summaries; focus only on the factual answer required.\n- The goal is to provide a clear, succinct factual response suitable for tasks that require extracting precise information from multiple sources.\n\nThis approach ensures clarity, precision, and relevance in your response, maintaining strict adherence to the source information without extrapolation or explanation.", "summarize1": "You are given a question and a set of passages. Write a brief summary of the facts in the passages that are relevant to answering the question.", "summarize2": "You are given three inputs:  \n1. A question that asks for specific factual information or a comparison.  \n2. A summary of the information gathered so far relevant to the question.  \n3. A set of additional passages that may contain new, relevant facts or context.\n\nYour task is to produce a concise, integrated summary of all the facts relevant to answering the question. This summary should:  \n- Combine the information from the existing summary with any new relevant details found in the additional passages.  \n- Focus only on facts that directly help answer the question, omitting irrelevant information.  \n- Clearly and accurately reflect any updates or refinements to the answer based on the new passages.  \n- Preserve domain-specific factual details (e.g., specific names, dates, numbers, relationships, titles, or classifications) that are essential for precision.  \n- Avoid introducing unsupported information or speculation.\n\nWhen integrating the new passages:  \n- Identify whether the passages contain relevant data that confirm, extend, or refine the existing summary.  \n- If the new passages do not add relevant information, reaffirm the existing summary's conclusions.  \n- If multiple passages provide overlapping information, synthesize them into a coherent statement without redundancy.  \n- Maintain clarity, accuracy, and brevity.\n\nThe overall goal is to provide a well-informed, factually accurate, and succinct summary that reflects the most complete understanding of the question based on all available inputs."}},
+{"idx": 4, "score": 0.5452, "parents": "2", "role": "", "components": {"final_answer": "You will be provided with a question and multiple summaries containing factual information relevant to answering that question. Your task is to produce a concise, precise, and factually accurate answer based solely on the information explicitly stated in the summaries.\n\nFollow these guidelines strictly:\n\n- Provide only the direct answer to the question without any explanation, commentary, or additional information.\n- Extract and include only the key factual information that directly answers the question.\n- If the answer is a list of entities (such as names, teams, dates, or other domain-specific terms), present them as a comma-separated list without any additional formatting (no bullet points, numbering, or quotes).\n- Use the exact names, terms, or expressions as they appear in the summaries to maintain factual accuracy and domain specificity.\n- Do not infer, assume, or add any information that is not explicitly stated in the summaries.\n- Ensure your answer aligns with the domain context implied by the question and summaries (e.g., sports players and teams, scientists and birthdates, awards and holders).\n- In cases of multiple valid names for the same entity (e.g., full name and shortened name both appearing), include all exact forms mentioned if they are relevant and explicitly stated.\n- When dates or chronological comparisons are involved, use the exact dates or years as provided to determine the answer.\n- When the question involves current status (e.g., current team, current holder), use the wording as given in the summaries.\n\nThis approach guarantees clarity, precision, and domain-appropriate answers suitable for tasks requiring succinct factual responses derived from multiple information sources.", "summarize1": "You are given a question and a set of passages. Write a brief summary of the facts in the passages that are relevant to answering the question.", "summarize2": "You are given three inputs:  \n1. A question that asks for specific factual information or a comparison.  \n2. A summary of the information gathered so far relevant to the question.  \n3. A set of additional passages that may contain new, relevant facts or context.\n\nYour task is to produce a concise, integrated summary of all the facts relevant to answering the question. This summary should:  \n- Combine the information from the existing summary with any new relevant details found in the additional passages.  \n- Focus only on facts that directly help answer the question, omitting irrelevant information.  \n- Clearly and accurately reflect any updates or refinements to the answer based on the new passages.  \n- Preserve domain-specific factual details (e.g., specific names, dates, numbers, relationships, titles, or classifications) that are essential for precision.  \n- Avoid introducing unsupported information or speculation.\n\nWhen integrating the new passages:  \n- Identify whether the passages contain relevant data that confirm, extend, or refine the existing summary.  \n- If the new passages do not add relevant information, reaffirm the existing summary's conclusions.  \n- If multiple passages provide overlapping information, synthesize them into a coherent statement without redundancy.  \n- Maintain clarity, accuracy, and brevity.\n\nThe overall goal is to provide a well-informed, factually accurate, and succinct summary that reflects the most complete understanding of the question based on all available inputs."}},
+{"idx": 5, "score": 0.5963, "parents": "0", "role": "Pareto Front", "components": {"final_answer": "You are given a question and summaries of the information gathered to answer it. Provide the answer to the question. Respond with only the answer, as a short phrase or entity, with no explanation.", "summarize1": "You are given a question and a set of passages. Write a brief summary of the facts in the passages that are relevant to answering the question.", "summarize2": "You are given three inputs: a question, an existing summary of facts relevant to that question (summary_1), and a set of additional passages containing new information. Your task is to produce a concise, integrated summary that combines the new passages with the existing summary to provide a more complete and accurate factual answer relevant to the question.\n\nTo do this effectively:\n\n1. Focus only on facts and information that are directly relevant to answering the question. Discard any unrelated or peripheral details in the passages.\n\n2. Combine the relevant information from the new passages with the existing summary in a coherent way, updating or expanding the summary as needed without contradicting or losing prior verified facts.\n\n3. Maintain clarity and brevity. The summary should be succinct but comprehensive enough to answer the question fully based on all available information.\n\n4. When integrating new information, if it supplements or clarifies the existing facts, incorporate it smoothly. If it contradicts previously given information, reconcile or highlight the most reliable fact.\n\n5. Do not include extraneous context, background, or speculative content\u2014stick strictly to factual, verifiable details.\n\n6. Preserve any domain-specific details that are relevant to the question (e.g., geographic locations and their administrative divisions for route questions, publication years and creators for fictional character questions, census data for population questions).\n\n7. Use clear, formal language and avoid introducing new information not present in the inputs.\n\nIn summary, your role is to synthesize and update the existing summary with the new passages to produce a brief, factually accurate, and relevant summary that directly answers the question using all provided evidence."}},
+{"idx": 6, "score": 0.6117, "parents": "2", "role": "", "components": {"final_answer": "You will be given a question and multiple summaries containing factual information relevant to answering that question. Your task is to provide a concise and accurate answer to the question based solely on the information contained in the summaries.  \n\n- Respond with only the answer, expressed as a short phrase or entity, without any explanation, elaboration, or additional commentary.  \n- Extract the key factual information that directly answers the question.  \n- If the answer involves a list of entities (e.g., teams, names), provide them as a comma-separated list without extra formatting.  \n- Use exact names or terms as presented in the summaries to maintain factual accuracy.  \n- Do not infer or add information beyond what is explicitly stated in the summaries.  \n- Ensure your answer aligns with the domain-specific context provided (e.g., fictional characters, music albums, sports teams).  \n\nThis approach ensures clarity, precision, and relevance in your response, making it suitable for tasks requiring succinct factual answers derived from multiple information sources.", "summarize1": "You are given a question and a set of passages. Write a brief summary of the facts in the passages that are relevant to answering the question.", "summarize2": "You are given three inputs:  \n1. A question that asks for specific factual information or a comparison.  \n2. An existing summary that consolidates the information gathered so far relevant to the question.  \n3. A set of additional passages that may contain new, relevant facts or context.\n\nYour task is to produce a concise, integrated summary that fully and accurately answers the question by combining the existing summary with any new relevant information found in the additional passages.\n\nTo do this:  \n- Carefully identify facts from the additional passages that directly relate to the question and the existing summary.  \n- Integrate these new facts to confirm, extend, or refine the existing summary, ensuring the final summary reflects the most complete and up-to-date understanding.  \n- Preserve all domain-specific factual details essential for precision, such as specific names, dates, numbers, titles, relationships, or classifications.  \n- Avoid including irrelevant details not directly helpful for answering the question.  \n- Do not introduce any unsupported information, speculation, or personal interpretation.  \n- When multiple passages overlap in information, synthesize them into a single coherent statement without redundancy.  \n- If the new passages add no relevant information, reaffirm the existing summary\u2019s conclusions clearly and concisely.  \n- Maintain clarity, factual accuracy, and brevity throughout the summary.  \n\nThe overall goal is to provide a well-informed, factually accurate, succinct summary that integrates all relevant information from the existing summary and new passages to best answer the question."}},
+{"idx": 7, "score": 0.6295, "parents": "6", "role": "Pareto Front", "components": {"final_answer": "You will be given a question along with multiple summaries containing factual information relevant to answering that question. Your task is to produce a concise and accurate answer to the question based strictly on the information contained in the summaries. \n\nFollow these guidelines precisely:\n\n- Provide only the answer, expressed as a short phrase, name, year, or entity that directly answers the question. Do not include explanations, elaborations, or any additional commentary.\n- If the answer involves multiple entities (such as names, teams, or districts), list them as a comma-separated list without additional formatting (no bullets, numbering, or quotes).\n- Use the exact names, terms, or data as they appear in the summaries to preserve factual accuracy. Do not paraphrase or infer beyond the explicit content provided.\n- Ensure the answer aligns with the specific domain context implied by the question and summaries (e.g., sports seasons, political districts, historical figures, or scientific peers).\n- When the question references a particular attribute (such as birth year, position, or role), ensure the answer reflects the entity connected to that attribute as per the summaries.\n- Do not guess or supply information not explicitly stated in the summaries, even if it might be logically inferred.\n- If multiple summaries provide overlapping or duplicate information, synthesize only the key factual element that directly answers the question.\n- The overall goal is to extract a succinct, domain-appropriate factual answer from potentially multiple, sometimes overlapping summaries, maintaining precision and clarity.\n\nThis approach ensures your response is clear, factually accurate, domain-appropriate, and strictly based on the provided information, making it ideal for tasks requiring succinct factual extraction from multiple sources.", "summarize1": "You are given a question and a set of passages. Write a brief summary of the facts in the passages that are relevant to answering the question.", "summarize2": "You are given three inputs:  \n1. A question that asks for specific factual information or a comparison.  \n2. An existing summary that consolidates the information gathered so far relevant to the question.  \n3. A set of additional passages that may contain new, relevant facts or context.\n\nYour task is to produce a concise, integrated summary that fully and accurately answers the question by combining the existing summary with any new relevant information found in the additional passages.\n\nTo do this:  \n- Carefully identify facts from the additional passages that directly relate to the question and the existing summary.  \n- Integrate these new facts to confirm, extend, or refine the existing summary, ensuring the final summary reflects the most complete and up-to-date understanding.  \n- Preserve all domain-specific factual details essential for precision, such as specific names, dates, numbers, titles, relationships, or classifications.  \n- Avoid including irrelevant details not directly helpful for answering the question.  \n- Do not introduce any unsupported information, speculation, or personal interpretation.  \n- When multiple passages overlap in information, synthesize them into a single coherent statement without redundancy.  \n- If the new passages add no relevant information, reaffirm the existing summary\u2019s conclusions clearly and concisely.  \n- Maintain clarity, factual accuracy, and brevity throughout the summary.  \n\nThe overall goal is to provide a well-informed, factually accurate, succinct summary that integrates all relevant information from the existing summary and new passages to best answer the question."}},
+{"idx": 8, "score": 0.6435, "parents": "0", "role": "Best", "components": {"final_answer": "You are given a question and summaries of the information gathered to answer it. Provide the answer to the question. Respond with only the answer, as a short phrase or entity, with no explanation.", "summarize1": "You are given a question and a set of passages. Write a brief summary of the facts in the passages that are relevant to answering the question.", "summarize2": "You are given three inputs:  \n1. A question that asks for specific factual information.  \n2. A current summary of the relevant information gathered so far related to the question. This summary may be incomplete or partially informative.  \n3. A set of additional passages containing factual information, which may or may not be directly relevant to the question.\n\nYour task is to write a concise, coherent summary that integrates the new information from the additional passages with the previously gathered summary. The combined summary should:  \n- Focus only on facts directly relevant to answering the question. Exclude unrelated details or background information.  \n- Incorporate all new relevant facts found in the passages, updating or expanding the existing summary as needed.  \n- Clearly identify key entities (e.g., persons, organizations) and their attributes or achievements as they relate to the question.  \n- Avoid redundancy and contradictions; if new passages clarify or specify details in the prior summary, update accordingly.  \n- When multiple facts about the same entity or topic appear, synthesize them into a unified statement.  \n- If no new relevant information is found in the passages, acknowledge this briefly while retaining the existing summary content.  \n- Maintain factual accuracy and neutrality, avoiding speculation or assumptions beyond the provided data.\n\nIn summary, your goal is to produce a brief but comprehensive factual synthesis that advances the knowledge needed to answer the question, by combining the previous summary with newly provided passages in a clear and focused manner."}}];
+const DOT = `digraph G {
+    rankdir=TB;
+    node [style=filled, shape=circle, fontsize=14, width=0.6, height=0.6];
+    0 [label="0\\n(0.60)", fillcolor=orange, tooltip=" "];
+    1 [label="1\\n(0.56)", fillcolor=lightgray, tooltip=" "];
+    2 [label="2\\n(0.57)", fillcolor=orange, tooltip=" "];
+    3 [label="3\\n(0.57)", fillcolor=lightgray, tooltip=" "];
+    4 [label="4\\n(0.55)", fillcolor=lightgray, tooltip=" "];
+    5 [label="5\\n(0.60)", fillcolor=orange, tooltip=" "];
+    6 [label="6\\n(0.61)", fillcolor=lightgray, tooltip=" "];
+    7 [label="7\\n(0.63)", fillcolor=orange, tooltip=" "];
+    8 [label="8\\n(0.64)", fillcolor=cyan, tooltip=" "];
+    0 -> 1;
+    1 -> 2;
+    2 -> 3;
+    2 -> 4;
+    0 -> 5;
+    2 -> 6;
+    6 -> 7;
+    0 -> 8;
+}`;
+
+const nodeMap = {};
+NODES.forEach(n => { nodeMap[n.idx] = n; });
+
+let pinnedIdx = null;   // non-null when tooltip is click-pinned (scrollable)
+let hoverIdx = null;    // non-null when hovering over a node
+
+function renderTooltip(idx) {
+  const n = nodeMap[idx];
+  if (!n) return "";
+  let roleBadge = "";
+  if (n.role === "Best") roleBadge = '<span class="role-badge role-best">BEST</span>';
+  else if (n.role === "Pareto Front") roleBadge = '<span class="role-badge role-pareto">PARETO</span>';
+  else if (n.role === "Seed") roleBadge = '<span class="role-badge role-seed">SEED</span>';
+
+  let comps = "";
+  for (const [name, text] of Object.entries(n.components)) {
+    const escaped = text.replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;");
+    comps += '<div class="tt-comp-name">' + name + '</div><div class="tt-comp-text">' + escaped + '</div>';
+  }
+
+  return '<div class="tt-header">Candidate ' + n.idx + roleBadge + '</div>' +
+    '<div class="tt-meta">Score: <strong>' + n.score + '</strong>&nbsp;&nbsp;|&nbsp;&nbsp;Parent(s): ' + n.parents +
+    '</div><div class="tt-hint">' + (pinnedIdx === idx ? 'Click node again to dismiss' : 'Click to pin &amp; scroll') + '</div>' +
+    comps;
+}
+
+function positionTooltip(x, y) {
+  const tt = document.getElementById("tooltip");
+  let tx = x + 16, ty = y + 16;
+  const r = tt.getBoundingClientRect();
+  if (tx + r.width > window.innerWidth - 8) tx = x - r.width - 16;
+  if (ty + r.height > window.innerHeight - 8) ty = y - r.height - 16;
+  if (tx < 8) tx = 8;
+  if (ty < 8) ty = 8;
+  tt.style.left = tx + "px";
+  tt.style.top = ty + "px";
+}
+
+function showTooltip(idx, x, y) {
+  const tt = document.getElementById("tooltip");
+  tt.innerHTML = renderTooltip(idx);
+  tt.style.display = "block";
+  positionTooltip(x, y);
+}
+
+function hideTooltip() {
+  pinnedIdx = null;
+  hoverIdx = null;
+  document.getElementById("tooltip").style.display = "none";
+}
+
+// Click outside tooltip and outside nodes dismisses pinned tooltip
+document.addEventListener("mousedown", function(e) {
+  const tt = document.getElementById("tooltip");
+  if (pinnedIdx !== null && tt.style.display === "block"
+      && !tt.contains(e.target) && !e.target.closest(".node")) {
+    hideTooltip();
+  }
+});
+
+async function render() {
+  const { instance } = await import("https://cdn.jsdelivr.net/npm/@viz-js/viz@3.11.0/lib/viz-standalone.mjs");
+  const viz = await instance();
+  const svg = viz.renderSVGElement(DOT);
+  const container = document.getElementById("graph-container");
+  container.innerHTML = "";
+  container.appendChild(svg);
+
+  // Attach hover listeners and strip native <title> tooltips to avoid double tooltips
+  svg.querySelectorAll(".node").forEach(node => {
+    const title = node.querySelector("title");
+    if (!title) return;
+    const idx = parseInt(title.textContent, 10);
+    if (isNaN(idx)) return;
+    title.remove();  // remove native SVG tooltip
+    node.style.cursor = "pointer";
+    // Hover: show tooltip following the mouse (non-interactive)
+    node.addEventListener("mouseenter", e => {
+      if (pinnedIdx !== null) return;  // don't override a pinned tooltip
+      hoverIdx = idx;
+      showTooltip(idx, e.clientX, e.clientY);
+    });
+    node.addEventListener("mousemove", e => {
+      if (pinnedIdx !== null || hoverIdx !== idx) return;
+      positionTooltip(e.clientX, e.clientY);
+    });
+    node.addEventListener("mouseleave", () => {
+      if (pinnedIdx !== null) return;
+      hoverIdx = null;
+      document.getElementById("tooltip").style.display = "none";
+    });
+    // Click: pin the tooltip so user can scroll it
+    node.addEventListener("click", e => {
+      e.stopPropagation();
+      if (pinnedIdx === idx) { hideTooltip(); return; }
+      pinnedIdx = idx;
+      showTooltip(idx, e.clientX, e.clientY);
+    });
+  });
+  // Also strip <title> from edges and the graph itself
+  svg.querySelectorAll(".edge title").forEach(t => t.remove());
+  const graphTitle = svg.querySelector(":scope > title");
+  if (graphTitle) graphTitle.remove();
+}
+
+render().catch(err => {
+  document.getElementById("graph-container").innerHTML =
+    "<p style='color:red'>Failed to render graph: " + err.message + "</p>" +
+    "<pre>" + DOT.replace(/</g,"&lt;") + "</pre>";
+});
+</script>
+</body>
+</html>

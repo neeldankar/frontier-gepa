@@ -1,0 +1,38 @@
+{
+    "answer": "Harrison Ford",
+    "summary_1": "The English-American actor known for his role in \"Raiders of the Lost Ark,\" Harrison Ford, starred in \"The Lodger,\" a film from 1912.",
+    "summary_2": "The English-American actor known for his role in \"Raiders of the Lost Ark,\" Harrison Ford, starred in \"The Lodger,\" a 2009 film. This information is corrected as the original summary incorrectly mentioned Alfred Molina as the actor in \"The Lodger.\"",
+    "hop1_titles": [
+        "Nicole Maurey",
+        "Raiders of the Lost Ark",
+        "Raiders of the Lost Ark: The Adaptation",
+        "Michael Pangrazio",
+        "Raiders of the Lost Car Park"
+    ],
+    "hop2_titles": [
+        "Raiders of the Lost Ark (soundtrack)",
+        "Alfred Molina",
+        "The Lodger (2009 film)",
+        "Jungle Raiders (1985 film)",
+        "Marion Ravenwood"
+    ],
+    "hop1_paragraphs": [
+        "Nicole Maurey (20 December 1925 \u2013 11 March 2016) was a French actress, who has appeared in 65 film and television productions between 1945 and 1997.  Born in Bois-Colombes, a northwestern suburb of Paris, she was originally a dancer before being cast in her first film role in 1944.  She remains most noted as Charlton Heston's leading lady in \"Secret of the Incas\" (1954), often cited as the primary inspiration for \"Raiders of the Lost Ark\" (1981).  She starred in films with Alec Guinness, Bette Davis, Bing Crosby, Jeff Chandler, Fess Parker, Rex Harrison, Robert Taylor and Mickey Rooney, among numerous others.  She was the leading lady in the original 1962 science fiction cult film \"The Day of the Triffids\".  Later in life, she moved into television, appearing in various made-for-TV movies and mini-series.",
+        "Raiders of the Lost Ark (also known as Indiana Jones and the Raiders of the Lost Ark) is a 1981 American action adventure film directed by Steven Spielberg, with a screenplay written by Lawrence Kasdan, from a story by George Lucas and Philip Kaufman.  It was produced by Frank Marshall for Lucasfilm Ltd., with Lucas and Howard Kazanjian as executive producers.  Starring Harrison Ford, it was the first installment in the \"Indiana Jones\" film franchise to be released, though it is the second in internal chronological order.  It pits Indiana Jones (Ford) against a group of Nazis who are searching for the Ark of the Covenant, which Adolf Hitler believes will make his army invincible.  The film co-stars Karen Allen as Indiana's former lover, Marion Ravenwood; Paul Freeman as Indiana's rival, French archaeologist Ren\u00e9 Belloq; John Rhys-Davies as Indiana's sidekick, Sallah; Ronald Lacey as Gestapo agent Arnold Toht; and Denholm Elliott as Indiana's colleague, Marcus Brody.",
+        "Raiders of the Lost Ark: The Adaptation is a 1989 American fan film, made as a shot-for-shot remake of the 1981 Indiana Jones adventure film \"Raiders of the Lost Ark\".  Using the original film's screenplay and score, it principally starred and was filmed, directed, and produced over a seven-year period by three Mississippi teenagers (Chris Strompolos, Eric Zala, and Jayson Lamb).",
+        "Michael Pangrazio (commonly credited as Mike Pangrazio) is an award-winning American art director in the feature film industry best known for his matte painting work on Raiders of the Lost Ark and The Empire Strikes Back.  As traditional and digital matte artist, he created some of the most famous matte paintings in movie history.  His best known painting is the Raiders of the Lost Ark warehouse interior set-extension at the end of the movie.",
+        "Raiders of the Lost Car Park is a novel by British author Robert Rankin.  It is the second book in the Cornelius Murphy trilogy, sequel to \"The Book of Ultimate Truths\" and prequel to \"The Most Amazing Man Who Ever Lived\".  It documents the continuing adventures of Cornelius Murphy and his companion Tuppe.  The novel was first published by Doubleday in 1994.  The book's name is a play on \"Raiders of the Lost Ark\", an Indiana Jones movie."
+    ],
+    "hop2_paragraphs": [
+        "Raiders of the Lost Ark: Original Motion Picture Soundtrack is the film score to the 1981 Steven Spielberg film, \"Raiders of the Lost Ark\".  The music was composed and conducted by John Williams, and performed by the London Symphony Orchestra.  Orchestrations were done by Herbert W. Spencer with additional orchestrations done by Al Woodbury.  The score was released by Columbia Records in June 1981.  The soundtrack received an Academy Award nomination for Best Original Score, but lost out to Vangelis' score for \"Chariots of Fire\".",
+        "Alfredo \"Alfred\" Molina (born 24 May 1953) is an English-American actor, known for his roles in \"Raiders of the Lost Ark\" (1981), \"Enchanted April\" (1992), \"Maverick\" (1994), \"Boogie Nights\" (1997), \"Chocolat\" (2000), \"Spider-Man 2\" (2004), \"The Da Vinci Code\" (2006), \"An Education\" (2009), \"\" (2010), \"The Sorcerer's Apprentice\" (2010), \"Rango\" (2011) and \"Whiskey Tango Foxtrot\" (2016).",
+        "The Lodger is a 2009 mystery/thriller film directed by David Ondaatje and starring Alfred Molina, Hope Davis and Simon Baker.  It is based on the novel \"The Lodger\" by Marie Belloc Lowndes, filmed previously by Alfred Hitchcock in 1927, by Maurice Elvey in 1932, by John Brahm in 1944, and as \"Man in the Attic\" (1953) directed by Hugo Fregonese.",
+        "Jungle Raiders, also known as Captain Yankee (in original Italian, La leggenda del rubino malese/ \"Legend of the Blonde Malaysian\") is a 1985 Cannon Film.  This film by Antonio Margheriti stars Christopher Connelly and Lee Van Cleef.  The film was the third of three films Antonio Margheriti made in which he attempted to copy the success of \"Raiders of the Lost Ark\" (the first films he made were \"Hunters of the Golden Cobra\" and \"Ark of the Sun God\").",
+        "Marion Ravenwood is a fictional character that first appeared in the 1981 film \"Raiders of the Lost Ark\".  Played by Karen Allen, she enters the story when Indiana Jones visits her in Nepal, needing her help to locate the Ark of the Covenant with a possession originally obtained by her father, Dr. Abner Ravenwood.  After 27 years of absence (21 years in the films' internal chronology), the character returned in \"Indiana Jones and the Kingdom of the Crystal Skull\", and was once again played by Allen."
+    ],
+    "hop1_gold_titles": [],
+    "hop2_gold_titles": [
+        "Alfred Molina",
+        "The Lodger (2009 film)"
+    ]
+}

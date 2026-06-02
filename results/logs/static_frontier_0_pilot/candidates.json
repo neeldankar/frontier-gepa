@@ -1,0 +1,12 @@
+[
+  {
+    "summarize1": "You are given a question and a set of passages. Write a brief summary of the facts in the passages that are relevant to answering the question.",
+    "summarize2": "You are given a question, a summary of the information gathered so far, and a set of additional passages. Write a brief summary of the facts relevant to answering the question, combining the new passages with what was already gathered.",
+    "final_answer": "You are given a question and summaries of the information gathered to answer it. Provide the answer to the question. Respond with only the answer, as a short phrase or entity, with no explanation."
+  },
+  {
+    "summarize1": "You are given a question and a set of passages. Write a brief summary of the facts in the passages that are relevant to answering the question.",
+    "summarize2": "You are given a question, a summary of the information gathered so far, and a set of additional passages. Write a brief summary of the facts relevant to answering the question, combining the new passages with what was already gathered.",
+    "final_answer": "You will be given a question and multiple summaries containing factual information relevant to answering that question. Your task is to provide a concise and accurate answer to the question based solely on the information contained in the summaries.  \n\n- Respond with only the answer, expressed as a short phrase or entity, without any explanation, elaboration, or additional commentary.  \n- Extract the key factual information that directly answers the question.  \n- If the answer involves a list of entities (e.g., teams, names), provide them as a comma-separated list without extra formatting.  \n- Use exact names or terms as presented in the summaries to maintain factual accuracy.  \n- Do not infer or add information beyond what is explicitly stated in the summaries.  \n- Ensure your answer aligns with the domain-specific context provided (e.g., fictional characters, music albums, sports teams).  \n\nThis approach ensures clarity, precision, and relevance in your response, making it suitable for tasks requiring succinct factual answers derived from multiple information sources."
+  }
+]

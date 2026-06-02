@@ -1,0 +1,38 @@
+{
+    "answer": "1978",
+    "summary_1": "Progress 1, the first Progress spacecraft, was launched in 1978 to resupply the Salyut 6 space station. Salyut 6 was launched in 1977 and was the first of the 'second-generation' type of space station. The Progress MS-09 spacecraft is used to resupply the International Space Station (ISS). The ISS first launched a component in 1998.",
+    "summary_2": "Progress 1, the first Progress spacecraft, was launched in 1978 to resupply the Salyut 6 space station. Salyut 6 was launched in 1977, making it the first of the 'second-generation' type of space station. Progress MS-09 is used to resupply the International Space Station (ISS), which first launched a component in 1998. The passage also mentions several other Progress missions, such as Progress 2 and Progress 3, which were launched in 1978 to resupply Salyut 6, and Progress M-18M, which was used to resupply the ISS in 2013.",
+    "hop1_titles": [
+        "Progress 1",
+        "International Space Station",
+        "Salyut 6",
+        "Progress MS-09",
+        "Progress M-15"
+    ],
+    "hop2_titles": [
+        "Progress 2",
+        "Progress M-17",
+        "Progress M-8",
+        "Progress 3",
+        "Progress M-18M"
+    ],
+    "hop1_paragraphs": [
+        "Progress 1 was a Soviet unmanned Progress cargo spacecraft which was launched in 1978 to resupply the Salyut 6 space station.  It was the maiden flight of the Progress spacecraft, and used the Progress 7K-TG configuration.  It carried supplies for the EO-1 crew aboard Salyut 6, which consisted of Soviet cosmonauts Yuri Romanenko and Georgi Grechko.  The cargo carried by Progress 1 also included equipment for conducting scientific research, and fuel for adjusting the station's orbit and performing manoeuvres.",
+        "The International Space Station (ISS) is a space station, or a habitable artificial satellite, in low Earth orbit.  Its first component launched into orbit in 1998, and the ISS is now the largest human-made body in low Earth orbit and can often be seen with the naked eye from Earth.  The ISS consists of pressurised modules, external trusses, solar arrays, and other components.  ISS components have been launched by Russian Proton and Soyuz rockets, and American Space Shuttles.",
+        "Salyut 6 (Russian: \u0421\u0430\u043b\u044e\u0442-6 ; lit. \u00a0Salute 6), DOS-5, was a Soviet orbital space station, the eighth flown as part of the Salyut programme.  Launched on 29 September 1977 by a Proton rocket, the station was the first of the 'second-generation' type of space station.  Salyut 6 possessed several revolutionary advances over the earlier Soviet space stations, which it nevertheless resembled in overall design.  These included the addition of a second docking port, a new main propulsion system and the station's primary scientific instrument, the BST-1M multispectral telescope.  The addition of the second docking port made crew handovers and station resupply by unmanned Progress freighters possible for the first time.  The early Salyut stations had no means of resupply or removing accumulated garbage (aside from the limited amount that cosmonauts could carry in their Soyuz spacecraft), nor could the propulsion system be refueled once it exhausted its propellant supply.  Consequently, once the consumables launched with the station were used up, its mission had to be concluded and as a result, manned missions had a maximum duration of three months.  Progress spacecraft could now bring fresh supplies and propellant and also be used to dispose of waste, which was then destroyed once the spacecraft was deorbited.",
+        "Progress MS-09 (Russian: \"\u041f\u0440\u043e\u0433\u0440\u0435\u0441\u0441 \u041cC-09\" ), identified by NASA as Progress 70 or 70P, is a Progress spacecraft to be used by Roscosmos to resupply the International Space Station (ISS).",
+        "Progress M-15 was a Russian unmanned cargo spacecraft which was launched in 1992 to resupply the Mir space station.  The thirty-third of sixty-four Progress spacecraft to visit Mir, it used the Progress-M 11F615A55 configuration, and had the serial number 215.  It carried supplies including food, water and oxygen for the EO-12 crew aboard Mir, as well as equipment for conducting scientific research, and fuel for adjusting the station's orbit and performing manoeuvres.  It also transported the Mak 2 satellite, which was deployed from Mir on 20 November.  TORU manual docking system was first tested in this mission."
+    ],
+    "hop2_paragraphs": [
+        "Progress 2 was an unmanned Progress cargo spacecraft launched by the Soviet Union in 1978 to resupply the Salyut 6 space station.  It used the Progress 7K-TG configuration, and was the second Progress mission to Salyut 6.  It carried supplies for the EO-2 crew aboard Salyut 6, as well as equipment for conducting scientific research, and fuel for adjusting the station's orbit and performing manoeuvres.",
+        "Progress M-17 was a Russian unmanned cargo spacecraft which was launched in 1993 to resupply the Mir space station.  The thirty-fifth of sixty four Progress spacecraft to visit Mir, it used the Progress-M 11F615A55 configuration, and had the serial number 217.  In addition to delivering cargo, Progress M-17 was also used to demonstrate extended duration Progress missions; remaining in orbit for almost a year with a docked phase lasting 132 days.",
+        "Progress M-8 was a Soviet unmanned cargo spacecraft which was launched in 1991 to resupply the Mir space station.  The twenty-sixth of sixty four Progress spacecraft to visit Mir, it used the Progress-M 11F615A55 configuration, and had the serial number 207.  It carried supplies including food, water and oxygen for the EO-9 crew aboard Mir, as well as equipment for conducting scientific research, and fuel for adjusting the station's orbit and performing manoeuvres.  It also carried the Naduvaniy Hazovoy Ballon satellite, which was subsequently deployed from Mir.",
+        "Progress 3 was an unmanned Progress cargo spacecraft launched by the Soviet Union in 1978 to resupply the Salyut 6 space station.  It used the Progress 7K-TG configuration, and was the third Progress mission to Salyut 6.  It carried supplies for the EO-2 crew aboard Salyut 6, as well as equipment for conducting scientific research, and fuel for adjusting the station's orbit and performing manoeuvres.",
+        "Progress M-18M (Russian: \"\u041f\u0440\u043e\u0433\u0440\u0435\u0441\u0441 \u041c-18\u041c\" ), identified by NASA as Progress 50 or 50P, is a Progress spacecraft used by Roskosmos to resupply the International Space Station during 2013.  Progress M-18M was sent on a 4-Orbit rendezvous profile that was already demonstrated by the Progress M-16M and Progress M-17M spacecraft in 2012."
+    ],
+    "hop1_gold_titles": [
+        "International Space Station",
+        "Progress MS-09"
+    ],
+    "hop2_gold_titles": []
+}

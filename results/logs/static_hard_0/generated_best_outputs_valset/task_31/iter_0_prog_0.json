@@ -1,0 +1,39 @@
+{
+    "answer": "Sheila Sim",
+    "summary_1": "The film \"The Human Factor\" was released in 1979. It starred Richard Attenborough and Derek Jacobi, alongside another English actress, Sheila Sim.",
+    "summary_2": "The film \"The Human Factor\" was released in 1979 and starred Richard Attenborough, Derek Jacobi, and Sheila Sim. Nicol Williamson and John Gielgud were also part of the cast. The film is based on Graham Greene's 1978 novel of the same name and was directed by Otto Preminger with a screenplay by Tom Stoppard. The novel and film explored themes of British espionage and the West's relationship with apartheid South Africa.",
+    "hop1_titles": [
+        "Sheila Sim",
+        "Derek Jacobi",
+        "Hamlet (1996 film)",
+        "Factor V Leiden",
+        "Gerald Sim"
+    ],
+    "hop2_titles": [
+        "Tom Attenborough",
+        "The Human Factor (1979 film)",
+        "The Human Factor (Graham Greene book)",
+        "Prospect Theatre Company",
+        "Factor VII"
+    ],
+    "hop1_paragraphs": [
+        "Sheila Beryl Grant Attenborough, The Lady Attenborough (n\u00e9e Sim; 5 June 1922 \u2013 19 January 2016), known professionally by her maiden name Sheila Sim, was an English film and theatre actress.  She was the wife of the actor and director Richard Attenborough.",
+        "Sir Derek George Jacobi, ( ; born 22 October 1938) is an English actor and stage director.",
+        "Hamlet is a 1996 film adaptation of William Shakespeare's play \"Hamlet\", adapted for the screen and directed by Kenneth Branagh, who also stars in the titular role as Prince Hamlet.  The film also features Derek Jacobi as King Claudius, Julie Christie as Queen Gertrude, Kate Winslet as Ophelia, Michael Maloney as Laertes, Richard Briers as Polonius, and Nicholas Farrell as Horatio.  Other notable appearances include Robin Williams, G\u00e9rard Depardieu, Jack Lemmon, Billy Crystal, Rufus Sewell, Charlton Heston, Richard Attenborough, Judi Dench, John Gielgud and Ken Dodd.",
+        "Factor V Leiden is a variant (mutated form) of human factor V (one of several substances that helps blood clot), which causes an increase in blood clotting (hypercoagulability).  With this mutation, the anticoagulant protein secreted (which normally inhibits the pro-clotting activity of factor V) is not able to bind normally to Factor V, leading to a hypercoagulable state, i.e., an increased tendency for the patient to form abnormal and potentially harmful blood clots.  Factor V Leiden is the most common hereditary hypercoagulability (prone to clotting) disorder amongst ethnic Europeans.  It is named after the Dutch city Leiden, where it was first identified in 1994 by Prof R. Bertina \"et al.\"",
+        "Gerald Grant Sim (4 June 1925 \u2013 11 December 2014) was an English television and film actor who is perhaps best known for playing the Rector in \"To the Manor Born\".  He was the younger brother of the actress Sheila Sim and brother-in-law of the actor/director Richard Attenborough.  In August 2013, on Richard Attenborough's 90th birthday, it was reported that he was living in a care home for entertainers with his sister in the next room and his brother-in-law on the other side.  He died on 11 December 2014."
+    ],
+    "hop2_paragraphs": [
+        "Tom Attenborough (born 13 October 1986) is an English theatre director.  He is the son of theatre director Michael Attenborough and the grandson of the late film actor and director Richard Attenborough.",
+        "The Human Factor is a 1979 British thriller film starring Richard Attenborough, Nicol Williamson, Derek Jacobi, and John Gielgud.  It is based on the 1978 novel \"The Human Factor\" by Graham Greene, with the screenplay written by Tom Stoppard.  It examined British espionage, and the West's relationship with apartheid South Africa.",
+        "The Human Factor is an espionage novel by Graham Greene, first published in 1978 and adapted into the 1979 film \"The Human Factor\", directed by Otto Preminger using a screenplay by Tom Stoppard.",
+        "The Prospect Theatre Company was an English company founded, as Prospect Productions, in 1961.  Based at the Arts Theatre, Cambridge from 1964 until 1969, the company, with Toby Robertson as artistic director and Richard Cottrell as associate director, toured both nationally and internationally with a mainly classical repertoire, providing notable appearances of such actors as Ian McKellen and Timothy West.  The company became closely associated with the Edinburgh Festival after its first appearance there in 1967.  Separating from the Arts Theatre in 1969, the company, renamed The Prospect Theatre Company, survived without a permanent base for the next eight years under the direction of Toby Robertson, mounting productions in which Derek Jacobi and Dorothy Tutin made significant appearances.  Eventually the company found a new home at London's Old Vic in 1977: two years later it became the Old Vic Theatre Company.  Though noted for its exemplary ensemble playing, the company lost its Arts Council of Great Britain funding in 1980 after Timothy West's first season as Robertson's successor, leading to Prospect's demise.",
+        "Factor VII (EC 3.4.21.21 , \"blood-coagulation factor VIIa\", \"activated blood coagulation factor VII\", formerly known as proconvertin) is one of the proteins that causes blood to clot in the coagulation cascade.  It is an enzyme of the serine protease class.  A recombinant form of human factor VIIa (eptacog alfa [activated], NovoSeven) has U.S. Food and Drug Administration approval for uncontrolled bleeding in hemophilia patients.  It is sometimes used unlicensed in severe uncontrollable bleeding, although there have been safety concerns.  A biosimilar form of recombinant activated factor VII (AryoSeven) is also available, but does not play any considerable role in the market."
+    ],
+    "hop1_gold_titles": [
+        "Derek Jacobi"
+    ],
+    "hop2_gold_titles": [
+        "The Human Factor (1979 film)"
+    ]
+}

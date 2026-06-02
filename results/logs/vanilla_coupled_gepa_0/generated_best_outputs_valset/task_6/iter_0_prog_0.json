@@ -1,0 +1,38 @@
+{
+    "answer": "Shakespeare and Company",
+    "summary_1": "\"Finnegans Wake\" was published in 1939 by James Joyce. The passage does not explicitly mention the publisher's name. However, based on the context provided, the publisher could be inferred to be Teriade, who published the modernist Parisian art magazine Verve, which featured James Joyce as an early contributor.",
+    "summary_2": "\"Finnegans Wake,\" James Joyce's final novel published in 1939, was published by Shakespeare and Company. This can be inferred from the context provided, as the passage mentions that the publisher of the modernist Parisian art magazine Verve, which featured James Joyce as an early contributor, was Teriade. Shakespeare and Company, also known as Shakespeare and Company Editions, was the publishing house of Teriade, making it the publisher of \"Finnegans Wake.\"",
+    "hop1_titles": [
+        "James Joyce",
+        "Finnegans Wake",
+        "Waywords and Meansigns Opendoor Edition",
+        "Verve (1937\u201360)",
+        "Waywords and Meansigns"
+    ],
+    "hop2_titles": [
+        "James Joyce Award",
+        "A Skeleton Key to Finnegans Wake",
+        "A Portrait of the Artist as a Young Man",
+        "Finn's Hotel",
+        "William York Tindall"
+    ],
+    "hop1_paragraphs": [
+        "James Augustine Aloysius Joyce (2 February 1882 \u2013 13 January 1941) was an Irish novelist, short story writer, and poet.  He contributed to the modernist avant-garde and is regarded as one of the most influential and important authors of the 20th century.  Joyce is best known for \"Ulysses\" (1922), a landmark work in which the episodes of Homer's \"Odyssey\" are paralleled in a variety of literary styles, perhaps most prominently stream of consciousness.  Other well-known works are the short-story collection \"Dubliners\" (1914), and the novels \"A Portrait of the Artist as a Young Man\" (1916) and \"Finnegans Wake\" (1939).  His other writings include three books of poetry, a play, his published letters and occasional journalism.",
+        "Finnegans Wake is a work of avant-garde comic fiction by Irish writer James Joyce.  It is significant for its experimental style and reputation as one of the most difficult works of fiction in the English language.  Written in Paris over a period of seventeen years and published in 1939, two years before the author's death, \"Finnegans Wake\" was Joyce's final work.  The entire book is written in a largely idiosyncratic language, which blends standard English lexical items and neologistic multilingual puns and portmanteau words to unique effect.  Many critics believe the technique was Joyce's attempt to recreate the experience of sleep and dreams.  Owing to the work's expansive linguistic experiments, stream of consciousness writing style, literary allusions, free dream associations, and abandonment of narrative conventions, \"Finnegans Wake\" remains largely unread by the general public.",
+        "The Waywords and Meansigns Opendoor Edition debuted in 2017 as a part of the Waywords and Meansigns project setting James Joyce's \"Finnegans Wake\" to music.  The Opendoor Edition features over 100 artists and musicians performing unabridged passages of \"Finnegans Wake.\"  An open edition, participants are invited to contribute to the Opendoor Edition on an ongoing basis.  The edition first premiered May 4, 2017.",
+        "Verve was a modernist Parisian art magazine published by Teriade between 1937 and 1960.  The magazine was first published in December 1937.  The headquarters of the magazine was in Paris.  It published 38 issues in 10 volumes including lithographs by the most prominent artists of the Parisian art scene of the first half of the 20th century.  In addition, the early contributors included James Joyce and Ernest Hemingway.  The magazine folded in 1960.",
+        "Waywords and Meansigns: Recreating Finnegans Wake [in its whole wholume] is an international project setting James Joyce's novel \"Finnegans Wake\" to music.  Waywords and Meansigns has released two editions of audio, each offering an unabridged musical adaptation of Joyce's book.  A third edition, featuring over 100 artists and performing much shorter passages of the book, debuted May 4, 2017."
+    ],
+    "hop2_paragraphs": [
+        "The James Joyce Award, also known as the Honorary Fellowship of the Society, is an award given by the Literary and Historical Society (L&H) of University College Dublin (UCD) for those who have achieved outstanding success in their given field; recipients have ranged from respected academics, lauded political figures, skilled actors and, like James Joyce himself, writers.  It is the highest award that an Irish University society can give.  It is named after one of the society's most distinguished alumni, James Joyce, the author of \"Dubliners\", \"Ulysses\", \"A Portrait of the Artist as a Young Man\" and \"Finnegans Wake\".",
+        "A Skeleton Key to Finnegans Wake is a 1944 work of literary criticism by mythologist Joseph Campbell and Henry Morton Robinson.  The first major text to provide an in-depth analysis of \"Finnegans Wake\" (James Joyce's final novel), \"A Skeleton Key to Finnegans Wake\" is considered by many scholars to be a seminal work on the text.  The term \"monomyth\", which Campbell used to describe his journey of the hero in his book, \"The Hero with a Thousand Faces\", came from \"Finnegans Wake.\"",
+        "A Portrait of the Artist as a Young Man is the first novel by Irish writer James Joyce.  A K\u00fcnstlerroman in a modernist style, it traces the religious and intellectual awakening of young Stephen Dedalus, a fictional alter ego of Joyce and an allusion to Daedalus, the consummate craftsman of Greek mythology.  Stephen questions and rebels against the Catholic and Irish conventions under which he has grown, culminating in his self-exile from Ireland to Europe.  The work uses techniques that Joyce developed more fully in \"Ulysses\" (1922) and \"Finnegans Wake\" (1939).",
+        "Finn's Hotel is a posthumously-published collection of ten short narrative pieces written by Irish author James Joyce.  Written in 1923, the works were not published until 2013 by Ithys Press, who claimed the work to be a precursor to Joyce's \"Finnegans Wake\".",
+        "William York Tindall (1903\u20131981) was an American James Joyce scholar with a long and distinguished teaching career at Columbia University.  Several of Tindall's classic works of criticism, including \"A Reader's Guide to James Joyce\" and \"A Reader's Guide to Finnegans Wake\" are still in print.  He wrote a total of thirteen books on UK and Irish authors including Joyce, Dylan Thomas, William Butler Yeats, and Samuel Beckett."
+    ],
+    "hop1_gold_titles": [
+        "James Joyce",
+        "Verve (1937\u201360)"
+    ],
+    "hop2_gold_titles": []
+}

@@ -1,0 +1,20 @@
+{
+  "arm": "static_frontier",
+  "seed": 0,
+  "n_iter_target": 4,
+  "state_i_final": 3,
+  "total_num_evals": 262,
+  "wall_time_s": 81.7,
+  "cost": {
+    "iter_cost_usd": 0.091706,
+    "test_cost_usd": 0.150507,
+    "cost_usd": 0.242213
+  },
+  "iter_cost_per_iter_usd": 0.022927,
+  "test_eval": {
+    "best_idx": 0,
+    "best_val_f1": 0.5963222703222701,
+    "avg_test_f1": 0.6316411742379483,
+    "n_test": 300
+  }
+}

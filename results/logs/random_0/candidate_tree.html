@@ -1,0 +1,188 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>GEPA Candidate Tree</title>
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  html, body { height: 100%; width: 100%; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; background: #f8f9fa; display: flex; flex-direction: column; }
+  #header { background: #fff; border-bottom: 1px solid #dee2e6; padding: 12px 20px; display: flex; align-items: center; gap: 16px; flex-shrink: 0; }
+  #header h1 { font-size: 18px; font-weight: 600; color: #212529; }
+  .legend { display: flex; gap: 14px; font-size: 13px; color: #495057; }
+  .legend-item { display: flex; align-items: center; gap: 4px; }
+  .legend-dot { width: 12px; height: 12px; border-radius: 50%; border: 1px solid #adb5bd; }
+  #graph-container { flex: 1 1 auto; width: 100%; overflow: auto; padding: 20px; text-align: center; }
+  #graph-container svg { width: 100%; height: 100%; }
+  #tooltip {
+    display: none; position: fixed; background: #fff; border: 1px solid #dee2e6;
+    border-radius: 8px; padding: 14px 16px; max-width: 560px; max-height: 70vh; overflow-y: auto;
+    box-shadow: 0 4px 16px rgba(0,0,0,0.18); z-index: 1000; font-size: 13px; line-height: 1.5;
+  }
+  #tooltip .tt-header { font-weight: 700; font-size: 15px; margin-bottom: 6px; color: #212529; }
+  #tooltip .tt-meta { color: #6c757d; margin-bottom: 4px; }
+  #tooltip .tt-hint { color: #adb5bd; font-size: 11px; font-style: italic; margin-bottom: 10px; }
+  #tooltip .tt-comp-name { font-weight: 600; color: #495057; margin-top: 10px; border-bottom: 1px solid #e9ecef; padding-bottom: 2px; }
+  #tooltip .tt-comp-text {
+    white-space: pre-wrap; word-break: break-word; background: #f8f9fa;
+    border: 1px solid #e9ecef; border-radius: 4px; padding: 8px 10px; margin-top: 4px;
+    font-family: "SF Mono", SFMono-Regular, Menlo, Consolas, monospace; font-size: 12px;
+    max-height: 200px; overflow-y: auto;
+  }
+  .role-badge { display: inline-block; padding: 2px 8px; border-radius: 4px; font-size: 11px; font-weight: 600; margin-left: 6px; }
+  .role-best { background: #00e5ff33; color: #006064; }
+  .role-pareto { background: #ff980033; color: #e65100; }
+  .role-seed { background: #e0e0e0; color: #424242; }
+</style>
+</head>
+<body>
+<div id="header">
+  <h1>GEPA Candidate Tree</h1>
+  <div class="legend">
+    <div class="legend-item"><div class="legend-dot" style="background:cyan"></div> Best</div>
+    <div class="legend-item"><div class="legend-dot" style="background:orange"></div> Pareto Front</div>
+    <div class="legend-item"><div class="legend-dot" style="background:lightgray"></div> Other</div>
+  </div>
+</div>
+<div id="graph-container"><p>Loading graph&hellip;</p></div>
+<div id="tooltip"></div>
+
+<script type="module">
+const NODES = [{"idx": 0, "score": 0.5963, "parents": "seed", "role": "Seed", "components": {"final_answer": "You are given a question and summaries of the information gathered to answer it. Provide the answer to the question. Respond with only the answer, as a short phrase or entity, with no explanation.", "summarize1": "You are given a question and a set of passages. Write a brief summary of the facts in the passages that are relevant to answering the question.", "summarize2": "You are given a question, a summary of the information gathered so far, and a set of additional passages. Write a brief summary of the facts relevant to answering the question, combining the new passages with what was already gathered."}},
+{"idx": 1, "score": 0.6352, "parents": "0", "role": "Pareto Front", "components": {"final_answer": "You are given a question and summaries of the information gathered to answer it. Provide the answer to the question. Respond with only the answer, as a short phrase or entity, with no explanation.", "summarize1": "You are given a question and a set of passages. Write a brief summary of the facts in the passages that are relevant to answering the question.", "summarize2": "You are given three inputs: a question, a current summary of information gathered so far relevant to the question, and a set of additional passages containing potentially relevant information. Your task is to write a concise, accurate summary that integrates the newly provided passages with the existing summary to better answer the question.\n\nTo do this effectively:\n\n1. Identify and extract facts from the new passages that directly relate to the question or clarify key entities, roles, places, dates, or titles mentioned in the question or summary.\n\n2. Combine these newly found facts with the information already summarized, ensuring that the updated summary:\n   - Remains focused on answering the question.\n   - Avoids including irrelevant or tangential information from the additional passages.\n   - Corrects or updates any previously incomplete or inaccurate information.\n   - Maintains clarity and brevity, presenting only what is necessary to answer the question.\n\n3. If the new passages do not add relevant information, confirm this explicitly and restate the known relevant facts from the existing summary.\n\n4. When dealing with proper names, titles, historical periods, or domain-specific terms (e.g., ecclesiastical titles, political offices, or historical naming conventions), preserve their precise usage and contextual significance as found in the passages.\n\n5. Avoid speculation or inference beyond the information provided; rely solely on the facts presented in the summary and the new passages.\n\nBy following this approach, you ensure that each summary iteration incrementally builds a more complete and accurate factual basis for answering the question, while filtering out unrelated content."}},
+{"idx": 2, "score": 0.6419, "parents": "0", "role": "Pareto Front", "components": {"final_answer": "You are given a question and summaries of the information gathered to answer it. Provide the answer to the question. Respond with only the answer, as a short phrase or entity, with no explanation.", "summarize1": "You are given a question and a set of passages. Write a brief summary of the facts in the passages that are relevant to answering the question.", "summarize2": "You are given three inputs:  \n1. A question that needs to be answered.  \n2. A summary of the facts gathered so far that are relevant to the question.  \n3. A set of additional passages containing potentially new or supporting information related to the question.  \n\nYour task is to write a concise, integrated summary of all relevant facts by combining the information from the initial summary with any pertinent details from the additional passages. This new summary should:  \n\n- Focus strictly on facts directly relevant to answering the question.  \n- Clarify or correct any inaccuracies or gaps in the initial summary using the new passages.  \n- Incorporate domain-specific or niche factual information when present, such as:  \n  - Specific album titles, release dates, and inspirations (for music-related questions).  \n  - Precise biographical or nationality details of individuals (for film directors or similar).  \n  - Exact dates, locations, and historical context for places or events (e.g., shopping centres\u2019 opening years and locations).  \n- Avoid including unrelated information or speculative content.  \n- When the additional passages do not provide new relevant facts, reaffirm or cautiously qualify the original summary based on the available evidence.  \n- Use clear, direct language suitable for factual summaries.  \n\nIn essence, your output should be a factually accurate, succinct synthesis of all relevant information available, improving upon the initial summary by integrating and reconciling new evidence from the passages."}},
+{"idx": 3, "score": 0.6082, "parents": "0", "role": "", "components": {"final_answer": "You are given a question and summaries of the information gathered to answer it. Provide the answer to the question. Respond with only the answer, as a short phrase or entity, with no explanation.", "summarize1": "You are given a question and a set of passages. Write a brief summary of the facts in the passages that are relevant to answering the question.", "summarize2": "You are given three inputs: a question, a summary of information gathered so far (summary_1), and a set of additional passages containing relevant or related facts. Your task is to write a concise, coherent summary that combines the relevant information from the new passages with the existing summary to produce a more complete and accurate factual answer to the question.\n\nKey details and guidelines:\n\n1. Focus only on facts relevant to answering the question. Exclude unrelated or irrelevant information from the passages.\n\n2. Integrate new facts from the passages with the previously gathered summary_1 to form a unified, updated summary. This means you should update or expand upon the existing summary using new information.\n\n3. If the new passages confirm or clarify prior information, incorporate that confirmation or clarification.\n\n4. If the new passages provide no relevant information about a particular entity mentioned in the question or summary, explicitly note that no new location or relevant details were found for that entity.\n\n5. Maintain factual accuracy, specificity, and clarity. Use precise names, locations, dates, or other details as provided.\n\n6. Avoid including extraneous context or unrelated details from the passages that do not pertain to the question.\n\n7. The output summary should be brief but comprehensive enough to answer the question based on the combined knowledge.\n\n8. The question can be about locations, historical facts, affiliations, or other domain-specific information, so be attentive to the domain context (e.g., mines and their locations, historical figures and their roles, sports players and their teams).\n\n9. Where appropriate, explicitly mention when information from the passages does not add to or contradict the existing summary, to make clear what is or isn\u2019t known.\n\n10. Use natural, clear language suitable for a factual summary.\n\nIn essence, your role is to synthesize and update the existing summary with new relevant facts from the passages to create a final, concise, and relevant factual summary that answers the question as fully as possible using all provided information."}},
+{"idx": 4, "score": 0.6236, "parents": "2", "role": "", "components": {"final_answer": "You are given a question and summaries of the information gathered to answer it. Provide the answer to the question. Respond with only the answer, as a short phrase or entity, with no explanation.", "summarize1": "You are given a question and a set of passages. Write a brief summary of the facts in the passages that are relevant to answering the question.", "summarize2": "You are given three inputs:  \n1. A question that needs to be answered.  \n2. An initial summary of the relevant facts gathered so far, aiming to answer the question.  \n3. A set of additional passages containing potentially new, supporting, or clarifying information related to the question.  \n\nYour task is to produce a concise, integrated factual summary that synthesizes all relevant information from both the initial summary and the additional passages. This summary should:  \n\n- Focus strictly on facts directly relevant to answering the question.  \n- Use the additional passages to clarify, correct, or fill gaps in the initial summary. If no new relevant information is found, reaffirm or cautiously qualify the original summary based on available evidence.  \n- Incorporate niche or domain-specific factual details when present, such as:  \n  - For music: specific album titles, release dates, inspirations, or artist details.  \n  - For politics or government: exact titles, legislative bodies, meeting locations, district details, and biographical information of officeholders.  \n  - For sports: player names, teams, positions, relevant dates, and associated events (e.g., video game releases featuring athletes).  \n  - For geography or places: precise locations, historical context, dates of establishment, and administrative details like county seats.  \n- Avoid including unrelated information, speculation, or general background that does not directly support answering the question.  \n- Use clear, direct, and factual language appropriate for a concise summary.  \n- When reconciling conflicting information, prioritize accuracy and clarity, explicitly noting corrections or distinctions when necessary.  \n- Ensure proper identification of individuals and entities to avoid confusion (e.g., distinguishing similarly named persons, clarifying which individual held a position or starred in a game).  \n\nIn essence, your output should be a factually accurate, succinct synthesis that improves upon the initial summary by integrating, reconciling, and highlighting relevant new facts from the additional passages, thereby providing a clear and precise factual answer to the question."}},
+{"idx": 5, "score": 0.6711, "parents": "0", "role": "Best", "components": {"final_answer": "You are given a question and summaries of the information gathered to answer it. Provide the answer to the question. Respond with only the answer, as a short phrase or entity, with no explanation.", "summarize1": "You are given a question and a set of passages. Your task is to write a concise summary that includes only the facts from the passages that are directly relevant to answering the question. \n\nWhen summarizing, ensure you:  \n- Identify and extract specific, factual information from the passages that directly addresses the question.  \n- Include relevant names, dates, titles, locations, or other domain-specific details that are necessary to answer the question accurately.  \n- Avoid including unrelated information or general background unless it is essential for context or clarity.  \n- Maintain clarity and brevity in your summary.  \n\nNote the following domain-specific details and contextual clues that may appear in the passages:  \n- TV series questions may reference creators, characters, episode names, seasons, and settings (e.g., \"Bikini Bottom\" in SpongeBob SquarePants).  \n- Awards-related questions often involve names of awards, eligibility criteria (age limits, leagues, countries), previous and current winners, and their affiliations (e.g., football clubs).  \n- Historical or location-based questions may require recognizing dates, original establishment years, locations, and transformations of places or institutions (e.g., shopping centres opening dates, former department stores).  \n- Pay attention to variations in award names, organizations presenting awards, and distinctions between similar awards (e.g., PFA vs. PFAI vs. SFWA).  \n- When multiple passages provide overlapping information, synthesize the most relevant, accurate, and up-to-date facts.  \n\nYour summary should serve as a direct, factual answer foundation to the question, drawn solely from the provided passages, without adding outside information or speculation.", "summarize2": "You are given a question, a summary of the information gathered so far, and a set of additional passages. Write a brief summary of the facts relevant to answering the question, combining the new passages with what was already gathered."}},
+{"idx": 6, "score": 0.6388, "parents": "2", "role": "Pareto Front", "components": {"final_answer": "You will be given a question and two or more summaries containing information relevant to answering that question. Your task is to determine the most accurate and concise answer to the question based on the information in the summaries. \n\n- Provide your answer as a short phrase or a single entity (e.g., a name, a title, a role, or a date) that directly and precisely responds to the question.\n- Do not include any explanation, reasoning, or additional context\u2014only the final answer.\n- When the summaries contain conflicting information, prefer the answer supported by the most specific and directly relevant summary.\n- If a summary explicitly states no relevant information is available, disregard that summary in your answer.\n- Answers should be factual, domain-specific, and derived strictly from the information given in the summaries.\n- The questions may involve historical figures, fictional characters, dates, roles, or associations, so focus on extracting exact and unambiguous facts.\n  \nExample:  \nQuestion: \"Who, born February 20, 1983, played for The Monarchs and in the World Series?\"  \nSummary 1: Mentions a player born on that date but no association with The Monarchs.  \nSummary 2: Mentions a different player associated with The Monarchs but born on a different date.  \nAnswer: The player whose birthdate and team association match exactly, ignoring conflicting or irrelevant info.\n\nFollow this approach to ensure accuracy and brevity in your answer.", "summarize1": "You are given a question and a set of passages. Write a brief summary of the facts in the passages that are relevant to answering the question.", "summarize2": "You are given three inputs:  \n1. A question that needs to be answered.  \n2. A summary of the facts gathered so far that are relevant to the question.  \n3. A set of additional passages containing potentially new or supporting information related to the question.  \n\nYour task is to write a concise, integrated summary of all relevant facts by combining the information from the initial summary with any pertinent details from the additional passages. This new summary should:  \n\n- Focus strictly on facts directly relevant to answering the question.  \n- Clarify or correct any inaccuracies or gaps in the initial summary using the new passages.  \n- Incorporate domain-specific or niche factual information when present, such as:  \n  - Specific album titles, release dates, and inspirations (for music-related questions).  \n  - Precise biographical or nationality details of individuals (for film directors or similar).  \n  - Exact dates, locations, and historical context for places or events (e.g., shopping centres\u2019 opening years and locations).  \n- Avoid including unrelated information or speculative content.  \n- When the additional passages do not provide new relevant facts, reaffirm or cautiously qualify the original summary based on the available evidence.  \n- Use clear, direct language suitable for factual summaries.  \n\nIn essence, your output should be a factually accurate, succinct synthesis of all relevant information available, improving upon the initial summary by integrating and reconciling new evidence from the passages."}}];
+const DOT = `digraph G {
+    rankdir=TB;
+    node [style=filled, shape=circle, fontsize=14, width=0.6, height=0.6];
+    0 [label="0\\n(0.60)", fillcolor=lightgray, tooltip=" "];
+    1 [label="1\\n(0.64)", fillcolor=orange, tooltip=" "];
+    2 [label="2\\n(0.64)", fillcolor=orange, tooltip=" "];
+    3 [label="3\\n(0.61)", fillcolor=lightgray, tooltip=" "];
+    4 [label="4\\n(0.62)", fillcolor=lightgray, tooltip=" "];
+    5 [label="5\\n(0.67)", fillcolor=cyan, tooltip=" "];
+    6 [label="6\\n(0.64)", fillcolor=orange, tooltip=" "];
+    0 -> 1;
+    0 -> 2;
+    0 -> 3;
+    2 -> 4;
+    0 -> 5;
+    2 -> 6;
+}`;
+
+const nodeMap = {};
+NODES.forEach(n => { nodeMap[n.idx] = n; });
+
+let pinnedIdx = null;   // non-null when tooltip is click-pinned (scrollable)
+let hoverIdx = null;    // non-null when hovering over a node
+
+function renderTooltip(idx) {
+  const n = nodeMap[idx];
+  if (!n) return "";
+  let roleBadge = "";
+  if (n.role === "Best") roleBadge = '<span class="role-badge role-best">BEST</span>';
+  else if (n.role === "Pareto Front") roleBadge = '<span class="role-badge role-pareto">PARETO</span>';
+  else if (n.role === "Seed") roleBadge = '<span class="role-badge role-seed">SEED</span>';
+
+  let comps = "";
+  for (const [name, text] of Object.entries(n.components)) {
+    const escaped = text.replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;");
+    comps += '<div class="tt-comp-name">' + name + '</div><div class="tt-comp-text">' + escaped + '</div>';
+  }
+
+  return '<div class="tt-header">Candidate ' + n.idx + roleBadge + '</div>' +
+    '<div class="tt-meta">Score: <strong>' + n.score + '</strong>&nbsp;&nbsp;|&nbsp;&nbsp;Parent(s): ' + n.parents +
+    '</div><div class="tt-hint">' + (pinnedIdx === idx ? 'Click node again to dismiss' : 'Click to pin &amp; scroll') + '</div>' +
+    comps;
+}
+
+function positionTooltip(x, y) {
+  const tt = document.getElementById("tooltip");
+  let tx = x + 16, ty = y + 16;
+  const r = tt.getBoundingClientRect();
+  if (tx + r.width > window.innerWidth - 8) tx = x - r.width - 16;
+  if (ty + r.height > window.innerHeight - 8) ty = y - r.height - 16;
+  if (tx < 8) tx = 8;
+  if (ty < 8) ty = 8;
+  tt.style.left = tx + "px";
+  tt.style.top = ty + "px";
+}
+
+function showTooltip(idx, x, y) {
+  const tt = document.getElementById("tooltip");
+  tt.innerHTML = renderTooltip(idx);
+  tt.style.display = "block";
+  positionTooltip(x, y);
+}
+
+function hideTooltip() {
+  pinnedIdx = null;
+  hoverIdx = null;
+  document.getElementById("tooltip").style.display = "none";
+}
+
+// Click outside tooltip and outside nodes dismisses pinned tooltip
+document.addEventListener("mousedown", function(e) {
+  const tt = document.getElementById("tooltip");
+  if (pinnedIdx !== null && tt.style.display === "block"
+      && !tt.contains(e.target) && !e.target.closest(".node")) {
+    hideTooltip();
+  }
+});
+
+async function render() {
+  const { instance } = await import("https://cdn.jsdelivr.net/npm/@viz-js/viz@3.11.0/lib/viz-standalone.mjs");
+  const viz = await instance();
+  const svg = viz.renderSVGElement(DOT);
+  const container = document.getElementById("graph-container");
+  container.innerHTML = "";
+  container.appendChild(svg);
+
+  // Attach hover listeners and strip native <title> tooltips to avoid double tooltips
+  svg.querySelectorAll(".node").forEach(node => {
+    const title = node.querySelector("title");
+    if (!title) return;
+    const idx = parseInt(title.textContent, 10);
+    if (isNaN(idx)) return;
+    title.remove();  // remove native SVG tooltip
+    node.style.cursor = "pointer";
+    // Hover: show tooltip following the mouse (non-interactive)
+    node.addEventListener("mouseenter", e => {
+      if (pinnedIdx !== null) return;  // don't override a pinned tooltip
+      hoverIdx = idx;
+      showTooltip(idx, e.clientX, e.clientY);
+    });
+    node.addEventListener("mousemove", e => {
+      if (pinnedIdx !== null || hoverIdx !== idx) return;
+      positionTooltip(e.clientX, e.clientY);
+    });
+    node.addEventListener("mouseleave", () => {
+      if (pinnedIdx !== null) return;
+      hoverIdx = null;
+      document.getElementById("tooltip").style.display = "none";
+    });
+    // Click: pin the tooltip so user can scroll it
+    node.addEventListener("click", e => {
+      e.stopPropagation();
+      if (pinnedIdx === idx) { hideTooltip(); return; }
+      pinnedIdx = idx;
+      showTooltip(idx, e.clientX, e.clientY);
+    });
+  });
+  // Also strip <title> from edges and the graph itself
+  svg.querySelectorAll(".edge title").forEach(t => t.remove());
+  const graphTitle = svg.querySelector(":scope > title");
+  if (graphTitle) graphTitle.remove();
+}
+
+render().catch(err => {
+  document.getElementById("graph-container").innerHTML =
+    "<p style='color:red'>Failed to render graph: " + err.message + "</p>" +
+    "<pre>" + DOT.replace(/</g,"&lt;") + "</pre>";
+});
+</script>
+</body>
+</html>

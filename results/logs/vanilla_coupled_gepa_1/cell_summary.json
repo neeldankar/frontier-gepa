@@ -1,0 +1,30 @@
+{
+  "arm": "vanilla_coupled_gepa",
+  "seed": 1,
+  "n_iter_target": 44,
+  "state_i_final": 43,
+  "total_num_evals": 774,
+  "n_candidates": 7,
+  "accepted_in_iters": [
+    16,
+    24,
+    30,
+    31,
+    33,
+    37
+  ],
+  "best_idx": 5,
+  "best_val_f1": 0.6230101010101009,
+  "avg_test_f1": 0.6241726427694171,
+  "n_test": 300,
+  "wall_time_s": 456.93,
+  "cost": {
+    "task_tokens_in": 1676397,
+    "task_tokens_out": 92452,
+    "refl_tokens_in": 80457,
+    "refl_tokens_out": 11234,
+    "cost_usd": 0.403927
+  },
+  "git_commit": "89322eb45269a6d633a9e927ae676d3b67125f55",
+  "completed_at": "2026-06-02T00:35:40"
+}

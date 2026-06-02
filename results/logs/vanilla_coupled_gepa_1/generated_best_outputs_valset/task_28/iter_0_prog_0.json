@@ -1,0 +1,39 @@
+{
+    "answer": "Love Actually",
+    "summary_1": "Gregor Fisher had a role in the 2003 Christmas-themed romantic comedy \"Love Actually\".",
+    "summary_2": "Gregor Fisher had a role in the 2003 Christmas-themed romantic comedy \"Love Actually\", as mentioned in the summary of the first pass. This information is further supported by the passage which details Fisher's involvement in the film alongside other actors such as Joanne Froggatt and Mhairi Morrison.",
+    "hop1_titles": [
+        "Missing (Alvtegen novel)",
+        "Love Actually",
+        "Scotch and Wry",
+        "Whisky Galore! (2016 film)",
+        "The Baldy Man"
+    ],
+    "hop2_titles": [
+        "Missing (2006 TV series)",
+        "Andrew Lincoln",
+        "Gregor Fisher",
+        "Rab C. Nesbitt",
+        "Chewin' the Fat"
+    ],
+    "hop1_paragraphs": [
+        "Missing (Swedish: Saknad ) is a 2000 crime fiction novel by Swedish author Karin Alvtegen.  The psychological thriller is set in Alvtegen's native Sweden.  It received the 2001 Glass Key, the Nordic literature award for best crime fiction.  The story was translated into English in 2003, and later adapted for television as a 2006 movie, directed by Ian Madden and starring Joanne Frogatt and Gregor Fisher.",
+        "Love Actually is a 2003 Christmas-themed romantic comedy film written and directed by Richard Curtis.  It features an ensemble cast, many of whom had worked with Curtis in previous film and television projects.  The screenplay delves into different aspects of love as shown through ten separate stories involving a wide variety of individuals, many of whom are shown to be interlinked as their tales progress.  Most of the film was filmed on location in London.  The story begins five weeks before Christmas and is played out in a weekly countdown until the holiday, followed by an epilogue that takes place one month later.",
+        "Scotch and Wry was a Scottish television comedy sketch show produced by BBC Scotland and starring Rikki Fulton and a revolving ensemble cast which over the years included Gregor Fisher, Tony Roper, Claire Nielson, Juliet Cadzow and John Bett.",
+        "Whisky Galore!  is a 2016 British film, a remake of the 1949 Ealing Comedy of the same name.  It was directed by Gillies MacKinnon and stars Gregor Fisher, Eddie Izzard, Sean Biggerstaff and Naomi Battrick.  The film premiered at the 2016 Edinburgh Film Festival and will get general release in the UK in May 2017.",
+        "The Baldy Man is a television series starring Gregor Fisher, a Scottish comedian.  It was broadcast in two series comprising thirteen episodes on ITV, screening in 1995 and 1997, was made by The Comedy Unit.  The character's chief attributes were his comb over hairstyle as well as his bumbling nature and plump figure.  The series was produced and directed by Colin Gilbert who worked with Fisher in Scotland's well known situation comedy \"Rab C. Nesbitt\" among many others.  It was written by Philip Differ who was the script editor on \"Naked Video\".  The character first appeared in a series of sketches in the BBC Scotland show \"Naked Video\" (1986-1991)"
+    ],
+    "hop2_paragraphs": [
+        "Missing is a British crime drama television series, created by crime author Karin Alvtegen, which was first broadcast on STV on 2 November 2008.  Despite being filmed for broadcast and shown in the United States in 2006, the series was not aired in its native country until over two years later.  Joanne Froggatt, Gregor Fisher and Mhairi Morrison star in the two-part drama (separated into three-parts for repeat viewings), with Froggatt's character, Sybil Foster, becoming the prime suspect in a murder investigation, and Fisher and Morrison's characters acting as the investigating officers.  \"Missing\" was released on Region 1 DVD on 5 September 2006.",
+        "Andrew James Clutterbuck (born 14 September 1973), better known by his stage name Andrew Lincoln, is an English actor.  He is most recognised for his portrayal of Rick Grimes, the lead character in the AMC post-apocalyptic horror television series\u2014based on the eponymous comic book series of the same name\u2014\"The Walking Dead\".  His first major role was in the BBC drama \"This Life\", followed by roles such as Simon Casey in the Channel 4 sitcom \"Teachers\" and Mark in the Christmas-themed romantic comedy film \"Love Actually\" (2003).",
+        "Gregor Fisher (born 22 December 1953) is a Scottish comedian and actor.  He is perhaps best known for his long portrayal as protagonist and suffering Glasgow alcoholic Rab, in the popular comedy series \"Rab C. Nesbitt\", a role he has held since the show's first episode in 1988.  He has also had roles in films such as \"Love Actually\", \"Lassie\" and \"Wild Target\".",
+        "Rab C. Nesbitt is a Scottish comedy series which began in 1988.  Produced by BBC Scotland, it stars Gregor Fisher as an alcoholic Glaswegian who seeks unemployment as a lifestyle choice.  Rab C. Nesbitt was originally a recurring character in the BBC Two Scotland sketch series \"Naked Video\" (1986\u20131990).",
+        "Chewin' the Fat is a Scottish comedy sketch show, starring Ford Kiernan, Greg Hemphill and Karen Dunbar.  Comedians Paul Riley and Mark Cox also appeared regularly on the show among other actors such as Gregor Fisher and Tom Urie."
+    ],
+    "hop1_gold_titles": [
+        "Love Actually"
+    ],
+    "hop2_gold_titles": [
+        "Gregor Fisher"
+    ]
+}

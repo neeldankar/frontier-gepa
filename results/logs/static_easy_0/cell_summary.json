@@ -1,0 +1,33 @@
+{
+  "arm": "static_easy",
+  "seed": 0,
+  "n_iter_target": 44,
+  "state_i_final": 43,
+  "total_num_evals": 1662,
+  "n_candidates": 10,
+  "accepted_in_iters": [
+    3,
+    9,
+    10,
+    16,
+    21,
+    22,
+    25,
+    26,
+    41
+  ],
+  "best_idx": 3,
+  "best_val_f1": 0.6684598364598364,
+  "avg_test_f1": 0.626703944800719,
+  "n_test": 300,
+  "wall_time_s": 633.74,
+  "cost": {
+    "task_tokens_in": 3203442,
+    "task_tokens_out": 167948,
+    "refl_tokens_in": 62905,
+    "refl_tokens_out": 10056,
+    "cost_usd": 0.71553
+  },
+  "git_commit": "89322eb45269a6d633a9e927ae676d3b67125f55",
+  "completed_at": "2026-06-01T22:57:05"
+}

@@ -1,0 +1,39 @@
+{
+    "answer": "West v. Barnes",
+    "summary_1": "Reynolds v. Sims was decided in 1964, whereas the passage does not provide a specific year for West v. Barnes, but it is known that West v. Barnes was argued on August 2, 1791, and decided on August 3, 1791. Since West v. Barnes predates Reynolds v. Sims by more than a century, West v. Barnes was decided first.",
+    "summary_2": "West v. Barnes, decided on August 3, 1791, predates Reynolds v. Sims, which was decided in 1964. The provided passages do not contain information about the cases Selle v. Gibb or Reynolds v. Pegler, and thus do not affect the chronological order of the mentioned cases. Therefore, West v. Barnes was decided first.",
+    "hop1_titles": [
+        "Reynolds v. Sims",
+        "West v. Barnes",
+        "Reynolds v Times Newspapers Ltd",
+        "George Reynolds (Mormon)",
+        "Jameel v Wall Street Journal Europe Sprl"
+    ],
+    "hop2_titles": [
+        "Selle v. Gibb",
+        "Reynolds v. United States",
+        "Criminal law in the Waite Court",
+        "Reynolds v. Pegler",
+        "Charles Morgan Jr."
+    ],
+    "hop1_paragraphs": [
+        "Reynolds v. Sims, 377 U.S. 533 (1964) was a United States Supreme Court case that ruled that unlike in the election of the United States Senate, in the election of \"any\" chamber of a state legislature the electoral districts must be roughly equal in population (thus negating the traditional function of a State Senate, which was to allow rural counties to counter balance large towns and cities).  The case was brought on behalf of voters in Alabama by M.O. Sims, a taxpayer in Birmingham, Alabama, but affected both northern and southern states that had similarly failed to reapportion their legislatures in keeping with changes in state population after its application in five companion cases in Colorado, New York, Maryland, Virginia, and Delaware.",
+        "West v. Barnes, 2 U.S. 401 (1791), was the first United States Supreme Court decision and the earliest case calling for oral argument. \" Van Staphorst v. Maryland\" (1791) was docketed prior to \"West v. Barnes\" but settled before the Court heard the case: \"West\" was argued on August 2, 1791 and decided on August 3, 1791. \" Collet v. Collet\" (1791) was the first appellate case docketed with the Court but was dropped before it could be heard.  Supreme Court Reporter Alexander Dallas did not publish the justices' full opinions in \"West v. Barnes\", which were published in various newspapers around the country at the time, but he published an abbreviated summary of the decisions.",
+        "Reynolds v Times Newspapers Ltd was a House of Lords case in English defamation law concerning qualified privilege for publication of defamatory statements in the public interest.",
+        "George Reynolds (January 1, 1842 \u2013 August 9, 1909) was a general authority of The Church of Jesus Christ of Latter-day Saints (LDS Church), a longtime secretary to the First Presidency of the LDS Church, and a party to the 1878 United States Supreme Court case \"Reynolds v. United States\", the first freedom of religion case to issue from that court.",
+        "Jameel v Wall Street Journal Europe was a House of Lords judgment on English defamation law.  The judgment was an affirmation of \"Reynolds v Times Newspapers Ltd\" and effectively upholds a public interest defence in libel cases."
+    ],
+    "hop2_paragraphs": [
+        "Selle v. Gibb, 741 F.2d 896 (7th Cir.  1984) was a landmark ruling on the doctrine of striking similarities.  The U.S. Court of Appeals for the Seventh Circuit ruled that while copying must be proved by access and substantial similarity, where evidence of access does not exist, striking similarities may raise an inference of copying by showing that the work could not have been the result of independent creation, coincidence, or common source.  Striking similarity alone is not enough to infer access.  The similarity must preclude independent creation in order to infer access.",
+        "Reynolds v. United States, 98 U.S. (8 Otto.)  145 (1878), was a Supreme Court of the United States case that held that religious duty was not a defense to a criminal indictment.  \"Reynolds\" was the first Supreme Court opinion to address the Impartial Jury and the Confrontation Clauses of the Sixth Amendment.",
+        "During the tenure of Morrison Waite as Chief Justice of the Supreme Court of the United States (March 4, 1874 through March 23, 1888), the Supreme Court heard an unprecedented volume and frequency of criminal cases.  In just fourteen years, the Court heard 106 criminal cases, almost as many cases as the Supreme Court had heard in the period from its creation to the appointment of Waite as Chief Justice.  Notable cases include \"United States v. Cruikshank\" (1875), \"United States v. Reese\" (1875), \"Reynolds v. United States\" (1878), \"Wilkerson v. Utah\" (1879), the \"Trade-Mark Cases\" (1879), \"Strauder v. West Virginia\" (1880), \"Pace v. Alabama\" (1883), \"United States v. Harris\" (1883), \"Ex parte Crow Dog\" (1883), \"Hurtado v. California\" (1884), \"Clawson v. United States\" (1885), \"Yick Wo v. Hopkins\" (1886), \"United States v. Kagama\" (1886), \"Ker v. Illinois\" (1886), and \"Mugler v. Kansas\" (1887).",
+        "Reynolds v. Pegler, 223 F.2d 429 (2nd Cir.  1955), was a landmark libel decision in which Quentin Reynolds successfully sued right-wing columnist Westbrook Pegler, resulting in a record judgment of $175,001.",
+        "Charles \"Chuck\" Morgan Jr. (March 11, 1930 \u2013 January 8, 2009) was an American civil rights attorney from Alabama who played a key role in establishing the principle of \"one man, one vote\" in the Supreme Court of the United States decision in the 1964 case \"Reynolds v. Sims\" and represented Julian Bond and Muhammad Ali in their legal battles."
+    ],
+    "hop1_gold_titles": [
+        "Reynolds v. Sims"
+    ],
+    "hop2_gold_titles": [
+        "Selle v. Gibb"
+    ]
+}

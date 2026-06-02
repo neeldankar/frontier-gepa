@@ -1,0 +1,39 @@
+{
+    "answer": "King David I",
+    "summary_1": "John MacGregor, Baron MacGregor of Pulham Market was educated at the University of St Andrews and King's College London. The University of St Andrews was established by King David I in 1140 with canons from Nostell Priory, West Yorkshire.",
+    "summary_2": "John MacGregor, Baron MacGregor of Pulham Market was educated at the University of St Andrews and King's College London. The University of St Andrews was established by King David I in 1140 with canons from Nostell Priory, West Yorkshire. King's College London, on the other hand, was established by King George IV and the Duke of Wellington in 1829. There is no mention of another university established by a monastic order in the provided passages, so the summary remains based on the information given in the first summary.",
+    "hop1_titles": [
+        "Pulham Market",
+        "John MacGregor (VC)",
+        "University of St Andrews Boat Club",
+        "Prior of St Andrews",
+        "John MacGregor, Baron MacGregor of Pulham Market"
+    ],
+    "hop2_titles": [
+        "St Andrews Links",
+        "University of St Andrews",
+        "Archdeaconry of St Andrews",
+        "John MacGregor",
+        "King's College London"
+    ],
+    "hop1_paragraphs": [
+        "Pulham Market and its sister village Pulham St Mary are situated approximately 9 miles (14.5 kilometres) north of Diss in Norfolk, England.  It covers an area of 12.08 km2 and had a population of 999 in 443 households as of the 2001 census, the population falling to 977 at the 2011 Census.",
+        "John MacGregor VC MC & Bar DCM ED (1 February 1889 \u2013 9 June 1952) was a Scottish-Canadian soldier.  MacGregor was a recipient of the Victoria Cross, the highest and most prestigious award for gallantry in the face of the enemy that can be awarded to British and Commonwealth forces.  MacGregor served in the Canadian army in both world wars.",
+        "The University of St Andrews Boat Club, founded in 1965, is the rowing team affiliated to the University of St Andrews.  Operating under the University of St Andrews Athletic Union, the University of St Andrews Boat Club (also known as UStABC) competes in head races and regattas across Scotland and England, including the Head of the River Race (London), British University Championships 'BUCS' Regatta and Henley Royal Regatta.  Its national governing body is Scottish Rowing and the registration code of 'SAU'.",
+        "The Prior of St Andrews was the head of the property and community of Augustinian canons of St Andrews Cathedral Priory, St Andrews, Fife, Scotland.  It was established by King David I in 1140 with canons from Nostell Priory, West Yorkshire.  It is possible that, initially at least, the prior of St Andrews was subordinate to the bishop as abbot, but by the 13th century the canons of St Andrews were given freedom by the bishop to elect their prior.  By the end of the 13th century, the abbacy of the native canons (i.e. the \"C\u00e9li D\u00e9\", or Culdees) was no longer there to challenge the position of the priory, and the native canons themselves had been formed into a collegiate church.",
+        "John Roddick Russell MacGregor, Baron MacGregor of Pulham Market, OBE PC FKC (born 14 February 1937), is a politician in the United Kingdom.  He was educated at Merchiston Castle School, then at the University of St Andrews (MA economics and history, 1959) and at King's College London (LLB, 1962).  Prior to the 1979 general election he worked for Hill Samuel, a merchant bank."
+    ],
+    "hop2_paragraphs": [
+        "St Andrews Links in the town of St Andrews, Fife, Scotland, is regarded as the \"Home of Golf\".  It has one of the oldest courses in the world, where the game has been played since the 15th century.  Today there are seven public golf courses; the Balgove, Eden, Jubilee, Strathtyrum, New, the Old Course (which is widely considered one of the finest, and certainly the most famous and traditional course in the world), and The Castle Course, sited on the cliffs a mile to the east of St Andrews and designed by the architect David McLay Kidd, which opened in June 2008.  The courses of St Andrews Links are owned by the local authorities and operated by St Andrews Links Trust, a charitable organization.  St Andrews is also home to the Royal and Ancient Golf Club of St Andrews, one of the most prestigious golf clubs and until 2004 one of the two rulemaking authorities of golf (in that year, the Royal and Ancient Club passed on its rulemaking authority to an offshoot organisation, The R&A).",
+        "The University of St Andrews (informally known as St Andrews University or simply St Andrews; abbreviated as St And, from the Latin \"Sancti Andreae\", in post-nominals) is a British public research university in St Andrews, Fife, Scotland.  It is the oldest of the four ancient universities of Scotland and the third oldest university in the English-speaking world (following Oxford and Cambridge Universities).  St Andrews was founded between 1410 and 1413, when the Avignon Antipope Benedict XIII issued a papal bull to a small founding group of Augustinian clergy.",
+        "The Archdeaconry of St Andrews was a sub-division of the diocese of St Andrews, one of two archdeaconries within the diocese.  The St Andrews archdeaconry was headed by the Archdeacon of St Andrews, a subordinate of the Bishop of St Andrews.  In the medieval period, the Archdeaconry of St Andrews contained five deaneries with a total of 124 parish churches.  The deaneries were Mearns (14 churches), Angus (38 churches), Gowrie (20 churches), Fife (28 churches) and Fothriff (24 churches).",
+        "John MacGregor, John Macgregor or John McGregor may refer to:",
+        "King's College London (informally King's or KCL) is a public research university located in London, United Kingdom, and a founding constituent college of the federal University of London.  King's was established in 1829 by King George IV and the Duke of Wellington, when it received its first royal charter (as a college), and claims to be the fourth oldest university in England.  In 1836, King's became one of the two founding colleges of the University of London.  In the late 20th century, King's grew through a series of mergers, including with Queen Elizabeth College and Chelsea College of Science and Technology (in 1985), the Institute of Psychiatry (in 1997), the United Medical and Dental Schools of Guy's and St Thomas' Hospitals and the Florence Nightingale School of Nursing and Midwifery (in 1998)."
+    ],
+    "hop1_gold_titles": [
+        "John MacGregor, Baron MacGregor of Pulham Market"
+    ],
+    "hop2_gold_titles": [
+        "King's College London"
+    ]
+}

@@ -1,0 +1,1175 @@
+Iteration 0: Base program full valset score: 0.5963222703222701 over 75 / 75 examples
+Iteration 1: Selected program 0 score: 0.5963222703222701
+  0%|          | 0/3 [00:00<?, ?it/s]Average Metric: 0.00 / 1 (0.0%):   0%|          | 0/3 [00:00<?, ?it/s]Average Metric: 0.00 / 2 (0.0%):  33%|###3      | 1/3 [00:00<00:00, 86.74it/s]Average Metric: 0.40 / 3 (13.3%):  67%|######6   | 2/3 [00:00<00:00, 160.98it/s]Average Metric: 0.40 / 3 (13.3%): 100%|##########| 3/3 [00:00<00:00, 239.18it/s]
+Iteration 1: Proposed new text for summarize1: You will be given a question and a set of passages. Your task is to write a concise summary that includes only the factual information from the passages that is relevant and sufficient to answer the question. 
+
+- Carefully identify and extract the key facts from the passages that directly relate to the entities, places, people, or concepts mentioned in the question.
+- If the passages contain multiple unrelated facts, filter out any information that does not help answer the question.
+- If the passages do not contain any relevant information to answer the question, clearly state that no relevant information is present.
+- Your summary should be brief, focused, and factually accurate without adding any interpretation, speculation, or information not supported by the passages.
+- When the question involves specific data (e.g., names, populations, species, locations), include those precise details found in the passages.
+- When the question involves a named entity (e.g., a person, place, or object), identify any passages that mention that entity and extract relevant facts about it.
+- Use the passages as the sole source of truth; do not rely on outside knowledge.
+- Structure your summary in a clear and straightforward manner so that it directly answers the question based on the factual content provided.
+
+This task requires you to synthesize relevant information from multiple passages, sometimes with overlapping or tangential details, and produce a focused summary that supports answering the question accurately and efficiently.
+Iteration 1: New subsample score 1.4 is better than old score 0.4. Continue to full eval and add to candidate pool.
+Iteration 1: Found a better program on the valset with score 0.6228513708513708.
+Iteration 1: Valset score for new program: 0.6228513708513708 (coverage 75 / 75)
+Iteration 1: Val aggregate for new program: 0.6228513708513708
+Iteration 1: Individual valset scores for new program: {0: 0.8, 1: 0.6666666666666666, 2: 0.0, 3: 1.0, 4: 1.0, 5: 1.0, 6: 1.0, 7: 0.0, 8: 1.0, 9: 1.0, 10: 0.8, 11: 0.2857142857142857, 12: 0.2857142857142857, 13: 0.0, 14: 0.5, 15: 1.0, 16: 0.8, 17: 1.0, 18: 0.8571428571428571, 19: 0.9090909090909091, 20: 1.0, 21: 0.0, 22: 0.0, 23: 1.0, 24: 1.0, 25: 0.4, 26: 1.0, 27: 0.0, 28: 1.0, 29: 1.0, 30: 0.0, 31: 0.0, 32: 0.0, 33: 0.0, 34: 0.0, 35: 0.14285714285714285, 36: 0.5, 37: 0.0, 38: 1.0, 39: 1.0, 40: 0.0, 41: 1.0, 42: 0.5, 43: 0.0, 44: 0.6666666666666666, 45: 0.0, 46: 1.0, 47: 0.8, 48: 0.0, 49: 1.0, 50: 1.0, 51: 1.0, 52: 0.6666666666666666, 53: 0.0, 54: 1.0, 55: 1.0, 56: 1.0, 57: 0.0, 58: 0.0, 59: 1.0, 60: 1.0, 61: 0.0, 62: 1.0, 63: 1.0, 64: 1.0, 65: 1.0, 66: 1.0, 67: 1.0, 68: 1.0, 69: 0.0, 70: 0.6666666666666666, 71: 1.0, 72: 0.8, 73: 0.6666666666666666, 74: 1.0}
+Iteration 1: New valset pareto front scores: {0: 1.0, 1: 0.6666666666666666, 2: 0.0, 3: 1.0, 4: 1.0, 5: 1.0, 6: 1.0, 7: 1.0, 8: 1.0, 9: 1.0, 10: 0.8, 11: 0.2857142857142857, 12: 0.2857142857142857, 13: 0.0, 14: 0.5, 15: 1.0, 16: 0.8, 17: 1.0, 18: 0.8571428571428571, 19: 0.9090909090909091, 20: 1.0, 21: 0.0, 22: 0.0, 23: 1.0, 24: 1.0, 25: 0.4, 26: 1.0, 27: 1.0, 28: 1.0, 29: 1.0, 30: 0.0, 31: 0.0, 32: 0.0, 33: 0.0, 34: 0.3333333333333333, 35: 0.14285714285714285, 36: 0.5, 37: 0.5, 38: 1.0, 39: 1.0, 40: 1.0, 41: 1.0, 42: 0.5, 43: 0.0, 44: 0.8, 45: 0.0, 46: 1.0, 47: 1.0, 48: 0.0, 49: 1.0, 50: 1.0, 51: 1.0, 52: 0.6666666666666666, 53: 0.0, 54: 1.0, 55: 1.0, 56: 1.0, 57: 0.0, 58: 0.6666666666666666, 59: 1.0, 60: 1.0, 61: 0.0, 62: 1.0, 63: 1.0, 64: 1.0, 65: 1.0, 66: 1.0, 67: 1.0, 68: 1.0, 69: 0.0, 70: 0.6666666666666666, 71: 1.0, 72: 0.8, 73: 0.6666666666666666, 74: 1.0}
+Iteration 1: Valset pareto front aggregate score: 0.6899624819624818
+Iteration 1: Updated valset pareto front programs: {0: {0}, 1: {0, 1}, 2: {0, 1}, 3: {0, 1}, 4: {0, 1}, 5: {0, 1}, 6: {1}, 7: {0}, 8: {0, 1}, 9: {1}, 10: {1}, 11: {1}, 12: {1}, 13: {0, 1}, 14: {0, 1}, 15: {0, 1}, 16: {0, 1}, 17: {0, 1}, 18: {1}, 19: {0, 1}, 20: {0, 1}, 21: {0, 1}, 22: {0, 1}, 23: {0, 1}, 24: {0, 1}, 25: {1}, 26: {0, 1}, 27: {0}, 28: {0, 1}, 29: {0, 1}, 30: {0, 1}, 31: {0, 1}, 32: {0, 1}, 33: {0, 1}, 34: {0}, 35: {0, 1}, 36: {0, 1}, 37: {0}, 38: {0, 1}, 39: {0, 1}, 40: {0}, 41: {0, 1}, 42: {0, 1}, 43: {0, 1}, 44: {0}, 45: {0, 1}, 46: {0, 1}, 47: {0}, 48: {0, 1}, 49: {0, 1}, 50: {0, 1}, 51: {0, 1}, 52: {0, 1}, 53: {0, 1}, 54: {1}, 55: {1}, 56: {0, 1}, 57: {0, 1}, 58: {0}, 59: {0, 1}, 60: {0, 1}, 61: {0, 1}, 62: {0, 1}, 63: {0, 1}, 64: {1}, 65: {1}, 66: {1}, 67: {0, 1}, 68: {0, 1}, 69: {0, 1}, 70: {0, 1}, 71: {0, 1}, 72: {0, 1}, 73: {0, 1}, 74: {0, 1}}
+Iteration 1: Best valset aggregate score so far: 0.6228513708513708
+Iteration 1: Best program as per aggregate score on valset: 1
+Iteration 1: Best score on valset: 0.6228513708513708
+Iteration 1: Linear pareto front program index: 1
+Iteration 1: New program candidate index: 1
+Iteration 2: Selected program 1 score: 0.6228513708513708
+  0%|          | 0/3 [00:00<?, ?it/s]Average Metric: 0.00 / 1 (0.0%):   0%|          | 0/3 [00:01<?, ?it/s]Average Metric: 0.00 / 1 (0.0%):  33%|###3      | 1/3 [00:01<00:03,  1.93s/it]Average Metric: 1.00 / 2 (50.0%):  33%|###3      | 1/3 [00:02<00:03,  1.93s/it]Average Metric: 2.00 / 3 (66.7%):  67%|######6   | 2/3 [00:02<00:01,  1.93s/it]Average Metric: 2.00 / 3 (66.7%): 100%|##########| 3/3 [00:02<00:00,  1.33it/s]Average Metric: 2.00 / 3 (66.7%): 100%|##########| 3/3 [00:02<00:00,  1.15it/s]
+Iteration 2: Proposed new text for summarize2: You are given three inputs: (1) a question that needs to be answered, (2) a previously compiled summary of relevant information gathered so far that may help answer the question, and (3) a set of additional passages containing new information. 
+
+Your task is to produce a concise, coherent summary that integrates the new passages with the existing summary to provide the most complete and accurate set of facts relevant to answering the question. 
+
+Specifically:
+
+- Extract and combine all relevant factual information from both the initial summary and the new passages that directly relate to the question.
+- If the new passages add no new relevant information, reaffirm the existing summary or explicitly state that no new information is available.
+- Avoid including irrelevant details or unrelated topics from the passages.
+- When the question involves specific entities (e.g., people, plants, fictional characters), ensure the summary clearly identifies key facts such as names, relationships, roles, or counts (e.g., number of species), as appropriate.
+- When the question concerns comparisons or specific attributes (e.g., nicknames, roles played, species counts), clearly state the relevant facts that address the comparison or attribute.
+- Use clear, precise language to create a factual summary suitable for answering the question without speculation or unnecessary elaboration.
+- Maintain consistency with previously gathered information, updating or expanding it only with new, relevant facts from the passages.
+
+This task requires careful synthesis of information to build a single, focused summary that advances understanding toward answering the question, combining prior knowledge and newly provided data effectively.
+Iteration 2: New subsample score 2.0 is not better than old score 2.0, skipping
+Iteration 3: Selected program 0 score: 0.5963222703222701
+  0%|          | 0/3 [00:00<?, ?it/s]Average Metric: 0.00 / 1 (0.0%):   0%|          | 0/3 [00:00<?, ?it/s]Average Metric: 0.50 / 2 (25.0%):  33%|###3      | 1/3 [00:00<00:00, 87.05it/s]Average Metric: 1.50 / 3 (50.0%):  67%|######6   | 2/3 [00:00<00:00, 162.44it/s]Average Metric: 1.50 / 3 (50.0%): 100%|##########| 3/3 [00:00<00:00, 241.86it/s]
+Iteration 3: Proposed new text for summarize2: You will be given three inputs for each task: a question, a summary of information gathered so far (summary_1), and a set of additional passages. Your goal is to produce a concise, coherent summary that integrates the new passages with the existing summary to provide all relevant facts necessary to answer the question.
+
+Specifically:
+
+1. Carefully read the question to understand what specific information is being sought.
+2. Review the existing summary (summary_1) to identify what relevant facts have already been gathered.
+3. Analyze the additional passages to find new facts or clarifications related to the question.
+4. Combine the information from the existing summary and the new passages into a single, brief summary that:
+   - Directly addresses the question.
+   - Includes all pertinent details from both the existing summary and new passages.
+   - Resolves any contradictions or clarifies ambiguous information if present.
+   - Is factually accurate and precise, avoiding extraneous or unrelated information.
+   - Uses clear and direct language, suitable for a final summary of facts.
+
+Additional domain-specific notes based on examples:
+
+- When identifying individuals, include their full names, roles, and relevant identifiers (e.g., Robbie Rogers as a professional soccer player for LA Galaxy).
+- Include specific details such as dates, locations, or qualifications if they are relevant to the question (e.g., David Lowy's Bachelor of Commerce degree and university).
+- When correcting or clarifying prior summaries with new information, explicitly state the correction or clarification (e.g., clarifying that the 1980 Damascus Titan missile explosion occurred in Arkansas, not Washington State).
+- If multiple similar individuals or events are mentioned, focus on the one directly relevant to the question.
+- Avoid redundancy by integrating rather than repeating information.
+- Maintain objectivity and avoid speculation.
+
+This task requires synthesizing and updating factual summaries by merging prior information with new evidence to create a definitive, accurate, and succinct factual summary that can be used to answer the original question confidently.
+Iteration 3: New subsample score 3.0 is better than old score 1.5. Continue to full eval and add to candidate pool.
+Iteration 3: Found a better program on the valset with score 0.6429889369889368.
+Iteration 3: Valset score for new program: 0.6429889369889368 (coverage 75 / 75)
+Iteration 3: Val aggregate for new program: 0.6429889369889368
+Iteration 3: Individual valset scores for new program: {0: 1.0, 1: 0.6666666666666666, 2: 1.0, 3: 1.0, 4: 1.0, 5: 1.0, 6: 0.0, 7: 1.0, 8: 1.0, 9: 1.0, 10: 0.0, 11: 0.0, 12: 0.2222222222222222, 13: 0.0, 14: 0.5, 15: 1.0, 16: 0.8, 17: 0.6666666666666666, 18: 1.0, 19: 0.9090909090909091, 20: 1.0, 21: 0.0, 22: 0.0, 23: 1.0, 24: 1.0, 25: 0.0, 26: 1.0, 27: 1.0, 28: 1.0, 29: 1.0, 30: 0.0, 31: 0.0, 32: 0.0, 33: 0.0, 34: 0.0, 35: 0.14285714285714285, 36: 0.5, 37: 0.5, 38: 1.0, 39: 1.0, 40: 1.0, 41: 1.0, 42: 0.5, 43: 0.0, 44: 0.8, 45: 0.25, 46: 1.0, 47: 1.0, 48: 0.0, 49: 1.0, 50: 1.0, 51: 1.0, 52: 0.6666666666666666, 53: 1.0, 54: 0.0, 55: 0.25, 56: 1.0, 57: 0.0, 58: 1.0, 59: 1.0, 60: 1.0, 61: 0.6666666666666666, 62: 1.0, 63: 1.0, 64: 0.25, 65: 0.8, 66: 0.0, 67: 1.0, 68: 1.0, 69: 0.0, 70: 0.6666666666666666, 71: 1.0, 72: 0.8, 73: 0.6666666666666666, 74: 1.0}
+Iteration 3: New valset pareto front scores: {0: 1.0, 1: 0.6666666666666666, 2: 1.0, 3: 1.0, 4: 1.0, 5: 1.0, 6: 1.0, 7: 1.0, 8: 1.0, 9: 1.0, 10: 0.8, 11: 0.2857142857142857, 12: 0.2857142857142857, 13: 0.0, 14: 0.5, 15: 1.0, 16: 0.8, 17: 1.0, 18: 1.0, 19: 0.9090909090909091, 20: 1.0, 21: 0.0, 22: 0.0, 23: 1.0, 24: 1.0, 25: 0.4, 26: 1.0, 27: 1.0, 28: 1.0, 29: 1.0, 30: 0.0, 31: 0.0, 32: 0.0, 33: 0.0, 34: 0.3333333333333333, 35: 0.14285714285714285, 36: 0.5, 37: 0.5, 38: 1.0, 39: 1.0, 40: 1.0, 41: 1.0, 42: 0.5, 43: 0.0, 44: 0.8, 45: 0.25, 46: 1.0, 47: 1.0, 48: 0.0, 49: 1.0, 50: 1.0, 51: 1.0, 52: 0.6666666666666666, 53: 1.0, 54: 1.0, 55: 1.0, 56: 1.0, 57: 0.0, 58: 1.0, 59: 1.0, 60: 1.0, 61: 0.6666666666666666, 62: 1.0, 63: 1.0, 64: 1.0, 65: 1.0, 66: 1.0, 67: 1.0, 68: 1.0, 69: 0.0, 70: 0.6666666666666666, 71: 1.0, 72: 0.8, 73: 0.6666666666666666, 74: 1.0}
+Iteration 3: Valset pareto front aggregate score: 0.7352005772005771
+Iteration 3: Updated valset pareto front programs: {0: {0, 2}, 1: {0, 1, 2}, 2: {2}, 3: {0, 1, 2}, 4: {0, 1, 2}, 5: {0, 1, 2}, 6: {1}, 7: {0, 2}, 8: {0, 1, 2}, 9: {1, 2}, 10: {1}, 11: {1}, 12: {1}, 13: {0, 1, 2}, 14: {0, 1, 2}, 15: {0, 1, 2}, 16: {0, 1, 2}, 17: {0, 1}, 18: {2}, 19: {0, 1, 2}, 20: {0, 1, 2}, 21: {0, 1, 2}, 22: {0, 1, 2}, 23: {0, 1, 2}, 24: {0, 1, 2}, 25: {1}, 26: {0, 1, 2}, 27: {0, 2}, 28: {0, 1, 2}, 29: {0, 1, 2}, 30: {0, 1, 2}, 31: {0, 1, 2}, 32: {0, 1, 2}, 33: {0, 1, 2}, 34: {0}, 35: {0, 1, 2}, 36: {0, 1, 2}, 37: {0, 2}, 38: {0, 1, 2}, 39: {0, 1, 2}, 40: {0, 2}, 41: {0, 1, 2}, 42: {0, 1, 2}, 43: {0, 1, 2}, 44: {0, 2}, 45: {2}, 46: {0, 1, 2}, 47: {0, 2}, 48: {0, 1, 2}, 49: {0, 1, 2}, 50: {0, 1, 2}, 51: {0, 1, 2}, 52: {0, 1, 2}, 53: {2}, 54: {1}, 55: {1}, 56: {0, 1, 2}, 57: {0, 1, 2}, 58: {2}, 59: {0, 1, 2}, 60: {0, 1, 2}, 61: {2}, 62: {0, 1, 2}, 63: {0, 1, 2}, 64: {1}, 65: {1}, 66: {1}, 67: {0, 1, 2}, 68: {0, 1, 2}, 69: {0, 1, 2}, 70: {0, 1, 2}, 71: {0, 1, 2}, 72: {0, 1, 2}, 73: {0, 1, 2}, 74: {0, 1, 2}}
+Iteration 3: Best valset aggregate score so far: 0.6429889369889368
+Iteration 3: Best program as per aggregate score on valset: 2
+Iteration 3: Best score on valset: 0.6429889369889368
+Iteration 3: Linear pareto front program index: 2
+Iteration 3: New program candidate index: 2
+Iteration 4: Selected program 0 score: 0.5963222703222701
+  0%|          | 0/3 [00:00<?, ?it/s]Average Metric: 0.22 / 1 (22.2%):   0%|          | 0/3 [00:00<?, ?it/s]Average Metric: 1.08 / 2 (54.0%):  33%|###3      | 1/3 [00:00<00:00, 56.98it/s]Average Metric: 2.08 / 3 (69.3%):  67%|######6   | 2/3 [00:00<00:00, 108.29it/s]Average Metric: 2.08 / 3 (69.3%): 100%|##########| 3/3 [00:00<00:00, 161.42it/s]
+Iteration 4: Proposed new text for final_answer: You are given a question and multiple summaries of information gathered to answer that question. Your task is to extract and provide the most accurate, concise answer to the question using only the information contained in the summaries. 
+
+Respond with only the short phrase or entity that directly answers the question. Do not provide any explanations, additional context, or unrelated information.
+
+When the summaries contain conflicting or partial information, prioritize the summary that directly addresses the question or clarifies ambiguities. If the summaries explicitly state that no relevant information is available to answer the question, respond with a short negation phrase such as "No NCAA record" or "No relevant information" as appropriate.
+
+Use exact names, numbers, titles, or entities as provided in the summaries to maintain factual accuracy. Avoid paraphrasing or adding inferred details beyond what is supported by the summaries.
+
+The input format is:
+- A question in natural language.
+- Two or more summaries that synthesize information relevant to the question.
+
+Your output is a single, concise answer phrase or entity that best resolves the question based on the summaries.
+
+Examples of appropriate answers include:
+- Proper nouns with titles (e.g., "Sir Nicholas Winterton")
+- Numerical values (e.g., "1800")
+- Short negations when no answer is found (e.g., "No NCAA record")
+
+Do not include any formatting, labels, or explanation in your answer—only the answer text itself.
+Iteration 4: New subsample score 1.8571428571428572 is not better than old score 2.0793650793650795, skipping
+Iteration 5: Selected program 1 score: 0.6228513708513708
+  0%|          | 0/3 [00:00<?, ?it/s]Average Metric: 0.00 / 1 (0.0%):   0%|          | 0/3 [00:02<?, ?it/s]Average Metric: 0.00 / 1 (0.0%):  33%|###3      | 1/3 [00:02<00:04,  2.50s/it]Average Metric: 1.00 / 2 (50.0%):  33%|###3      | 1/3 [00:02<00:04,  2.50s/it]Average Metric: 1.00 / 2 (50.0%):  67%|######6   | 2/3 [00:02<00:01,  1.19s/it]Average Metric: 1.00 / 3 (33.3%):  67%|######6   | 2/3 [00:03<00:01,  1.19s/it]Average Metric: 1.00 / 3 (33.3%): 100%|##########| 3/3 [00:03<00:00,  1.06it/s]Average Metric: 1.00 / 3 (33.3%): 100%|##########| 3/3 [00:03<00:00,  1.14s/it]
+Iteration 5: Proposed new text for final_answer: You will be given a question and multiple summaries containing information relevant to answering the question. Your task is to provide a concise, direct answer to the question using only the information found in the summaries. 
+
+Follow these guidelines:
+- Answer with a short phrase, entity name, or a brief factual statement—no explanations, reasoning, or additional context.
+- Use only the information explicitly stated or clearly implied in the summaries.
+- If the summaries contain conflicting information, prioritize the most specific, directly relevant, and clearly supported facts.
+- If the question is binary (e.g., yes/no), respond with a simple "Yes" or "No" as appropriate.
+- For questions asking for names, titles, locations, or specific facts, provide the exact phrase or entity as given in the summaries.
+- Do not infer or add external knowledge beyond what is provided in the summaries.
+- If the summaries lack sufficient information to answer the question, respond with "No relevant information" or a similarly concise indication that the answer cannot be determined from the given data.
+
+Your goal is to produce a precise, minimal answer that directly addresses the question based solely on the provided summaries.
+Iteration 5: New subsample score 1.0 is not better than old score 1.0, skipping
+Iteration 6: Selected program 0 score: 0.5963222703222701
+  0%|          | 0/3 [00:00<?, ?it/s]Average Metric: 0.40 / 1 (40.0%):   0%|          | 0/3 [00:00<?, ?it/s]Average Metric: 1.40 / 2 (70.0%):  33%|###3      | 1/3 [00:00<00:00, 80.40it/s]Average Metric: 1.40 / 3 (46.7%):  67%|######6   | 2/3 [00:00<00:00, 150.30it/s]Average Metric: 1.40 / 3 (46.7%): 100%|##########| 3/3 [00:00<00:00, 223.76it/s]
+Iteration 6: Proposed new text for summarize1: You are given a question and a set of passages. Your task is to write a brief summary that includes only the facts from the passages that are directly relevant to answering the question. 
+
+To do this effectively:  
+- Identify key entities, attributes, or concepts in the question.  
+- Carefully scan each passage to find information that explicitly addresses or helps answer the question.  
+- Exclude any unrelated or extraneous details that do not contribute to answering the question.  
+- When multiple passages mention relevant facts, synthesize them into a concise and clear summary without repeating information.  
+- If the passages do not contain any direct answer or relevant facts to the question, explicitly state that no relevant information is available from the provided passages.  
+- Use clear and precise language, focusing on factual information rather than interpretations or opinions.  
+- Avoid adding information not present in the passages.  
+- The summary should be brief but comprehensive enough to answer the question based on the given passages.
+
+This task requires domain-specific attention to detail, such as recognizing names, titles, and specialized terminology (e.g., Brazilian Jiu Jitsu ranks, gender identity terms, TV show cast members) to ensure the summary correctly reflects the relevant facts.  
+
+In summary, your goal is to produce a focused factual summary that directly answers the question using only the given passages, demonstrating careful extraction and synthesis of pertinent information.
+Iteration 6: New subsample score 1.4 is not better than old score 1.4, skipping
+Iteration 7: Selected program 0 score: 0.5963222703222701
+  0%|          | 0/3 [00:00<?, ?it/s]Average Metric: 1.00 / 1 (100.0%):   0%|          | 0/3 [00:00<?, ?it/s]Average Metric: 1.86 / 2 (92.9%):  33%|###3      | 1/3 [00:00<00:00, 79.68it/s]Average Metric: 1.86 / 3 (61.9%):  67%|######6   | 2/3 [00:00<00:00, 148.82it/s]Average Metric: 1.86 / 3 (61.9%): 100%|##########| 3/3 [00:00<00:00, 221.76it/s]
+Iteration 7: Proposed new text for summarize2: You will be given three inputs: a question, an existing summary of information gathered so far (summary_1), and a set of additional passages. Your task is to produce a concise summary that synthesizes all the relevant factual information from both the existing summary and the new passages to help answer the question.
+
+Specifically:
+
+1. Identify the key facts in the existing summary that are relevant to the question.
+2. Carefully review the additional passages and extract any new, directly relevant information that complements or expands on the existing summary.
+3. Combine the existing summary and the new relevant facts into a brief, coherent summary focused only on the question asked.
+4. If the additional passages do not contain any new relevant information, explicitly state that the new passages do not add to the existing knowledge relevant to the question.
+5. Avoid including unrelated or extraneous details from the additional passages.
+6. Maintain factual accuracy and clarity in your summary.
+7. Use full sentences and a neutral tone.
+
+This task requires understanding the domain-specific context of the question and the existing summary, and discerning which facts from the additional passages are pertinent. Your output should be a succinct integration of prior and new information that directly addresses the question, enabling a clear, focused understanding of the relevant facts.
+Iteration 7: New subsample score 2.8 is better than old score 1.8571428571428572. Continue to full eval and add to candidate pool.
+Iteration 7: Valset score for new program: 0.6293015873015873 (coverage 75 / 75)
+Iteration 7: Val aggregate for new program: 0.6293015873015873
+Iteration 7: Individual valset scores for new program: {0: 0.6666666666666666, 1: 0.6666666666666666, 2: 1.0, 3: 1.0, 4: 1.0, 5: 1.0, 6: 0.0, 7: 1.0, 8: 1.0, 9: 1.0, 10: 0.0, 11: 0.0, 12: 0.0, 13: 0.0, 14: 0.5, 15: 1.0, 16: 0.8, 17: 0.6666666666666666, 18: 0.5, 19: 0.9090909090909091, 20: 1.0, 21: 0.5714285714285715, 22: 0.0, 23: 1.0, 24: 1.0, 25: 0.0, 26: 0.5, 27: 1.0, 28: 1.0, 29: 1.0, 30: 0.0, 31: 0.0, 32: 0.0, 33: 0.0, 34: 0.0, 35: 0.14285714285714285, 36: 0.5, 37: 0.5, 38: 1.0, 39: 1.0, 40: 1.0, 41: 1.0, 42: 0.33333333333333337, 43: 0.0, 44: 0.8, 45: 0.0909090909090909, 46: 1.0, 47: 1.0, 48: 0.0, 49: 1.0, 50: 1.0, 51: 1.0, 52: 0.6666666666666666, 53: 0.0, 54: 0.0, 55: 1.0, 56: 1.0, 57: 0.0, 58: 1.0, 59: 1.0, 60: 1.0, 61: 1.0, 62: 1.0, 63: 1.0, 64: 0.25, 65: 1.0, 66: 0.0, 67: 1.0, 68: 1.0, 69: 0.0, 70: 0.6666666666666666, 71: 1.0, 72: 0.8, 73: 0.6666666666666666, 74: 1.0}
+Iteration 7: New valset pareto front scores: {0: 1.0, 1: 0.6666666666666666, 2: 1.0, 3: 1.0, 4: 1.0, 5: 1.0, 6: 1.0, 7: 1.0, 8: 1.0, 9: 1.0, 10: 0.8, 11: 0.2857142857142857, 12: 0.2857142857142857, 13: 0.0, 14: 0.5, 15: 1.0, 16: 0.8, 17: 1.0, 18: 1.0, 19: 0.9090909090909091, 20: 1.0, 21: 0.5714285714285715, 22: 0.0, 23: 1.0, 24: 1.0, 25: 0.4, 26: 1.0, 27: 1.0, 28: 1.0, 29: 1.0, 30: 0.0, 31: 0.0, 32: 0.0, 33: 0.0, 34: 0.3333333333333333, 35: 0.14285714285714285, 36: 0.5, 37: 0.5, 38: 1.0, 39: 1.0, 40: 1.0, 41: 1.0, 42: 0.5, 43: 0.0, 44: 0.8, 45: 0.25, 46: 1.0, 47: 1.0, 48: 0.0, 49: 1.0, 50: 1.0, 51: 1.0, 52: 0.6666666666666666, 53: 1.0, 54: 1.0, 55: 1.0, 56: 1.0, 57: 0.0, 58: 1.0, 59: 1.0, 60: 1.0, 61: 1.0, 62: 1.0, 63: 1.0, 64: 1.0, 65: 1.0, 66: 1.0, 67: 1.0, 68: 1.0, 69: 0.0, 70: 0.6666666666666666, 71: 1.0, 72: 0.8, 73: 0.6666666666666666, 74: 1.0}
+Iteration 7: Valset pareto front aggregate score: 0.7472640692640692
+Iteration 7: Updated valset pareto front programs: {0: {0, 2}, 1: {0, 1, 2, 3}, 2: {2, 3}, 3: {0, 1, 2, 3}, 4: {0, 1, 2, 3}, 5: {0, 1, 2, 3}, 6: {1}, 7: {0, 2, 3}, 8: {0, 1, 2, 3}, 9: {1, 2, 3}, 10: {1}, 11: {1}, 12: {1}, 13: {0, 1, 2, 3}, 14: {0, 1, 2, 3}, 15: {0, 1, 2, 3}, 16: {0, 1, 2, 3}, 17: {0, 1}, 18: {2}, 19: {0, 1, 2, 3}, 20: {0, 1, 2, 3}, 21: {3}, 22: {0, 1, 2, 3}, 23: {0, 1, 2, 3}, 24: {0, 1, 2, 3}, 25: {1}, 26: {0, 1, 2}, 27: {0, 2, 3}, 28: {0, 1, 2, 3}, 29: {0, 1, 2, 3}, 30: {0, 1, 2, 3}, 31: {0, 1, 2, 3}, 32: {0, 1, 2, 3}, 33: {0, 1, 2, 3}, 34: {0}, 35: {0, 1, 2, 3}, 36: {0, 1, 2, 3}, 37: {0, 2, 3}, 38: {0, 1, 2, 3}, 39: {0, 1, 2, 3}, 40: {0, 2, 3}, 41: {0, 1, 2, 3}, 42: {0, 1, 2}, 43: {0, 1, 2, 3}, 44: {0, 2, 3}, 45: {2}, 46: {0, 1, 2, 3}, 47: {0, 2, 3}, 48: {0, 1, 2, 3}, 49: {0, 1, 2, 3}, 50: {0, 1, 2, 3}, 51: {0, 1, 2, 3}, 52: {0, 1, 2, 3}, 53: {2}, 54: {1}, 55: {1, 3}, 56: {0, 1, 2, 3}, 57: {0, 1, 2, 3}, 58: {2, 3}, 59: {0, 1, 2, 3}, 60: {0, 1, 2, 3}, 61: {3}, 62: {0, 1, 2, 3}, 63: {0, 1, 2, 3}, 64: {1}, 65: {1, 3}, 66: {1}, 67: {0, 1, 2, 3}, 68: {0, 1, 2, 3}, 69: {0, 1, 2, 3}, 70: {0, 1, 2, 3}, 71: {0, 1, 2, 3}, 72: {0, 1, 2, 3}, 73: {0, 1, 2, 3}, 74: {0, 1, 2, 3}}
+Iteration 7: Best valset aggregate score so far: 0.6429889369889368
+Iteration 7: Best program as per aggregate score on valset: 2
+Iteration 7: Best score on valset: 0.6429889369889368
+Iteration 7: Linear pareto front program index: 2
+Iteration 7: New program candidate index: 3
+Iteration 8: Selected program 0 score: 0.5963222703222701
+  0%|          | 0/3 [00:00<?, ?it/s]Average Metric: 1.00 / 1 (100.0%):   0%|          | 0/3 [00:00<?, ?it/s]Average Metric: 1.00 / 2 (50.0%):  33%|###3      | 1/3 [00:00<00:00, 70.54it/s]Average Metric: 1.00 / 3 (33.3%):  67%|######6   | 2/3 [00:00<00:00, 140.27it/s]Average Metric: 1.00 / 3 (33.3%): 100%|##########| 3/3 [00:00<00:00, 209.20it/s]
+Iteration 8: Proposed new text for final_answer: You are given a question along with multiple summaries containing relevant information to answer the question. Your task is to provide a concise and accurate answer to the question using only the information from the summaries. Respond with only the final answer as a short phrase, name, or entity, without any explanations, justifications, or additional details.
+
+Key points to follow:
+- Extract the most precise and direct answer based on the combined information in the summaries.
+- If multiple summaries provide overlapping or complementary information, synthesize them to produce a single, clear answer.
+- The answer should be a noun phrase, proper name, or a brief entity name relevant to the question.
+- Avoid restating the question, providing context, or adding any reasoning or commentary.
+- Use exact titles, names, or terms as they appear in the summaries when relevant (e.g., book titles, animal names, country names).
+- If the question involves identifying a person’s affiliation or representation (such as political constituencies or countries), answer with the specific entity referenced in the summaries.
+- Do not guess or infer beyond the information provided in the summaries.
+Iteration 8: New subsample score 1.0 is not better than old score 1.0, skipping
+Iteration 9: Selected program 3 score: 0.6293015873015873
+  0%|          | 0/3 [00:00<?, ?it/s]Average Metric: 1.00 / 1 (100.0%):   0%|          | 0/3 [00:00<?, ?it/s]Average Metric: 1.00 / 1 (100.0%):  33%|###3      | 1/3 [00:00<00:01,  1.37it/s]Average Metric: 1.33 / 2 (66.7%):  33%|###3      | 1/3 [00:01<00:01,  1.37it/s] Average Metric: 1.33 / 2 (66.7%):  67%|######6   | 2/3 [00:01<00:00,  1.70it/s]Average Metric: 2.13 / 3 (71.1%):  67%|######6   | 2/3 [00:01<00:00,  1.70it/s]Average Metric: 2.13 / 3 (71.1%): 100%|##########| 3/3 [00:01<00:00,  2.17it/s]Average Metric: 2.13 / 3 (71.1%): 100%|##########| 3/3 [00:01<00:00,  1.96it/s]
+Iteration 9: Proposed new text for final_answer: You are given a question and multiple summaries containing information relevant to answering that question. Your task is to provide a concise, direct answer to the question based solely on the information in the summaries. The answer should be a short phrase or a named entity (such as a person, date, band name, or other specific noun), with no additional explanation or commentary.
+
+When determining the answer, consider the following domain-specific details and strategies:
+
+- The question may require identifying a person, date, entity, or comparison between entities based on birth dates or other facts.
+- Summaries may contain overlapping or complementary information; synthesize these to produce the most accurate and complete answer.
+- If the question involves comparison (e.g., who is older), extract and compare relevant data points (such as birth dates) explicitly mentioned in the summaries.
+- If the question asks for a specific event date, extract the exact year or date mentioned.
+- The answer should be precise and minimal, avoiding restating the question or adding any explanation.
+- Use the exact form of the answer as found or clearly implied in the summaries.
+
+Your output format should be:
+
+### answer  
+[short phrase or entity]
+
+No further text or explanation should be included.
+Iteration 9: New subsample score 2.1333333333333333 is not better than old score 2.1333333333333333, skipping
+Iteration 10: Selected program 0 score: 0.5963222703222701
+  0%|          | 0/3 [00:00<?, ?it/s]Average Metric: 0.00 / 1 (0.0%):   0%|          | 0/3 [00:00<?, ?it/s]Average Metric: 0.80 / 2 (40.0%):  33%|###3      | 1/3 [00:00<00:00, 86.53it/s]Average Metric: 1.80 / 3 (60.0%):  67%|######6   | 2/3 [00:00<00:00, 152.58it/s]Average Metric: 1.80 / 3 (60.0%): 100%|##########| 3/3 [00:00<00:00, 227.24it/s]
+Iteration 10: Proposed new text for summarize1: You are given a question and a set of passages containing various factual information. Your task is to write a brief, focused summary that extracts and consolidates only the facts from the passages that are directly relevant to answering the question. 
+
+Specifically:
+- Identify the key entities, attributes, and relationships in the question (e.g., names, professions, roles, nationalities, affiliations).
+- Scan the passages for explicit mentions or information about those entities or closely related details.
+- Exclude any irrelevant or tangential information that does not help answer the question.
+- Summarize the relevant facts clearly and concisely, ensuring they directly address the question.
+- Use exact or paraphrased factual details from the passages without adding assumptions or external knowledge.
+- When multiple passages contribute relevant facts, combine them into a coherent, unified summary.
+- Do not include opinions, interpretations, or extraneous context.
+- Keep the summary brief but sufficiently informative to answer the question.
+
+This task requires precise fact extraction and relevance filtering to produce a succinct factual summary that serves as a direct answer to the question based on the provided passages.
+Iteration 10: New subsample score 2.0 is better than old score 1.8. Continue to full eval and add to candidate pool.
+Iteration 10: Found a better program on the valset with score 0.6613275613275612.
+Iteration 10: Valset score for new program: 0.6613275613275612 (coverage 75 / 75)
+Iteration 10: Val aggregate for new program: 0.6613275613275612
+Iteration 10: Individual valset scores for new program: {0: 1.0, 1: 0.6666666666666666, 2: 0.8571428571428571, 3: 1.0, 4: 1.0, 5: 1.0, 6: 0.0, 7: 1.0, 8: 1.0, 9: 1.0, 10: 0.8, 11: 0.0, 12: 0.2, 13: 0.0, 14: 0.5, 15: 1.0, 16: 0.8, 17: 1.0, 18: 1.0, 19: 0.9090909090909091, 20: 1.0, 21: 0.0, 22: 1.0, 23: 1.0, 24: 1.0, 25: 0.0, 26: 0.5, 27: 1.0, 28: 1.0, 29: 1.0, 30: 0.0, 31: 0.0, 32: 0.0, 33: 0.0, 34: 0.3333333333333333, 35: 0.6, 36: 1.0, 37: 1.0, 38: 1.0, 39: 1.0, 40: 0.3333333333333333, 41: 1.0, 42: 0.5, 43: 0.0, 44: 0.0, 45: 0.0, 46: 1.0, 47: 0.8, 48: 0.0, 49: 1.0, 50: 1.0, 51: 1.0, 52: 0.6666666666666666, 53: 0.0, 54: 1.0, 55: 0.0, 56: 1.0, 57: 0.0, 58: 0.0, 59: 1.0, 60: 1.0, 61: 0.0, 62: 1.0, 63: 1.0, 64: 1.0, 65: 1.0, 66: 1.0, 67: 1.0, 68: 1.0, 69: 0.0, 70: 0.6666666666666666, 71: 1.0, 72: 0.8, 73: 0.6666666666666666, 74: 1.0}
+Iteration 10: New valset pareto front scores: {0: 1.0, 1: 0.6666666666666666, 2: 1.0, 3: 1.0, 4: 1.0, 5: 1.0, 6: 1.0, 7: 1.0, 8: 1.0, 9: 1.0, 10: 0.8, 11: 0.2857142857142857, 12: 0.2857142857142857, 13: 0.0, 14: 0.5, 15: 1.0, 16: 0.8, 17: 1.0, 18: 1.0, 19: 0.9090909090909091, 20: 1.0, 21: 0.5714285714285715, 22: 1.0, 23: 1.0, 24: 1.0, 25: 0.4, 26: 1.0, 27: 1.0, 28: 1.0, 29: 1.0, 30: 0.0, 31: 0.0, 32: 0.0, 33: 0.0, 34: 0.3333333333333333, 35: 0.6, 36: 1.0, 37: 1.0, 38: 1.0, 39: 1.0, 40: 1.0, 41: 1.0, 42: 0.5, 43: 0.0, 44: 0.8, 45: 0.25, 46: 1.0, 47: 1.0, 48: 0.0, 49: 1.0, 50: 1.0, 51: 1.0, 52: 0.6666666666666666, 53: 1.0, 54: 1.0, 55: 1.0, 56: 1.0, 57: 0.0, 58: 1.0, 59: 1.0, 60: 1.0, 61: 1.0, 62: 1.0, 63: 1.0, 64: 1.0, 65: 1.0, 66: 1.0, 67: 1.0, 68: 1.0, 69: 0.0, 70: 0.6666666666666666, 71: 1.0, 72: 0.8, 73: 0.6666666666666666, 74: 1.0}
+Iteration 10: Valset pareto front aggregate score: 0.7800259740259738
+Iteration 10: Updated valset pareto front programs: {0: {0, 2, 4}, 1: {0, 1, 2, 3, 4}, 2: {2, 3}, 3: {0, 1, 2, 3, 4}, 4: {0, 1, 2, 3, 4}, 5: {0, 1, 2, 3, 4}, 6: {1}, 7: {0, 2, 3, 4}, 8: {0, 1, 2, 3, 4}, 9: {1, 2, 3, 4}, 10: {1, 4}, 11: {1}, 12: {1}, 13: {0, 1, 2, 3, 4}, 14: {0, 1, 2, 3, 4}, 15: {0, 1, 2, 3, 4}, 16: {0, 1, 2, 3, 4}, 17: {0, 1, 4}, 18: {2, 4}, 19: {0, 1, 2, 3, 4}, 20: {0, 1, 2, 3, 4}, 21: {3}, 22: {4}, 23: {0, 1, 2, 3, 4}, 24: {0, 1, 2, 3, 4}, 25: {1}, 26: {0, 1, 2}, 27: {0, 2, 3, 4}, 28: {0, 1, 2, 3, 4}, 29: {0, 1, 2, 3, 4}, 30: {0, 1, 2, 3, 4}, 31: {0, 1, 2, 3, 4}, 32: {0, 1, 2, 3, 4}, 33: {0, 1, 2, 3, 4}, 34: {0, 4}, 35: {4}, 36: {4}, 37: {4}, 38: {0, 1, 2, 3, 4}, 39: {0, 1, 2, 3, 4}, 40: {0, 2, 3}, 41: {0, 1, 2, 3, 4}, 42: {0, 1, 2, 4}, 43: {0, 1, 2, 3, 4}, 44: {0, 2, 3}, 45: {2}, 46: {0, 1, 2, 3, 4}, 47: {0, 2, 3}, 48: {0, 1, 2, 3, 4}, 49: {0, 1, 2, 3, 4}, 50: {0, 1, 2, 3, 4}, 51: {0, 1, 2, 3, 4}, 52: {0, 1, 2, 3, 4}, 53: {2}, 54: {1, 4}, 55: {1, 3}, 56: {0, 1, 2, 3, 4}, 57: {0, 1, 2, 3, 4}, 58: {2, 3}, 59: {0, 1, 2, 3, 4}, 60: {0, 1, 2, 3, 4}, 61: {3}, 62: {0, 1, 2, 3, 4}, 63: {0, 1, 2, 3, 4}, 64: {1, 4}, 65: {1, 3, 4}, 66: {1, 4}, 67: {0, 1, 2, 3, 4}, 68: {0, 1, 2, 3, 4}, 69: {0, 1, 2, 3, 4}, 70: {0, 1, 2, 3, 4}, 71: {0, 1, 2, 3, 4}, 72: {0, 1, 2, 3, 4}, 73: {0, 1, 2, 3, 4}, 74: {0, 1, 2, 3, 4}}
+Iteration 10: Best valset aggregate score so far: 0.6613275613275612
+Iteration 10: Best program as per aggregate score on valset: 4
+Iteration 10: Best score on valset: 0.6613275613275612
+Iteration 10: Linear pareto front program index: 4
+Iteration 10: New program candidate index: 4
+Iteration 11: Selected program 1 score: 0.6228513708513708
+  0%|          | 0/3 [00:00<?, ?it/s]Average Metric: 0.00 / 1 (0.0%):   0%|          | 0/3 [00:02<?, ?it/s]Average Metric: 0.00 / 1 (0.0%):  33%|###3      | 1/3 [00:02<00:04,  2.12s/it]Average Metric: 1.00 / 2 (50.0%):  33%|###3      | 1/3 [00:03<00:04,  2.12s/it]Average Metric: 1.00 / 2 (50.0%):  67%|######6   | 2/3 [00:03<00:01,  1.76s/it]Average Metric: 2.00 / 3 (66.7%):  67%|######6   | 2/3 [00:04<00:01,  1.76s/it]Average Metric: 2.00 / 3 (66.7%): 100%|##########| 3/3 [00:04<00:00,  1.25s/it]Average Metric: 2.00 / 3 (66.7%): 100%|##########| 3/3 [00:04<00:00,  1.42s/it]
+Iteration 11: Proposed new text for summarize1: You will be given a question and a set of passages. Your task is to write a concise, factual summary that directly answers the question using only the information found in the passages. Follow these detailed guidelines:
+
+1. **Identify Relevant Information:**  
+   - Carefully read the question to understand the specific entities, concepts, places, people, or data it references.  
+   - Extract only the facts from the passages that directly relate to these elements and that are sufficient to answer the question accurately.
+
+2. **Filter Out Irrelevant Content:**  
+   - If passages contain multiple unrelated facts, omit any information that does not help answer the question.  
+   - Do not include general background or contextual information unless it is essential to understanding the answer.
+
+3. **Use Passages as Sole Source:**  
+   - Do not incorporate any outside knowledge, inference, speculation, or interpretation.  
+   - Your summary must be strictly based on the facts explicitly stated in the passages.
+
+4. **Be Precise and Concise:**  
+   - Include specific data (e.g., names, dates, places, classifications) exactly as presented in the passages when relevant to the question.  
+   - Keep the summary brief and focused, avoiding unnecessary details or repetition.
+
+5. **Answer Format:**  
+   - Present the answer as a clear, straightforward factual summary that directly addresses the question.  
+   - If the passages do not contain any relevant information to answer the question, explicitly state: “The passages do not contain relevant information to answer the question.”
+
+6. **Handling Named Entities and Specific Data:**  
+   - When the question involves a named entity (person, place, object), identify all passages mentioning that entity and extract pertinent factual information.  
+   - When the question asks for specific data (e.g., book titles, programs, breeds), include those exact details as given.
+
+7. **Avoid Adding Unstated Connections:**  
+   - Even if passages mention related topics, do not connect facts across passages unless the relationship is explicit.  
+   - Avoid assumptions or filling gaps with external knowledge.
+
+By following these instructions, you will produce a focused, reliable summary that uses the passages as the sole source of truth to accurately answer the question.
+Iteration 11: New subsample score 2.0 is not better than old score 2.0, skipping
+Iteration 12: Selected program 2 score: 0.6429889369889368
+  0%|          | 0/3 [00:00<?, ?it/s]Average Metric: 1.00 / 1 (100.0%):   0%|          | 0/3 [00:01<?, ?it/s]Average Metric: 1.00 / 1 (100.0%):  33%|###3      | 1/3 [00:01<00:03,  1.53s/it]Average Metric: 2.00 / 2 (100.0%):  33%|###3      | 1/3 [00:01<00:03,  1.53s/it]Average Metric: 2.00 / 3 (66.7%):  67%|######6   | 2/3 [00:02<00:01,  1.53s/it] Average Metric: 2.00 / 3 (66.7%): 100%|##########| 3/3 [00:02<00:00,  1.18it/s]Average Metric: 2.00 / 3 (66.7%): 100%|##########| 3/3 [00:02<00:00,  1.09it/s]
+Iteration 12: Proposed new text for final_answer: You are given a question and multiple summaries containing information relevant to answering the question. Your task is to provide a concise, factual answer to the question based solely on the information in the summaries. 
+
+- Respond with only the direct answer, expressed as a short phrase, a name, an entity, or a specific term. 
+- Do not include any explanations, justifications, or additional context.
+- Use the summaries to determine the most accurate and relevant answer, even if some summaries contain conflicting or incomplete information.
+- Focus on extracting explicit factual details from the summaries, such as birth dates, known aliases, named entities, or specific attributes related to the question.
+- Ensure the answer directly addresses the question without ambiguity or unnecessary information.
+
+This task involves synthesizing information from multiple text summaries to produce a precise, minimal answer to a factual query.
+Iteration 12: New subsample score 2.0 is not better than old score 2.0, skipping
+Iteration 13: Selected program 3 score: 0.6293015873015873
+  0%|          | 0/3 [00:00<?, ?it/s]Average Metric: 1.00 / 1 (100.0%):   0%|          | 0/3 [00:01<?, ?it/s]Average Metric: 1.00 / 1 (100.0%):  33%|###3      | 1/3 [00:01<00:02,  1.42s/it]Average Metric: 1.80 / 2 (90.0%):  33%|###3      | 1/3 [00:01<00:02,  1.42s/it] Average Metric: 1.80 / 3 (60.0%):  67%|######6   | 2/3 [00:02<00:01,  1.42s/it]Average Metric: 1.80 / 3 (60.0%): 100%|##########| 3/3 [00:02<00:00,  1.41it/s]Average Metric: 1.80 / 3 (60.0%): 100%|##########| 3/3 [00:02<00:00,  1.28it/s]
+Iteration 13: Proposed new text for summarize1: You are given a question and a set of passages that may contain relevant information to answer the question. Your task is to write a concise summary that captures only the facts from the passages that are directly relevant to answering the question. 
+
+- Identify and extract specific details such as names, dates, places, relationships, and key attributes mentioned in the passages that pertain to the question.
+- If the passages contain multiple related facts, combine them succinctly into a coherent summary that directly addresses the question.
+- Avoid including irrelevant or extraneous information that does not help answer the question.
+- If the passages do not provide any relevant information to answer the question, clearly state that the passages do not contain the needed information.
+- Use clear and precise language to reflect the factual content found in the passages.
+- The question may relate to niche or domain-specific knowledge (e.g., sports events and venues, filmography of actors and directors, political figures and terminology, geographic details). Pay attention to these specific details and terminology as they are critical to producing an accurate and relevant summary.
+
+Overall, your summary should serve as a brief, factual, and focused synthesis of the passages that directly supports answering the question.
+Iteration 13: New subsample score 2.8 is better than old score 1.8. Continue to full eval and add to candidate pool.
+Iteration 13: Valset score for new program: 0.5838566618566616 (coverage 75 / 75)
+Iteration 13: Val aggregate for new program: 0.5838566618566616
+Iteration 13: Individual valset scores for new program: {0: 0.8, 1: 0.6666666666666666, 2: 0.0, 3: 0.0, 4: 1.0, 5: 1.0, 6: 0.0, 7: 1.0, 8: 1.0, 9: 1.0, 10: 0.8, 11: 0.0, 12: 0.0, 13: 0.0, 14: 0.5, 15: 1.0, 16: 0.0, 17: 1.0, 18: 0.5, 19: 0.9090909090909091, 20: 1.0, 21: 0.0, 22: 1.0, 23: 1.0, 24: 1.0, 25: 0.0, 26: 0.0, 27: 0.4, 28: 1.0, 29: 1.0, 30: 0.0, 31: 0.0, 32: 0.0, 33: 0.0, 34: 0.3333333333333333, 35: 0.0, 36: 0.5, 37: 1.0, 38: 1.0, 39: 1.0, 40: 0.3333333333333333, 41: 1.0, 42: 0.33333333333333337, 43: 0.0, 44: 0.8, 45: 0.25, 46: 1.0, 47: 0.8, 48: 0.0, 49: 1.0, 50: 1.0, 51: 1.0, 52: 1.0, 53: 1.0, 54: 1.0, 55: 0.0, 56: 0.4444444444444445, 57: 0.0, 58: 0.0, 59: 1.0, 60: 1.0, 61: 0.0, 62: 1.0, 63: 1.0, 64: 0.28571428571428575, 65: 1.0, 66: 0.0, 67: 1.0, 68: 1.0, 69: 0.0, 70: 0.6666666666666666, 71: 1.0, 72: 0.8, 73: 0.6666666666666666, 74: 1.0}
+Iteration 13: New valset pareto front scores: {0: 1.0, 1: 0.6666666666666666, 2: 1.0, 3: 1.0, 4: 1.0, 5: 1.0, 6: 1.0, 7: 1.0, 8: 1.0, 9: 1.0, 10: 0.8, 11: 0.2857142857142857, 12: 0.2857142857142857, 13: 0.0, 14: 0.5, 15: 1.0, 16: 0.8, 17: 1.0, 18: 1.0, 19: 0.9090909090909091, 20: 1.0, 21: 0.5714285714285715, 22: 1.0, 23: 1.0, 24: 1.0, 25: 0.4, 26: 1.0, 27: 1.0, 28: 1.0, 29: 1.0, 30: 0.0, 31: 0.0, 32: 0.0, 33: 0.0, 34: 0.3333333333333333, 35: 0.6, 36: 1.0, 37: 1.0, 38: 1.0, 39: 1.0, 40: 1.0, 41: 1.0, 42: 0.5, 43: 0.0, 44: 0.8, 45: 0.25, 46: 1.0, 47: 1.0, 48: 0.0, 49: 1.0, 50: 1.0, 51: 1.0, 52: 1.0, 53: 1.0, 54: 1.0, 55: 1.0, 56: 1.0, 57: 0.0, 58: 1.0, 59: 1.0, 60: 1.0, 61: 1.0, 62: 1.0, 63: 1.0, 64: 1.0, 65: 1.0, 66: 1.0, 67: 1.0, 68: 1.0, 69: 0.0, 70: 0.6666666666666666, 71: 1.0, 72: 0.8, 73: 0.6666666666666666, 74: 1.0}
+Iteration 13: Valset pareto front aggregate score: 0.7844704184704183
+Iteration 13: Updated valset pareto front programs: {0: {0, 2, 4}, 1: {0, 1, 2, 3, 4, 5}, 2: {2, 3}, 3: {0, 1, 2, 3, 4}, 4: {0, 1, 2, 3, 4, 5}, 5: {0, 1, 2, 3, 4, 5}, 6: {1}, 7: {0, 2, 3, 4, 5}, 8: {0, 1, 2, 3, 4, 5}, 9: {1, 2, 3, 4, 5}, 10: {1, 4, 5}, 11: {1}, 12: {1}, 13: {0, 1, 2, 3, 4, 5}, 14: {0, 1, 2, 3, 4, 5}, 15: {0, 1, 2, 3, 4, 5}, 16: {0, 1, 2, 3, 4}, 17: {0, 1, 4, 5}, 18: {2, 4}, 19: {0, 1, 2, 3, 4, 5}, 20: {0, 1, 2, 3, 4, 5}, 21: {3}, 22: {4, 5}, 23: {0, 1, 2, 3, 4, 5}, 24: {0, 1, 2, 3, 4, 5}, 25: {1}, 26: {0, 1, 2}, 27: {0, 2, 3, 4}, 28: {0, 1, 2, 3, 4, 5}, 29: {0, 1, 2, 3, 4, 5}, 30: {0, 1, 2, 3, 4, 5}, 31: {0, 1, 2, 3, 4, 5}, 32: {0, 1, 2, 3, 4, 5}, 33: {0, 1, 2, 3, 4, 5}, 34: {0, 4, 5}, 35: {4}, 36: {4}, 37: {4, 5}, 38: {0, 1, 2, 3, 4, 5}, 39: {0, 1, 2, 3, 4, 5}, 40: {0, 2, 3}, 41: {0, 1, 2, 3, 4, 5}, 42: {0, 1, 2, 4}, 43: {0, 1, 2, 3, 4, 5}, 44: {0, 2, 3, 5}, 45: {2, 5}, 46: {0, 1, 2, 3, 4, 5}, 47: {0, 2, 3}, 48: {0, 1, 2, 3, 4, 5}, 49: {0, 1, 2, 3, 4, 5}, 50: {0, 1, 2, 3, 4, 5}, 51: {0, 1, 2, 3, 4, 5}, 52: {5}, 53: {2, 5}, 54: {1, 4, 5}, 55: {1, 3}, 56: {0, 1, 2, 3, 4}, 57: {0, 1, 2, 3, 4, 5}, 58: {2, 3}, 59: {0, 1, 2, 3, 4, 5}, 60: {0, 1, 2, 3, 4, 5}, 61: {3}, 62: {0, 1, 2, 3, 4, 5}, 63: {0, 1, 2, 3, 4, 5}, 64: {1, 4}, 65: {1, 3, 4, 5}, 66: {1, 4}, 67: {0, 1, 2, 3, 4, 5}, 68: {0, 1, 2, 3, 4, 5}, 69: {0, 1, 2, 3, 4, 5}, 70: {0, 1, 2, 3, 4, 5}, 71: {0, 1, 2, 3, 4, 5}, 72: {0, 1, 2, 3, 4, 5}, 73: {0, 1, 2, 3, 4, 5}, 74: {0, 1, 2, 3, 4, 5}}
+Iteration 13: Best valset aggregate score so far: 0.6613275613275612
+Iteration 13: Best program as per aggregate score on valset: 4
+Iteration 13: Best score on valset: 0.6613275613275612
+Iteration 13: Linear pareto front program index: 4
+Iteration 13: New program candidate index: 5
+Iteration 14: Selected program 5 score: 0.5838566618566616
+  0%|          | 0/3 [00:00<?, ?it/s]Average Metric: 0.67 / 1 (66.7%):   0%|          | 0/3 [00:02<?, ?it/s]Average Metric: 0.67 / 1 (66.7%):  33%|###3      | 1/3 [00:02<00:04,  2.42s/it]Average Metric: 0.67 / 2 (33.3%):  33%|###3      | 1/3 [00:02<00:04,  2.42s/it]Average Metric: 1.67 / 3 (55.6%):  67%|######6   | 2/3 [00:04<00:02,  2.42s/it]Average Metric: 1.67 / 3 (55.6%): 100%|##########| 3/3 [00:04<00:00,  1.23s/it]Average Metric: 1.67 / 3 (55.6%): 100%|##########| 3/3 [00:04<00:00,  1.35s/it]
+Iteration 14: Proposed new text for summarize2: You will be provided with three inputs for each task: a question, an existing summary of information gathered so far (summary_1), and a set of additional passages. Your goal is to create a concise, coherent summary that synthesizes all relevant factual information from both the existing summary and the new passages, specifically to help answer the given question.
+
+Follow these detailed steps and guidelines:
+
+1. **Relevance Filtering:**  
+   - Carefully identify the key facts in the existing summary that directly relate to the question.  
+   - Thoroughly review the additional passages and extract only new, directly relevant factual information that complements, clarifies, or expands upon the existing summary with respect to the question.  
+   - Do not include any facts unrelated to the question, even if interesting or detailed.
+
+2. **Synthesis and Integration:**  
+   - Combine the relevant facts from the existing summary and the new passages into a single, brief summary.  
+   - The summary should be logically structured, factually accurate, and focused solely on answering the question.  
+   - Avoid repetition or contradiction; if new passages confirm existing facts, restate them succinctly or omit redundancy.
+
+3. **Handling No New Information:**  
+   - If the additional passages contain no new relevant information that adds to the existing summary in answering the question, explicitly state that the new passages do not contribute further relevant information.
+
+4. **Style and Tone:**  
+   - Use full sentences and maintain a neutral, objective tone.  
+   - Avoid extraneous details, opinions, or speculative statements.  
+   - Ensure clarity and factual accuracy throughout.
+
+5. **Domain-Specific Context Awareness:**  
+   - Understand the domain or context implied by the question to accurately judge relevance and factual significance.  
+   - For example, when the question concerns a historical fact, a person’s role, or the timeline of events, focus on those specific aspects.  
+   - When the question involves fictional characters or media, note creation dates, creators, and relevant character details as appropriate.
+
+6. **Generalizable Strategy:**  
+   - Start by isolating the core facts from the existing summary that address the question.  
+   - Next, extract any new facts from the passages that extend or clarify the existing knowledge.  
+   - Synthesize these facts into a concise, coherent narrative that directly answers the question.  
+   - If no new facts are found, clearly indicate that the passages add no new relevant information.
+
+By following these instructions, your output will be a succinct, factual, and focused summary that integrates prior and new information to provide a clear understanding relevant to the question asked.
+Iteration 14: New subsample score 1.6666666666666665 is not better than old score 1.6666666666666665, skipping
+Iteration 15: Selected program 4 score: 0.6613275613275612
+  0%|          | 0/3 [00:00<?, ?it/s]Average Metric: 1.00 / 1 (100.0%):   0%|          | 0/3 [00:01<?, ?it/s]Average Metric: 1.00 / 1 (100.0%):  33%|###3      | 1/3 [00:01<00:03,  1.94s/it]Average Metric: 2.00 / 2 (100.0%):  33%|###3      | 1/3 [00:02<00:03,  1.94s/it]Average Metric: 2.00 / 2 (100.0%):  67%|######6   | 2/3 [00:02<00:01,  1.10s/it]Average Metric: 2.44 / 3 (81.5%):  67%|######6   | 2/3 [00:03<00:01,  1.10s/it] Average Metric: 2.44 / 3 (81.5%): 100%|##########| 3/3 [00:03<00:00,  1.14it/s]Average Metric: 2.44 / 3 (81.5%): 100%|##########| 3/3 [00:03<00:00,  1.02s/it]
+Iteration 15: Proposed new text for summarize2: You are given three inputs: a question, a summary of the information gathered so far (summary_1), and a set of additional passages. Your task is to write a brief, coherent summary that integrates the relevant facts from the new passages with the existing summary_1 to provide a comprehensive and focused answer to the question.
+
+When composing the summary:
+- Focus only on facts directly relevant to answering the question.
+- Incorporate new relevant information found in the additional passages, merging it with the existing summary_1.
+- Exclude any unrelated or extraneous details from the passages that do not help answer the question.
+- If the passages do not add any new relevant information beyond summary_1, reaffirm the original summary clearly.
+- Maintain clarity and conciseness, avoiding unnecessary repetition.
+- When multiple entities or facts are mentioned, disambiguate and explicitly connect them to the question to ensure relevance.
+- If the question involves comparisons, timelines, awards, or specific relationships (e.g., which was produced first, what award was won by whom, or the identity of a person related to another), ensure the summary explicitly addresses these aspects based on the combined information.
+
+In essence, your summary should synthesize and consolidate all pertinent information from both the prior summary and the new passages into a single, succinct, and accurate response that directly supports answering the question.
+Iteration 15: New subsample score 2.4444444444444446 is not better than old score 2.4444444444444446, skipping
+Iteration 16: Selected program 5 score: 0.5838566618566616
+  0%|          | 0/3 [00:00<?, ?it/s]Average Metric: 1.00 / 1 (100.0%):   0%|          | 0/3 [00:02<?, ?it/s]Average Metric: 1.00 / 1 (100.0%):  33%|###3      | 1/3 [00:02<00:04,  2.24s/it]Average Metric: 1.00 / 2 (50.0%):  33%|###3      | 1/3 [00:02<00:04,  2.24s/it] Average Metric: 1.00 / 3 (33.3%):  67%|######6   | 2/3 [00:03<00:02,  2.24s/it]Average Metric: 1.00 / 3 (33.3%): 100%|##########| 3/3 [00:03<00:00,  1.13it/s]Average Metric: 1.00 / 3 (33.3%): 100%|##########| 3/3 [00:03<00:00,  1.02s/it]
+Iteration 16: Proposed new text for final_answer: You are given a question and multiple summaries containing information relevant to answering that question. Your task is to provide a concise, direct answer to the question based solely on the information in the provided summaries. Respond with only the final answer as a short phrase or entity, without any explanation, justification, or additional commentary.
+
+Key details and guidelines:
+- The question may involve comparisons (e.g., who is older, who has more scope), identification of individuals associated with specific works or attributes, or other factual queries.
+- The summaries provide factual data points such as birthdates, professions, works directed or starred in, affiliations, and other domain-specific details.
+- Use the summaries to determine the correct answer by synthesizing the information, especially when multiple summaries provide overlapping or complementary data.
+- When the question involves comparison, determine the answer by comparing the relevant facts (e.g., birth dates, professional scope).
+- The answer should be a name, entity, or a brief phrase directly answering the question.
+- Do not include any explanation, reasoning steps, or extra information beyond the concise answer.
+- Ensure accuracy by cross-referencing all summaries before responding.
+
+Example:
+If asked "Who is older Carrie Akre or Shifty Shellshock?" and the summaries state birthdates and confirm Carrie Akre is older, answer only:  
+Carrie Akre
+Iteration 16: New subsample score 1.0 is not better than old score 1.0, skipping
+Iteration 17: Selected program 4 score: 0.6613275613275612
+  0%|          | 0/3 [00:00<?, ?it/s]Average Metric: 1.00 / 1 (100.0%):   0%|          | 0/3 [00:01<?, ?it/s]Average Metric: 1.00 / 1 (100.0%):  33%|###3      | 1/3 [00:01<00:03,  1.74s/it]Average Metric: 2.00 / 2 (100.0%):  33%|###3      | 1/3 [00:02<00:03,  1.74s/it]Average Metric: 2.00 / 2 (100.0%):  67%|######6   | 2/3 [00:02<00:01,  1.25s/it]Average Metric: 2.00 / 3 (66.7%):  67%|######6   | 2/3 [00:03<00:01,  1.25s/it] Average Metric: 2.00 / 3 (66.7%): 100%|##########| 3/3 [00:03<00:00,  1.13s/it]Average Metric: 2.00 / 3 (66.7%): 100%|##########| 3/3 [00:03<00:00,  1.21s/it]
+Iteration 17: Proposed new text for final_answer: You are given a question along with multiple summaries containing relevant information to answer the question. Your task is to determine the correct, concise answer to the question based solely on the information in the summaries. Respond with only the final answer as a short phrase, entity name, or proper noun without any explanation, additional context, or commentary.
+
+When multiple summaries provide overlapping or complementary information, synthesize them to produce the most accurate and complete answer possible. Pay attention to specific details such as dates, names, titles, and locations mentioned in the summaries, as these often determine the correct answer.
+
+The format you will receive is:
+
+- A question (usually asking for a specific entity, name, place, or title).
+- Two or more summaries each containing factual information relevant to the question.
+- Your answer must be a brief phrase or entity directly responding to the question.
+
+Avoid adding any extra information, clarifications, or reasoning steps. Simply provide the best short phrase or entity that answers the question, reflecting the combined evidence from the summaries.
+
+This task requires careful extraction and comparison of facts such as production dates, relationships between people and places, or specific titles of works, and selecting the entity that best fits the question based on the summaries given.
+Iteration 17: New subsample score 2.0 is not better than old score 2.0, skipping
+Iteration 18: Selected program 3 score: 0.6293015873015873
+  0%|          | 0/3 [00:00<?, ?it/s]Average Metric: 1.00 / 1 (100.0%):   0%|          | 0/3 [00:00<?, ?it/s]Average Metric: 1.00 / 1 (100.0%):  33%|###3      | 1/3 [00:00<00:01,  1.64it/s]Average Metric: 1.00 / 2 (50.0%):  33%|###3      | 1/3 [00:00<00:01,  1.64it/s] Average Metric: 2.00 / 3 (66.7%):  67%|######6   | 2/3 [00:00<00:00,  1.64it/s]Average Metric: 2.00 / 3 (66.7%): 100%|##########| 3/3 [00:00<00:00,  3.70it/s]Average Metric: 2.00 / 3 (66.7%): 100%|##########| 3/3 [00:00<00:00,  3.29it/s]
+Iteration 18: Proposed new text for summarize2: You will be given three inputs: a question, an existing summary of information gathered so far (summary_1), and a set of additional passages. Your task is to produce a concise, integrated summary that synthesizes all the relevant factual information from both the existing summary and the new passages to help answer the question.
+
+Follow these detailed steps to complete the task accurately and effectively:
+
+1. Understand the Question: Carefully interpret the question to identify the specific factual information it seeks. The question may require domain-specific knowledge (e.g., sports awards, geographic or political facts, historical events) and may focus on entities such as people, places, organizations, dates, or events.
+
+2. Extract Relevant Facts from Existing Summary: Identify and isolate the key facts in the existing summary that are directly relevant to the question. The existing summary often contains partial or background information that forms the foundation for the answer.
+
+3. Analyze Additional Passages Thoroughly:
+   - Read all provided passages carefully.
+   - Extract any new, directly relevant facts that complement, expand, clarify, or update the information in the existing summary.
+   - Ignore any information that is unrelated to the question or the relevant facts in the existing summary.
+   - If multiple passages contain overlapping information, synthesize the most accurate and complete facts.
+
+4. Synthesize Information into a Coherent Summary:
+   - Combine the relevant facts from the existing summary and the new relevant information from the passages.
+   - Write a brief, clear, and coherent summary that directly addresses the question.
+   - Use full sentences and maintain a neutral, factual tone.
+   - Avoid extraneous details or unrelated context.
+   - Preserve factual accuracy, including correct names, dates, places, and other domain-specific details.
+
+5. Handle Cases with No New Relevant Information:
+   - If none of the additional passages add new relevant facts beyond those in the existing summary, explicitly state that the new passages do not provide additional relevant information.
+   - In this case, you may restate the existing summary succinctly or note that no new information was found.
+
+6. Maintain Consistency and Clarity:
+   - Ensure the final summary is self-contained and understandable without requiring reference to the original inputs.
+   - Avoid redundancy and keep the summary concise, focusing only on what is necessary to answer the question.
+
+Additional domain-specific notes:
+- When the question involves awards or honors (e.g., PFA Young Player of the Year), confirm the current holder and the team or organization associated.
+- For geographic or political questions (e.g., city, county seat, or administrative divisions), confirm the hierarchy and relevant relationships clearly.
+- For sports divisions or leagues, be aware that names or structures may have changed over time; include relevant dates or events tied to those changes if provided.
+- When dates or historical context are relevant to the question, include them precisely as stated in the input.
+
+By following this approach, you will produce a focused, accurate, and concise summary that integrates existing knowledge with new relevant information to effectively answer the user's question.
+Iteration 18: New subsample score 1.6666666666666665 is not better than old score 2.0, skipping
+Iteration 19: Selected program 1 score: 0.6228513708513708
+  0%|          | 0/3 [00:00<?, ?it/s]Average Metric: 1.00 / 1 (100.0%):   0%|          | 0/3 [00:00<?, ?it/s]Average Metric: 1.00 / 1 (100.0%):  33%|###3      | 1/3 [00:00<00:01,  1.85it/s]Average Metric: 2.00 / 2 (100.0%):  33%|###3      | 1/3 [00:01<00:01,  1.85it/s]Average Metric: 2.00 / 2 (100.0%):  67%|######6   | 2/3 [00:01<00:00,  1.07it/s]Average Metric: 3.00 / 3 (100.0%):  67%|######6   | 2/3 [00:03<00:00,  1.07it/s]Average Metric: 3.00 / 3 (100.0%): 100%|##########| 3/3 [00:03<00:00,  1.15s/it]Average Metric: 3.00 / 3 (100.0%): 100%|##########| 3/3 [00:03<00:00,  1.05s/it]
+Iteration 19: All subsample scores perfect. Skipping.
+Iteration 19: Reflective mutation did not propose a new candidate
+Iteration 20: Selected program 3 score: 0.6293015873015873
+  0%|          | 0/3 [00:00<?, ?it/s]Average Metric: 1.00 / 1 (100.0%):   0%|          | 0/3 [00:01<?, ?it/s]Average Metric: 1.00 / 1 (100.0%):  33%|###3      | 1/3 [00:01<00:02,  1.01s/it]Average Metric: 2.00 / 2 (100.0%):  33%|###3      | 1/3 [00:01<00:02,  1.01s/it]Average Metric: 2.00 / 2 (100.0%):  67%|######6   | 2/3 [00:01<00:00,  1.83it/s]Average Metric: 2.80 / 3 (93.3%):  67%|######6   | 2/3 [00:01<00:00,  1.83it/s] Average Metric: 2.80 / 3 (93.3%): 100%|##########| 3/3 [00:01<00:00,  2.75it/s]Average Metric: 2.80 / 3 (93.3%): 100%|##########| 3/3 [00:01<00:00,  2.18it/s]
+Iteration 20: Proposed new text for final_answer: You will be given a question along with multiple summary passages that contain information relevant to answering that question. Your task is to provide a concise, factual answer to the question based solely on the information contained in the summaries. 
+
+- Respond with only the answer itself, using a short phrase or a named entity.  
+- Do not include any explanations, justifications, or additional details.  
+- Use the summaries to identify the most direct and accurate answer to the question.  
+- If multiple summaries provide overlapping or identical information, synthesize that to produce a single clear answer.  
+- Ensure the answer is specific and directly addresses the question without ambiguity.  
+- Avoid introducing any information not found in the provided summaries.  
+- The input format includes a "question" field followed by one or more "summary" fields containing relevant extracted information.  
+- Your output should be a single line containing only the answer.
+Iteration 20: New subsample score 2.8 is not better than old score 2.8, skipping
+Iteration 21: Selected program 4 score: 0.6613275613275612
+  0%|          | 0/3 [00:00<?, ?it/s]Average Metric: 0.80 / 1 (80.0%):   0%|          | 0/3 [00:02<?, ?it/s]Average Metric: 0.80 / 1 (80.0%):  33%|###3      | 1/3 [00:02<00:05,  2.81s/it]Average Metric: 0.80 / 2 (40.0%):  33%|###3      | 1/3 [00:03<00:05,  2.81s/it]Average Metric: 0.80 / 2 (40.0%):  67%|######6   | 2/3 [00:03<00:01,  1.46s/it]Average Metric: 1.80 / 3 (60.0%):  67%|######6   | 2/3 [00:03<00:01,  1.46s/it]Average Metric: 1.80 / 3 (60.0%): 100%|##########| 3/3 [00:03<00:00,  1.02it/s]Average Metric: 1.80 / 3 (60.0%): 100%|##########| 3/3 [00:03<00:00,  1.24s/it]
+Iteration 21: Proposed new text for summarize1: You are given a question and a set of passages containing various factual information. Your task is to produce a brief, focused summary that extracts and consolidates only the facts from the passages that are directly relevant to answering the question.
+
+To do this:
+
+1. Identify the key entities, attributes, and relationships mentioned in the question. These may include names of people, places, organizations, dates, professions, roles, nationalities, affiliations, or specific concepts.
+
+2. Carefully scan the passages for explicit mentions or detailed information about those entities or closely related details that directly address the question.
+
+3. Exclude any information that is irrelevant, tangential, or does not help answer the question. Avoid including opinions, interpretations, or extraneous context.
+
+4. When multiple passages contribute relevant facts, integrate these facts into a single coherent, unified summary.
+
+5. Use exact or appropriately paraphrased factual details from the passages without adding any assumptions or external knowledge beyond what is explicitly provided.
+
+6. Keep the summary concise but sufficiently informative to directly answer the question.
+
+7. The summary should clearly state the relevant facts, for example:
+   - If the question asks for a name, provide the name and relevant context from the passages.
+   - If the question compares dates or order of birth, provide the birth dates or relative timing explicitly.
+   - If the question asks for a shared attribute (e.g., sport, profession), identify and state the attribute clearly.
+
+Remember, the goal is precise fact extraction and relevance filtering to produce a succinct factual summary that serves as a direct and accurate answer based solely on the provided passages.
+Iteration 21: New subsample score 1.8 is not better than old score 1.8, skipping
+Iteration 22: Selected program 5 score: 0.5838566618566616
+  0%|          | 0/3 [00:00<?, ?it/s]Average Metric: 1.00 / 1 (100.0%):   0%|          | 0/3 [00:01<?, ?it/s]Average Metric: 1.00 / 1 (100.0%):  33%|###3      | 1/3 [00:01<00:03,  1.83s/it]Average Metric: 1.00 / 2 (50.0%):  33%|###3      | 1/3 [00:01<00:03,  1.83s/it] Average Metric: 2.00 / 3 (66.7%):  67%|######6   | 2/3 [00:01<00:01,  1.83s/it]Average Metric: 2.00 / 3 (66.7%): 100%|##########| 3/3 [00:01<00:00,  1.61it/s]
+Iteration 22: Proposed new text for summarize1: You are given a question and a set of passages that may contain relevant information to answer the question. Your task is to produce a concise, factual summary that directly answers the question using only the information from the passages.
+
+Guidelines:
+
+1. Extract and synthesize specific factual details from the passages that are directly relevant to the question. These details often include:
+   - Names of people, organizations, or entities
+   - Dates or time periods
+   - Locations or geographic details
+   - Relationships between entities (e.g., coach-team, YouTube personality-channel)
+   - Quantitative data (e.g., number of views, distances, records)
+   - Titles, roles, or key attributes relevant to the question domain
+
+2. If multiple related facts appear in the passages, combine them succinctly into a coherent, focused summary that precisely answers the question.
+
+3. Avoid including any irrelevant or extraneous information that does not help answer the question. Do not speculate or add information beyond what is given in the passages.
+
+4. If the passages do not contain any information needed to answer the question, clearly state that the passages do not contain the needed information.
+
+5. Use clear, precise, and domain-appropriate language, reflecting the factual content found in the passages.
+
+6. The question may relate to niche or domain-specific knowledge such as:
+   - Sports events, teams, seasons, coaches, and venues (e.g., NFL seasons, coaching careers)
+   - Online personalities, YouTube channels, view counts, and related digital media facts
+   - Geographic details including distances, island locations, and coordinates
+   - Historical or political figures, dates, and events
+   - Other specialized terminology relevant to the passages
+
+7. Your summary should be brief but comprehensive enough to directly and accurately address the question based on the passages.
+
+Overall, your output is a focused factual synthesis that supports answering the question using only the provided text, ensuring clarity, precision, and relevance to the question's domain and details.
+Iteration 22: New subsample score 2.0 is not better than old score 2.0, skipping
+Iteration 23: Selected program 1 score: 0.6228513708513708
+  0%|          | 0/3 [00:00<?, ?it/s]Average Metric: 0.00 / 1 (0.0%):   0%|          | 0/3 [00:02<?, ?it/s]Average Metric: 0.00 / 1 (0.0%):  33%|###3      | 1/3 [00:02<00:04,  2.25s/it]Average Metric: 1.00 / 2 (50.0%):  33%|###3      | 1/3 [00:02<00:04,  2.25s/it]Average Metric: 1.00 / 3 (33.3%):  67%|######6   | 2/3 [00:02<00:02,  2.25s/it]Average Metric: 1.00 / 3 (33.3%): 100%|##########| 3/3 [00:02<00:00,  1.23it/s]Average Metric: 1.00 / 3 (33.3%): 100%|##########| 3/3 [00:02<00:00,  1.05it/s]
+Iteration 23: Proposed new text for summarize2: You are given three inputs: a question, an initial summary of facts gathered so far (summary_1), and a set of additional passages containing relevant information. Your task is to write a concise, integrated summary that combines the newly provided passages with the previously gathered summary, focusing specifically on facts that are directly relevant to answering the question.
+
+When composing your summary, keep in mind the following guidelines:
+
+1. **Relevance and Focus:** Include only information that directly pertains to answering the question. Exclude tangential or unrelated details, even if they appear in the passages.
+
+2. **Integration of Information:** Seamlessly merge the new information from the passages with the existing summary, resolving any gaps or ambiguities. Update or correct the prior summary based on the new evidence.
+
+3. **Precision and Clarity:** Present facts clearly and accurately, avoiding speculation. If certain details (e.g., specific dates, locations, or definitions) are not available, explicitly note their absence if relevant to the question.
+
+4. **Domain-Specific Knowledge:**  
+   - Recognize domain-specific entities, such as names of magazines, historical figures, albums, or events, and understand their context (e.g., "Chrysalis" as a feminist magazine, "Angel of Retribution" as a Judas Priest album, or Roger Casement’s role in Irish history).  
+   - Understand specialized terminology or concepts mentioned in the passages (e.g., "customer magazine" as a business communication tool, or "Irish Brigade" as a WWI nationalist military unit).  
+   - When multiple data points are given (e.g., birth dates, publication years, locations), prioritize those that directly answer the question.
+
+5. **Conciseness:** Keep the summary brief but comprehensive enough to answer the question based on all available evidence.
+
+6. **Use of Proper Names and Dates:** When available, include full names, dates, and other identifiers that help precisely answer the question.
+
+7. **No Unsupported Assumptions:** Do not infer or assume information beyond what is explicitly supported by the passages and initial summary.
+
+By following these guidelines, your summary should serve as a clear, factually accurate, and concise synthesis of all information relevant to the question, enabling a direct and well-supported answer if needed.
+Iteration 23: New subsample score 2.0 is better than old score 1.0. Continue to full eval and add to candidate pool.
+Iteration 23: Valset score for new program: 0.6257363377363376 (coverage 75 / 75)
+Iteration 23: Val aggregate for new program: 0.6257363377363376
+Iteration 23: Individual valset scores for new program: {0: 1.0, 1: 0.6666666666666666, 2: 0.0, 3: 1.0, 4: 1.0, 5: 0.0, 6: 1.0, 7: 1.0, 8: 1.0, 9: 1.0, 10: 0.8, 11: 0.4615384615384615, 12: 0.2, 13: 0.0, 14: 0.5, 15: 1.0, 16: 0.8, 17: 1.0, 18: 0.5, 19: 0.9090909090909091, 20: 1.0, 21: 0.0, 22: 0.0, 23: 1.0, 24: 1.0, 25: 0.0, 26: 1.0, 27: 0.4, 28: 1.0, 29: 1.0, 30: 0.0, 31: 0.0, 32: 0.0, 33: 0.0, 34: 0.0, 35: 0.18181818181818182, 36: 0.5, 37: 1.0, 38: 1.0, 39: 1.0, 40: 0.0, 41: 1.0, 42: 0.5, 43: 0.0, 44: 0.8, 45: 0.0, 46: 0.6666666666666666, 47: 0.8, 48: 0.0, 49: 1.0, 50: 1.0, 51: 1.0, 52: 1.0, 53: 0.0, 54: 1.0, 55: 0.0, 56: 0.4444444444444445, 57: 1.0, 58: 0.6666666666666666, 59: 1.0, 60: 1.0, 61: 0.0, 62: 1.0, 63: 1.0, 64: 1.0, 65: 1.0, 66: 0.0, 67: 1.0, 68: 1.0, 69: 0.0, 70: 0.6666666666666666, 71: 1.0, 72: 0.8, 73: 0.6666666666666666, 74: 1.0}
+Iteration 23: New valset pareto front scores: {0: 1.0, 1: 0.6666666666666666, 2: 1.0, 3: 1.0, 4: 1.0, 5: 1.0, 6: 1.0, 7: 1.0, 8: 1.0, 9: 1.0, 10: 0.8, 11: 0.4615384615384615, 12: 0.2857142857142857, 13: 0.0, 14: 0.5, 15: 1.0, 16: 0.8, 17: 1.0, 18: 1.0, 19: 0.9090909090909091, 20: 1.0, 21: 0.5714285714285715, 22: 1.0, 23: 1.0, 24: 1.0, 25: 0.4, 26: 1.0, 27: 1.0, 28: 1.0, 29: 1.0, 30: 0.0, 31: 0.0, 32: 0.0, 33: 0.0, 34: 0.3333333333333333, 35: 0.6, 36: 1.0, 37: 1.0, 38: 1.0, 39: 1.0, 40: 1.0, 41: 1.0, 42: 0.5, 43: 0.0, 44: 0.8, 45: 0.25, 46: 1.0, 47: 1.0, 48: 0.0, 49: 1.0, 50: 1.0, 51: 1.0, 52: 1.0, 53: 1.0, 54: 1.0, 55: 1.0, 56: 1.0, 57: 1.0, 58: 1.0, 59: 1.0, 60: 1.0, 61: 1.0, 62: 1.0, 63: 1.0, 64: 1.0, 65: 1.0, 66: 1.0, 67: 1.0, 68: 1.0, 69: 0.0, 70: 0.6666666666666666, 71: 1.0, 72: 0.8, 73: 0.6666666666666666, 74: 1.0}
+Iteration 23: Valset pareto front aggregate score: 0.800148074148074
+Iteration 23: Updated valset pareto front programs: {0: {0, 2, 4, 6}, 1: {0, 1, 2, 3, 4, 5, 6}, 2: {2, 3}, 3: {0, 1, 2, 3, 4, 6}, 4: {0, 1, 2, 3, 4, 5, 6}, 5: {0, 1, 2, 3, 4, 5}, 6: {1, 6}, 7: {0, 2, 3, 4, 5, 6}, 8: {0, 1, 2, 3, 4, 5, 6}, 9: {1, 2, 3, 4, 5, 6}, 10: {1, 4, 5, 6}, 11: {6}, 12: {1}, 13: {0, 1, 2, 3, 4, 5, 6}, 14: {0, 1, 2, 3, 4, 5, 6}, 15: {0, 1, 2, 3, 4, 5, 6}, 16: {0, 1, 2, 3, 4, 6}, 17: {0, 1, 4, 5, 6}, 18: {2, 4}, 19: {0, 1, 2, 3, 4, 5, 6}, 20: {0, 1, 2, 3, 4, 5, 6}, 21: {3}, 22: {4, 5}, 23: {0, 1, 2, 3, 4, 5, 6}, 24: {0, 1, 2, 3, 4, 5, 6}, 25: {1}, 26: {0, 1, 2, 6}, 27: {0, 2, 3, 4}, 28: {0, 1, 2, 3, 4, 5, 6}, 29: {0, 1, 2, 3, 4, 5, 6}, 30: {0, 1, 2, 3, 4, 5, 6}, 31: {0, 1, 2, 3, 4, 5, 6}, 32: {0, 1, 2, 3, 4, 5, 6}, 33: {0, 1, 2, 3, 4, 5, 6}, 34: {0, 4, 5}, 35: {4}, 36: {4}, 37: {4, 5, 6}, 38: {0, 1, 2, 3, 4, 5, 6}, 39: {0, 1, 2, 3, 4, 5, 6}, 40: {0, 2, 3}, 41: {0, 1, 2, 3, 4, 5, 6}, 42: {0, 1, 2, 4, 6}, 43: {0, 1, 2, 3, 4, 5, 6}, 44: {0, 2, 3, 5, 6}, 45: {2, 5}, 46: {0, 1, 2, 3, 4, 5}, 47: {0, 2, 3}, 48: {0, 1, 2, 3, 4, 5, 6}, 49: {0, 1, 2, 3, 4, 5, 6}, 50: {0, 1, 2, 3, 4, 5, 6}, 51: {0, 1, 2, 3, 4, 5, 6}, 52: {5, 6}, 53: {2, 5}, 54: {1, 4, 5, 6}, 55: {1, 3}, 56: {0, 1, 2, 3, 4}, 57: {6}, 58: {2, 3}, 59: {0, 1, 2, 3, 4, 5, 6}, 60: {0, 1, 2, 3, 4, 5, 6}, 61: {3}, 62: {0, 1, 2, 3, 4, 5, 6}, 63: {0, 1, 2, 3, 4, 5, 6}, 64: {1, 4, 6}, 65: {1, 3, 4, 5, 6}, 66: {1, 4}, 67: {0, 1, 2, 3, 4, 5, 6}, 68: {0, 1, 2, 3, 4, 5, 6}, 69: {0, 1, 2, 3, 4, 5, 6}, 70: {0, 1, 2, 3, 4, 5, 6}, 71: {0, 1, 2, 3, 4, 5, 6}, 72: {0, 1, 2, 3, 4, 5, 6}, 73: {0, 1, 2, 3, 4, 5, 6}, 74: {0, 1, 2, 3, 4, 5, 6}}
+Iteration 23: Best valset aggregate score so far: 0.6613275613275612
+Iteration 23: Best program as per aggregate score on valset: 4
+Iteration 23: Best score on valset: 0.6613275613275612
+Iteration 23: Linear pareto front program index: 4
+Iteration 23: New program candidate index: 6
+Iteration 24: Selected program 2 score: 0.6429889369889368
+  0%|          | 0/3 [00:00<?, ?it/s]Average Metric: 0.67 / 1 (66.7%):   0%|          | 0/3 [00:00<?, ?it/s]Average Metric: 0.67 / 1 (66.7%):  33%|###3      | 1/3 [00:00<00:01,  1.14it/s]Average Metric: 1.33 / 2 (66.7%):  33%|###3      | 1/3 [00:01<00:01,  1.14it/s]Average Metric: 1.33 / 2 (66.7%):  67%|######6   | 2/3 [00:01<00:00,  1.45it/s]Average Metric: 1.33 / 3 (44.4%):  67%|######6   | 2/3 [00:01<00:00,  1.45it/s]Average Metric: 1.33 / 3 (44.4%): 100%|##########| 3/3 [00:01<00:00,  1.94it/s]Average Metric: 1.33 / 3 (44.4%): 100%|##########| 3/3 [00:01<00:00,  1.72it/s]
+Iteration 24: Proposed new text for summarize1: You are given a question and a set of passages. Your task is to write a brief, concise summary of the relevant factual information from the passages that directly answers or helps answer the question. 
+
+To do this effectively:
+- Identify and extract only the facts that are pertinent to the specific question asked.
+- If the passages provide explicit information that answers the question, include those details clearly.
+- If some parts of the question are not addressed in the passages, note that only the available relevant information should be summarized.
+- Avoid including unrelated or extraneous details from the passages.
+- When the question involves entities, places, events, or terminology, focus on the specific names, dates, affiliations, locations, or definitions as given.
+- If multiple passages provide complementary information, synthesize them into a coherent and factually accurate summary.
+- Use clear and direct language, avoiding interpretation or speculation beyond what the passages provide.
+- Use domain-specific terms or official names as presented in the passages (e.g., official titles, species names, route numbers).
+- Where appropriate, include contextual information from the passages that clarifies or supports the answer (e.g., political party affiliation, geographic jurisdiction, botanical classification).
+- Structure the summary to directly address the question, typically by naming the key entities or facts in your response.
+
+The input format is as follows:
+- A "question" string that specifies what information is sought.
+- A set of "passages," each containing factual text about related topics.
+- Your output should be a succinct summary of the relevant facts extracted from these passages, sufficient to answer the question.
+
+Example strategies:
+- Locate the passage(s) explicitly mentioning the subject of the question.
+- Extract and combine relevant facts (e.g., names, dates, affiliations, locations).
+- Exclude irrelevant passages or details that do not contribute to answering the question.
+- When a term or entity is not mentioned in the passages, acknowledge that fact concisely.
+
+Your goal is to produce a focused factual summary that can stand alone as an answer to the question based solely on the passages provided.
+Iteration 24: New subsample score 0.6666666666666666 is not better than old score 1.3333333333333333, skipping
+Iteration 25: Selected program 6 score: 0.6257363377363376
+  0%|          | 0/3 [00:00<?, ?it/s]Average Metric: 0.50 / 1 (50.0%):   0%|          | 0/3 [00:02<?, ?it/s]Average Metric: 0.50 / 1 (50.0%):  33%|###3      | 1/3 [00:02<00:04,  2.12s/it]Average Metric: 0.50 / 2 (25.0%):  33%|###3      | 1/3 [00:02<00:04,  2.12s/it]Average Metric: 0.50 / 2 (25.0%):  67%|######6   | 2/3 [00:02<00:01,  1.19s/it]Average Metric: 0.50 / 3 (16.7%):  67%|######6   | 2/3 [00:03<00:01,  1.19s/it]Average Metric: 0.50 / 3 (16.7%): 100%|##########| 3/3 [00:03<00:00,  1.18it/s]Average Metric: 0.50 / 3 (16.7%): 100%|##########| 3/3 [00:03<00:00,  1.03s/it]
+Iteration 25: Proposed new text for final_answer: You are given a question along with multiple summarized pieces of information that collectively contain the answer. Your task is to extract and provide the concise and precise answer to the question based solely on the given summaries. Respond with only the final answer as a short phrase or entity, without any explanation, reasoning, or additional text.  
+
+Key points to consider:  
+- The answer should be a direct, factual response to the question.  
+- Use information explicitly stated or clearly implied in the summaries.  
+- The answer should be as succinct as possible (e.g., a name, term, concept, or short phrase).  
+- Avoid any elaboration, context, or justification—only the final answer is required.  
+- When multiple summaries provide related information, synthesize them to produce a single, unified answer.  
+- Domain-specific knowledge (e.g., sports, music albums, political concepts) should be inferred from the summaries and reflected accurately in the answer.  
+- The question may require identifying a shared attribute, source of inspiration, or the basis of a concept, so focus on pinpointing the specific entity or phrase that directly addresses the question.
+Iteration 25: New subsample score 0.5 is not better than old score 0.5, skipping
+Iteration 26: Selected program 2 score: 0.6429889369889368
+  0%|          | 0/3 [00:00<?, ?it/s]Average Metric: 0.67 / 1 (66.7%):   0%|          | 0/3 [00:00<?, ?it/s]Average Metric: 0.67 / 1 (66.7%):  33%|###3      | 1/3 [00:00<00:01,  1.70it/s]Average Metric: 1.67 / 2 (83.3%):  33%|###3      | 1/3 [00:01<00:01,  1.70it/s]Average Metric: 1.67 / 2 (83.3%):  67%|######6   | 2/3 [00:01<00:00,  2.00it/s]Average Metric: 2.67 / 3 (88.9%):  67%|######6   | 2/3 [00:01<00:00,  2.00it/s]Average Metric: 2.67 / 3 (88.9%): 100%|##########| 3/3 [00:01<00:00,  2.22it/s]Average Metric: 2.67 / 3 (88.9%): 100%|##########| 3/3 [00:01<00:00,  2.11it/s]
+Iteration 26: Proposed new text for summarize2: You will be given three inputs for each task: a question, an existing summary (summary_1) containing information gathered so far relevant to the question, and a set of additional passages. Your goal is to produce a concise, accurate, and coherent summary that integrates the new passages with the existing summary, providing all relevant facts necessary to confidently answer the question.
+
+Specifically, follow these detailed steps:
+
+1. **Understand the Question:**  
+   Carefully read the question to identify exactly what information is being sought. Determine the key entities, relationships, dates, locations, roles, or other specifics required to answer it fully.
+
+2. **Review Existing Summary (summary_1):**  
+   Analyze the existing summary to understand what relevant facts have already been collected. Note any partial answers, context, or potential ambiguities.
+
+3. **Analyze Additional Passages:**  
+   Examine the new passages carefully to extract new information, clarifications, corrections, or additional details related to the question. Discard irrelevant information.
+
+4. **Synthesize a Final Summary:**  
+   Combine the information from the existing summary and the new passages into a single, integrated summary that:  
+   - Directly addresses the question with all pertinent facts.  
+   - Includes specific domain-relevant details such as full names, roles, affiliations, dates, locations, and identifiers when applicable (e.g., professional titles, university degrees, airport codes).  
+   - Resolves any contradictions or clarifies ambiguities explicitly if they arise (e.g., correcting a location or date previously misstated).  
+   - Avoids redundancy by integrating rather than repeating information.  
+   - Uses clear, precise, and objective language suitable for a final factual summary.  
+   - Excludes extraneous or unrelated information not directly relevant to the question.
+
+5. **Domain-Specific Considerations:**  
+   - When individuals are mentioned, always include their full names, roles, and relevant identifiers or affiliations to disambiguate them.  
+   - Include specific contextual details such as dates, locations, or qualifications if they are relevant to the question or help clarify facts.  
+   - If multiple similar entities or events are present, focus only on the one pertinent to the question.
+
+6. **Formatting and Style:**  
+   - Write in complete, grammatically correct sentences.  
+   - Keep the summary brief but comprehensive enough to answer the question fully.  
+   - Maintain objectivity and avoid speculation or inference beyond the provided facts.
+
+This approach ensures the final summary is a definitive, accurate, and succinct factual answer derived from integrating prior knowledge and new evidence, suitable for confidently responding to the original question.
+Iteration 26: New subsample score 2.6666666666666665 is not better than old score 2.6666666666666665, skipping
+Iteration 27: Selected program 6 score: 0.6257363377363376
+  0%|          | 0/3 [00:00<?, ?it/s]Average Metric: 1.00 / 1 (100.0%):   0%|          | 0/3 [00:02<?, ?it/s]Average Metric: 1.00 / 1 (100.0%):  33%|###3      | 1/3 [00:02<00:05,  2.65s/it]Average Metric: 1.00 / 2 (50.0%):  33%|###3      | 1/3 [00:02<00:05,  2.65s/it] Average Metric: 1.00 / 2 (50.0%):  67%|######6   | 2/3 [00:02<00:01,  1.16s/it]Average Metric: 2.00 / 3 (66.7%):  67%|######6   | 2/3 [00:03<00:01,  1.16s/it]Average Metric: 2.00 / 3 (66.7%): 100%|##########| 3/3 [00:03<00:00,  1.32it/s]Average Metric: 2.00 / 3 (66.7%): 100%|##########| 3/3 [00:03<00:00,  1.02s/it]
+Iteration 27: Proposed new text for summarize1: You will be given a question and a set of passages. Your task is to produce a concise, focused summary that contains only the factual information from the passages that is directly relevant and sufficient to answer the question. 
+
+Detailed guidelines:
+
+1. **Identify Relevant Entities and Concepts:**  
+   Carefully analyze the question to identify key entities, places, people, organizations, events, or concepts mentioned. Your summary must focus solely on facts from the passages that pertain to these key elements.
+
+2. **Extract Only Supporting Facts:**  
+   From the given passages, extract only those facts that directly support or answer the question. Filter out any unrelated or tangential information, even if it appears in the passages.
+
+3. **Use Precise, Domain-Specific Details:**  
+   When the question involves specific data points (e.g., names, dates, locations, titles, affiliations), include those exact details as stated in the passages. For example, if the question involves a named entity like "Priest Rapids Dam," include relevant location details, ownership, or related entities mentioned in the passages.
+
+4. **Synthesize Across Multiple Passages:**  
+   If relevant information is spread across multiple passages, combine these facts into a single coherent summary that fully answers the question without redundancy.
+
+5. **Avoid Adding External Information or Interpretation:**  
+   Do not add any information not explicitly supported by the passages. Avoid speculation, personal interpretation, or synthesis beyond what the passages provide.
+
+6. **State When No Relevant Information Exists:**  
+   If the passages do not contain any facts that help answer the question, clearly state that no relevant information is present.
+
+7. **Keep the Summary Concise and Clear:**  
+   Your summary should be brief, straightforward, and factually accurate. Avoid extraneous detail or lengthy explanations.
+
+8. **Maintain Contextual Accuracy:**  
+   Use the passages as the sole source of truth. For example, if a passage provides historical names or relationships (e.g., “Hanford Nuclear Reservation” is part of “Hanford Site”), incorporate that exact relationship to clarify the answer.
+
+9. **Examples of Task-Specific Approaches:**  
+   - When asked about locations, include geographic or administrative details provided.  
+   - For questions about historical or fictional works, mention publication years, authorship, and content relationships as given.  
+   - For questions about individuals and their achievements or affiliations, include relevant titles, organizations, and achievements explicitly stated.
+
+By following this methodical approach, your summary will accurately and efficiently answer the question using only the relevant factual information from the provided passages.
+Iteration 27: New subsample score 1.4 is not better than old score 2.0, skipping
+Iteration 28: Selected program 1 score: 0.6228513708513708
+  0%|          | 0/3 [00:00<?, ?it/s]Average Metric: 0.00 / 1 (0.0%):   0%|          | 0/3 [00:02<?, ?it/s]Average Metric: 0.00 / 1 (0.0%):  33%|###3      | 1/3 [00:02<00:04,  2.20s/it]Average Metric: 0.00 / 2 (0.0%):  33%|###3      | 1/3 [00:02<00:04,  2.20s/it]Average Metric: 0.00 / 2 (0.0%):  67%|######6   | 2/3 [00:02<00:01,  1.25s/it]Average Metric: 0.00 / 3 (0.0%):  67%|######6   | 2/3 [00:03<00:01,  1.25s/it]Average Metric: 0.00 / 3 (0.0%): 100%|##########| 3/3 [00:03<00:00,  1.20it/s]Average Metric: 0.00 / 3 (0.0%): 100%|##########| 3/3 [00:03<00:00,  1.04s/it]
+Iteration 28: Proposed new text for final_answer: You are given a question and multiple summaries of information that have been gathered to answer that question. Your task is to provide a concise, accurate answer to the question based solely on the information contained within the provided summaries. 
+
+- If the summaries contain clear, relevant information that directly answers the question, respond with the precise name, phrase, or entity that answers the question.
+- If the summaries do not contain sufficient or relevant information to answer the question, respond explicitly with "No" to indicate that no answer can be derived from the given data.
+- Do not include any explanations, reasoning, or additional commentary in your response.
+- Your answer should be short and direct, ideally a proper noun, a name, or a short phrase that directly addresses the question.
+- When multiple summaries provide conflicting or multiple pieces of information, rely on the information that is most clearly stated and directly relevant to the question.
+- Always base your answer strictly on the information provided in the summaries; do not use outside knowledge or assumptions.
+
+This task requires careful extraction of factual information from summaries, assessment of their relevance to the question, and concise synthesis into a single, clear answer or an explicit negative response if no answer is supported.
+Iteration 28: New subsample score 0.0 is not better than old score 0.0, skipping
+Iteration 29: Selected program 3 score: 0.6293015873015873
+  0%|          | 0/3 [00:00<?, ?it/s]Average Metric: 0.80 / 1 (80.0%):   0%|          | 0/3 [00:00<?, ?it/s]Average Metric: 0.80 / 1 (80.0%):  33%|###3      | 1/3 [00:00<00:01,  1.46it/s]Average Metric: 0.80 / 2 (40.0%):  33%|###3      | 1/3 [00:01<00:01,  1.46it/s]Average Metric: 0.80 / 2 (40.0%):  67%|######6   | 2/3 [00:01<00:00,  1.31it/s]Average Metric: 0.80 / 3 (26.7%):  67%|######6   | 2/3 [00:02<00:00,  1.31it/s]Average Metric: 0.80 / 3 (26.7%): 100%|##########| 3/3 [00:02<00:00,  1.44it/s]Average Metric: 0.80 / 3 (26.7%): 100%|##########| 3/3 [00:02<00:00,  1.42it/s]
+Iteration 29: Proposed new text for summarize1: You will be given a question and multiple passages containing factual information. Your task is to write a concise summary that includes only the key facts from the passages that directly answer or are relevant to the question. 
+
+When summarizing, adhere to the following guidelines:
+
+1. Identify the main entities, events, or concepts from the passages that specifically relate to the question.
+2. Extract and synthesize only the information necessary to answer the question accurately, avoiding extraneous details.
+3. If the question asks for a specific person, event, or fact, focus on passages that mention that entity or provide context about it.
+4. Use clear and direct language to connect the relevant facts to the question.
+5. Avoid speculation or including unrelated information even if it appears in the passages.
+6. If multiple passages provide complementary facts, combine them succinctly to form a coherent summary.
+7. Preserve domain-specific details and terminology that are essential to understanding the answer, e.g., names of events, dates, teams, titles, or specific roles.
+8. The summary should be brief but sufficient to answer the question based on the passages provided.
+
+Example strategies include:
+- Recognizing named entities (people, teams, events) mentioned in the question and finding matching references in passages.
+- Noting relationships such as team membership, participation in events, or roles played by individuals.
+- Identifying temporal or contextual clues (dates, locations, titles) that clarify which facts are relevant.
+- Combining information from multiple passages when needed to form a complete answer.
+
+Your final output should be a concise factual summary that directly addresses the question using evidence drawn from the passages.
+Iteration 29: New subsample score 1.2000000000000002 is better than old score 0.8. Continue to full eval and add to candidate pool.
+Iteration 29: Found a better program on the valset with score 0.6733169793169791.
+Iteration 29: Valset score for new program: 0.6733169793169791 (coverage 75 / 75)
+Iteration 29: Val aggregate for new program: 0.6733169793169791
+Iteration 29: Individual valset scores for new program: {0: 0.8, 1: 0.6666666666666666, 2: 0.8571428571428571, 3: 0.4, 4: 1.0, 5: 1.0, 6: 0.0, 7: 1.0, 8: 1.0, 9: 1.0, 10: 0.8, 11: 0.0, 12: 0.2857142857142857, 13: 0.0, 14: 0.5, 15: 1.0, 16: 0.0, 17: 1.0, 18: 1.0, 19: 0.9090909090909091, 20: 1.0, 21: 0.0, 22: 1.0, 23: 1.0, 24: 1.0, 25: 0.4, 26: 0.5, 27: 1.0, 28: 1.0, 29: 1.0, 30: 0.0, 31: 0.0, 32: 0.0, 33: 1.0, 34: 0.3333333333333333, 35: 0.0, 36: 0.5, 37: 0.5, 38: 1.0, 39: 1.0, 40: 1.0, 41: 1.0, 42: 0.33333333333333337, 43: 0.0, 44: 0.8, 45: 0.25, 46: 0.5, 47: 0.8, 48: 0.0, 49: 1.0, 50: 1.0, 51: 1.0, 52: 1.0, 53: 0.0, 54: 1.0, 55: 1.0, 56: 0.4444444444444445, 57: 0.0, 58: 0.0, 59: 1.0, 60: 1.0, 61: 0.5, 62: 1.0, 63: 1.0, 64: 0.28571428571428575, 65: 0.8, 66: 1.0, 67: 1.0, 68: 1.0, 69: 1.0, 70: 0.6666666666666666, 71: 1.0, 72: 1.0, 73: 0.6666666666666666, 74: 1.0}
+Iteration 29: New valset pareto front scores: {0: 1.0, 1: 0.6666666666666666, 2: 1.0, 3: 1.0, 4: 1.0, 5: 1.0, 6: 1.0, 7: 1.0, 8: 1.0, 9: 1.0, 10: 0.8, 11: 0.4615384615384615, 12: 0.2857142857142857, 13: 0.0, 14: 0.5, 15: 1.0, 16: 0.8, 17: 1.0, 18: 1.0, 19: 0.9090909090909091, 20: 1.0, 21: 0.5714285714285715, 22: 1.0, 23: 1.0, 24: 1.0, 25: 0.4, 26: 1.0, 27: 1.0, 28: 1.0, 29: 1.0, 30: 0.0, 31: 0.0, 32: 0.0, 33: 1.0, 34: 0.3333333333333333, 35: 0.6, 36: 1.0, 37: 1.0, 38: 1.0, 39: 1.0, 40: 1.0, 41: 1.0, 42: 0.5, 43: 0.0, 44: 0.8, 45: 0.25, 46: 1.0, 47: 1.0, 48: 0.0, 49: 1.0, 50: 1.0, 51: 1.0, 52: 1.0, 53: 1.0, 54: 1.0, 55: 1.0, 56: 1.0, 57: 1.0, 58: 1.0, 59: 1.0, 60: 1.0, 61: 1.0, 62: 1.0, 63: 1.0, 64: 1.0, 65: 1.0, 66: 1.0, 67: 1.0, 68: 1.0, 69: 1.0, 70: 0.6666666666666666, 71: 1.0, 72: 1.0, 73: 0.6666666666666666, 74: 1.0}
+Iteration 29: Valset pareto front aggregate score: 0.8294814074814074
+Iteration 29: Updated valset pareto front programs: {0: {0, 2, 4, 6}, 1: {0, 1, 2, 3, 4, 5, 6, 7}, 2: {2, 3}, 3: {0, 1, 2, 3, 4, 6}, 4: {0, 1, 2, 3, 4, 5, 6, 7}, 5: {0, 1, 2, 3, 4, 5, 7}, 6: {1, 6}, 7: {0, 2, 3, 4, 5, 6, 7}, 8: {0, 1, 2, 3, 4, 5, 6, 7}, 9: {1, 2, 3, 4, 5, 6, 7}, 10: {1, 4, 5, 6, 7}, 11: {6}, 12: {1, 7}, 13: {0, 1, 2, 3, 4, 5, 6, 7}, 14: {0, 1, 2, 3, 4, 5, 6, 7}, 15: {0, 1, 2, 3, 4, 5, 6, 7}, 16: {0, 1, 2, 3, 4, 6}, 17: {0, 1, 4, 5, 6, 7}, 18: {2, 4, 7}, 19: {0, 1, 2, 3, 4, 5, 6, 7}, 20: {0, 1, 2, 3, 4, 5, 6, 7}, 21: {3}, 22: {4, 5, 7}, 23: {0, 1, 2, 3, 4, 5, 6, 7}, 24: {0, 1, 2, 3, 4, 5, 6, 7}, 25: {1, 7}, 26: {0, 1, 2, 6}, 27: {0, 2, 3, 4, 7}, 28: {0, 1, 2, 3, 4, 5, 6, 7}, 29: {0, 1, 2, 3, 4, 5, 6, 7}, 30: {0, 1, 2, 3, 4, 5, 6, 7}, 31: {0, 1, 2, 3, 4, 5, 6, 7}, 32: {0, 1, 2, 3, 4, 5, 6, 7}, 33: {7}, 34: {0, 4, 5, 7}, 35: {4}, 36: {4}, 37: {4, 5, 6}, 38: {0, 1, 2, 3, 4, 5, 6, 7}, 39: {0, 1, 2, 3, 4, 5, 6, 7}, 40: {0, 2, 3, 7}, 41: {0, 1, 2, 3, 4, 5, 6, 7}, 42: {0, 1, 2, 4, 6}, 43: {0, 1, 2, 3, 4, 5, 6, 7}, 44: {0, 2, 3, 5, 6, 7}, 45: {2, 5, 7}, 46: {0, 1, 2, 3, 4, 5}, 47: {0, 2, 3}, 48: {0, 1, 2, 3, 4, 5, 6, 7}, 49: {0, 1, 2, 3, 4, 5, 6, 7}, 50: {0, 1, 2, 3, 4, 5, 6, 7}, 51: {0, 1, 2, 3, 4, 5, 6, 7}, 52: {5, 6, 7}, 53: {2, 5}, 54: {1, 4, 5, 6, 7}, 55: {1, 3, 7}, 56: {0, 1, 2, 3, 4}, 57: {6}, 58: {2, 3}, 59: {0, 1, 2, 3, 4, 5, 6, 7}, 60: {0, 1, 2, 3, 4, 5, 6, 7}, 61: {3}, 62: {0, 1, 2, 3, 4, 5, 6, 7}, 63: {0, 1, 2, 3, 4, 5, 6, 7}, 64: {1, 4, 6}, 65: {1, 3, 4, 5, 6}, 66: {1, 4, 7}, 67: {0, 1, 2, 3, 4, 5, 6, 7}, 68: {0, 1, 2, 3, 4, 5, 6, 7}, 69: {7}, 70: {0, 1, 2, 3, 4, 5, 6, 7}, 71: {0, 1, 2, 3, 4, 5, 6, 7}, 72: {7}, 73: {0, 1, 2, 3, 4, 5, 6, 7}, 74: {0, 1, 2, 3, 4, 5, 6, 7}}
+Iteration 29: Best valset aggregate score so far: 0.6733169793169791
+Iteration 29: Best program as per aggregate score on valset: 7
+Iteration 29: Best score on valset: 0.6733169793169791
+Iteration 29: Linear pareto front program index: 7
+Iteration 29: New program candidate index: 7
+Iteration 30: Selected program 4 score: 0.6613275613275612
+  0%|          | 0/3 [00:00<?, ?it/s]Average Metric: 1.00 / 1 (100.0%):   0%|          | 0/3 [00:02<?, ?it/s]Average Metric: 1.00 / 1 (100.0%):  33%|###3      | 1/3 [00:02<00:04,  2.28s/it]Average Metric: 1.00 / 2 (50.0%):  33%|###3      | 1/3 [00:02<00:04,  2.28s/it] Average Metric: 1.00 / 2 (50.0%):  67%|######6   | 2/3 [00:02<00:01,  1.25s/it]Average Metric: 1.00 / 3 (33.3%):  67%|######6   | 2/3 [00:04<00:01,  1.25s/it]Average Metric: 1.00 / 3 (33.3%): 100%|##########| 3/3 [00:04<00:00,  1.40s/it]Average Metric: 1.00 / 3 (33.3%): 100%|##########| 3/3 [00:04<00:00,  1.46s/it]
+Iteration 30: Proposed new text for summarize2: You are given three inputs: a question, a summary of information gathered so far that is relevant to the question, and a set of additional passages containing new information. Your task is to write a concise, integrated summary of all the relevant facts that combine the prior summary and the new passages to better answer the question.
+
+To do this, follow these guidelines:
+
+1. Carefully identify the key entities, facts, and relationships mentioned in both the initial summary and the new passages that pertain directly to the question.
+
+2. Merge the old summary and new information into a coherent, brief summary that highlights all relevant details without unnecessary repetition.
+
+3. If the new passages add facts that clarify, specify, or expand on the initial summary, incorporate those details explicitly.
+
+4. If the question asks for specific factual information (e.g., names, dates, roles, locations), ensure your summary includes those facts clearly.
+
+5. If some relevant facts are implied or can be logically inferred from the passages (such as identifying a person’s role or a place’s location), include those clarifications to improve completeness.
+
+6. Avoid adding information not supported by either the initial summary or the new passages.
+
+7. Use domain-specific terms and names exactly as given (e.g., historical figures, geographic locations, titles, show names) to preserve factual accuracy.
+
+8. Keep the summary concise, focused, and factual, suitable for answering the question or providing an updated knowledge base for further processing.
+
+Example strategy: When passages mention titles or roles (e.g., "Commander-in-Chief of India"), link those explicitly to named individuals where possible. When geographic names and their meanings are given, connect the meaning to the location and relevant species or features. When multiple pieces of information about the same entity appear across passages, synthesize them into a unified description.
+
+In summary, your output should be a brief but comprehensive factual synthesis of all relevant information from both the initial summary and new passages, clearly addressing the question with accurate, domain-specific details.
+Iteration 30: New subsample score 1.2857142857142858 is better than old score 1.0. Continue to full eval and add to candidate pool.
+Iteration 30: Valset score for new program: 0.6205868205868206 (coverage 75 / 75)
+Iteration 30: Val aggregate for new program: 0.6205868205868206
+Iteration 30: Individual valset scores for new program: {0: 1.0, 1: 0.6666666666666666, 2: 0.8571428571428571, 3: 1.0, 4: 1.0, 5: 0.0, 6: 0.0, 7: 0.0, 8: 1.0, 9: 1.0, 10: 0.8, 11: 0.0, 12: 0.16666666666666666, 13: 0.0, 14: 0.5, 15: 1.0, 16: 1.0, 17: 1.0, 18: 0.5, 19: 0.9090909090909091, 20: 1.0, 21: 0.0, 22: 1.0, 23: 1.0, 24: 1.0, 25: 0.0, 26: 1.0, 27: 1.0, 28: 1.0, 29: 1.0, 30: 0.0, 31: 0.0, 32: 0.0, 33: 0.0, 34: 0.3333333333333333, 35: 0.6, 36: 0.5, 37: 1.0, 38: 1.0, 39: 1.0, 40: 0.3333333333333333, 41: 1.0, 42: 0.5, 43: 0.0, 44: 0.0, 45: 0.0, 46: 1.0, 47: 0.8, 48: 0.0, 49: 1.0, 50: 1.0, 51: 1.0, 52: 1.0, 53: 1.0, 54: 1.0, 55: 0.0, 56: 0.4444444444444445, 57: 0.0, 58: 0.0, 59: 1.0, 60: 1.0, 61: 0.5, 62: 1.0, 63: 1.0, 64: 1.0, 65: 1.0, 66: 0.0, 67: 1.0, 68: 1.0, 69: 0.0, 70: 0.6666666666666666, 71: 0.0, 72: 0.8, 73: 0.6666666666666666, 74: 1.0}
+Iteration 30: New valset pareto front scores: {0: 1.0, 1: 0.6666666666666666, 2: 1.0, 3: 1.0, 4: 1.0, 5: 1.0, 6: 1.0, 7: 1.0, 8: 1.0, 9: 1.0, 10: 0.8, 11: 0.4615384615384615, 12: 0.2857142857142857, 13: 0.0, 14: 0.5, 15: 1.0, 16: 1.0, 17: 1.0, 18: 1.0, 19: 0.9090909090909091, 20: 1.0, 21: 0.5714285714285715, 22: 1.0, 23: 1.0, 24: 1.0, 25: 0.4, 26: 1.0, 27: 1.0, 28: 1.0, 29: 1.0, 30: 0.0, 31: 0.0, 32: 0.0, 33: 1.0, 34: 0.3333333333333333, 35: 0.6, 36: 1.0, 37: 1.0, 38: 1.0, 39: 1.0, 40: 1.0, 41: 1.0, 42: 0.5, 43: 0.0, 44: 0.8, 45: 0.25, 46: 1.0, 47: 1.0, 48: 0.0, 49: 1.0, 50: 1.0, 51: 1.0, 52: 1.0, 53: 1.0, 54: 1.0, 55: 1.0, 56: 1.0, 57: 1.0, 58: 1.0, 59: 1.0, 60: 1.0, 61: 1.0, 62: 1.0, 63: 1.0, 64: 1.0, 65: 1.0, 66: 1.0, 67: 1.0, 68: 1.0, 69: 1.0, 70: 0.6666666666666666, 71: 1.0, 72: 1.0, 73: 0.6666666666666666, 74: 1.0}
+Iteration 30: Valset pareto front aggregate score: 0.8321480741480741
+Iteration 30: Updated valset pareto front programs: {0: {0, 2, 4, 6, 8}, 1: {0, 1, 2, 3, 4, 5, 6, 7, 8}, 2: {2, 3}, 3: {0, 1, 2, 3, 4, 6, 8}, 4: {0, 1, 2, 3, 4, 5, 6, 7, 8}, 5: {0, 1, 2, 3, 4, 5, 7}, 6: {1, 6}, 7: {0, 2, 3, 4, 5, 6, 7}, 8: {0, 1, 2, 3, 4, 5, 6, 7, 8}, 9: {1, 2, 3, 4, 5, 6, 7, 8}, 10: {1, 4, 5, 6, 7, 8}, 11: {6}, 12: {1, 7}, 13: {0, 1, 2, 3, 4, 5, 6, 7, 8}, 14: {0, 1, 2, 3, 4, 5, 6, 7, 8}, 15: {0, 1, 2, 3, 4, 5, 6, 7, 8}, 16: {8}, 17: {0, 1, 4, 5, 6, 7, 8}, 18: {2, 4, 7}, 19: {0, 1, 2, 3, 4, 5, 6, 7, 8}, 20: {0, 1, 2, 3, 4, 5, 6, 7, 8}, 21: {3}, 22: {8, 4, 5, 7}, 23: {0, 1, 2, 3, 4, 5, 6, 7, 8}, 24: {0, 1, 2, 3, 4, 5, 6, 7, 8}, 25: {1, 7}, 26: {0, 1, 2, 6, 8}, 27: {0, 2, 3, 4, 7, 8}, 28: {0, 1, 2, 3, 4, 5, 6, 7, 8}, 29: {0, 1, 2, 3, 4, 5, 6, 7, 8}, 30: {0, 1, 2, 3, 4, 5, 6, 7, 8}, 31: {0, 1, 2, 3, 4, 5, 6, 7, 8}, 32: {0, 1, 2, 3, 4, 5, 6, 7, 8}, 33: {7}, 34: {0, 4, 5, 7, 8}, 35: {8, 4}, 36: {4}, 37: {8, 4, 5, 6}, 38: {0, 1, 2, 3, 4, 5, 6, 7, 8}, 39: {0, 1, 2, 3, 4, 5, 6, 7, 8}, 40: {0, 2, 3, 7}, 41: {0, 1, 2, 3, 4, 5, 6, 7, 8}, 42: {0, 1, 2, 4, 6, 8}, 43: {0, 1, 2, 3, 4, 5, 6, 7, 8}, 44: {0, 2, 3, 5, 6, 7}, 45: {2, 5, 7}, 46: {0, 1, 2, 3, 4, 5, 8}, 47: {0, 2, 3}, 48: {0, 1, 2, 3, 4, 5, 6, 7, 8}, 49: {0, 1, 2, 3, 4, 5, 6, 7, 8}, 50: {0, 1, 2, 3, 4, 5, 6, 7, 8}, 51: {0, 1, 2, 3, 4, 5, 6, 7, 8}, 52: {8, 5, 6, 7}, 53: {8, 2, 5}, 54: {1, 4, 5, 6, 7, 8}, 55: {1, 3, 7}, 56: {0, 1, 2, 3, 4}, 57: {6}, 58: {2, 3}, 59: {0, 1, 2, 3, 4, 5, 6, 7, 8}, 60: {0, 1, 2, 3, 4, 5, 6, 7, 8}, 61: {3}, 62: {0, 1, 2, 3, 4, 5, 6, 7, 8}, 63: {0, 1, 2, 3, 4, 5, 6, 7, 8}, 64: {8, 1, 4, 6}, 65: {1, 3, 4, 5, 6, 8}, 66: {1, 4, 7}, 67: {0, 1, 2, 3, 4, 5, 6, 7, 8}, 68: {0, 1, 2, 3, 4, 5, 6, 7, 8}, 69: {7}, 70: {0, 1, 2, 3, 4, 5, 6, 7, 8}, 71: {0, 1, 2, 3, 4, 5, 6, 7}, 72: {7}, 73: {0, 1, 2, 3, 4, 5, 6, 7, 8}, 74: {0, 1, 2, 3, 4, 5, 6, 7, 8}}
+Iteration 30: Best valset aggregate score so far: 0.6733169793169791
+Iteration 30: Best program as per aggregate score on valset: 7
+Iteration 30: Best score on valset: 0.6733169793169791
+Iteration 30: Linear pareto front program index: 7
+Iteration 30: New program candidate index: 8
+Iteration 31: Selected program 8 score: 0.6205868205868206
+  0%|          | 0/3 [00:00<?, ?it/s]Average Metric: 0.00 / 1 (0.0%):   0%|          | 0/3 [00:01<?, ?it/s]Average Metric: 0.00 / 1 (0.0%):  33%|###3      | 1/3 [00:01<00:03,  1.75s/it]Average Metric: 0.67 / 2 (33.3%):  33%|###3      | 1/3 [00:01<00:03,  1.75s/it]Average Metric: 0.67 / 2 (33.3%):  67%|######6   | 2/3 [00:01<00:00,  1.28it/s]Average Metric: 1.67 / 3 (55.6%):  67%|######6   | 2/3 [00:02<00:00,  1.28it/s]Average Metric: 1.67 / 3 (55.6%): 100%|##########| 3/3 [00:02<00:00,  1.98it/s]Average Metric: 1.67 / 3 (55.6%): 100%|##########| 3/3 [00:02<00:00,  1.48it/s]
+Iteration 31: Proposed new text for final_answer: You are given a question and multiple summaries containing information relevant to answering that question. Your task is to provide a concise, direct answer to the question using only the information contained in the summaries. 
+
+- Respond with only the final answer, as a short phrase, entity name, or a specific fact. 
+- Do not include any explanations, reasoning, or additional context.
+- If the summaries do not contain any relevant information to answer the question, respond exactly with: "No information available"
+- Use the details explicitly stated in the summaries; do not infer beyond the provided information.
+- When the question asks for a person, place, date, or event, provide the specific entity or value as stated in the summaries.
+- If multiple summaries provide the same information, treat it as confirmation and answer accordingly.
+- Ensure your answer is precise, matching the phrasing or data given in the summaries as closely as possible.
+
+This approach ensures clarity and consistency in answering fact-based questions solely based on the input summaries.
+Iteration 31: New subsample score 1.6666666666666665 is not better than old score 1.6666666666666665, skipping
+Iteration 32: Selected program 7 score: 0.6733169793169791
+  0%|          | 0/3 [00:00<?, ?it/s]Average Metric: 1.00 / 1 (100.0%):   0%|          | 0/3 [00:01<?, ?it/s]Average Metric: 1.00 / 1 (100.0%):  33%|###3      | 1/3 [00:01<00:03,  1.80s/it]Average Metric: 1.00 / 2 (50.0%):  33%|###3      | 1/3 [00:02<00:03,  1.80s/it] Average Metric: 1.00 / 2 (50.0%):  67%|######6   | 2/3 [00:02<00:01,  1.21s/it]Average Metric: 1.00 / 3 (33.3%):  67%|######6   | 2/3 [00:02<00:01,  1.21s/it]Average Metric: 1.00 / 3 (33.3%): 100%|##########| 3/3 [00:02<00:00,  1.34it/s]Average Metric: 1.00 / 3 (33.3%): 100%|##########| 3/3 [00:02<00:00,  1.08it/s]
+Iteration 32: Proposed new text for summarize2: You will be given three inputs: a question, an existing summary of information gathered so far (summary_1), and a set of additional passages.
+
+Your task is to produce a concise, accurate, and coherent summary that synthesizes all the relevant factual information from both the existing summary and the new passages to help answer the question. This summary should be focused solely on facts directly pertinent to the question, excluding unrelated or extraneous details.
+
+Detailed guidelines:
+
+1. Carefully analyze the existing summary (summary_1) to identify key facts relevant to the question. The existing summary may already contain a partial or full answer.
+
+2. Review each of the additional passages thoroughly. Extract any new, directly relevant facts that complement, clarify, expand, or update the information in the existing summary with respect to the question.
+
+3. Combine the relevant facts from the existing summary and the new passages into a brief, coherent summary that directly addresses the question. Ensure the combined summary is factually accurate and clearly written in full sentences and a neutral tone.
+
+4. If the additional passages do not contain any new information relevant to the question beyond what is already in the existing summary, explicitly state that the new passages do not add to the existing knowledge relevant to the question.
+
+5. Avoid including any unrelated, tangential, or extraneous details from the additional passages, even if interesting or domain-related. Focus strictly on facts that help answer the question.
+
+6. Maintain clarity, brevity, and factual precision. The summary should serve as a focused, integrated answer that improves understanding of the topic in relation to the question.
+
+Contextual and domain-specific notes:
+
+- The question may be about a person, event, organization, publication, or other factual topic requiring precise factual synthesis.
+- The existing summary may be incomplete or partial; your role is to augment or confirm it with new relevant facts from the additional passages.
+- The additional passages may contain unrelated information; your task is to discern and extract only what is directly relevant.
+- If the question involves dates, affiliations, relationships, or historical details, prioritize those facts.
+- When the existing summary already provides a full answer, and the new passages do not add new relevant facts, explicitly indicate no new relevant information.
+
+In summary, your output should be a succinct, integrated factual summary that combines the existing knowledge with any new relevant information from the additional passages, focused precisely on answering the question asked.
+Iteration 32: New subsample score 1.0 is not better than old score 1.0, skipping
+Iteration 33: Selected program 7 score: 0.6733169793169791
+  0%|          | 0/3 [00:00<?, ?it/s]Average Metric: 1.00 / 1 (100.0%):   0%|          | 0/3 [00:01<?, ?it/s]Average Metric: 1.00 / 1 (100.0%):  33%|###3      | 1/3 [00:01<00:02,  1.49s/it]Average Metric: 1.00 / 2 (50.0%):  33%|###3      | 1/3 [00:01<00:02,  1.49s/it] Average Metric: 1.00 / 2 (50.0%):  67%|######6   | 2/3 [00:01<00:00,  1.47it/s]Average Metric: 2.00 / 3 (66.7%):  67%|######6   | 2/3 [00:01<00:00,  1.47it/s]Average Metric: 2.00 / 3 (66.7%): 100%|##########| 3/3 [00:01<00:00,  2.25it/s]Average Metric: 2.00 / 3 (66.7%): 100%|##########| 3/3 [00:01<00:00,  1.70it/s]
+Iteration 33: Proposed new text for final_answer: You are given a question and two summaries that contain information relevant to answering the question. Your task is to determine the correct and concise answer based solely on the information presented in the summaries.
+
+- Read both summaries carefully and compare the factual information provided.
+- Identify key entities, locations, names, or attributes mentioned in the summaries that directly answer the question.
+- If the summaries differ or provide multiple pieces of information, use the summary that contains the most precise and relevant details to answer the question.
+- Provide the answer as a short phrase or entity only, with no explanation or additional commentary.
+- The answer should be specific and directly address the question (e.g., a name, a place, a nationality, or a clear choice between options).
+- Do not infer or add information not supported by the summaries.
+- Maintain clarity and brevity in your answer.
+
+Example strategies you can apply:
+- When the question asks for a comparison (e.g., "Which is further north?"), identify the locations mentioned in the summaries and use the summary that provides explicit geographic comparison.
+- When the question asks for an identity or attribute (e.g., "What is the nationality?"), extract the relevant entity from the summary that states it clearly.
+- When the question asks for a title or name (e.g., "Which TV series...?"), choose the exact title given in the summaries.
+
+Always output only the final answer in a concise form.
+Iteration 33: New subsample score 2.0 is not better than old score 2.0, skipping
+Iteration 34: Selected program 8 score: 0.6205868205868206
+  0%|          | 0/3 [00:00<?, ?it/s]Average Metric: 0.00 / 1 (0.0%):   0%|          | 0/3 [00:02<?, ?it/s]Average Metric: 0.00 / 1 (0.0%):  33%|###3      | 1/3 [00:02<00:04,  2.34s/it]Average Metric: 1.00 / 2 (50.0%):  33%|###3      | 1/3 [00:02<00:04,  2.34s/it]Average Metric: 1.00 / 2 (50.0%):  67%|######6   | 2/3 [00:02<00:01,  1.26s/it]Average Metric: 1.80 / 3 (60.0%):  67%|######6   | 2/3 [00:02<00:01,  1.26s/it]Average Metric: 1.80 / 3 (60.0%): 100%|##########| 3/3 [00:02<00:00,  1.04it/s]
+Iteration 34: Proposed new text for summarize1: You are given a question and a set of passages containing various factual information. Your task is to produce a concise, precise factual summary that directly answers the question by extracting and consolidating only the relevant facts from the passages.
+
+Detailed task description and guidelines:
+
+1. **Identify Key Entities and Attributes in the Question**  
+   - Extract from the question the main entities (e.g., names, places, organizations, species, political parties), attributes (e.g., roles, dates, locations), and relationships that are central to the inquiry.
+   - Use these extracted elements as filters to locate relevant information in the passages.
+
+2. **Scan Passages for Explicitly Relevant Information**  
+   - Focus only on sentences or facts that explicitly mention or closely relate to the key entities and attributes identified.
+   - Disregard any information that is tangential, background context, opinions, or unrelated details.
+
+3. **Extract and Consolidate Relevant Facts**  
+   - Pull out exact or clearly paraphrased factual details that directly answer the question.
+   - When multiple passages provide complementary or overlapping relevant facts, combine these into a single coherent, unified summary.
+   - Avoid introducing any assumptions, interpretations, or external knowledge not present in the passages.
+
+4. **Produce a Brief, Focused Summary**  
+   - The summary should be succinct yet sufficiently informative to fully address the question.
+   - Use clear, direct language and factual statements.
+   - Avoid opinions, extraneous context, or unnecessary elaborations.
+
+5. **Formatting and Style**  
+   - Write in complete sentences.
+   - Keep the tone neutral and factual.
+   - Do not include quotes unless necessary for clarity; paraphrase accurately instead.
+
+**Domain-specific and task-specific considerations:**  
+- The task involves handling diverse domains such as history, biology, clothing, political events, geography, and more.  
+- Questions may ask for specific identifications (e.g., what government tag was given to a handicraft), locations (e.g., continents where a genus is found), dates or events (e.g., when a civil war ended), or definitions linked to entities.  
+- The passages may contain detailed factual descriptions, biographical data, terminological clarifications, or historical timelines.  
+- The assistant must carefully filter out unrelated information, such as background context, general descriptions, or unrelated examples, focusing solely on facts that answer the question.
+
+**Generalizable strategy:**  
+- Parse the question to determine what information is sought (e.g., identification, location, date, event).  
+- Use keywords and entities from the question to pinpoint relevant passages or sentences.  
+- Extract only those facts that explicitly relate to the question’s core elements.  
+- Merge relevant facts from multiple passages into a concise, factual summary that directly answers the question without extraneous detail.
+
+This approach ensures precise fact extraction, relevance filtering, and synthesis, resulting in a succinct, accurate factual summary that serves as a direct answer to the question based solely on the provided passages.
+Iteration 34: New subsample score 1.4666666666666668 is not better than old score 1.8, skipping
+Iteration 35: Selected program 4 score: 0.6613275613275612
+  0%|          | 0/3 [00:00<?, ?it/s]Average Metric: 1.00 / 1 (100.0%):   0%|          | 0/3 [00:02<?, ?it/s]Average Metric: 1.00 / 1 (100.0%):  33%|###3      | 1/3 [00:02<00:04,  2.24s/it]Average Metric: 2.00 / 2 (100.0%):  33%|###3      | 1/3 [00:02<00:04,  2.24s/it]Average Metric: 2.00 / 3 (66.7%):  67%|######6   | 2/3 [00:02<00:02,  2.24s/it] Average Metric: 2.00 / 3 (66.7%): 100%|##########| 3/3 [00:02<00:00,  1.30it/s]Average Metric: 2.00 / 3 (66.7%): 100%|##########| 3/3 [00:02<00:00,  1.09it/s]
+Iteration 35: Proposed new text for final_answer: You will be given a question and multiple summaries containing information relevant to answering the question. Your task is to provide a concise, factual answer to the question based solely on the information contained in the provided summaries.
+
+- Respond with only the short phrase or entity that directly answers the question.
+- Do not include any explanations, elaborations, or additional commentary.
+- If the summaries provide no relevant or conclusive information to answer the question, respond with the exact phrase: "No information available".
+- Use the exact names, terms, or entities as presented in the summaries without paraphrasing or altering them.
+- When the question is a yes/no question and the summaries provide a definitive answer, respond with "Yes" or "No" accordingly.
+- If the question involves identifying a location, person, publication, or entity linked to a fact, respond with that entity’s name as given.
+- Avoid assumptions or external knowledge beyond the summaries provided.
+
+This instruction ensures that the answer is precise, factually grounded in the input summaries, and formatted consistently for easy downstream use.
+Iteration 35: New subsample score 2.0 is not better than old score 2.0, skipping
+Iteration 36: Selected program 3 score: 0.6293015873015873
+  0%|          | 0/3 [00:00<?, ?it/s]Average Metric: 0.00 / 1 (0.0%):   0%|          | 0/3 [00:01<?, ?it/s]Average Metric: 0.00 / 1 (0.0%):  33%|###3      | 1/3 [00:01<00:02,  1.17s/it]Average Metric: 0.00 / 2 (0.0%):  33%|###3      | 1/3 [00:01<00:02,  1.17s/it]Average Metric: 0.00 / 2 (0.0%):  67%|######6   | 2/3 [00:01<00:00,  1.51it/s]Average Metric: 0.00 / 3 (0.0%):  67%|######6   | 2/3 [00:01<00:00,  1.51it/s]Average Metric: 0.00 / 3 (0.0%): 100%|##########| 3/3 [00:01<00:00,  2.04it/s]
+Iteration 36: Proposed new text for summarize2: You will be given three inputs: a question, an existing summary of information gathered so far (summary_1), and a set of additional passages. Your task is to produce a concise, integrated summary that synthesizes all relevant factual information from both the existing summary and the new passages to help answer the question.
+
+Follow these detailed steps and guidelines:
+
+1. **Understand the Question Context:**  
+   Carefully interpret the question to determine the exact information sought, including any domain-specific or nuanced requirements. The summary must be focused solely on facts directly relevant to the question.
+
+2. **Analyze the Existing Summary (summary_1):**  
+   Identify and extract the key factual elements already known from summary_1 that pertain to the question. This serves as your base knowledge.
+
+3. **Examine the Additional Passages Thoroughly:**  
+   Review all the provided new passages carefully to find any new, directly relevant facts or details that complement, clarify, or expand on the existing summary. Ignore any information unrelated or tangential to the question.
+
+4. **Synthesize and Integrate Information:**  
+   Combine the relevant facts from the existing summary and the new passages into a single, coherent, and succinct summary. The synthesis should:  
+   - Avoid redundancy by not repeating information already in summary_1 unless necessary for clarity.  
+   - Highlight any novel or supplementary information from the new passages.  
+   - Maintain factual accuracy and neutral tone throughout.  
+   - Use complete sentences and clear phrasing.
+
+5. **Handle Lack of New Relevant Information:**  
+   If the additional passages do not provide any new relevant facts beyond what is in the existing summary, explicitly state that the new passages do not add to the existing knowledge relevant to the question.
+
+6. **Exclude Extraneous Details:**  
+   Do not include unrelated information, background context not pertinent to the question, opinions, or speculative content. Focus strictly on factual, relevant content to ensure clarity and usefulness.
+
+7. **Formatting and Style:**  
+   The output should be a brief paragraph or a few sentences that directly answer the question by integrating prior and new information. Use a neutral and formal tone appropriate for factual summaries.
+
+**Domain-specific considerations:**  
+- When the question involves compatibility, format types, or technical specifications, ensure you identify the precise file formats or standards mentioned.  
+- When the question involves dates, sequence of events, or timelines (e.g., performances after a certain event), ensure chronological clarity and correctness.  
+- When the question involves food ingredients or definitions of terms (e.g., identifying a red fruit in a salad), confirm the botanical or culinary identity is clearly stated.  
+- When multiple new passages mention various facts, cross-check for relevance before inclusion to avoid clutter.
+
+By following this methodical approach, your summary will provide a focused, accurate, and comprehensive factual synthesis that directly supports answering the question using both existing and new information.
+Iteration 36: New subsample score 1.0 is better than old score 0.0. Continue to full eval and add to candidate pool.
+Iteration 36: Valset score for new program: 0.584089466089466 (coverage 75 / 75)
+Iteration 36: Val aggregate for new program: 0.584089466089466
+Iteration 36: Individual valset scores for new program: {0: 1.0, 1: 0.6666666666666666, 2: 0.0, 3: 1.0, 4: 1.0, 5: 1.0, 6: 0.0, 7: 1.0, 8: 1.0, 9: 1.0, 10: 0.0, 11: 0.0, 12: 0.0, 13: 0.0, 14: 0.5, 15: 1.0, 16: 1.0, 17: 0.6666666666666666, 18: 0.5, 19: 0.9090909090909091, 20: 1.0, 21: 0.5714285714285715, 22: 0.0, 23: 1.0, 24: 1.0, 25: 0.0, 26: 0.5, 27: 0.0, 28: 1.0, 29: 1.0, 30: 0.0, 31: 0.0, 32: 0.0, 33: 0.0, 34: 0.0, 35: 0.14285714285714285, 36: 0.5, 37: 0.5, 38: 1.0, 39: 1.0, 40: 1.0, 41: 1.0, 42: 0.5, 43: 0.0, 44: 0.8, 45: 0.0, 46: 1.0, 47: 1.0, 48: 0.0, 49: 1.0, 50: 1.0, 51: 1.0, 52: 0.6666666666666666, 53: 0.0, 54: 0.0, 55: 0.5, 56: 1.0, 57: 0.0, 58: 0.0, 59: 1.0, 60: 1.0, 61: 0.5, 62: 1.0, 63: 1.0, 64: 0.25, 65: 1.0, 66: 0.0, 67: 1.0, 68: 1.0, 69: 0.0, 70: 0.6666666666666666, 71: 1.0, 72: 0.8, 73: 0.6666666666666666, 74: 1.0}
+Iteration 36: New valset pareto front scores: {0: 1.0, 1: 0.6666666666666666, 2: 1.0, 3: 1.0, 4: 1.0, 5: 1.0, 6: 1.0, 7: 1.0, 8: 1.0, 9: 1.0, 10: 0.8, 11: 0.4615384615384615, 12: 0.2857142857142857, 13: 0.0, 14: 0.5, 15: 1.0, 16: 1.0, 17: 1.0, 18: 1.0, 19: 0.9090909090909091, 20: 1.0, 21: 0.5714285714285715, 22: 1.0, 23: 1.0, 24: 1.0, 25: 0.4, 26: 1.0, 27: 1.0, 28: 1.0, 29: 1.0, 30: 0.0, 31: 0.0, 32: 0.0, 33: 1.0, 34: 0.3333333333333333, 35: 0.6, 36: 1.0, 37: 1.0, 38: 1.0, 39: 1.0, 40: 1.0, 41: 1.0, 42: 0.5, 43: 0.0, 44: 0.8, 45: 0.25, 46: 1.0, 47: 1.0, 48: 0.0, 49: 1.0, 50: 1.0, 51: 1.0, 52: 1.0, 53: 1.0, 54: 1.0, 55: 1.0, 56: 1.0, 57: 1.0, 58: 1.0, 59: 1.0, 60: 1.0, 61: 1.0, 62: 1.0, 63: 1.0, 64: 1.0, 65: 1.0, 66: 1.0, 67: 1.0, 68: 1.0, 69: 1.0, 70: 0.6666666666666666, 71: 1.0, 72: 1.0, 73: 0.6666666666666666, 74: 1.0}
+Iteration 36: Valset pareto front aggregate score: 0.8321480741480741
+Iteration 36: Updated valset pareto front programs: {0: {0, 2, 4, 6, 8, 9}, 1: {0, 1, 2, 3, 4, 5, 6, 7, 8, 9}, 2: {2, 3}, 3: {0, 1, 2, 3, 4, 6, 8, 9}, 4: {0, 1, 2, 3, 4, 5, 6, 7, 8, 9}, 5: {0, 1, 2, 3, 4, 5, 7, 9}, 6: {1, 6}, 7: {0, 2, 3, 4, 5, 6, 7, 9}, 8: {0, 1, 2, 3, 4, 5, 6, 7, 8, 9}, 9: {1, 2, 3, 4, 5, 6, 7, 8, 9}, 10: {1, 4, 5, 6, 7, 8}, 11: {6}, 12: {1, 7}, 13: {0, 1, 2, 3, 4, 5, 6, 7, 8, 9}, 14: {0, 1, 2, 3, 4, 5, 6, 7, 8, 9}, 15: {0, 1, 2, 3, 4, 5, 6, 7, 8, 9}, 16: {8, 9}, 17: {0, 1, 4, 5, 6, 7, 8}, 18: {2, 4, 7}, 19: {0, 1, 2, 3, 4, 5, 6, 7, 8, 9}, 20: {0, 1, 2, 3, 4, 5, 6, 7, 8, 9}, 21: {9, 3}, 22: {8, 4, 5, 7}, 23: {0, 1, 2, 3, 4, 5, 6, 7, 8, 9}, 24: {0, 1, 2, 3, 4, 5, 6, 7, 8, 9}, 25: {1, 7}, 26: {0, 1, 2, 6, 8}, 27: {0, 2, 3, 4, 7, 8}, 28: {0, 1, 2, 3, 4, 5, 6, 7, 8, 9}, 29: {0, 1, 2, 3, 4, 5, 6, 7, 8, 9}, 30: {0, 1, 2, 3, 4, 5, 6, 7, 8, 9}, 31: {0, 1, 2, 3, 4, 5, 6, 7, 8, 9}, 32: {0, 1, 2, 3, 4, 5, 6, 7, 8, 9}, 33: {7}, 34: {0, 4, 5, 7, 8}, 35: {8, 4}, 36: {4}, 37: {8, 4, 5, 6}, 38: {0, 1, 2, 3, 4, 5, 6, 7, 8, 9}, 39: {0, 1, 2, 3, 4, 5, 6, 7, 8, 9}, 40: {0, 2, 3, 7, 9}, 41: {0, 1, 2, 3, 4, 5, 6, 7, 8, 9}, 42: {0, 1, 2, 4, 6, 8, 9}, 43: {0, 1, 2, 3, 4, 5, 6, 7, 8, 9}, 44: {0, 2, 3, 5, 6, 7, 9}, 45: {2, 5, 7}, 46: {0, 1, 2, 3, 4, 5, 8, 9}, 47: {0, 9, 2, 3}, 48: {0, 1, 2, 3, 4, 5, 6, 7, 8, 9}, 49: {0, 1, 2, 3, 4, 5, 6, 7, 8, 9}, 50: {0, 1, 2, 3, 4, 5, 6, 7, 8, 9}, 51: {0, 1, 2, 3, 4, 5, 6, 7, 8, 9}, 52: {8, 5, 6, 7}, 53: {8, 2, 5}, 54: {1, 4, 5, 6, 7, 8}, 55: {1, 3, 7}, 56: {0, 1, 2, 3, 4, 9}, 57: {6}, 58: {2, 3}, 59: {0, 1, 2, 3, 4, 5, 6, 7, 8, 9}, 60: {0, 1, 2, 3, 4, 5, 6, 7, 8, 9}, 61: {3}, 62: {0, 1, 2, 3, 4, 5, 6, 7, 8, 9}, 63: {0, 1, 2, 3, 4, 5, 6, 7, 8, 9}, 64: {8, 1, 4, 6}, 65: {1, 3, 4, 5, 6, 8, 9}, 66: {1, 4, 7}, 67: {0, 1, 2, 3, 4, 5, 6, 7, 8, 9}, 68: {0, 1, 2, 3, 4, 5, 6, 7, 8, 9}, 69: {7}, 70: {0, 1, 2, 3, 4, 5, 6, 7, 8, 9}, 71: {0, 1, 2, 3, 4, 5, 6, 7, 9}, 72: {7}, 73: {0, 1, 2, 3, 4, 5, 6, 7, 8, 9}, 74: {0, 1, 2, 3, 4, 5, 6, 7, 8, 9}}
+Iteration 36: Best valset aggregate score so far: 0.6733169793169791
+Iteration 36: Best program as per aggregate score on valset: 7
+Iteration 36: Best score on valset: 0.6733169793169791
+Iteration 36: Linear pareto front program index: 7
+Iteration 36: New program candidate index: 9
+Iteration 37: Selected program 4 score: 0.6613275613275612
+  0%|          | 0/3 [00:00<?, ?it/s]Average Metric: 0.00 / 1 (0.0%):   0%|          | 0/3 [00:02<?, ?it/s]Average Metric: 0.00 / 1 (0.0%):  33%|###3      | 1/3 [00:02<00:04,  2.06s/it]Average Metric: 1.00 / 2 (50.0%):  33%|###3      | 1/3 [00:02<00:04,  2.06s/it]Average Metric: 1.00 / 2 (50.0%):  67%|######6   | 2/3 [00:02<00:01,  1.38s/it]Average Metric: 1.33 / 3 (44.4%):  67%|######6   | 2/3 [00:03<00:01,  1.38s/it]Average Metric: 1.33 / 3 (44.4%): 100%|##########| 3/3 [00:03<00:00,  1.25it/s]Average Metric: 1.33 / 3 (44.4%): 100%|##########| 3/3 [00:03<00:00,  1.02s/it]
+Iteration 37: Proposed new text for summarize1: You are given a question and a set of passages containing various factual information. Your task is to produce a brief, focused summary that extracts and consolidates only the facts from the passages that are directly relevant to answering the question.
+
+Detailed instructions:
+
+1. **Identify Key Entities and Attributes**  
+   - Carefully analyze the question to identify the key entities (e.g., people, places, organizations, products) and their relevant attributes or relationships (e.g., locations, dates, roles, nicknames, chronological order).  
+   - Use these entities and attributes as filters to determine which parts of the passages are relevant.
+
+2. **Extract Explicitly Stated Facts Only**  
+   - Scan the passages for explicit, factual information that directly relates to the identified entities and attributes in the question.  
+   - Do not infer or assume any information beyond what is clearly stated in the passages.
+
+3. **Exclude Irrelevant or Tangential Information**  
+   - Omit any details that do not directly help answer the question, even if they are interesting or related to the general topic.  
+   - Avoid including opinions, interpretations, or extraneous context.
+
+4. **Consolidate and Summarize**  
+   - Combine relevant facts from multiple passages into a single coherent and concise summary.  
+   - Ensure the summary directly addresses the question in a clear, factual manner.
+
+5. **Use Exact or Paraphrased Facts**  
+   - You may use exact phrases from the passages or paraphrase to improve clarity and conciseness, but do not introduce new information or external knowledge.
+
+6. **Maintain Brevity and Informativeness**  
+   - Keep the summary as brief as possible while sufficiently informative to answer the question fully.  
+   - Prioritize clarity and directness in your summary.
+
+7. **Examples of Common Types of Questions and Relevant Fact Types**  
+   - Location queries: identify where an entity is situated (e.g., university location).  
+   - Identity and nickname queries: identify who a person is and their preferred nickname.  
+   - Chronology queries: determine which event or product came first based on publication or release dates.  
+   - Biographical queries: identify roles, professions, affiliations, or achievements of persons.
+
+By following this strategy, you ensure precise fact extraction, relevance filtering, and a succinct factual summary that directly answers the question based solely on the provided passages.
+Iteration 37: New subsample score 1.3333333333333333 is not better than old score 1.3333333333333333, skipping
+Iteration 38: Selected program 6 score: 0.6257363377363376
+  0%|          | 0/3 [00:00<?, ?it/s]Average Metric: 1.00 / 1 (100.0%):   0%|          | 0/3 [00:01<?, ?it/s]Average Metric: 1.00 / 1 (100.0%):  33%|###3      | 1/3 [00:01<00:03,  1.89s/it]Average Metric: 2.00 / 2 (100.0%):  33%|###3      | 1/3 [00:01<00:03,  1.89s/it]Average Metric: 2.80 / 3 (93.3%):  67%|######6   | 2/3 [00:02<00:01,  1.89s/it] Average Metric: 2.80 / 3 (93.3%): 100%|##########| 3/3 [00:02<00:00,  1.57it/s]Average Metric: 2.80 / 3 (93.3%): 100%|##########| 3/3 [00:02<00:00,  1.31it/s]
+Iteration 38: Proposed new text for summarize2: You are given three inputs: a question, an initial summary of facts gathered so far (summary_1), and a set of additional passages containing relevant information. Your task is to produce a concise, integrated summary that combines the newly provided passages with the existing summary, focusing exclusively on facts directly relevant to answering the question.
+
+When composing your summary, adhere strictly to the following guidelines:
+
+1. **Relevance and Focus:**  
+   - Include only information that directly answers or supports the answer to the question.  
+   - Exclude any tangential, background, or unrelated details, even if they appear in the passages or initial summary.
+
+2. **Integration of Information:**  
+   - Seamlessly merge facts from the new passages with those in the initial summary.  
+   - Use the new information to fill gaps, clarify ambiguities, or correct inaccuracies in the prior summary.  
+   - Avoid repetition or redundancy.
+
+3. **Precision and Clarity:**  
+   - Present facts clearly and unambiguously, using proper names, dates, and identifiers when available and relevant.  
+   - If specific details (e.g., dates, places, definitions) are missing but relevant to the question, explicitly state their absence.  
+   - Do not speculate or infer beyond the explicitly supported content.
+
+4. **Domain-Specific Knowledge:**  
+   - Recognize and correctly interpret domain-specific entities and terminology relevant to the question, such as:  
+     - Names of people, including full names and birthdates (e.g., "Tony Kaye" born 11 January 1946, "Marc Webb" born 31 August 1974).  
+     - Titles of works (e.g., films, albums, magazines) and their context (e.g., "Chrysalis" as a feminist magazine, "Angel of Retribution" as a Judas Priest album).  
+     - Historical or organizational entities (e.g., "Irish Brigade" as a WWI nationalist military unit, "customer magazine" as a business communication tool).  
+     - Sports terminology and event names (e.g., "Bundesliga" as Germany’s top football league, "DFB-Pokal" as a German football cup competition).  
+   - Use this domain knowledge to correctly interpret and integrate facts.
+
+5. **Conciseness:**  
+   - Keep the summary brief but comprehensive enough to fully answer the question based on all available evidence.  
+   - Avoid unnecessary elaboration or tangential information.
+
+6. **Use of Proper Names and Dates:**  
+   - Include full names, exact dates (birthdates, event dates, publication years), and other precise identifiers when they directly answer the question.  
+   - Prefer more specific or precise data points over general or vague ones.
+
+7. **No Unsupported Assumptions:**  
+   - Do not add or infer any information not explicitly stated in the initial summary or passages.  
+   - If multiple conflicting data points arise, favor the most authoritative or recent passage, and clarify any unresolved conflicts if possible.
+
+8. **General Approach:**  
+   - Start by reviewing the initial summary and the question to understand the focus.  
+   - Extract from the new passages only those facts that are strictly relevant to the question.  
+   - Combine these with the initial summary to produce a single, coherent, and factually accurate summary.  
+   - Ensure that the final summary can stand alone as a clear and direct answer to the question if needed.
+
+By following these guidelines, your summary will serve as a clear, accurate, and domain-aware synthesis of all relevant information, enabling an unambiguous and well-supported answer to the question.
+Iteration 38: New subsample score 1.0 is not better than old score 2.8, skipping
+Iteration 39: Selected program 3 score: 0.6293015873015873
+  0%|          | 0/3 [00:00<?, ?it/s]Average Metric: 0.00 / 1 (0.0%):   0%|          | 0/3 [00:01<?, ?it/s]Average Metric: 0.00 / 1 (0.0%):  33%|###3      | 1/3 [00:01<00:02,  1.23s/it]Average Metric: 0.50 / 2 (25.0%):  33%|###3      | 1/3 [00:01<00:02,  1.23s/it]Average Metric: 1.50 / 3 (50.0%):  67%|######6   | 2/3 [00:01<00:01,  1.23s/it]Average Metric: 1.50 / 3 (50.0%): 100%|##########| 3/3 [00:01<00:00,  1.68it/s]Average Metric: 1.50 / 3 (50.0%): 100%|##########| 3/3 [00:01<00:00,  1.52it/s]
+Iteration 39: Proposed new text for final_answer: You are given a question and multiple summaries containing information relevant to answering the question. Your task is to extract and provide a concise answer to the question based solely on the information in the summaries.  
+
+- Respond with only the final answer, as a short phrase, entity, or numeric value (e.g., a year, population number, name, title, or other factual data).  
+- Do not include any explanations, justifications, or additional context.  
+- If multiple summaries provide overlapping or identical information, synthesize the consistent data to produce a single, precise answer.  
+- If one summary lacks the answer but another provides it, use the available information to answer.  
+- The answer should directly address the question without extraneous details or qualifiers.  
+- The input format always includes a "question" and at least two "summary" texts that contain relevant factual information extracted from external sources.  
+- The questions typically ask for specific factual information such as dates, names, population figures, awards, locations, or other concrete data points.  
+
+Follow these guidelines to ensure the answer is accurate, concise, and directly responsive to the question.
+Iteration 39: New subsample score 1.5 is not better than old score 1.5, skipping
+Iteration 40: Selected program 7 score: 0.6733169793169791
+  0%|          | 0/3 [00:00<?, ?it/s]Average Metric: 1.00 / 1 (100.0%):   0%|          | 0/3 [00:01<?, ?it/s]Average Metric: 1.00 / 1 (100.0%):  33%|###3      | 1/3 [00:01<00:03,  1.91s/it]Average Metric: 2.00 / 2 (100.0%):  33%|###3      | 1/3 [00:02<00:03,  1.91s/it]Average Metric: 2.00 / 2 (100.0%):  67%|######6   | 2/3 [00:02<00:01,  1.26s/it]Average Metric: 2.00 / 3 (66.7%):  67%|######6   | 2/3 [00:03<00:01,  1.26s/it] Average Metric: 2.00 / 3 (66.7%): 100%|##########| 3/3 [00:03<00:00,  1.11s/it]Average Metric: 2.00 / 3 (66.7%): 100%|##########| 3/3 [00:03<00:00,  1.21s/it]
+Iteration 40: Proposed new text for summarize1: You will be given a question along with multiple passages containing factual information. Your task is to produce a concise, clear, and accurate summary that directly answers or is relevant to the question using only the information from the passages.
+
+Follow these detailed guidelines to complete the task effectively:
+
+1. **Focus on Relevance:**  
+   - Identify the key entities (people, teams, events, titles, dates, roles, or concepts) explicitly mentioned in the question.  
+   - Locate passages that mention these entities or provide contextual information directly related to them.  
+   - Exclude any information that is unrelated or tangential, even if it appears in the passages.
+
+2. **Extract Key Facts Only:**  
+   - Include only the essential factual information necessary to answer the question.  
+   - Avoid extraneous details or speculative content.  
+   - Preserve domain-specific terminology or details crucial for understanding the answer (e.g., names of TV shows, dates of premieres, song titles, awards, roles).
+
+3. **Synthesize Across Passages:**  
+   - When multiple passages provide complementary or overlapping facts relevant to the question, combine them succinctly to form a coherent and complete summary.  
+   - Do not repeat information; merge it efficiently.
+
+4. **Clear and Direct Language:**  
+   - Use straightforward, unambiguous language that explicitly connects the facts to the question.  
+   - Avoid vague or overly complex phrasing.
+
+5. **Temporal and Contextual Clues:**  
+   - Pay attention to dates, episode numbers, season information, or other temporal markers that clarify the answer’s specifics.  
+   - Include these details if they directly answer the question (e.g., premiere dates, award years).
+
+6. **Handling Named Entities and Roles:**  
+   - If the question involves specific individuals (e.g., actors, singers) or groups (e.g., bands, TV shows), highlight their roles, contributions, or relevant actions as stated in the passages.  
+   - For example, if a question asks about a singer’s role in a song, specify the part they sang or their relationship to the song.
+
+7. **Conciseness:**  
+   - The summary should be brief yet sufficient to answer the question fully based on the passages.  
+   - Avoid long explanations or background that do not add to the answer.
+
+8. **Examples of Strategies:**  
+   - Match named entities from the question to those in the passages.  
+   - Extract and synthesize details such as premiere dates for TV shows, season numbers, song titles, and roles of individuals.  
+   - Use explicit temporal or contextual clues to pinpoint the precise answer.
+
+Your final output should be a focused, factual summary that uses evidence strictly from the provided passages to answer the question directly and succinctly.
+Iteration 40: New subsample score 3.0 is better than old score 2.0. Continue to full eval and add to candidate pool.
+Iteration 40: Valset score for new program: 0.5993679653679652 (coverage 75 / 75)
+Iteration 40: Val aggregate for new program: 0.5993679653679652
+Iteration 40: Individual valset scores for new program: {0: 0.8, 1: 0.6666666666666666, 2: 0.8571428571428571, 3: 1.0, 4: 1.0, 5: 1.0, 6: 0.0, 7: 1.0, 8: 1.0, 9: 0.3333333333333333, 10: 0.8, 11: 0.2222222222222222, 12: 0.0, 13: 0.0, 14: 0.5, 15: 1.0, 16: 0.0, 17: 0.6666666666666666, 18: 1.0, 19: 0.5454545454545454, 20: 1.0, 21: 0.0, 22: 1.0, 23: 1.0, 24: 1.0, 25: 0.0, 26: 0.5, 27: 0.25, 28: 1.0, 29: 1.0, 30: 0.0, 31: 0.0, 32: 0.0, 33: 0.0, 34: 0.6, 35: 0.0, 36: 0.0, 37: 1.0, 38: 1.0, 39: 1.0, 40: 0.3333333333333333, 41: 1.0, 42: 0.33333333333333337, 43: 0.0, 44: 0.8, 45: 0.0, 46: 0.5, 47: 0.8, 48: 0.0, 49: 0.5, 50: 1.0, 51: 1.0, 52: 0.6666666666666666, 53: 0.0, 54: 1.0, 55: 0.5, 56: 0.4444444444444445, 57: 1.0, 58: 0.0, 59: 1.0, 60: 1.0, 61: 0.5, 62: 1.0, 63: 1.0, 64: 1.0, 65: 0.5, 66: 0.0, 67: 1.0, 68: 1.0, 69: 0.0, 70: 0.6666666666666666, 71: 1.0, 72: 1.0, 73: 0.6666666666666666, 74: 1.0}
+Iteration 40: New valset pareto front scores: {0: 1.0, 1: 0.6666666666666666, 2: 1.0, 3: 1.0, 4: 1.0, 5: 1.0, 6: 1.0, 7: 1.0, 8: 1.0, 9: 1.0, 10: 0.8, 11: 0.4615384615384615, 12: 0.2857142857142857, 13: 0.0, 14: 0.5, 15: 1.0, 16: 1.0, 17: 1.0, 18: 1.0, 19: 0.9090909090909091, 20: 1.0, 21: 0.5714285714285715, 22: 1.0, 23: 1.0, 24: 1.0, 25: 0.4, 26: 1.0, 27: 1.0, 28: 1.0, 29: 1.0, 30: 0.0, 31: 0.0, 32: 0.0, 33: 1.0, 34: 0.6, 35: 0.6, 36: 1.0, 37: 1.0, 38: 1.0, 39: 1.0, 40: 1.0, 41: 1.0, 42: 0.5, 43: 0.0, 44: 0.8, 45: 0.25, 46: 1.0, 47: 1.0, 48: 0.0, 49: 1.0, 50: 1.0, 51: 1.0, 52: 1.0, 53: 1.0, 54: 1.0, 55: 1.0, 56: 1.0, 57: 1.0, 58: 1.0, 59: 1.0, 60: 1.0, 61: 1.0, 62: 1.0, 63: 1.0, 64: 1.0, 65: 1.0, 66: 1.0, 67: 1.0, 68: 1.0, 69: 1.0, 70: 0.6666666666666666, 71: 1.0, 72: 1.0, 73: 0.6666666666666666, 74: 1.0}
+Iteration 40: Valset pareto front aggregate score: 0.8357036297036297
+Iteration 40: Updated valset pareto front programs: {0: {0, 2, 4, 6, 8, 9}, 1: {0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10}, 2: {2, 3}, 3: {0, 1, 2, 3, 4, 6, 8, 9, 10}, 4: {0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10}, 5: {0, 1, 2, 3, 4, 5, 7, 9, 10}, 6: {1, 6}, 7: {0, 2, 3, 4, 5, 6, 7, 9, 10}, 8: {0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10}, 9: {1, 2, 3, 4, 5, 6, 7, 8, 9}, 10: {1, 4, 5, 6, 7, 8, 10}, 11: {6}, 12: {1, 7}, 13: {0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10}, 14: {0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10}, 15: {0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10}, 16: {8, 9}, 17: {0, 1, 4, 5, 6, 7, 8}, 18: {2, 10, 4, 7}, 19: {0, 1, 2, 3, 4, 5, 6, 7, 8, 9}, 20: {0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10}, 21: {9, 3}, 22: {4, 5, 7, 8, 10}, 23: {0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10}, 24: {0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10}, 25: {1, 7}, 26: {0, 1, 2, 6, 8}, 27: {0, 2, 3, 4, 7, 8}, 28: {0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10}, 29: {0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10}, 30: {0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10}, 31: {0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10}, 32: {0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10}, 33: {7}, 34: {10}, 35: {8, 4}, 36: {4}, 37: {4, 5, 6, 8, 10}, 38: {0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10}, 39: {0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10}, 40: {0, 2, 3, 7, 9}, 41: {0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10}, 42: {0, 1, 2, 4, 6, 8, 9}, 43: {0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10}, 44: {0, 2, 3, 5, 6, 7, 9, 10}, 45: {2, 5, 7}, 46: {0, 1, 2, 3, 4, 5, 8, 9}, 47: {0, 9, 2, 3}, 48: {0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10}, 49: {0, 1, 2, 3, 4, 5, 6, 7, 8, 9}, 50: {0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10}, 51: {0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10}, 52: {8, 5, 6, 7}, 53: {8, 2, 5}, 54: {1, 4, 5, 6, 7, 8, 10}, 55: {1, 3, 7}, 56: {0, 1, 2, 3, 4, 9}, 57: {10, 6}, 58: {2, 3}, 59: {0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10}, 60: {0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10}, 61: {3}, 62: {0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10}, 63: {0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10}, 64: {1, 4, 6, 8, 10}, 65: {1, 3, 4, 5, 6, 8, 9}, 66: {1, 4, 7}, 67: {0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10}, 68: {0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10}, 69: {7}, 70: {0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10}, 71: {0, 1, 2, 3, 4, 5, 6, 7, 9, 10}, 72: {10, 7}, 73: {0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10}, 74: {0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10}}
+Iteration 40: Best valset aggregate score so far: 0.6733169793169791
+Iteration 40: Best program as per aggregate score on valset: 7
+Iteration 40: Best score on valset: 0.6733169793169791
+Iteration 40: Linear pareto front program index: 7
+Iteration 40: New program candidate index: 10
+Iteration 41: Selected program 10 score: 0.5993679653679652
+  0%|          | 0/3 [00:00<?, ?it/s]Average Metric: 1.00 / 1 (100.0%):   0%|          | 0/3 [00:01<?, ?it/s]Average Metric: 1.00 / 1 (100.0%):  33%|###3      | 1/3 [00:01<00:03,  1.70s/it]Average Metric: 1.50 / 2 (75.0%):  33%|###3      | 1/3 [00:02<00:03,  1.70s/it] Average Metric: 1.50 / 2 (75.0%):  67%|######6   | 2/3 [00:02<00:01,  1.01s/it]Average Metric: 2.50 / 3 (83.3%):  67%|######6   | 2/3 [00:02<00:01,  1.01s/it]Average Metric: 2.50 / 3 (83.3%): 100%|##########| 3/3 [00:02<00:00,  1.56it/s]Average Metric: 2.50 / 3 (83.3%): 100%|##########| 3/3 [00:02<00:00,  1.23it/s]
+Iteration 41: Proposed new text for summarize2: You will be given three inputs: (1) a question, (2) an existing summary of information gathered so far (summary_1), and (3) a set of additional passages.
+
+Your task is to produce a concise, coherent summary that synthesizes all relevant factual information from both the existing summary and the new passages to directly help answer the question.
+
+Follow these detailed guidelines:
+
+1. **Focus on relevance:** Identify key facts in the existing summary that are pertinent to the question. Then carefully review the additional passages to extract any new, directly relevant information that complements, clarifies, or expands on the existing summary’s facts.
+
+2. **Synthesis:** Combine the relevant information from summary_1 and the new passages into a single, brief summary. The summary should be focused exclusively on answering the question, omitting unrelated or extraneous details.
+
+3. **Explicitly note absence of new information:** If the additional passages do not provide any new relevant facts beyond what is already in summary_1, explicitly state that the new passages do not add to the existing knowledge relevant to the question.
+
+4. **Maintain factual accuracy and clarity:** Present information in full sentences with a neutral tone, ensuring the summary is factually accurate and easy to understand.
+
+5. **Domain awareness:** The task often involves domain-specific or context-dependent knowledge (e.g., geography, sports events, historical figures, film directors). Use any domain clues in the question and passages to accurately interpret and integrate information. For example:
+   - When a location is described vaguely (e.g., “approximately 14 miles south of Downtown Los Angeles”), use additional passages to identify the precise place name if available.
+   - When a person’s association or role is asked (e.g., József Viola’s prominent club), confirm the correct entity from passages mentioning the person and related organizations.
+   - When clarifying categorical facts (e.g., nationality or profession), explicitly distinguish between entities if relevant (e.g., one director is British, the other Argentine).
+
+6. **Generalizable strategy:** 
+   - Start by extracting all relevant facts from the existing summary related to the question.
+   - Then scan each passage for new relevant facts, ignoring unrelated content.
+   - Integrate all relevant facts into a concise, coherent, and focused summary.
+   - If no new relevant facts are found, clearly state so.
+   
+7. **Output style:** Use full, clear sentences and maintain a neutral, factual tone. Avoid speculation, opinion, or extraneous background information not directly relevant to the question.
+
+By carefully synthesizing the prior summary and new passages with attention to domain-specific details, your response will provide a clear, focused, and accurate answer to the question.
+Iteration 41: New subsample score 2.5 is not better than old score 2.5, skipping
+Iteration 42: Selected program 4 score: 0.6613275613275612
+  0%|          | 0/3 [00:00<?, ?it/s]Average Metric: 1.00 / 1 (100.0%):   0%|          | 0/3 [00:01<?, ?it/s]Average Metric: 1.00 / 1 (100.0%):  33%|###3      | 1/3 [00:01<00:02,  1.08s/it]Average Metric: 2.00 / 2 (100.0%):  33%|###3      | 1/3 [00:02<00:02,  1.08s/it]Average Metric: 2.00 / 2 (100.0%):  67%|######6   | 2/3 [00:02<00:01,  1.13s/it]Average Metric: 2.50 / 3 (83.3%):  67%|######6   | 2/3 [00:03<00:01,  1.13s/it] Average Metric: 2.50 / 3 (83.3%): 100%|##########| 3/3 [00:03<00:00,  1.32s/it]Average Metric: 2.50 / 3 (83.3%): 100%|##########| 3/3 [00:03<00:00,  1.26s/it]
+Iteration 42: Proposed new text for summarize2: You are given three inputs:  
+1. A question that requires a factual answer.  
+2. A summary of the information gathered so far that is relevant to answering the question. This summary may be partial or incomplete.  
+3. A set of additional passages containing factual information that may expand, clarify, or correct the summary and help answer the question.  
+
+Your task is to write a concise, coherent summary that integrates the new information from the passages with the existing summary. The summary should:  
+- Focus only on facts relevant to answering the question.  
+- Combine and synthesize the existing summary and the new passages to provide a more complete and accurate factual picture.  
+- Avoid irrelevant details or extraneous information not directly related to the question.  
+- Correct or update any prior summary information if contradicted or clarified by the new passages.  
+- Clearly identify and link key entities, dates, events, or other factual elements that address the question.  
+- Use clear and precise language that would help someone understand the relevant facts without needing to refer back to the original passages.  
+
+In doing so, consider the following domain-specific points observed in examples:  
+- The summary should distinguish between related but different entities (e.g., creator vs. voice actor of a character) and clarify their relevant facts (e.g., birth years).  
+- When the question involves dedications or authorship, note pen names, publication years, and dedications explicitly if available.  
+- For historical or biographical questions, explicitly link places, dates, and related historical facts that answer the question (e.g., birthplace of a president and related historical acts).  
+- If the passages do not add any new relevant information beyond the existing summary, acknowledge that clearly.  
+- When an answer involves an inference (e.g., the "instrument of war" used by a president), it is acceptable to draw a logical conclusion based on the facts presented, but ensure that the inference is supported by the passages.  
+
+Overall, your summary should enable a user to answer the question confidently using the combined information, reflecting the most complete and accurate knowledge available from both the prior summary and the new passages.
+Iteration 42: New subsample score 2.0 is not better than old score 2.5, skipping
+Iteration 43: Selected program 6 score: 0.6257363377363376
+  0%|          | 0/3 [00:00<?, ?it/s]Average Metric: 1.00 / 1 (100.0%):   0%|          | 0/3 [00:01<?, ?it/s]Average Metric: 1.00 / 1 (100.0%):  33%|###3      | 1/3 [00:01<00:03,  1.71s/it]Average Metric: 1.00 / 2 (50.0%):  33%|###3      | 1/3 [00:02<00:03,  1.71s/it] Average Metric: 1.00 / 2 (50.0%):  67%|######6   | 2/3 [00:02<00:00,  1.12it/s]Average Metric: 1.33 / 3 (44.4%):  67%|######6   | 2/3 [00:02<00:00,  1.12it/s]Average Metric: 1.33 / 3 (44.4%): 100%|##########| 3/3 [00:02<00:00,  1.57it/s]Average Metric: 1.33 / 3 (44.4%): 100%|##########| 3/3 [00:02<00:00,  1.27it/s]
+Iteration 43: Proposed new text for final_answer: You will be given a question and multiple summaries containing information relevant to answering that question. Your task is to provide a concise, accurate answer to the question based solely on the information in the summaries. The answer should be a short phrase or entity that directly responds to the question, without any additional explanation, context, or commentary. 
+
+Use the following approach:
+- Carefully read the question to understand exactly what is being asked.
+- Review all provided summaries to extract the relevant facts.
+- Synthesize the information to produce a precise and factual answer.
+- Respond only with the minimal necessary phrase or entity that answers the question.
+- Avoid adding any explanations, reasoning steps, or extra details beyond the answer itself.
+
+Note that the questions may be about:
+- Categorization or classification (e.g., types of plants)
+- Specific events or elections with dates and titles
+- Named entities such as bands, people, or organizations linked to particular achievements or works
+
+Make sure to:
+- Use exact names, dates, or terms as found in the summaries
+- Match the format or naming conventions shown in the summaries (e.g., full election names)
+- Provide the answer in a consistent, succinct manner suitable for direct use or extraction
+
+In summary, your output must be a single, precise phrase or entity that directly answers the question, drawn strictly from the provided summaries, with no added explanation or commentary.
+Iteration 43: New subsample score 1.3333333333333335 is not better than old score 1.3333333333333335, skipping
+Iteration 44: Selected program 8 score: 0.6205868205868206
+  0%|          | 0/3 [00:00<?, ?it/s]Average Metric: 0.14 / 1 (14.3%):   0%|          | 0/3 [00:01<?, ?it/s]Average Metric: 0.14 / 1 (14.3%):  33%|###3      | 1/3 [00:01<00:03,  1.90s/it]Average Metric: 1.14 / 2 (57.1%):  33%|###3      | 1/3 [00:02<00:03,  1.90s/it]Average Metric: 1.14 / 2 (57.1%):  67%|######6   | 2/3 [00:02<00:01,  1.07s/it]Average Metric: 1.14 / 3 (38.1%):  67%|######6   | 2/3 [00:02<00:01,  1.07s/it]Average Metric: 1.14 / 3 (38.1%): 100%|##########| 3/3 [00:02<00:00,  1.39it/s]Average Metric: 1.14 / 3 (38.1%): 100%|##########| 3/3 [00:02<00:00,  1.11it/s]
+Iteration 44: Proposed new text for summarize2: You are given three inputs:  
+1. A question  
+2. An initial summary of relevant information gathered so far that pertains to the question  
+3. A set of additional passages containing new information relevant to the question  
+
+Your task is to produce a concise, integrated summary that synthesizes both the initial summary and the new passages to provide a clear, factual, and comprehensive answer to the question.
+
+To do this, follow these detailed guidelines:
+
+1. **Identify Key Entities, Facts, and Relationships:**  
+   Carefully extract all relevant entities (people, organizations, places, titles, dates, roles, etc.), facts, and their relationships from both the initial summary and the new passages that directly relate to the question.
+
+2. **Integrate and Merge Information:**  
+   Combine the initial summary and new passages into a single coherent summary. Avoid repetition by merging overlapping facts and emphasizing new or clarifying details from the passages.
+
+3. **Incorporate Clarifications and Expansions:**  
+   If the new passages clarify, specify, or expand on facts from the initial summary, explicitly include those enhancements. For example, if a new passage provides a full name, a precise date, a formal title, or a geographic location related to an entity mentioned earlier, integrate these details clearly.
+
+4. **Answer Specific Factual Queries Precisely:**  
+   If the question asks for specific factual information such as names, dates, roles, or locations, ensure these are clearly and explicitly stated in the summary.
+
+5. **Include Logical Inferences Supported by the Text:**  
+   When relevant facts can be logically inferred from the combined information (e.g., identifying a person's role based on context, linking a location to a species or event), include these clarifications to improve completeness, but do not introduce unsupported information.
+
+6. **Maintain Factual Accuracy and Domain-Specific Terminology:**  
+   Use exact names, titles, dates, and domain-specific terms as given in the inputs. Do not invent or alter facts. Preserve the precise spelling and terminology of historical figures, organizations, geographic locations, and specialized terms.
+
+7. **Be Concise and Focused:**  
+   Keep the summary brief and focused solely on relevant information that addresses the question or enhances the knowledge base for further processing. Avoid adding unrelated details or extraneous background.
+
+8. **Generalizable Strategy:**  
+   - When multiple pieces of information about the same entity appear across inputs, synthesize these into a unified, comprehensive description.  
+   - When roles or titles appear, explicitly link them to the named individuals.  
+   - When geographic names and their attributes or meanings are given, connect them logically to related entities or species.  
+   - If the question concerns events or timelines, ensure chronological clarity by incorporating all relevant dates.
+
+Your output should be a clear, concise, and factual synthesis of all relevant information from both the initial summary and new passages, directly addressing the question with domain-specific accuracy and completeness.
+Iteration 44: New subsample score 0.8095238095238095 is not better than old score 1.1428571428571428, skipping

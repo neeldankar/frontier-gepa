@@ -1,0 +1,76 @@
+{
+  "arm": "vanilla_coupled_gepa",
+  "seed": 1,
+  "git_commit": "89322eb45269a6d633a9e927ae676d3b67125f55",
+  "config_resolved": {
+    "splits": {
+      "d_feedback": 150,
+      "accept_batch": 20,
+      "d_pareto": 75,
+      "test": 300,
+      "seed_splits": 0
+    },
+    "bands": {
+      "scheme": "equal_terciles",
+      "draw_mix": {
+        "target": 0.7,
+        "off_band_1": 0.15,
+        "off_band_2": 0.15
+      }
+    },
+    "minibatch": {
+      "b": 3
+    },
+    "stopping": {
+      "rule": "iterations",
+      "n": 44
+    },
+    "acceptance": {
+      "test_set": "accept_batch",
+      "rule": "strict_improvement",
+      "cache_parent": true
+    },
+    "arms": [
+      "random",
+      "static_easy",
+      "static_frontier",
+      "static_hard"
+    ],
+    "reference": [
+      "vanilla_coupled_gepa"
+    ],
+    "seeds": [
+      0,
+      1,
+      2
+    ],
+    "total_runs": 15,
+    "task_model": {
+      "name_env": "TASK_MODEL",
+      "api_key_env": "TASK_MODEL_API_KEY",
+      "base_url_env": "TASK_MODEL_BASE_URL",
+      "temperature": 0.6,
+      "top_p": 0.95,
+      "top_k": 20,
+      "max_tokens": 16384
+    },
+    "reflection_model": {
+      "name_env": "REFLECTION_MODEL",
+      "api_key_env": "OPENAI_API_KEY"
+    },
+    "retrieval": {
+      "backend": "colbertv2_hosted",
+      "fallback": "hotpotqa_distractor"
+    },
+    "dataset": {
+      "name": "hotpotqa",
+      "split": "dev"
+    },
+    "budget": {
+      "cap_usd": 300,
+      "per_rollout_assumed_usd": 0.006
+    }
+  },
+  "n_iter_target": 44,
+  "started_at": "2026-06-02T00:26:53"
+}

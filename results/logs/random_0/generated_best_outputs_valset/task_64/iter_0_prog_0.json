@@ -1,0 +1,39 @@
+{
+    "answer": "1,200,000 barrels of oil per day",
+    "summary_1": "Soyo, a city located at the mouth of the Congo River in Angola, is the largest oil-producing region in the country, with an estimated production of 1,200,000 barrels of oil per day.",
+    "summary_2": "The seventh-largest country in Africa, Angola, has its largest oil-producing region at Soyo, a city located at the mouth of the Congo River. Soyo is known for its significant oil production, with an estimated production of 1,200,000 barrels of oil per day. The Congo River, which forms Angola's outlet to the Atlantic Ocean, is central to this region's oil production activities.",
+    "hop1_titles": [
+        "Ubangi River",
+        "Soyo",
+        "Petrocephalus arnegardi",
+        "Congo\u2013Ocean Railway",
+        "Kasai River"
+    ],
+    "hop2_titles": [
+        "Lubaland",
+        "Matadi Bridge",
+        "List of companies of Angola",
+        "Geography of the Democratic Republic of the Congo",
+        "Angola"
+    ],
+    "hop1_paragraphs": [
+        "The Ubangi River ( or ), also spelled Oubangui, is the largest right-bank tributary of the Congo River in the region of Central Africa.  It begins at the confluence of the Mbomou and Uele Rivers and flows west, forming the border between Central African Republic (CAF) and Democratic Republic of the Congo.  Subsequently, the Ubangi bends to the southwest and passes through Bangui, the capital of CAF, after which it flows southforming the border between Democratic Republic of the Congo and Republic of Congo.  The Ubangi finally joins the Congo River at Liranga.",
+        "Soyo (formerly known as Santo Ant\u00f3nio do Zaire) is a city located in the province of Zaire in Angola, at the mouth of the Congo river.  Soyo recently became the largest oil-producing region in the country, with an estimate of 1200000 oilbbl/d .",
+        "Petrocephalus arnegardi is a species of electric fish in the genus \"Petrocephalus\" native to the Central Congo River basin.  It is found in middle Congo River and in the Likouala River drainage, in the Democratic Republic of the Congo and Republic of the Congo.  It is named after Matthew Arnegard, an expert on elephantfishes.",
+        "The Congo\u2013Ocean Railway (COR; French: \"Chemin de fer Congo-Oc\u00e9an\" , CFCO ) links the Atlantic port of Pointe-Noire (now in the Republic of Congo) with Brazzaville, a distance of 502 km .  It bypasses the rapids on the lower Congo River; from Brazzaville river boats are able to ascend the Congo River and its major tributaries, including the Oubangui River to Bangui.",
+        "The Kasai River (called Cassai in Angola) is a tributary of the Congo River, located in central Africa.  The river begins in Angola and then serves as the border between Angola and the Democratic Republic of the Congo (DRC), until it flows into the DRC.  The Kasai joins the Congo at Kwamouth northeast of Kinshasa.  The Kasai's tributaries include the Fimi, Kwango, and Sankuru rivers.  The short stretch of the Kasai from the inflow of the Fimi to the Congo is known as the Kwah River.  The Kasai basin consists mainly of equatorial rainforest areas, which provide an agricultural land in a region noted for its infertile, sandy soil.  It is a tributary of Congo river and diamonds are found in this river.  Around 60% of diamonds in Belgium go from Kasai river for cutting and shaping."
+    ],
+    "hop2_paragraphs": [
+        "Lubaland refers to the savanah grassland south of the Congo River where the Luba people live; now the southeastern portion of the Democratic Republic of the Congo.  Around 1500 CE Lubas united to form a kingdom which was ultimately taken over in 1885 by Leopold II, King of Belgium, who made it part of his Congo Free State.  Lubaland stretches from the Lwembe river to about 50 kilometers east of the Congo River, between 6\u00b030\u2032 and 10\u00b000\u2032 S in north-central Shaba.  The area is a savanah except Upemba Depression.",
+        "The Matadi Bridge, also known as the OEBK Bridge, is a suspension bridge across the Congo River at the port of Matadi, Democratic Republic of Congo.  It is the largest suspension bridge in Africa.  It was completed in 1983 by a consortium of Japanese companies.  It has a main span of 520 m , and crosses the Congo River.",
+        "Angola is a country in Southern Africa.  It is the seventh-largest country in Africa and is bordered by Namibia to the south, the Democratic Republic of the Congo to the north and east, Zambia to the east, and the Atlantic Ocean to west.  The exclave province of Cabinda has borders with the Republic of the Congo and the Democratic Republic of the Congo.  The capital and largest city of Angola is Luanda.",
+        "The Democratic Republic of the Congo is by the Congo River Basin, which covers an area of almost 1000000 km2 .  The country's only outlet to the Atlantic Ocean is a narrow strip of land on the north bank of the Congo River.",
+        "Angola , officially the Republic of Angola (Portuguese: \"Rep\u00fablica de Angola\" ] ; Kikongo, Kimbundu and Umbundu: \"Repubilika ya Ngola\"), is a country in Southern Africa.  It is the seventh-largest country in Africa and is bordered by Namibia to the south, the Democratic Republic of the Congo to the north, Zambia to the east, and the Atlantic Ocean to west.  The exclave province of Cabinda has borders with the Republic of the Congo and the Democratic Republic of the Congo.  The capital and largest city of Angola is Luanda."
+    ],
+    "hop1_gold_titles": [
+        "Soyo"
+    ],
+    "hop2_gold_titles": [
+        "Angola"
+    ]
+}

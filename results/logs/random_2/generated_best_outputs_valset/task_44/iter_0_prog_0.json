@@ -1,0 +1,38 @@
+{
+    "answer": "Masa Takayama",
+    "summary_1": "The relevant information from the passages does not directly answer the question about the owner of a Japanese restaurant in the Tribeca neighborhood and the owner of two Bar Masas in New York and Nevada. However, the passage \"Dinner Rush\" mentions a restaurant in the Tribeca neighborhood with a star chef, but does not provide the name of the chef or the owner. Therefore, there is no information in the provided passages to answer the question.",
+    "summary_2": "The question asks about the owner of a Japanese restaurant in the Tribeca neighborhood and the owner of two Bar Masas in New York and Nevada. From the provided passages, we learn that Masa Takayama is the chef and owner of Bar Masa with locations in New York and Nevada. Additionally, Masa Takayama is the owner of Masa, a three-Michelin-starred Japanese and sushi restaurant in Manhattan, which is located in the Tribeca neighborhood. Therefore, Masa Takayama is the person who fits the description given in the question.",
+    "hop1_titles": [
+        "Subaru Tribeca",
+        "El Internacional (New York City)",
+        "Magda Sawon",
+        "Roxy Hotel (New York City)",
+        "Dinner Rush"
+    ],
+    "hop2_titles": [
+        "Royal Monceau Raffles Paris",
+        "Snowy Hydro",
+        "Tetsu (restaurant)",
+        "Christina Tosi",
+        "Masa Takayama"
+    ],
+    "hop1_paragraphs": [
+        "The Subaru Tribeca is a mid-size crossover SUV sold since 2005 by Subaru.  Released in some markets, including Canada, as the Subaru B9 Tribeca, the name \"Tribeca\" derives from the Tribeca neighborhood of New York City.  Built on the Subaru Legacy platform and sold in five- and seven-seat configurations, the Tribeca was intended to be sold alongside a slightly revised version known as the Saab 9-6.  Saab, at the time a subsidiary of General Motors (GM), abandoned the 9-6 program just prior to its release subsequent to GM's 2005 divestiture of its 20 percent stake in FHI.",
+        "El Internacional Tapas Bar & Restaurant was conceived as an artistic project and social experiment, carried out between 1984 and 1986 by artist Antoni Miralda and chef Montse Guill\u00e9n in the Tribeca neighborhood of Manhattan, New York City.  It was an initiative merging the cultural contexts of contemporary art and cuisine.  The restaurant's popularity and renown would become a daring exploration of cross-cultural, trans-disciplinary esthetics and somehow an iconic symbol of the New York scene of the 80s.  The project engaged food, sensorial experiences and installation art as vehicles and rituals for transmitting and subverting traditions and blending social practices of the time.  El Internacional was seen as a point of convergence for the artistic community, and, at the same time, as a real place that engaged neighbors and celebrities alike in its culinary inventions and exotic allure.  El Internacional was an ongoing process of the almost 3-year day-by-day creation of a work of installation and performance art.",
+        "Magda Sawon is a contemporary art gallerist and art world figure who founded and owns New York's Postmasters Gallery (with her husband Tamas Banovich), a gallery for young and established contemporary artists, especially those working in new media, in the Tribeca neighborhood of New York City.  The gallery is considered to be one of the \"leading experimental galleries\" in New York City.",
+        "The Roxy Hotel, formerly the Tribeca Grand Hotel, is a hotel located at 2 Avenue of the Americas between Walker and White Streets in the Tribeca neighborhood of Lower Manhattan, New York City.  It is the sister hotel of the Soho Grand Hotel which is located a few blocks away.  Both hotels are owned and operated under Grand Life Hotels.  Tribeca Grand opened in 2000 and has 201 guest rooms.  The hotel's event venues are often used for movie premiers, screenings, and social events.  In September 2015 the hotel re-branded and changed its name to The Roxy Hotel.",
+        "Dinner Rush is a 2000 American independent feature film, written by Brian S. Kalata and Rick Shaughnessy, and directed by Bob Giraldi.  It stars Danny Aiello as a restaurateur-bookmaker in New York City's Tribeca neighborhood and Edoardo Ballerini as his son, the restaurant's star chef."
+    ],
+    "hop2_paragraphs": [
+        "The Le Royal Monceau Raffles Paris is a luxury hotel located at 37 avenue Hoche, 8th arrondissement, Paris, France.  The hotel has 149 rooms with 61 suites and 3 luxury apartments that have been recently refurbished by the designer Philippe Starck.  One of its restaurants has a Michelin star : \"Il Carpaccio\" serves Italian cuisine for lunch and dinner only and \"Le Bar Long\" serves lighter dishes all day from 8am to 2am with also a full bar available.  Chef Nobu Matsuhisa and le Royal Monceau partnered and opened a Japanese restaurant, \"Matsuhisa\".",
+        "Snowy Hydro Limited is an electricity generation and retailing company in Australia that owns, manages, and maintains the Snowy Mountains Hydro-electric Scheme which consists of nine hydro-electric power stations and sixteen large dams connected by 145 kilometres (90\u00a0mi) of tunnels and 80 kilometres (50\u00a0mi) of aqueducts located mainly in the Kosciuszko National Park.  Snowy Hydro also owns and operates two gas-fired power stations in Victoria and one in New South Wales, and owns two electricity retailing businesses (Red Energy and Lumo Energy).",
+        "Tetsu is a modern Japanese restaurant located in the Tribeca neighborhood of New York City.  Conceived by Michelin-starred chef Masa Takayama, Tetsu serves a Yakitori-based menu with an emphasis upon grilled fare.  Similar to Takayama\u2019s other restaurant ventures, Tetsu features both a la carte and Omakase menus.  The restaurant will feature two floors, with a casual ground floor space featuring cocktails and small plates, and a cellar space which will feature a twenty-course tasting menu.",
+        "Christina Tosi (born 1981 ) is an American chef, author, and television personality.  She is the chef, founder, and owner of Momofuku Milk Bar, the sister bakery to the Momofuku restaurant group.  Milk Bar consists of a central bakery that produces baked goods daily for five retail outlets in New York City and a sixth location in Toronto, Canada.  A seventh location was originally planned to open in Washington, D.C. during summer 2015, and finally opened in October 2015.  The central bakery also provides baked goods for other restaurants in the Momofuku group and individuals by shipping nationally and internationally.  In February 2016, it was announced that an eighth location was planned to open at the Cosmopolitan of Las Vegas in Nevada.  At the time of the announcement, it was unclear if the Nevada branch would also be supplied by the Brooklyn-based central bakery.  After a long delay, the Las Vegas location opened in December 2016.",
+        "Masayoshi \"Masa\" Takayama (\u9ad8\u5c71 \u96c5\u6c0f , Takayama Masayoshi ) (born 1 May 1954 in Kuroiso, Tochigi, Japan) is the chef and owner of Masa, a three-Michelin-starred Japanese and sushi restaurant in Manhattan, New York City.  He is also owner of Bar Masa, with two locations: one adjacent to his New York City restaurant, and one in the Aria Resort & Casino on the Las Vegas Strip in Paradise, Nevada."
+    ],
+    "hop1_gold_titles": [],
+    "hop2_gold_titles": [
+        "Tetsu (restaurant)",
+        "Masa Takayama"
+    ]
+}

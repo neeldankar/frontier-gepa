@@ -1,0 +1,38 @@
+{
+    "answer": "None",
+    "summary_1": "There is no town starting with the letter \"B\" connected by State Route 582 to Las Vegas in the given passages. The passage mentions Ohio State Route 582, which has an eastern terminus southwest of Woodville in Ohio, but does not provide information about a town starting with \"B\" and its connection to Las Vegas via this route.",
+    "summary_2": "There is no town starting with the letter \"B\" that is connected by State Route 582 to Las Vegas. The passage discusses Nevada State Route 582, which connects Downtown Las Vegas with Henderson and Boulder City, but does not mention a town starting with \"B\". The information provided does not include any details about a town starting with \"B\" and its connection to Las Vegas via State Route 582.",
+    "hop1_titles": [
+        "California State Route 299",
+        "Nevada State Route 318",
+        "Ohio State Route 29",
+        "Ohio State Route 582",
+        "Nevada State Route 602"
+    ],
+    "hop2_titles": [
+        "Nevada State Route 582",
+        "Boulder City, Nevada",
+        "Nevada State Route 147",
+        "Nevada State Route 604",
+        "Nevada State Route 607"
+    ],
+    "hop1_paragraphs": [
+        "State Route 299 (SR 299) is a state highway in the state of California that runs across the northern part of the state.  At 305.777 mi , it is the third longest California state highway (after Route 1 and Route 99).  Route 299 begins at US 101 at the northern edge of Arcata and continues in an easterly direction through to the Nevada state line.  Between Arcata and Redding, Route 299 intersects with State Route 96, and is briefly co-signed with State Route 3.  In Redding, it intersects with State Route 273, State Route 44, and Interstate 5.  East of Redding, it intersects with State Route 89, and a section is co-signed with State Route 139 before reaching Alturas.  It is then co-signed with U.S. Route 395 northeast of Alturas, and then runs east toward the border with Nevada.  A ghost town, Vya, Nevada, can be reached via this route, which after the border becomes a dirt road, which was formerly Nevada State Route 8A.",
+        "State Route 318 (SR 318) is a state highway in eastern Nevada.  It is often used as a shortcut between northeastern Nevada and Las Vegas, bypassing the longer and less direct route of U.S. Route 93 between Ely and Crystal Springs.  The highway was established in the 1930s as State Route 38 and State Route 38A, and was renumbered to SR 318 in 1976.  At a total of 110.762 mi , it is the longest state route in Nevada.  The road is used for open speed highway races twice a year.",
+        "State Route 29 (SR 29) is an east\u2013west state highway in the west-central portion of the U.S. state of Ohio.  Its western terminus is at the Indiana state line near Celina, where State Road 67 continues west.  It continues east to St. Marys where it junctions with U.S. Route 33.  In that town, it also crosses State Route 66, State Route 116, and State Route 703, which was its former alignment before a divided highway was built.  After turning south it crosses State Route 219 in New Knoxville and then has an interchange with Interstate 75, continuing into Sidney where it meets State Route 47.  Still going southeast, it briefly joins State Route 235 before turning east and then south again to enter Urbana.  Here the route joins U.S. Route 36, and the concurrency intersects with U.S. Route 68 and State Route 54.  From there, State Route 29 leaves U.S. Route 36 and continues to Mutual, intersecting with State Route 161, and State Route 56 shortly after; later, in Mechanicsburg, the route intersects with State Route 4.  The route then intersects with State Route 38, U.S. Route 42, and Interstate 70 before reaching its eastern terminus at U.S. Route 40 on the western edge of West Jefferson.",
+        "State Route 582 (SR 582) is an east\u2013west state highway in the northwestern portion of the U.S. state of Ohio.  The western terminus of SR 582 is at a T-intersection with SR 65 nearly 2 mi west of Haskins.  Its eastern terminus is also at a T-intersection, this time with SR 105 less than 0.50 mi southwest of Woodville.",
+        "State Route 602 (SR 602) is a short state highway in Clark County, Nevada.  Located entirely within the downtown area of Las Vegas, it comprises a small section of Casino Center Boulevard.  The route was previously a part of State Route 5B.  The highway now primarily serves as a connection between State Route 579 and Interstate 515."
+    ],
+    "hop2_paragraphs": [
+        "State Route 582 (SR 582) is a major 16.688 mi highway in the Las Vegas Valley.  The highway is the former route of U.S. Route 93 (US 93) and US 95 before they were moved to the current freeway alignment shared with Interstate 515 (I-515).  It connects Downtown Las Vegas with Henderson and (indirectly) Boulder City to the southeast.  The highway is primarily known as Boulder Highway, but is named Fremont Street within the Las Vegas city limits.",
+        "Boulder City is a city in Clark County, Nevada.  It is approximately 26 mi southeast of Las Vegas.  As of the 2010 census, the population of Boulder City was 15,023.",
+        "State Route 147 (SR 147) is a state highway serving the Las Vegas Valley in southern Nevada.  It is signed as Lake Mead Boulevard and runs from Interstate 15 in North Las Vegas east to the border of the Lake Mead National Recreation Area.  It is not to be confused with Lake Mead Parkway (formerly Lake Mead Drive), which also goes to Lake Mead but mainly runs in southern Las Vegas Valley and carries the designation of State Route 564.",
+        "State Route 604 (SR 604) is the route number designation for parts of Las Vegas Boulevard, a major north\u2013south road in the Las Vegas metropolitan area of Nevada in the United States best known for the Las Vegas Strip and its casinos. Formerly carrying U.S. Route 91, which had been the main highway between Los Angeles and Salt Lake City, it has been bypassed by Interstate 15, and serves mainly local traffic.",
+        "State Route 607 was a state highway serving the Las Vegas Valley including Las Vegas, Nevada and North Las Vegas.  The highway followed Eastern Avenue, a section line arterial in Las Vegas and continued on Civic Center Drive in North Las Vegas.  The route was turned over to local control by 2008."
+    ],
+    "hop1_gold_titles": [],
+    "hop2_gold_titles": [
+        "Nevada State Route 582",
+        "Boulder City, Nevada"
+    ]
+}
