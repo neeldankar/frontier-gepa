@@ -11,9 +11,12 @@ Three lines are marked ADAPT -- change those to match the actual src/ module
 paths and field names Claude Code used. Do not change the assertions.
 """
 
+import os
 import pytest
 import yaml
 from pathlib import Path
+
+from dotenv import load_dotenv
 
 # ADAPT: match actual module paths
 from src.data import load_splits      # must return (d_feedback, accept_batch, d_pareto, test_set)
@@ -22,6 +25,10 @@ from src.program import build_program  # must return the DSPy multi-hop program
 SEEDS_DIR = Path("prompts/seeds")
 CONFIG_PATH = Path("config/experiment.yaml")
 FIXED_SEED = 42
+
+# Load .env at module import so the integration fixture has TASK_MODEL etc.
+# available. No-op for the offline tests.
+load_dotenv(CONFIG_PATH.parent.parent / ".env")
 
 
 # ---------------------------------------------------------------------------
@@ -182,6 +189,28 @@ class TestProgramSmoke:
 
     @pytest.fixture(scope="class")
     def result(self, example):
+        # Configure the task LM exactly as src/smoke_chunk2.py does. Setup, not
+        # an assertion; the test contracts (answer present, hop1 titles, gold
+        # in context, intermediate fields, hops split) are unchanged.
+        import dspy
+        config = yaml.safe_load(CONFIG_PATH.read_text())
+        task_model = os.environ.get("TASK_MODEL")
+        if not task_model:
+            pytest.skip("TASK_MODEL is not set; cannot run the integration rollout.")
+        api_key = os.environ.get(config["task_model"]["api_key_env"])
+        base_url = os.environ.get(config["task_model"]["base_url_env"]) or None
+        lm_kwargs = dict(
+            model=task_model,
+            temperature=float(config["task_model"]["temperature"]),
+            top_p=float(config["task_model"]["top_p"]),
+            max_tokens=int(config["task_model"]["max_tokens"]),
+        )
+        if api_key:
+            lm_kwargs["api_key"] = api_key
+        if base_url:
+            lm_kwargs["api_base"] = base_url
+        dspy.settings.configure(lm=dspy.LM(**lm_kwargs))
+
         program = build_program()
         return program(**dict(example.inputs()))
 
