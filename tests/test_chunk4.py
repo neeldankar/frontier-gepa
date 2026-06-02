@@ -1,0 +1,721 @@
+"""Chunk 4 offline gates.
+
+Five sets of tests:
+
+1. Difficulty table (src/difficulty.py): frozen across mutations, equal
+   terciles by F1 rank, every D_feedback id in exactly one tercile,
+   save/load round-trips.
+
+2. Band samplers (src/band_sampler.py): ~70%/15%/15% within tolerance over
+   many draws, random arm is ~uniform, each static arm targets the right
+   tercile, b=3 always, no within-call duplicates, same seed reproduces
+   the exact draw sequence.
+
+3. Decoupled acceptance (src/decoupled_proposer.py): the engine's accept
+   decision uses A-batch scores not the minibatch scores (construct a case
+   where minibatch improves but A does not -> reject; and the reverse ->
+   accept), strict > (equal A-batch sums reject), the parent's A-batch
+   score is cached and reused, the same A is used for every call.
+
+4. Stop (src/run_gepa.py + MaxCandidateProposalsStopper): the engine runs
+   exactly N iterations regardless of accept rate (small N, stub adapter
+   forced into no-accept and always-accept regimes).
+
+5. Resume: kill after k iterations, resume in the same run_dir, confirm
+   the run continues at k+1 with the same total_num_evals trajectory and
+   no double-counting.
+
+All tests stub the adapter (gepa.core.adapter.GEPAAdapter Protocol) so the
+LM is never called. The two end-to-end engine tests (#4, #5) build a real
+gepa.core.engine.GEPAEngine and run its loop.
+"""
+
+from __future__ import annotations
+
+import os
+import random
+from collections import Counter
+from pathlib import Path
+from types import MappingProxyType
+from typing import Any
+from unittest.mock import MagicMock
+
+import dspy
+import pytest
+
+from gepa import EvaluationBatch
+from gepa.core.data_loader import ensure_loader
+from gepa.core.engine import GEPAEngine
+from gepa.core.state import GEPAState, initialize_gepa_state
+from gepa.logging.experiment_tracker import create_experiment_tracker
+from gepa.proposer.reflective_mutation.reflective_mutation import ReflectiveMutationProposer
+from gepa.strategies.candidate_selector import ParetoCandidateSelector
+from gepa.strategies.component_selector import RoundRobinReflectionComponentSelector
+from gepa.strategies.eval_policy import FullEvaluationPolicy
+from gepa.utils import MaxCandidateProposalsStopper
+
+from src.band_sampler import BandBatchSampler, off_bands_for
+from src.decoupled_proposer import DecoupledReflectiveMutationProposer
+from src.difficulty import (
+    BAND_NAMES,
+    DifficultyTable,
+    build_difficulty_table,
+)
+
+
+# =========================================================================
+# Test infra: stub adapter + helpers
+# =========================================================================
+
+
+class StubAdapter:
+    """Minimal GEPAAdapter for offline testing.
+
+    Each call to evaluate() returns scores from `score_fn(example_id, candidate)`.
+    `propose_new_texts` mutates a single component to drive the engine forward
+    deterministically; the test controls which components and how.
+    """
+
+    def __init__(
+        self,
+        score_fn,
+        components: list[str],
+        propose_strategy: str = "increment",
+    ):
+        self.score_fn = score_fn
+        self.components = components
+        self.propose_strategy = propose_strategy
+        # Inspection hooks for tests:
+        self.evaluate_calls: list[tuple[tuple, dict[str, str], bool]] = []
+        self.propose_calls: list[tuple[dict[str, str], list[str]]] = []
+        self._propose_counter = 0
+
+    def evaluate(self, batch, candidate, capture_traces=False):
+        ids = tuple(getattr(ex, "id", i) if not isinstance(ex, dict) else ex["id"]
+                    for i, ex in enumerate(batch))
+        scores = [self.score_fn(eid, candidate) for eid in ids]
+        outputs = [dspy.Prediction(answer="stub") for _ in batch]
+        trajectories = None
+        if capture_traces:
+            # Need non-empty trajectories for the proposer to proceed.
+            trajectories = [
+                {
+                    "prediction": o,
+                    "trace": [],
+                    "example": ex,
+                    "score": s,
+                }
+                for ex, o, s in zip(batch, outputs, scores)
+            ]
+        self.evaluate_calls.append((ids, dict(candidate), capture_traces))
+        return EvaluationBatch(
+            outputs=outputs, scores=scores, trajectories=trajectories,
+        )
+
+    def make_reflective_dataset(self, candidate, eval_batch, components_to_update):
+        # Return one non-empty entry per requested component so the proposer
+        # has something to propose against.
+        return {
+            name: [{"Inputs": {"q": "x"}, "Generated Outputs": {"a": "y"}, "Feedback": "z"}]
+            for name in components_to_update
+        }
+
+    def propose_new_texts(self, candidate, reflective_dataset, components_to_update):
+        """Deterministic propose: append a monotonically increasing counter
+        to each requested component so that distinct candidates always have
+        distinct text (keeps the engine's candidate_hash unique)."""
+        self.propose_calls.append((dict(candidate), list(components_to_update)))
+        self._propose_counter += 1
+        out = {}
+        for name in components_to_update:
+            out[name] = f"{candidate.get(name, '')} | v{self._propose_counter}"
+        return out
+
+
+class _StubExample(dict):
+    """A dict-like example with both `.id` attr and `['id']` access."""
+
+    @property
+    def id(self):
+        return self["id"]
+
+
+def _stub_example(idx: int) -> _StubExample:
+    return _StubExample({"id": f"ex_{idx}", "question": f"q{idx}", "answer": f"a{idx}"})
+
+
+COMPONENTS = ["summarize1", "summarize2", "final_answer"]
+
+
+def _seed_candidate() -> dict[str, str]:
+    return {name: f"seed_{name}" for name in COMPONENTS}
+
+
+# =========================================================================
+# 1. Difficulty table
+# =========================================================================
+
+
+class TestDifficultyTable:
+    def test_equal_terciles_3n(self):
+        # n=9 -> 3/3/3
+        t = build_difficulty_table([0.1, 0.5, 0.9, 0.2, 0.6, 0.8, 0.3, 0.7, 0.4])
+        assert len(t.ids("easy")) == 3
+        assert len(t.ids("mid")) == 3
+        assert len(t.ids("hard")) == 3
+
+    def test_equal_terciles_100(self):
+        scores = [i / 100.0 for i in range(100)]
+        t = build_difficulty_table(scores)
+        sizes = {b: len(t.ids(b)) for b in BAND_NAMES}
+        # 100/3 = 33 rem 1 -> mid gets the extra
+        assert sizes == {"easy": 33, "mid": 34, "hard": 33}
+
+    def test_every_id_in_exactly_one_tercile(self):
+        rng = random.Random(0)
+        scores = [rng.random() for _ in range(100)]
+        t = build_difficulty_table(scores)
+        seen = set()
+        for band in BAND_NAMES:
+            for i in t.ids(band):
+                assert i not in seen, f"id {i} in multiple bands"
+                seen.add(i)
+        assert seen == set(range(100))
+
+    def test_band_for_id_matches_ids_in_band(self):
+        scores = [0.1, 0.5, 0.9, 0.2, 0.6, 0.8, 0.3, 0.7, 0.4]
+        t = build_difficulty_table(scores)
+        for band in BAND_NAMES:
+            for i in t.ids(band):
+                assert t.band(i) == band
+
+    def test_bands_ordered_by_score(self):
+        scores = [0.1, 0.5, 0.9, 0.2, 0.6, 0.8, 0.3, 0.7, 0.4]
+        t = build_difficulty_table(scores)
+        hard_scores = sorted(t.scores[i] for i in t.ids("hard"))
+        mid_scores = sorted(t.scores[i] for i in t.ids("mid"))
+        easy_scores = sorted(t.scores[i] for i in t.ids("easy"))
+        # Each hard score <= each mid score <= each easy score (since we
+        # binned by rank, exactly true with no ties).
+        assert max(hard_scores) <= min(mid_scores)
+        assert max(mid_scores) <= min(easy_scores)
+
+    def test_frozen_dataclass_blocks_assignment(self):
+        t = build_difficulty_table([0.1, 0.2, 0.3])
+        with pytest.raises(Exception):
+            t.scores = (0.0,)
+
+    def test_inner_mappings_are_read_only(self):
+        t = build_difficulty_table([0.1, 0.2, 0.3])
+        # MappingProxyType raises TypeError on item assignment.
+        with pytest.raises(TypeError):
+            t.ids_in_band["easy"] = (99,)  # type: ignore[index]
+        with pytest.raises(TypeError):
+            t.band_for_id[0] = "mid"  # type: ignore[index]
+
+    def test_save_and_load_round_trip(self, tmp_path: Path):
+        rng = random.Random(1)
+        scores = [rng.random() for _ in range(15)]
+        t = build_difficulty_table(scores)
+        p = tmp_path / "table.json"
+        t.save(p)
+        t2 = DifficultyTable.load(p)
+        assert t2.scores == t.scores
+        assert dict(t2.ids_in_band) == dict(t.ids_in_band)
+        assert dict(t2.band_for_id) == dict(t.band_for_id)
+
+    def test_construction_failures(self):
+        with pytest.raises(ValueError):
+            build_difficulty_table([])
+        # Mismatched band_for_id / ids_in_band raises in __post_init__.
+        with pytest.raises(ValueError):
+            DifficultyTable(
+                scores=(0.1, 0.2, 0.3),
+                band_for_id=MappingProxyType({0: "easy", 1: "easy", 2: "easy"}),
+                ids_in_band=MappingProxyType({
+                    "easy": (0,), "mid": (1,), "hard": (2,),
+                }),
+            )
+
+    def test_table_unchanged_after_many_lookups(self):
+        # Lookups must not mutate the table.
+        t = build_difficulty_table([0.1, 0.5, 0.9, 0.2, 0.6, 0.8, 0.3, 0.7, 0.4])
+        before_scores = t.scores
+        before_bands = {b: t.ids(b) for b in BAND_NAMES}
+        for _ in range(1000):
+            for band in BAND_NAMES:
+                _ = t.ids(band)
+            for i in range(t.n):
+                _ = t.band(i)
+        assert t.scores == before_scores
+        for b in BAND_NAMES:
+            assert t.ids(b) == before_bands[b]
+
+
+# =========================================================================
+# 2. Band samplers
+# =========================================================================
+
+
+class TestBandSampler:
+    @pytest.fixture
+    def table_99(self) -> DifficultyTable:
+        return build_difficulty_table([i / 99.0 for i in range(99)])
+
+    @pytest.fixture
+    def loader_99(self):
+        return ensure_loader(list(range(99)))
+
+    @pytest.mark.parametrize("target", ["easy", "mid", "hard"])
+    def test_static_arm_distribution(self, target, table_99, loader_99):
+        s = BandBatchSampler(
+            target_band=target, rng=random.Random(7), difficulty_table=table_99,
+        )
+        counts = {b: 0 for b in BAND_NAMES}
+        n_draws = 2000
+        for _ in range(n_draws):
+            for did in s.next_minibatch_ids(loader_99, MagicMock()):
+                counts[table_99.band(did)] += 1
+        total = sum(counts.values())
+        pct = {b: counts[b] / total for b in BAND_NAMES}
+        # Generous tolerance: 70% +/- 4%, 15% +/- 4%.
+        assert 0.66 <= pct[target] <= 0.74, f"target {target}: pct={pct}"
+        for off in [b for b in BAND_NAMES if b != target]:
+            assert 0.11 <= pct[off] <= 0.19, f"off-band {off}: pct={pct}"
+
+    def test_random_arm_uniform(self, table_99, loader_99):
+        s = BandBatchSampler(
+            target_band="random", rng=random.Random(7), difficulty_table=None,
+        )
+        counts = {b: 0 for b in BAND_NAMES}
+        for _ in range(2000):
+            for did in s.next_minibatch_ids(loader_99, MagicMock()):
+                counts[table_99.band(did)] += 1
+        total = sum(counts.values())
+        pct = {b: counts[b] / total for b in BAND_NAMES}
+        for b in BAND_NAMES:
+            assert 0.29 <= pct[b] <= 0.37, f"band {b}: pct={pct}"
+
+    def test_b_is_three_and_unique_within_call(self, table_99, loader_99):
+        s = BandBatchSampler(
+            target_band="mid", rng=random.Random(7), difficulty_table=table_99,
+        )
+        for _ in range(200):
+            draw = s.next_minibatch_ids(loader_99, MagicMock())
+            assert len(draw) == 3
+            assert len(set(draw)) == 3
+
+    def test_draws_only_from_d_feedback(self, table_99, loader_99):
+        s = BandBatchSampler(
+            target_band="mid", rng=random.Random(7), difficulty_table=table_99,
+        )
+        all_ids = set(loader_99.all_ids())
+        for _ in range(200):
+            for did in s.next_minibatch_ids(loader_99, MagicMock()):
+                assert did in all_ids
+
+    def test_exact_reproducibility_under_same_seed(self, table_99, loader_99):
+        s1 = BandBatchSampler(
+            target_band="mid", rng=random.Random(7), difficulty_table=table_99,
+        )
+        s2 = BandBatchSampler(
+            target_band="mid", rng=random.Random(7), difficulty_table=table_99,
+        )
+        seq1 = [s1.next_minibatch_ids(loader_99, MagicMock()) for _ in range(50)]
+        seq2 = [s2.next_minibatch_ids(loader_99, MagicMock()) for _ in range(50)]
+        assert seq1 == seq2
+
+    def test_off_bands_for_deterministic(self):
+        assert off_bands_for("easy") == ("mid", "hard")
+        assert off_bands_for("mid") == ("easy", "hard")
+        assert off_bands_for("hard") == ("easy", "mid")
+
+    def test_static_arm_requires_difficulty_table(self):
+        with pytest.raises(ValueError):
+            BandBatchSampler(target_band="mid", rng=random.Random(0))
+
+    def test_mix_validation(self, table_99):
+        with pytest.raises(ValueError):
+            BandBatchSampler(
+                target_band="mid",
+                rng=random.Random(0),
+                difficulty_table=table_99,
+                mix=(0.5, 0.3, 0.3),  # sums to 1.1
+            )
+
+
+# =========================================================================
+# Engine-building helper for tests 3-5
+# =========================================================================
+
+
+def _build_test_engine(
+    *,
+    score_fn,
+    n_feedback: int = 12,
+    n_accept: int = 4,
+    n_pareto: int = 6,
+    n_iterations: int = 5,
+    arm: str = "static_frontier",
+    seed: int = 0,
+    run_dir: Path,
+    decoupled: bool = True,
+    skip_perfect_score: bool = True,
+):
+    """Build a GEPAEngine wired to a StubAdapter; returns (engine, adapter, state_after_init)."""
+    components = COMPONENTS
+    seed_cand = _seed_candidate()
+    d_feedback = [_stub_example(i) for i in range(n_feedback)]
+    accept_batch = [_stub_example(1000 + i) for i in range(n_accept)]
+    accept_batch_ids = list(range(n_accept))
+    d_pareto = [_stub_example(2000 + i) for i in range(n_pareto)]
+
+    adapter = StubAdapter(score_fn=score_fn, components=components)
+
+    rng = random.Random(seed)
+
+    # Sampler
+    if decoupled and arm != "random":
+        scores = [score_fn(_stub_example(i).id, seed_cand) for i in range(n_feedback)]
+        diff = build_difficulty_table(scores)
+        target = {"static_easy": "easy", "static_frontier": "mid", "static_hard": "hard"}[arm]
+        batch_sampler = BandBatchSampler(
+            target_band=target, rng=rng, difficulty_table=diff,
+        )
+    elif decoupled and arm == "random":
+        batch_sampler = BandBatchSampler(target_band="random", rng=rng)
+    else:
+        from gepa.strategies.batch_sampler import EpochShuffledBatchSampler
+        batch_sampler = EpochShuffledBatchSampler(minibatch_size=3, rng=rng)
+
+    candidate_selector = ParetoCandidateSelector(rng=rng)
+    module_selector = RoundRobinReflectionComponentSelector()
+    exp_tracker = create_experiment_tracker(
+        use_wandb=False, wandb_api_key=None, wandb_init_kwargs=None,
+        use_mlflow=False, mlflow_tracking_uri=None, mlflow_experiment_name=None,
+    )
+
+    class _NoopLogger:
+        def log(self, *args, **kwargs): pass
+
+    logger = _NoopLogger()
+
+    if decoupled:
+        proposer = DecoupledReflectiveMutationProposer(
+            logger=logger,
+            trainset=d_feedback,
+            adapter=adapter,
+            candidate_selector=candidate_selector,
+            module_selector=module_selector,
+            batch_sampler=batch_sampler,
+            perfect_score=1.0,
+            skip_perfect_score=skip_perfect_score,
+            experiment_tracker=exp_tracker,
+            reflection_lm=None,  # unused: stub adapter has propose_new_texts
+            reflection_prompt_template=None,
+            custom_candidate_proposer=None,
+            callbacks=None,
+            accept_batch=accept_batch,
+            accept_batch_ids=accept_batch_ids,
+        )
+    else:
+        proposer = ReflectiveMutationProposer(
+            logger=logger,
+            trainset=d_feedback,
+            adapter=adapter,
+            candidate_selector=candidate_selector,
+            module_selector=module_selector,
+            batch_sampler=batch_sampler,
+            perfect_score=1.0,
+            skip_perfect_score=skip_perfect_score,
+            experiment_tracker=exp_tracker,
+            reflection_lm=None,
+            reflection_prompt_template=None,
+            custom_candidate_proposer=None,
+            callbacks=None,
+        )
+
+    engine = GEPAEngine(
+        adapter=adapter,
+        run_dir=str(run_dir),
+        valset=d_pareto,
+        seed_candidate=seed_cand,
+        perfect_score=1.0,
+        seed=seed,
+        reflective_proposer=proposer,
+        merge_proposer=None,
+        frontier_type="instance",
+        logger=logger,
+        experiment_tracker=exp_tracker,
+        callbacks=None,
+        track_best_outputs=False,
+        display_progress_bar=False,
+        raise_on_exception=True,
+        stop_callback=MaxCandidateProposalsStopper(max_proposals=n_iterations),
+        val_evaluation_policy=FullEvaluationPolicy(),
+        use_cloudpickle=False,
+        evaluation_cache=None,
+    )
+    return engine, adapter, proposer, exp_tracker
+
+
+# =========================================================================
+# 3. Decoupled acceptance
+# =========================================================================
+
+
+class TestDecoupledAcceptance:
+    def test_accept_uses_a_batch_not_minibatch(self, tmp_path: Path):
+        """Minibatch improves but A-batch does not -> engine rejects.
+
+        Setup: score_fn distinguishes D_feedback ids from accept-batch ids.
+        - For D_feedback ids: any non-seed candidate scores 1.0 (improvement).
+        - For accept-batch ids: any candidate scores 0.5 (no improvement).
+        """
+
+        def score_fn(eid, candidate):
+            is_feedback = isinstance(eid, str) and eid.startswith("ex_") and int(eid.split("_")[1]) < 12
+            is_accept = isinstance(eid, str) and eid.startswith("ex_") and 1000 <= int(eid.split("_")[1]) < 1004
+            # Non-seed candidate detection: seed has no " | v" suffix.
+            is_non_seed = any(" | v" in v for v in candidate.values())
+            if is_feedback:
+                return 1.0 if is_non_seed else 0.0
+            if is_accept:
+                return 0.5
+            return 0.5  # d_pareto
+
+        engine, adapter, proposer, _ = _build_test_engine(
+            score_fn=score_fn, n_iterations=3, arm="static_frontier",
+            run_dir=tmp_path,
+        )
+        state = engine.run()
+        # With A constant at 0.5 for every candidate, accept rule (strict >)
+        # rejects every proposal. State should still have ONLY the seed.
+        assert len(state.program_candidates) == 1, (
+            f"expected only seed candidate (no accepts), got {len(state.program_candidates)}"
+        )
+
+    def test_accept_when_a_batch_improves(self, tmp_path: Path):
+        """Reverse: minibatch does NOT improve but A-batch does -> accept."""
+
+        def score_fn(eid, candidate):
+            is_feedback = isinstance(eid, str) and eid.startswith("ex_") and int(eid.split("_")[1]) < 12
+            is_accept = isinstance(eid, str) and eid.startswith("ex_") and 1000 <= int(eid.split("_")[1]) < 1004
+            is_non_seed = any(" | v" in v for v in candidate.values())
+            if is_feedback:
+                # Constant on minibatch (no improvement -- but the engine's
+                # accept test reads A-batch, not this).
+                return 0.3
+            if is_accept:
+                return 1.0 if is_non_seed else 0.0
+            return 0.5
+
+        engine, adapter, proposer, _ = _build_test_engine(
+            score_fn=score_fn, n_iterations=3, arm="static_frontier",
+            run_dir=tmp_path, skip_perfect_score=False,
+        )
+        state = engine.run()
+        # Each iteration: parent A=0 -> first new A=1.0 (accept); then new
+        # parent A is the new candidate's A=1.0; subsequent proposals also
+        # produce A=1.0 (equal -> reject). Expect 2 program_candidates total.
+        assert len(state.program_candidates) >= 2, (
+            f"expected at least one accept; got {len(state.program_candidates)} candidates"
+        )
+
+    def test_strict_greater_rejects_equal(self, tmp_path: Path):
+        """When new A sum == parent A sum, the engine's strict > rejects.
+
+        Setup: A-batch returns exactly 0.5 for every candidate (parent or
+        new). Sum is identical -> rejected.
+        """
+
+        def score_fn(eid, candidate):
+            is_feedback = isinstance(eid, str) and eid.startswith("ex_") and int(eid.split("_")[1]) < 12
+            if is_feedback:
+                return 0.7  # bigger than 0 so we don't skip-perfect-out
+            return 0.5  # accept batch + valset
+
+        engine, adapter, proposer, _ = _build_test_engine(
+            score_fn=score_fn, n_iterations=3, arm="static_frontier",
+            run_dir=tmp_path, skip_perfect_score=False,
+        )
+        state = engine.run()
+        assert len(state.program_candidates) == 1, (
+            "strict > should reject equal A-batch sums"
+        )
+
+    def test_parent_a_score_cached(self, tmp_path: Path):
+        """The parent's A-batch score is computed once and cached on the
+        proposer, so we never re-evaluate the same parent on A twice."""
+
+        def score_fn(eid, candidate):
+            is_feedback = isinstance(eid, str) and eid.startswith("ex_") and int(eid.split("_")[1]) < 12
+            if is_feedback:
+                return 0.7
+            return 0.3  # accept batch: every candidate gets 0.3 -> no accept
+
+        engine, adapter, proposer, _ = _build_test_engine(
+            score_fn=score_fn, n_iterations=5, arm="static_frontier",
+            run_dir=tmp_path, skip_perfect_score=False,
+        )
+        engine.run()
+        # All 5 iterations pick the same parent (seed), since nothing was
+        # accepted. The accept_score_cache should have exactly 1 entry.
+        assert len(proposer.accept_score_cache) == 1
+        assert 0 in proposer.accept_score_cache
+
+        # Count adapter.evaluate calls on the A-batch with the SEED program:
+        # the parent should have been evaluated on A only once over 5 iters.
+        seed_a_calls = 0
+        seed_cand = _seed_candidate()
+        for ids, cand, capture_traces in adapter.evaluate_calls:
+            if capture_traces:
+                continue
+            if len(ids) != 4:  # not the A batch
+                continue
+            if cand == seed_cand:
+                seed_a_calls += 1
+        assert seed_a_calls == 1, (
+            f"expected exactly 1 seed-on-A eval; got {seed_a_calls}"
+        )
+
+    def test_same_a_batch_used_every_call(self, tmp_path: Path):
+        """The accept batch passed to the proposer is the one used for
+        every call -- proposer.accept_batch must not be silently rebuilt."""
+
+        def score_fn(eid, candidate):
+            is_feedback = isinstance(eid, str) and eid.startswith("ex_") and int(eid.split("_")[1]) < 12
+            if is_feedback:
+                return 0.7
+            return 0.3
+
+        engine, adapter, proposer, _ = _build_test_engine(
+            score_fn=score_fn, n_iterations=3, arm="static_frontier",
+            run_dir=tmp_path, skip_perfect_score=False,
+        )
+        engine.run()
+        # Collect all A-batch id tuples (non-capture_traces calls of size 4).
+        a_calls = [ids for ids, _, ct in adapter.evaluate_calls if not ct and len(ids) == 4]
+        assert len(a_calls) >= 2
+        first = a_calls[0]
+        for ids in a_calls[1:]:
+            assert ids == first, (
+                f"accept batch ids changed across calls: {first} vs {ids}"
+            )
+
+
+# =========================================================================
+# 4. Stop: exactly N iterations regardless of accept rate
+# =========================================================================
+
+
+class TestStop:
+    def test_n_iterations_with_all_rejects(self, tmp_path: Path):
+        # A-batch constant -> all rejects. Loop must still run N times.
+        def score_fn(eid, candidate):
+            is_feedback = isinstance(eid, str) and eid.startswith("ex_") and int(eid.split("_")[1]) < 12
+            if is_feedback:
+                return 0.7
+            return 0.3
+
+        N = 7
+        engine, adapter, proposer, _ = _build_test_engine(
+            score_fn=score_fn, n_iterations=N, arm="static_frontier",
+            run_dir=tmp_path, skip_perfect_score=False,
+        )
+        state = engine.run()
+        # MaxCandidateProposalsStopper terminates after exactly N proposals;
+        # state.i == N - 1 by design (see its docstring), and the per-iter
+        # full_program_trace has N entries.
+        assert state.i == N - 1, f"expected state.i == {N - 1}, got {state.i}"
+        assert len(state.full_program_trace) == N
+
+    def test_n_iterations_with_many_accepts(self, tmp_path: Path):
+        # Score increases with the propose counter via " | v" suffix length.
+        def score_fn(eid, candidate):
+            is_feedback = isinstance(eid, str) and eid.startswith("ex_") and int(eid.split("_")[1]) < 12
+            if is_feedback:
+                return 0.3
+            # Accept batch: score grows with the candidate's text length so
+            # every new proposal scores higher.
+            return 0.1 + 0.001 * sum(len(v) for v in candidate.values())
+
+        N = 5
+        engine, adapter, proposer, _ = _build_test_engine(
+            score_fn=score_fn, n_iterations=N, arm="static_frontier",
+            run_dir=tmp_path, skip_perfect_score=False,
+        )
+        state = engine.run()
+        assert state.i == N - 1, f"expected state.i == {N - 1}, got {state.i}"
+        assert len(state.full_program_trace) == N
+
+
+# =========================================================================
+# 5. Resume: kill at k, restart, continue at k+1
+# =========================================================================
+
+
+class TestResume:
+    def test_resume_continues_without_double_count(self, tmp_path: Path):
+        """Run two iterations, save state, then run two more in the same
+        run_dir. Total iterations should be 4, total_num_evals should
+        equal the cumulative count, and no iteration is redone."""
+
+        def score_fn(eid, candidate):
+            is_feedback = isinstance(eid, str) and eid.startswith("ex_") and int(eid.split("_")[1]) < 12
+            if is_feedback:
+                return 0.7
+            return 0.3  # all rejects
+
+        # Phase 1: 2 iterations.
+        engine_a, adapter_a, proposer_a, _ = _build_test_engine(
+            score_fn=score_fn, n_iterations=2, arm="static_frontier",
+            run_dir=tmp_path, skip_perfect_score=False,
+        )
+        state_a = engine_a.run()
+        assert state_a.i == 1, f"phase 1 i should be 1 (== N-1), got {state_a.i}"
+        evals_after_phase1 = state_a.total_num_evals
+        assert (tmp_path / "gepa_state.bin").exists()
+
+        # Phase 2: target N=4 in the same run_dir, expect resume from i=2.
+        engine_b, adapter_b, proposer_b, _ = _build_test_engine(
+            score_fn=score_fn, n_iterations=4, arm="static_frontier",
+            run_dir=tmp_path, skip_perfect_score=False,
+        )
+        state_b = engine_b.run()
+        assert state_b.i == 3, f"phase 2 i should be 3 (== N-1 of 4), got {state_b.i}"
+        # full_program_trace should have grown from 2 to 4 entries (no replay).
+        assert len(state_b.full_program_trace) == 4
+        # Phase 2 added 2 more iterations; total_num_evals should monotonically
+        # increase. We check it is strictly larger than after phase 1.
+        assert state_b.total_num_evals > evals_after_phase1
+        assert len(adapter_b.evaluate_calls) > 0
+
+    def test_resume_with_zero_extra_iterations_is_a_noop(self, tmp_path: Path):
+        """If we resume after completing N iterations and ask for N again,
+        the loop terminates immediately (state.i >= N-1 stopper fires)."""
+
+        def score_fn(eid, candidate):
+            is_feedback = isinstance(eid, str) and eid.startswith("ex_") and int(eid.split("_")[1]) < 12
+            if is_feedback:
+                return 0.7
+            return 0.3
+
+        engine_a, adapter_a, proposer_a, _ = _build_test_engine(
+            score_fn=score_fn, n_iterations=3, arm="static_frontier",
+            run_dir=tmp_path, skip_perfect_score=False,
+        )
+        state_a = engine_a.run()
+        assert state_a.i == 2  # 3 iters -> state.i ends at 2
+        evals1 = state_a.total_num_evals
+
+        engine_b, adapter_b, proposer_b, _ = _build_test_engine(
+            score_fn=score_fn, n_iterations=3, arm="static_frontier",
+            run_dir=tmp_path, skip_perfect_score=False,
+        )
+        state_b = engine_b.run()
+        # No new iterations should have run.
+        assert state_b.i == 2
+        assert state_b.total_num_evals == evals1, (
+            "no extra evaluations should have happened on a no-op resume"
+        )

@@ -1,8 +1,12 @@
 # Frontier-Band Reflection Selection for GEPA, runtime deps.
 # Pin minimums only; the build window is 2 days, prefer letting pip resolve.
 
-dspy>=2.6
-gepa>=0.0.1
+# dspy 3.2.1 + gepa 0.1.1 is the working pair as of 2026-06-01. dspy 3.2.1 has
+# the dspy.adapters.types.base_type.Type symbol gepa's DspyAdapter imports;
+# gepa 0.1.1 has MaxCandidateProposalsStopper. Older dspy 2.6.x lacks the
+# Type import; older gepa 0.0.x lacks the iteration stopper.
+dspy==3.2.1
+gepa==0.1.1
 datasets>=2.20
 matplotlib>=3.8
 numpy>=1.26

@@ -219,3 +219,8 @@ __marimo__/
 
 # macOS
 .DS_Store
+
+# Smoke / run artifacts (per-run dirs under results/ are reproducible from
+# the runner; do not version them).
+results/smoke_*/
+results/run_*/
