@@ -1,9 +1,9 @@
 """Frozen difficulty table for D_feedback.
 
-Bins D_feedback ids into equal terciles by base-system F1 rank. The table is
+Bins D_feedback ids by base-system F1 *value* (not rank). The table is
 constructed once (Chunk 5 scores D_feedback on the base system) and never
 mutated thereafter: each draw of a reflection minibatch reads it; nothing
-writes to it. This is the §15 settled decision the experiment turns on.
+writes to it. The frozen-difficulty principle from §15 is preserved.
 
 The data structure is intentionally minimal -- a dataclass with frozen=True
 and explicit factory + validation -- so accidental mutation surfaces as a
@@ -13,10 +13,18 @@ DataId in this experiment is the integer list index of the D_feedback list,
 because gepa wraps a `list[DataInst]` in ListDataLoader and uses list index
 as DataId (see `gepa/core/data_loader.py:50`).
 
-Band names match the handoff: 'easy' (top tercile by F1), 'mid' (middle
-tercile, the "frontier" band), 'hard' (bottom tercile). Equal-tercile
-construction: 33/33/34 for the standard 100-instance D_feedback (the
-extra instance lands in the mid band when 100 is not divisible by 3).
+Band definition (value-based, as of DEVIATIONS.md entry 4 / 2026-06-01):
+  - 'hard':  F1 == 0.0       (complete failure -- no overlap with gold)
+  - 'mid':   0.0 < F1 < 1.0   (frontier band; the experiment's method-under-test)
+  - 'easy':  F1 == 1.0        (complete success)
+
+HotpotQA F1 is an exact token-overlap ratio, so equality at 0 and 1 is exact;
+nothing between is degenerate. Band sizes are unequal in general -- on the
+n=150 D_feedback under Qwen2.5-7B-Instruct-Turbo (distractor substrate) we
+observe 50 / 31 / 69 (hard / mid / easy). The earlier equal-rank-tercile
+binning padded the frontier with F1==1 instances on this distribution; this
+value-based partition makes the frontier band literally the set of partial
+successes.
 """
 
 from __future__ import annotations
@@ -125,40 +133,35 @@ class DifficultyTable:
 
 
 def build_difficulty_table(scores: list[float]) -> DifficultyTable:
-    """Construct an equal-tercile DifficultyTable from per-id F1 scores.
+    """Construct a value-based DifficultyTable from per-id F1 scores.
 
-    Ranking rule: ids are sorted by score ascending then by id ascending (for
-    a stable break on ties). The bottom third is 'hard', the middle third is
-    'mid' (the frontier band), the top third is 'easy'. When n is not
-    divisible by 3, the remainder lands in the middle tercile (so 100 ->
-    33/34/33). This matches the handoff's "equal terciles" intent and keeps
-    the middle band slightly larger when there's a remainder, which slightly
-    helps the frontier population without affecting band-arm coverage
-    symmetry across the three band arms.
+    Partition rule:
+      hard = {i : scores[i] == 0.0}
+      mid  = {i : 0.0 < scores[i] < 1.0}
+      easy = {i : scores[i] == 1.0}
+
+    Band sizes are unequal in general; that is by design. Scores must lie in
+    [0, 1]; values outside that range raise so a metric bug surfaces here
+    rather than as a silent miscategorisation later.
+
+    This replaces the earlier equal-rank-tercile partition. The §5 GO/NO-GO
+    diagnostic showed a bimodal three-cluster F1 distribution on the
+    distractor substrate, where equal-tercile binning padded the middle band
+    with F1==1 examples; the value-based partition makes the middle band
+    literally the set of strictly-partial cases. See DEVIATIONS.md entry 4.
     """
     n = len(scores)
     if n == 0:
         raise ValueError("build_difficulty_table: scores must be non-empty.")
+    for i, s in enumerate(scores):
+        if not (0.0 <= s <= 1.0):
+            raise ValueError(
+                f"build_difficulty_table: score for id={i} is {s!r}; must be in [0,1]"
+            )
 
-    # Stable rank: ascending score, tie-broken by id ascending.
-    indexed = sorted(range(n), key=lambda i: (scores[i], i))
-
-    # Equal-tercile partition with the remainder going to mid.
-    third = n // 3
-    rem = n - 3 * third
-    if rem == 0:
-        sizes = (third, third, third)
-    elif rem == 1:
-        sizes = (third, third + 1, third)
-    else:  # rem == 2
-        sizes = (third, third + 2, third)
-    hard_end = sizes[0]
-    mid_end = hard_end + sizes[1]
-    # easy_end = n  (implicit)
-
-    hard_ids = tuple(sorted(indexed[:hard_end]))
-    mid_ids = tuple(sorted(indexed[hard_end:mid_end]))
-    easy_ids = tuple(sorted(indexed[mid_end:]))
+    hard_ids = tuple(i for i, s in enumerate(scores) if s == 0.0)
+    mid_ids = tuple(i for i, s in enumerate(scores) if 0.0 < s < 1.0)
+    easy_ids = tuple(i for i, s in enumerate(scores) if s == 1.0)
 
     band_for_id: dict[int, BandName] = {}
     for i in hard_ids:

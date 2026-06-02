@@ -153,9 +153,71 @@ variance dominates the arm contrast), the further §5 lever is to grow
 D_feedback to 180 or 210 (preserving equal-tercile sizes 60/60/60 or
 70/70/70). No code change required beyond bumping the config.
 
+## 4. Band definition: equal-rank terciles → value-based bins
+
+**Spec (§15):** "Bins: equal terciles by base-system F1 rank on D_feedback."
+
+**Spec (§5, GO/NO-GO):** "confirm the F1 distribution has real intermediate
+mass (a meaningful fraction of instances with F1 roughly between 0.2 and
+0.8)."
+
+**Live:** Frontier band definition changed from "middle tercile by F1 rank"
+to value-based partition:
+
+  - `hard`:  F1 == 0.0       (complete failure)
+  - `mid`:   0 < F1 < 1       (frontier band; the method under test)
+  - `easy`:  F1 == 1.0        (complete success)
+
+Band keys (`'easy'` / `'mid'` / `'hard'`) are preserved so nothing downstream
+renames. Band sizes are unequal by design; on the n=150 D_feedback at
+Qwen2.5-7B-Turbo distractor, the observed sizes are **50 / 31 / 69**
+(hard / mid / easy).
+
+**Cause:** Chunk-5 diagnostic on n=150 showed a bimodal three-cluster F1
+distribution: 50 hard-zeros, 69 easy-ones, 31 strictly-partial. Equal-
+rank terciles forced the middle tercile to size 50, padding the frontier
+with 19 F1==1 instances and 0 F1==0 instances; only 62% of "mid" was
+actually frontier. That conflated "frontier" (band identity) with
+"already-mastered" (signal-free for reflection), softening the
+contrast the experiment is built around.
+
+Value-based bins make the frontier band literally the set of strictly-
+partial instances. Frontier draws are guaranteed to deliver examples the
+reflection LM can meaningfully act on; easy and hard draws are guaranteed
+NOT to. The 70/15/15 mix and the random arm are unaffected (the random
+arm draws uniformly over all 150 ids, so its natural composition is
+~33/21/46 -- the band-fraction equals the size-fraction, which is the
+correct behavior; uniform-over-bands would have over-sampled the small
+frontier and is now ruled out by a regression test).
+
+**Decision date:** 2026-06-01 (pre-launch, diagnostic-driven).
+
+**Impact on the science:**
+- The four arms are still distinguishable by what they reflect on:
+  random covers the full distribution naturally (~33/21/46 expected),
+  static-easy concentrates on F1==1 ("nothing to fix"), static-frontier
+  concentrates on 0<F1<1 ("rich actionable signal"), static-hard
+  concentrates on F1==0 ("opaque/unfixable"). These are the same
+  semantic claims §4 made for the equal-tercile design, now sharpened.
+- "% partial in mid" is no longer a meaningful GO/NO-GO axis; with
+  value bins it is 100% by construction. The §6 gate is replaced with
+  a count: GO if |mid| >= 20 (so that b=3 over N=44 = 132 trajectory-
+  instance touches has enough distinct frontier instances to avoid
+  collapsing toward repeated draws of the same few). Observed |mid| =
+  31; gate passed.
+- Acceptance, D_pareto evaluation, and the Pareto candidate selector
+  are unchanged; the bin definition only affects what `BandBatchSampler`
+  serves to the reflection step.
+
+**Mitigation:** none required -- this IS the mitigation. If a future
+substrate / task model swap yields a single-mode F1 distribution where
+value-based binning collapses one of the bands toward zero, the §5
+fallback "grow D_feedback further" still applies. If |mid| ever falls
+below GO_MIN_FRONTIER_COUNT under a new run, the verdict will say so.
+
 ## Verification
 
-All three substitutions were verified end-to-end before this file was
+All four substitutions were verified end-to-end before this file was
 committed:
 
 - Structural smoke (`src/smoke_chunk2.py`) green: split sizes
@@ -168,8 +230,16 @@ committed:
   the 10-paragraph context, distributed one per hop bucket.
 - Full pytest (15/15 passing): 10 offline contract tests + 5 integration
   tests including `test_gold_paragraphs_in_context`.
-- Chunk-5 diagnostic on n=150: 50 / 69 / 31 (zero / one / strictly
-  partial); middle tercile 0 / 19 / 31 (62.0% partial); GO verdict.
+- Chunk-5 diagnostic on n=150 (equal terciles): 50 / 69 / 31 (zero /
+  one / strictly partial); middle tercile 0 / 19 / 31 (62.0% partial);
+  GO verdict at 62.0%.
+- Chunk-5 diagnostic on n=150 (value bins, post-entry-4): mid = 31
+  strictly-partial only (no zeros, no ones); hard = 50 (all F1==0);
+  easy = 69 (all F1==1). GO verdict at |mid|=31 (gate is >=20).
+- Chunk-4 offline tests on the value bins: 37/37 passing, including
+  per-arm 70/15/15 distribution checks on the unequal 50/31/69 band
+  layout AND a regression test that the random arm reflects the natural
+  ~33/21/46 composition (not uniform-over-bands).
 
 API spend during Chunk-2 verification: under 1¢ (one probe call of 31 tokens,
 one rollout under 10 LM calls). API spend during Chunk-5 scoring at n=150:

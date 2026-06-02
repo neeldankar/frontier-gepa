@@ -1,29 +1,30 @@
-"""Chunk 5 diagnostic and GO/NO-GO verdict (distractor substrate).
+"""Chunk 5 diagnostic and GO/NO-GO verdict (distractor substrate, value bins).
 
-Reads ``results/difficulty_table.json`` (written by
-``src.score_d_feedback``), plots the per-id F1 distribution, and prints
-the GO/NO-GO verdict using the *distractor-substrate* criterion:
+Reads ``results/difficulty_table.json`` (written by ``src.score_d_feedback``,
+binned by F1 value per DEVIATIONS.md entry 4), plots the per-id F1
+distribution, and prints the GO/NO-GO verdict.
 
-    The middle (frontier) tercile must contain a meaningful share of
-    STRICTLY PARTIAL instances (0 < F1 < 1). Equal-tercile-by-rank
-    binning guarantees a non-empty middle tercile by construction, so
-    that is not the gate; the gate is content. The threat under the
-    distractor substrate is domination by F1==1.0 (the task LM is strong
-    enough to ace many questions), which would leave the frontier band
-    with no improvement signal. The threat under F1==0.0 domination is
-    smaller here (no retrieval gap) but still a no-go.
+Under value-based binning the frontier (mid) band is by construction the
+set of strictly-partial instances; "% partial in mid" is now 100% by
+definition and uninformative. The gate is instead the COUNT of frontier
+instances: a frontier band thinner than ~b=3 minibatches over N=44
+iterations (=132 trajectory-instance touches) would force each instance
+to be revisited many times and starve the diversity the reflection
+proposer needs.
 
-Verdict rule (chosen and disclosed below):
-  - GO        if (# strictly-partial in mid) >= 0.50 * |mid|
-  - NO-GO     if (# strictly-partial in mid) < 0.25 * |mid|
-  - BORDERLINE in between (this script will not decide unilaterally;
-                the user reviews).
+Verdict rule:
+  - GO     if |mid| >= 20  (frontier band has enough distinct instances
+                            to sample b=3 minibatches over N=44 without
+                            extreme repetition)
+  - NO-GO  if |mid| <  5   (frontier band is too thin to support the
+                            band-sampling design)
+  - BORDERLINE in between (script does not decide; operator reviews).
 
 Run: ``.venv/bin/python -m src.diagnostic_chunk5``
 
 Outputs:
   - ``results/diagnostic_chunk5/f1_distribution.png`` (figure)
-  - stdout: all counts the chunk-5 brief asks for, plus the verdict.
+  - stdout: all counts plus the verdict.
 """
 
 from __future__ import annotations
@@ -47,9 +48,9 @@ TABLE_PATH = REPO / "results" / "difficulty_table.json"
 FIG_DIR = REPO / "results" / "diagnostic_chunk5"
 FIG_PATH = FIG_DIR / "f1_distribution.png"
 
-# Verdict thresholds (fraction of |mid|).
-GO_FRACTION = 0.50
-NO_GO_FRACTION = 0.25
+# Verdict thresholds (count of frontier instances under value-based binning).
+GO_MIN_FRONTIER_COUNT = 20
+NO_GO_MAX_FRONTIER_COUNT = 5
 
 
 def _count_classes(scores: list[float]) -> tuple[int, int, int]:
@@ -68,21 +69,25 @@ def _tercile_boundaries(table: DifficultyTable) -> tuple[float, float]:
     return max(hard_scores), max(mid_scores)
 
 
-def _plot(scores: list[float], boundaries: tuple[float, float], fig_path: Path) -> None:
+def _plot(scores: list[float], _unused_boundaries, fig_path: Path) -> None:
     fig_path.parent.mkdir(parents=True, exist_ok=True)
     fig, (ax_hist, ax_strip) = plt.subplots(
         2, 1, figsize=(8, 6), gridspec_kw={"height_ratios": [3, 1]}
     )
 
-    # Histogram (top panel)
+    # Value-bin separators: F1=0 (between hard and mid) and F1=1 (between
+    # mid and easy). The hard band sits AT 0, the easy band sits AT 1, and
+    # the frontier (mid) sits strictly between.
+    for ax in (ax_hist, ax_strip):
+        ax.axvline(0.0, color="black", linestyle="--", linewidth=1)
+        ax.axvline(1.0, color="black", linestyle="--", linewidth=1)
+
     bins = np.linspace(0.0, 1.0, 21)  # 20 bins of width 0.05
     ax_hist.hist(scores, bins=bins, color="#5B8FF9", edgecolor="black", alpha=0.85)
-    ax_hist.axvline(boundaries[0], color="black", linestyle="--", linewidth=1)
-    ax_hist.axvline(boundaries[1], color="black", linestyle="--", linewidth=1)
     ax_hist.set_xlabel("Base-system F1")
     ax_hist.set_ylabel("Count")
     ax_hist.set_title(
-        f"F1 distribution on D_feedback (n={len(scores)}), with tercile boundaries"
+        f"F1 distribution on D_feedback (n={len(scores)}), value-based band boundaries"
     )
     ax_hist.set_xlim(-0.02, 1.02)
 
@@ -90,8 +95,6 @@ def _plot(scores: list[float], boundaries: tuple[float, float], fig_path: Path) 
     rng = np.random.default_rng(0)
     jitter = rng.uniform(-0.05, 0.05, size=len(scores))
     ax_strip.scatter(scores, jitter, alpha=0.6, s=20, color="#5B8FF9")
-    ax_strip.axvline(boundaries[0], color="black", linestyle="--", linewidth=1)
-    ax_strip.axvline(boundaries[1], color="black", linestyle="--", linewidth=1)
     ax_strip.set_xlim(-0.02, 1.02)
     ax_strip.set_ylim(-0.15, 0.15)
     ax_strip.set_yticks([])
@@ -121,46 +124,45 @@ def main() -> int:
     # Tercile boundaries
     b1, b2 = _tercile_boundaries(table)
 
-    # Mid-tercile content
+    # Mid-band content (value-based binning: mid is by construction the
+    # strictly-partial set, so all three classes are now 0 / 0 / |mid|).
     mid_zero, mid_one, mid_partial = _count_classes(mid_scores)
     n_mid = len(mid_scores)
-    mid_partial_frac = mid_partial / n_mid if n_mid else 0.0
 
     print(f"=== D_feedback F1 distribution (distractor substrate, n={table.n}) ===")
     print()
     print(f"Overall: F1==0.0: {overall_zero}, F1==1.0: {overall_one}, "
           f"0<F1<1: {overall_partial}  (sum={overall_zero+overall_one+overall_partial})")
     print()
-    print(f"Tercile boundaries (by F1 rank):")
-    print(f"  hard | mid  boundary: F1 = {b1:.4f}  (max of hard)")
-    print(f"  mid  | easy boundary: F1 = {b2:.4f}  (max of mid)")
+    print(f"Band boundaries (value-based bins):")
+    print(f"  hard | mid: F1 > 0     (max of hard = {b1:.4f})")
+    print(f"  mid  | easy: F1 < 1    (max of mid  = {b2:.4f})")
     print()
     print(f"Band sizes: hard={len(hard_scores)}, mid={n_mid}, easy={len(easy_scores)}")
     print()
-    print(f"Middle (frontier) tercile content:")
-    print(f"  count F1 == 0.0:           {mid_zero}")
-    print(f"  count F1 == 1.0:           {mid_one}")
-    print(f"  count 0 < F1 < 1 (strict): {mid_partial}   "
-          f"({mid_partial_frac * 100:.1f}% of mid)")
+    print(f"Middle (frontier) band content (value-based bin = 0 < F1 < 1):")
+    print(f"  count F1 == 0.0:           {mid_zero}   (must be 0 under value bins)")
+    print(f"  count F1 == 1.0:           {mid_one}   (must be 0 under value bins)")
+    print(f"  count 0 < F1 < 1 (strict): {mid_partial}   (== |mid|)")
     print()
     print(f"Figure: {FIG_PATH}")
     _plot(all_scores, (b1, b2), FIG_PATH)
 
     # Verdict
     print()
-    print("=== Verdict rule ===")
+    print("=== Verdict rule (value-based binning) ===")
     print(
-        f"GO        if strictly-partial fraction of mid >= {GO_FRACTION * 100:.0f}%\n"
-        f"NO-GO     if strictly-partial fraction of mid <  {NO_GO_FRACTION * 100:.0f}%\n"
+        f"GO     if |mid| >= {GO_MIN_FRONTIER_COUNT}  (enough frontier instances for b=3 over N=44)\n"
+        f"NO-GO  if |mid| <  {NO_GO_MAX_FRONTIER_COUNT}\n"
         f"BORDERLINE in between (script does not decide; operator reviews)"
     )
     print()
-    print(f"Observed: {mid_partial}/{n_mid} = {mid_partial_frac * 100:.1f}% strictly partial")
+    print(f"Observed |mid| = {n_mid}")
     print()
-    if mid_partial_frac >= GO_FRACTION:
+    if n_mid >= GO_MIN_FRONTIER_COUNT:
         print("VERDICT: GO")
         rc = 0
-    elif mid_partial_frac < NO_GO_FRACTION:
+    elif n_mid < NO_GO_MAX_FRONTIER_COUNT:
         print("VERDICT: NO-GO")
         rc = 4
     else:

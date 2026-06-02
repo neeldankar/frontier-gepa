@@ -157,48 +157,86 @@ def _seed_candidate() -> dict[str, str]:
 
 
 class TestDifficultyTable:
-    def test_equal_terciles_3n(self):
-        # n=9 -> 3/3/3
-        t = build_difficulty_table([0.1, 0.5, 0.9, 0.2, 0.6, 0.8, 0.3, 0.7, 0.4])
-        assert len(t.ids("easy")) == 3
-        assert len(t.ids("mid")) == 3
-        assert len(t.ids("hard")) == 3
+    """Value-based binning (DEVIATIONS.md entry 4):
+      hard = F1 == 0.0
+      mid  = 0 < F1 < 1
+      easy = F1 == 1.0
+    Bands are unequal in general; that is by design.
+    """
 
-    def test_equal_terciles_100(self):
-        scores = [i / 100.0 for i in range(100)]
+    def test_hard_band_contains_only_zeros(self):
+        scores = [0.0, 0.5, 1.0, 0.0, 0.3, 1.0, 0.0]
         t = build_difficulty_table(scores)
-        sizes = {b: len(t.ids(b)) for b in BAND_NAMES}
-        # 100/3 = 33 rem 1 -> mid gets the extra
-        assert sizes == {"easy": 33, "mid": 34, "hard": 33}
+        for i in t.ids("hard"):
+            assert t.scores[i] == 0.0, f"id {i} in hard but F1={t.scores[i]}"
 
-    def test_every_id_in_exactly_one_tercile(self):
+    def test_mid_band_contains_only_strictly_partial(self):
+        scores = [0.0, 0.5, 1.0, 0.0, 0.3, 1.0, 0.0]
+        t = build_difficulty_table(scores)
+        for i in t.ids("mid"):
+            assert 0.0 < t.scores[i] < 1.0, f"id {i} in mid but F1={t.scores[i]}"
+
+    def test_easy_band_contains_only_ones(self):
+        scores = [0.0, 0.5, 1.0, 0.0, 0.3, 1.0, 0.0]
+        t = build_difficulty_table(scores)
+        for i in t.ids("easy"):
+            assert t.scores[i] == 1.0, f"id {i} in easy but F1={t.scores[i]}"
+
+    def test_value_bins_partition_sums_to_n(self):
+        scores = [0.0, 0.5, 1.0, 0.0, 0.3, 1.0, 0.0]
+        t = build_difficulty_table(scores)
+        assert (
+            len(t.ids("hard")) + len(t.ids("mid")) + len(t.ids("easy"))
+            == len(scores)
+        )
+
+    def test_value_bins_value_ordered(self):
+        # max(hard) < min(mid); max(mid) < min(easy).
+        scores = [0.0, 0.5, 1.0, 0.0, 0.3, 1.0, 0.9999]
+        t = build_difficulty_table(scores)
+        hard_max = max(t.scores[i] for i in t.ids("hard"))
+        mid_min = min(t.scores[i] for i in t.ids("mid"))
+        mid_max = max(t.scores[i] for i in t.ids("mid"))
+        easy_min = min(t.scores[i] for i in t.ids("easy"))
+        assert hard_max < mid_min
+        assert mid_max < easy_min
+
+    def test_unequal_band_sizes_are_allowed(self):
+        # Mirrors the live n=150 distribution: 50/31/69.
+        scores = [0.0] * 50 + [0.5] * 31 + [1.0] * 69
+        t = build_difficulty_table(scores)
+        assert len(t.ids("hard")) == 50
+        assert len(t.ids("mid")) == 31
+        assert len(t.ids("easy")) == 69
+
+    def test_score_out_of_range_raises(self):
+        with pytest.raises(ValueError):
+            build_difficulty_table([0.0, 1.1, 0.5])
+        with pytest.raises(ValueError):
+            build_difficulty_table([-0.01, 0.5, 1.0])
+
+    def test_every_id_in_exactly_one_band(self):
         rng = random.Random(0)
-        scores = [rng.random() for _ in range(100)]
+        # Mix of zeros, ones, and partials so all three bands populate.
+        scores = (
+            [0.0] * 30
+            + [rng.uniform(0.01, 0.99) for _ in range(40)]
+            + [1.0] * 30
+        )
         t = build_difficulty_table(scores)
-        seen = set()
+        seen: set[int] = set()
         for band in BAND_NAMES:
             for i in t.ids(band):
                 assert i not in seen, f"id {i} in multiple bands"
                 seen.add(i)
-        assert seen == set(range(100))
+        assert seen == set(range(len(scores)))
 
     def test_band_for_id_matches_ids_in_band(self):
-        scores = [0.1, 0.5, 0.9, 0.2, 0.6, 0.8, 0.3, 0.7, 0.4]
+        scores = [0.0, 0.5, 1.0, 0.0, 0.3, 1.0, 0.7]
         t = build_difficulty_table(scores)
         for band in BAND_NAMES:
             for i in t.ids(band):
                 assert t.band(i) == band
-
-    def test_bands_ordered_by_score(self):
-        scores = [0.1, 0.5, 0.9, 0.2, 0.6, 0.8, 0.3, 0.7, 0.4]
-        t = build_difficulty_table(scores)
-        hard_scores = sorted(t.scores[i] for i in t.ids("hard"))
-        mid_scores = sorted(t.scores[i] for i in t.ids("mid"))
-        easy_scores = sorted(t.scores[i] for i in t.ids("easy"))
-        # Each hard score <= each mid score <= each easy score (since we
-        # binned by rank, exactly true with no ties).
-        assert max(hard_scores) <= min(mid_scores)
-        assert max(mid_scores) <= min(easy_scores)
 
     def test_frozen_dataclass_blocks_assignment(self):
         t = build_difficulty_table([0.1, 0.2, 0.3])
@@ -259,67 +297,135 @@ class TestDifficultyTable:
 
 class TestBandSampler:
     @pytest.fixture
-    def table_99(self) -> DifficultyTable:
-        return build_difficulty_table([i / 99.0 for i in range(99)])
+    def equal_bands_99(self) -> DifficultyTable:
+        """Equal 33/33/33 bands under value-based binning: 33 hard (F1=0),
+        33 mid (F1=0.5), 33 easy (F1=1)."""
+        scores = [0.0] * 33 + [0.5] * 33 + [1.0] * 33
+        return build_difficulty_table(scores)
 
     @pytest.fixture
     def loader_99(self):
         return ensure_loader(list(range(99)))
 
+    @pytest.fixture
+    def unequal_bands_150(self) -> DifficultyTable:
+        """Live n=150 composition: 50 hard / 31 mid / 69 easy."""
+        scores = [0.0] * 50 + [0.5] * 31 + [1.0] * 69
+        return build_difficulty_table(scores)
+
+    @pytest.fixture
+    def loader_150(self):
+        return ensure_loader(list(range(150)))
+
     @pytest.mark.parametrize("target", ["easy", "mid", "hard"])
-    def test_static_arm_distribution(self, target, table_99, loader_99):
+    def test_static_arm_distribution_equal_bands(
+        self, target, equal_bands_99, loader_99
+    ):
         s = BandBatchSampler(
-            target_band=target, rng=random.Random(7), difficulty_table=table_99,
+            target_band=target, rng=random.Random(7),
+            difficulty_table=equal_bands_99,
         )
         counts = {b: 0 for b in BAND_NAMES}
         n_draws = 2000
         for _ in range(n_draws):
             for did in s.next_minibatch_ids(loader_99, MagicMock()):
-                counts[table_99.band(did)] += 1
+                counts[equal_bands_99.band(did)] += 1
         total = sum(counts.values())
         pct = {b: counts[b] / total for b in BAND_NAMES}
-        # Generous tolerance: 70% +/- 4%, 15% +/- 4%.
+        # 70/15/15 mix within +/- 4%.
         assert 0.66 <= pct[target] <= 0.74, f"target {target}: pct={pct}"
         for off in [b for b in BAND_NAMES if b != target]:
             assert 0.11 <= pct[off] <= 0.19, f"off-band {off}: pct={pct}"
 
-    def test_random_arm_uniform(self, table_99, loader_99):
+    @pytest.mark.parametrize("target", ["easy", "mid", "hard"])
+    def test_static_arm_distribution_unequal_bands(
+        self, target, unequal_bands_150, loader_150
+    ):
+        """The 70/15/15 mix holds even when bands are unequal in size (the
+        live D_feedback case at n=150 is 50/31/69)."""
+        s = BandBatchSampler(
+            target_band=target, rng=random.Random(7),
+            difficulty_table=unequal_bands_150,
+        )
+        counts = {b: 0 for b in BAND_NAMES}
+        n_draws = 2000
+        for _ in range(n_draws):
+            for did in s.next_minibatch_ids(loader_150, MagicMock()):
+                counts[unequal_bands_150.band(did)] += 1
+        total = sum(counts.values())
+        pct = {b: counts[b] / total for b in BAND_NAMES}
+        assert 0.66 <= pct[target] <= 0.74, f"target {target}: pct={pct}"
+        for off in [b for b in BAND_NAMES if b != target]:
+            assert 0.11 <= pct[off] <= 0.19, f"off-band {off}: pct={pct}"
+
+    def test_random_arm_uniform_over_ids_equal_bands(
+        self, equal_bands_99, loader_99
+    ):
+        """With 33/33/33 bands and uniform-over-ids draws, the per-band
+        composition is ~33% / 33% / 33% (band fraction == size fraction)."""
         s = BandBatchSampler(
             target_band="random", rng=random.Random(7), difficulty_table=None,
         )
         counts = {b: 0 for b in BAND_NAMES}
         for _ in range(2000):
             for did in s.next_minibatch_ids(loader_99, MagicMock()):
-                counts[table_99.band(did)] += 1
+                counts[equal_bands_99.band(did)] += 1
         total = sum(counts.values())
         pct = {b: counts[b] / total for b in BAND_NAMES}
         for b in BAND_NAMES:
             assert 0.29 <= pct[b] <= 0.37, f"band {b}: pct={pct}"
 
-    def test_b_is_three_and_unique_within_call(self, table_99, loader_99):
+    def test_random_arm_reflects_natural_distribution_with_unequal_bands(
+        self, unequal_bands_150, loader_150
+    ):
+        """Critical: the random arm is uniform-over-IDS, not uniform-over-
+        BANDS. With unequal bands (50/31/69 over n=150), the natural
+        composition is ~33% hard / ~21% mid / ~46% easy. Uniform-over-bands
+        would (wrongly) over-sample the small frontier band."""
         s = BandBatchSampler(
-            target_band="mid", rng=random.Random(7), difficulty_table=table_99,
+            target_band="random", rng=random.Random(7), difficulty_table=None,
+        )
+        counts = {b: 0 for b in BAND_NAMES}
+        for _ in range(2000):
+            for did in s.next_minibatch_ids(loader_150, MagicMock()):
+                counts[unequal_bands_150.band(did)] += 1
+        total = sum(counts.values())
+        pct = {b: counts[b] / total for b in BAND_NAMES}
+        # Expected: hard 50/150=33%, mid 31/150=21%, easy 69/150=46%.
+        assert 0.28 <= pct["hard"] <= 0.38, f"hard pct={pct['hard']}"
+        assert 0.16 <= pct["mid"] <= 0.26, f"mid pct={pct['mid']}"
+        assert 0.41 <= pct["easy"] <= 0.51, f"easy pct={pct['easy']}"
+
+    def test_b_is_three_and_unique_within_call(self, equal_bands_99, loader_99):
+        s = BandBatchSampler(
+            target_band="mid", rng=random.Random(7),
+            difficulty_table=equal_bands_99,
         )
         for _ in range(200):
             draw = s.next_minibatch_ids(loader_99, MagicMock())
             assert len(draw) == 3
             assert len(set(draw)) == 3
 
-    def test_draws_only_from_d_feedback(self, table_99, loader_99):
+    def test_draws_only_from_d_feedback(self, equal_bands_99, loader_99):
         s = BandBatchSampler(
-            target_band="mid", rng=random.Random(7), difficulty_table=table_99,
+            target_band="mid", rng=random.Random(7),
+            difficulty_table=equal_bands_99,
         )
         all_ids = set(loader_99.all_ids())
         for _ in range(200):
             for did in s.next_minibatch_ids(loader_99, MagicMock()):
                 assert did in all_ids
 
-    def test_exact_reproducibility_under_same_seed(self, table_99, loader_99):
+    def test_exact_reproducibility_under_same_seed(
+        self, equal_bands_99, loader_99
+    ):
         s1 = BandBatchSampler(
-            target_band="mid", rng=random.Random(7), difficulty_table=table_99,
+            target_band="mid", rng=random.Random(7),
+            difficulty_table=equal_bands_99,
         )
         s2 = BandBatchSampler(
-            target_band="mid", rng=random.Random(7), difficulty_table=table_99,
+            target_band="mid", rng=random.Random(7),
+            difficulty_table=equal_bands_99,
         )
         seq1 = [s1.next_minibatch_ids(loader_99, MagicMock()) for _ in range(50)]
         seq2 = [s2.next_minibatch_ids(loader_99, MagicMock()) for _ in range(50)]
@@ -334,12 +440,12 @@ class TestBandSampler:
         with pytest.raises(ValueError):
             BandBatchSampler(target_band="mid", rng=random.Random(0))
 
-    def test_mix_validation(self, table_99):
+    def test_mix_validation(self, equal_bands_99):
         with pytest.raises(ValueError):
             BandBatchSampler(
                 target_band="mid",
                 rng=random.Random(0),
-                difficulty_table=table_99,
+                difficulty_table=equal_bands_99,
                 mix=(0.5, 0.3, 0.3),  # sums to 1.1
             )
 
