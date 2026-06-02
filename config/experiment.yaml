@@ -3,7 +3,12 @@
 # Do not tune these on results. Any change here is a protocol break.
 
 splits:
-  d_feedback: 100         # reflection pool, GEPA Algorithm 1 line 9
+  # D_feedback grown from §15's 100 to 150 (the §5 fallback) to thicken the
+  # partial band on the distractor substrate; see DEVIATIONS.md entry 3.
+  # The original 100 ids are preserved; the extra 50 are drawn from shuffle
+  # positions past the original 495-position block, so accept_batch /
+  # d_pareto / test ids are bit-identical to the n=100 layout.
+  d_feedback: 150         # reflection pool, GEPA Algorithm 1 line 9
   accept_batch: 20        # fixed shared accept batch A (decoupled accept test)
   d_pareto: 75            # validation set for candidate selection (P)
   test: 300               # held-out test, scored once at the end of each run

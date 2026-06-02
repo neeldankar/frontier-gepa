@@ -1,0 +1,1052 @@
+{
+  "5a71148b5542994082a3e567": {
+    "f1": 0.5,
+    "gold_answer": "The population was 2,615",
+    "id": "5a71148b5542994082a3e567",
+    "predicted_answer": "2,615",
+    "question": "What was the population of the city where Penobscot Marine Museum is located?"
+  },
+  "5a711bb55542994082a3e597": {
+    "f1": 0.0,
+    "gold_answer": "The 7 Habits of Highly Effective People",
+    "id": "5a711bb55542994082a3e597",
+    "predicted_answer": "The 8th Habit: From Effectiveness to Greatness",
+    "question": "Steven Covey, the father of Sean Covey, wrote what similar sounding title to The 7 Habits of Highly Effective Teens?"
+  },
+  "5a7148685542994082a3e761": {
+    "f1": 1.0,
+    "gold_answer": "Bart Conner",
+    "id": "5a7148685542994082a3e761",
+    "predicted_answer": "Bart Conner",
+    "question": "Paul Ziert recruited what two time gold medalist in gymnastics?"
+  },
+  "5a7149595542994082a3e76f": {
+    "f1": 0.0,
+    "gold_answer": "Henry Albert \"Hank\" Azaria",
+    "id": "5a7149595542994082a3e76f",
+    "predicted_answer": "Jake Gyllenhaal and Anne Hathaway",
+    "question": "Who starred in Love and other drugs and The Simpsons?"
+  },
+  "5a7149cf5542994082a3e773": {
+    "f1": 1.0,
+    "gold_answer": "Brooklyn",
+    "id": "5a7149cf5542994082a3e773",
+    "predicted_answer": "Brooklyn",
+    "question": "What 2015 British-Canadian-Irish romantic drama was Finola Dwyer a producer of?"
+  },
+  "5a7217f255429971e9dc9260": {
+    "f1": 0.8571428571428571,
+    "gold_answer": "Sir Nicholas Raymond Winterton",
+    "id": "5a7217f255429971e9dc9260",
+    "predicted_answer": "Sir Nicholas Winterton",
+    "question": "Which Member of Parliament for Macclesfield was married to Jane Ann Winterton?"
+  },
+  "5a7283355542991f9a20c4b1": {
+    "f1": 0.5,
+    "gold_answer": "Frederick I",
+    "id": "5a7283355542991f9a20c4b1",
+    "predicted_answer": "Frederick Barbarossa",
+    "question": "Who is the grandfather to Frederick II and was the Holy Roman Emperor until death?"
+  },
+  "5a7293655542991f9a20c4ff": {
+    "f1": 0.0,
+    "gold_answer": "The Seduction of Hillary Rodham",
+    "id": "5a7293655542991f9a20c4ff",
+    "predicted_answer": "A Free Mind and a Free Press",
+    "question": "What 1996 book was written by the founder of Media Matter for America?"
+  },
+  "5a72c6f65542994cef4bc402": {
+    "f1": 0.0,
+    "gold_answer": "tomato",
+    "id": "5a72c6f65542994cef4bc402",
+    "predicted_answer": "tomatoes",
+    "question": "Wheat salad is composed typically of what red fruit?"
+  },
+  "5a7319e755429901807daf86": {
+    "f1": 0.2222222222222222,
+    "gold_answer": "most total touchdowns in NCAA history",
+    "id": "5a7319e755429901807daf86",
+    "predicted_answer": "No NCAA record",
+    "question": "Which NCAA record does the quarterback of the Minnesota Vikings hold?"
+  },
+  "5a739323554299623ed4abff": {
+    "f1": 1.0,
+    "gold_answer": "Kanichee Mine",
+    "id": "5a739323554299623ed4abff",
+    "predicted_answer": "Kanichee Mine",
+    "question": "Which famous mine was in service first, the Salmita Mine or the Kanichee Mine?"
+  },
+  "5a74d9c555429929fddd84fb": {
+    "f1": 1.0,
+    "gold_answer": "Verdi",
+    "id": "5a74d9c555429929fddd84fb",
+    "predicted_answer": "Verdi",
+    "question": "What is the surname of the Italian composer of the works for which the baritone Giovanni Polese was celebrated?"
+  },
+  "5a752fb75542993748c897df": {
+    "f1": 1.0,
+    "gold_answer": "Erreway",
+    "id": "5a752fb75542993748c897df",
+    "predicted_answer": "Erreway",
+    "question": "What pop band features an Argentine actress that appeared in the television series \"Chiquititas\"?"
+  },
+  "5a7555215542996c70cfaee1": {
+    "f1": 1.0,
+    "gold_answer": "Hey Pa! There's a Goat on the Roof",
+    "id": "5a7555215542996c70cfaee1",
+    "predicted_answer": "Hey Pa! There's a Goat on the Roof",
+    "question": "Which came to market first, \"Hey Pa! There's a Goat on the Roof\" or \"Poleconomy\""
+  },
+  "5a756dd65542996c70cfaef9": {
+    "f1": 1.0,
+    "gold_answer": "The Saimaa Gesture",
+    "id": "5a756dd65542996c70cfaef9",
+    "predicted_answer": "The Saimaa Gesture",
+    "question": "Which documentary was produced first, The Saimaa Gesture or Eclipse of Reason?"
+  },
+  "5a75b7bd5542992d0ec05fec": {
+    "f1": 0.0,
+    "gold_answer": "Casablanca",
+    "id": "5a75b7bd5542992d0ec05fec",
+    "predicted_answer": "The Big Shot",
+    "question": "Harold Brent Wallis as producer and Humphrey Bogart as actor collaborated to make what 1942 film?"
+  },
+  "5a7642f7554299109176e6e8": {
+    "f1": 1.0,
+    "gold_answer": "Luca Parmitano",
+    "id": "5a7642f7554299109176e6e8",
+    "predicted_answer": "Luca Parmitano",
+    "question": "who is younger Ulrich Walter or  Luca Parmitano?"
+  },
+  "5a7730015542994aec3b7210": {
+    "f1": 0.0,
+    "gold_answer": "SpongeBob SquarePants",
+    "id": "5a7730015542994aec3b7210",
+    "predicted_answer": "Legends of Bikini Bottom",
+    "question": "Which TV series, written by the creators of Robocalypse, is set in Bikini Bottom?"
+  },
+  "5a77626b5542993569682d77": {
+    "f1": 0.8,
+    "gold_answer": "Marika Nicolette Green",
+    "id": "5a77626b5542993569682d77",
+    "predicted_answer": "Marika Green",
+    "question": "What actress is known for a starring role in Robert Bresson's \"Pickpocket\" and has also been directed by Just Jaeckin, a former photographer?"
+  },
+  "5a7766b15542993569682d7e": {
+    "f1": 0.0,
+    "gold_answer": "Casement's Fort",
+    "id": "5a7766b15542993569682d7e",
+    "predicted_answer": "Pentonville Prison in London, England",
+    "question": "What was the location of the execution of Roger David Casement, the Irish Nationalist who made made efforts during World War I to gain German military aid for the 1916 Easter Rising that sought to gain Irish independence?"
+  },
+  "5a777fd655429949eeb29e93": {
+    "f1": 1.0,
+    "gold_answer": "Imelda Marcos",
+    "id": "5a777fd655429949eeb29e93",
+    "predicted_answer": "Imelda Marcos",
+    "question": "What person, known also as Jane Ryan, has a four lane highway in the Philippines name after her? "
+  },
+  "5a77afcd5542997042120adf": {
+    "f1": 1.0,
+    "gold_answer": "Carrie Akre",
+    "id": "5a77afcd5542997042120adf",
+    "predicted_answer": "Carrie Akre",
+    "question": "Who is older Carrie Akre or Shifty Shellshock?"
+  },
+  "5a77c09555429967ab105262": {
+    "f1": 0.0,
+    "gold_answer": "Antilocapra americana",
+    "id": "5a77c09555429967ab105262",
+    "predicted_answer": "pronghorn",
+    "question": "What is the species of animal which the town of Antelope, Kansas was named after?"
+  },
+  "5a77d4eb55429949eeb29f74": {
+    "f1": 0.8,
+    "gold_answer": "Alexander Nickolaevich Bashlachev",
+    "id": "5a77d4eb55429949eeb29f74",
+    "predicted_answer": "Alexander Bashlachev",
+    "question": "Who was born first, Yanka Dyagileva or Alexander Bashlachev?"
+  },
+  "5a78ce5d55429974737f78ac": {
+    "f1": 0.0,
+    "gold_answer": "beer and soft drinks",
+    "id": "5a78ce5d55429974737f78ac",
+    "predicted_answer": "notable for its administrative role in Denmark",
+    "question": "The southernmost administrative region of Denmark is well-known for creating what products?"
+  },
+  "5a78d16455429974737f78bb": {
+    "f1": 0.8,
+    "gold_answer": "Ernst Willi Messerschmid",
+    "id": "5a78d16455429974737f78bb",
+    "predicted_answer": "Ernst Messerschmid",
+    "question": "Between two scientists Ernst Messerschmid and Philippe Perrin, who is older?"
+  },
+  "5a78ed6855429970f5fffdd9": {
+    "f1": 0.4,
+    "gold_answer": "28,776 at the 2010 census",
+    "id": "5a78ed6855429970f5fffdd9",
+    "predicted_answer": "28,776",
+    "question": "What is the population of the town that gets it's water supply from Canobie Lake?"
+  },
+  "5a7ae2f2554299042af8f6aa": {
+    "f1": 1.0,
+    "gold_answer": "football",
+    "id": "5a7ae2f2554299042af8f6aa",
+    "predicted_answer": "football",
+    "question": "Which sport has been played at the BayArena in Leverkusen, Germany, since 1958?"
+  },
+  "5a7b48b15542995eb53be8eb": {
+    "f1": 0.6666666666666666,
+    "gold_answer": "Microsoft Office",
+    "id": "5a7b48b15542995eb53be8eb",
+    "predicted_answer": "Microsoft Office file formats",
+    "question": "These three apps that have similar functionality to Google for Education are compatible with what Microsoft file format?"
+  },
+  "5a7b88b45542997c3ec97201": {
+    "f1": 1.0,
+    "gold_answer": "Terrence Jones",
+    "id": "5a7b88b45542997c3ec97201",
+    "predicted_answer": "Terrence Jones",
+    "question": "Which of Damon Stoudamire's cousins once played college basketball for the University of Kentucky?"
+  },
+  "5a7b9f1f554299294a54aa2a": {
+    "f1": 0.8,
+    "gold_answer": "Marc Preston Webb",
+    "id": "5a7b9f1f554299294a54aa2a",
+    "predicted_answer": "Marc Webb",
+    "question": "Which director was born more recently, Tony Kaye or Marc Webb?"
+  },
+  "5a7baae2554299042af8f794": {
+    "f1": 0.0,
+    "gold_answer": "Jan Kazimierz",
+    "id": "5a7baae2554299042af8f794",
+    "predicted_answer": "King in Prussia",
+    "question": "By what name is the King that Gothard Wilhelm Butler was captain of the guard for known in Poland?"
+  },
+  "5a7c3178554299683c1c62e1": {
+    "f1": 0.0,
+    "gold_answer": "Manhattan Project",
+    "id": "5a7c3178554299683c1c62e1",
+    "predicted_answer": "Los Alamos National Laboratory",
+    "question": "The Fast On-orbit Rapid Recording of Transient Events (FORTE) was co-developed and launched by this lab located a short distance northwest of Santa Fe, New Mexico that was involved with which nuclear weapon program during World War II?"
+  },
+  "5a7d07a455429907fabef0ae": {
+    "f1": 1.0,
+    "gold_answer": "Juventus Football Club",
+    "id": "5a7d07a455429907fabef0ae",
+    "predicted_answer": "Juventus Football Club",
+    "question": "J\u00f3zsef Viola's association was most prominent with which professional Italian football club in Turin, Piedmont?"
+  },
+  "5a7d3f895542995f4f402248": {
+    "f1": 1.0,
+    "gold_answer": "mountain Banshee",
+    "id": "5a7d3f895542995f4f402248",
+    "predicted_answer": "mountain Banshee",
+    "question": "Pandora- The World of Avatar includes a ride that allows guest to take flight on what animal?"
+  },
+  "5a7d61645542997cc2c47455": {
+    "f1": 0.4,
+    "gold_answer": "Hanford Site",
+    "id": "5a7d61645542997cc2c47455",
+    "predicted_answer": "Hanford Nuclear Reservation",
+    "question": "Priest Rapids Dam is located near which nuclear production complex?"
+  },
+  "5a7d61775542991319bc93b9": {
+    "f1": 1.0,
+    "gold_answer": "Lord Combermere",
+    "id": "5a7d61775542991319bc93b9",
+    "predicted_answer": "Lord Combermere",
+    "question": "During Siege of Bharatpur, which Commander-in-Chief of Ireland and Commander-in-Chief of India contributed to the storming of the castle?"
+  },
+  "5a7d70d45542990b8f50398a": {
+    "f1": 1.0,
+    "gold_answer": "Muppet Treasure Island",
+    "id": "5a7d70d45542990b8f50398a",
+    "predicted_answer": "Muppet Treasure Island",
+    "question": "Which movie came out first Muppet Treasure Island or Million Dollar Arm ?"
+  },
+  "5a7e618155429949594199b0": {
+    "f1": 0.6666666666666666,
+    "gold_answer": "Albany",
+    "id": "5a7e618155429949594199b0",
+    "predicted_answer": "Albany County",
+    "question": "New York State Route 9R rejoins its parent in a hamlet located  in what New York County?"
+  },
+  "5a7e96f655429934daa2fc39": {
+    "f1": 1.0,
+    "gold_answer": "Kassie DePaiva",
+    "id": "5a7e96f655429934daa2fc39",
+    "predicted_answer": "Kassie DePaiva",
+    "question": "What is the name of the actress who played as Blair Cramer from the daytime drama series \"One Life to Live\" for 20 years who is also currently playing as Eve Donovan on \"Days of Our Lives\"?"
+  },
+  "5a7f275d55429934daa2fd01": {
+    "f1": 1.0,
+    "gold_answer": "no",
+    "id": "5a7f275d55429934daa2fd01",
+    "predicted_answer": "No",
+    "question": "Are both Jonathan Marray and Wayne Black British?"
+  },
+  "5a7f40de5542992e7d278cc8": {
+    "f1": 0.0,
+    "gold_answer": "Richard \"Rick\" Ducommun",
+    "id": "5a7f40de5542992e7d278cc8",
+    "predicted_answer": "Carrie Fisher",
+    "question": "What star if the Burbs was Canadian?"
+  },
+  "5a7f7b3b5542992097ad2f81": {
+    "f1": 0.0,
+    "gold_answer": "Papa Gino's",
+    "id": "5a7f7b3b5542992097ad2f81",
+    "predicted_answer": "Pizza Inn",
+    "question": "Which restaurant chain's headquarters is further north, Pizza Inn or Papa Gino's?"
+  },
+  "5a7fb7985542994857a767d2": {
+    "f1": 0.8,
+    "gold_answer": "Claudio Javier L\u00f3pez",
+    "id": "5a7fb7985542994857a767d2",
+    "predicted_answer": "Claudio L\u00f3pez",
+    "question": "Which retired Argentine footballer who played as a forward was a main player for Valencia CF?"
+  },
+  "5a806e01554299485f5985e5": {
+    "f1": 0.0,
+    "gold_answer": "Mos Def",
+    "id": "5a806e01554299485f5985e5",
+    "predicted_answer": "Michael J. Fox",
+    "question": "Who starred in the 1991 American action comedy film The Hard Way and was featured on the roster of Rawkus Records?"
+  },
+  "5a80b9df5542992bc0c4a7ec": {
+    "f1": 0.0,
+    "gold_answer": "\"The King of Hollywood\"",
+    "id": "5a80b9df5542992bc0c4a7ec",
+    "predicted_answer": "Not provided",
+    "question": "What was the nickname of Judy Lewis's father?"
+  },
+  "5a81a2e25542990a1d231e32": {
+    "f1": 0.0,
+    "gold_answer": "nine",
+    "id": "5a81a2e25542990a1d231e32",
+    "predicted_answer": "0",
+    "question": "How many years did the creator of the The Jackie Thomas Show star in a a comedy named after herself?"
+  },
+  "5a81b99c5542995ce29dcc56": {
+    "f1": 1.0,
+    "gold_answer": "Objectivism",
+    "id": "5a81b99c5542995ce29dcc56",
+    "predicted_answer": "Objectivism",
+    "question": "Atlas Shrugged was a film based on the books by a proponent of what philosophy?"
+  },
+  "5a82accd55429966c78a6a78": {
+    "f1": 1.0,
+    "gold_answer": "no",
+    "id": "5a82accd55429966c78a6a78",
+    "predicted_answer": "No",
+    "question": "Are the Barton Mine and Hermiston-McCauley Mine located in The United States of America?"
+  },
+  "5a82e25555429954d2e2ebbf": {
+    "f1": 1.0,
+    "gold_answer": "Eva Ibbotson",
+    "id": "5a82e25555429954d2e2ebbf",
+    "predicted_answer": "Eva Ibbotson",
+    "question": "Which author dedicated a 1985 romance novel to the author who did in 2009 and wrote under the pen name Gwyneth Moore?"
+  },
+  "5a82ebb855429966c78a6a9c": {
+    "f1": 1.0,
+    "gold_answer": "Shukratara",
+    "id": "5a82ebb855429966c78a6a9c",
+    "predicted_answer": "Shukratara",
+    "question": "whats the famous bavagheet by arun date?"
+  },
+  "5a83d7535542993344746093": {
+    "f1": 0.8571428571428571,
+    "gold_answer": "Los Angeles Xtreme, San Francisco Demons and Memphis Maniax",
+    "id": "5a83d7535542993344746093",
+    "predicted_answer": "Las Vegas Outlaws, Los Angeles Xtreme, San Francisco Demons, and Memphis Maniax",
+    "question": "What other teams played in the same division that Chad Clements played in?"
+  },
+  "5a843cf35542996488c2e51b": {
+    "f1": 1.0,
+    "gold_answer": "film",
+    "id": "5a843cf35542996488c2e51b",
+    "predicted_answer": "film",
+    "question": "What industry did both William Todd Field and Zoltan Korda work in?"
+  },
+  "5a843de75542992ef85e23b4": {
+    "f1": 0.0,
+    "gold_answer": "Treasure Island",
+    "id": "5a843de75542992ef85e23b4",
+    "predicted_answer": "Wynn Las Vegas",
+    "question": "Which pirate-themed Las Vegas resort is one of many developed by Steve Wynn?"
+  },
+  "5a84574455429933447460e6": {
+    "f1": 1.0,
+    "gold_answer": "2015",
+    "id": "5a84574455429933447460e6",
+    "predicted_answer": "2015",
+    "question": "In what year was the Golden State NBA player, who was part of the Cavaliers-Warriors rivalry, named NBA Finals Most Valuable Player?"
+  },
+  "5a8485fa5542992a431d1a41": {
+    "f1": 1.0,
+    "gold_answer": "Cuyler Reynolds",
+    "id": "5a8485fa5542992a431d1a41",
+    "predicted_answer": "Cuyler Reynolds",
+    "question": "Who was the brother of the architect of Hook and Ladder No. 4 located in Albany, NY?"
+  },
+  "5a84995d5542997b5ce3fee4": {
+    "f1": 0.6666666666666666,
+    "gold_answer": "Alachua",
+    "id": "5a84995d5542997b5ce3fee4",
+    "predicted_answer": "Alachua County",
+    "question": "Cooperative Living Organization is located in a city that is the county seat of what county in Florida?"
+  },
+  "5a84cb255542991dd0999dfa": {
+    "f1": 1.0,
+    "gold_answer": "Robin Gibb",
+    "id": "5a84cb255542991dd0999dfa",
+    "predicted_answer": "Robin Gibb",
+    "question": "Which singer of the Bee Gees sung a middle part of a song in which the majority was sung by Barry Gibb?"
+  },
+  "5a84ee4c5542997175ce1f2b": {
+    "f1": 0.3333333333333333,
+    "gold_answer": "Carleton University",
+    "id": "5a84ee4c5542997175ce1f2b",
+    "predicted_answer": "Grand Valley State University",
+    "question": "WHich college is located in the United States, Grand Valley State University or Carleton University?"
+  },
+  "5a8595a85542992a431d1b48": {
+    "f1": 1.0,
+    "gold_answer": "Great Exuma",
+    "id": "5a8595a85542992a431d1b48",
+    "predicted_answer": "Great Exuma",
+    "question": "Where was the music festival Billy McFarland was charged with wire fraud for supposed to take place?"
+  },
+  "5a886098554299206df2b248": {
+    "f1": 0.0,
+    "gold_answer": "writer",
+    "id": "5a886098554299206df2b248",
+    "predicted_answer": "writers",
+    "question": "What type of profession does Alexandra David-N\u00e9el and Jack Kerouac have in common?"
+  },
+  "5a88982155429938390d3f81": {
+    "f1": 0.0,
+    "gold_answer": "1989",
+    "id": "5a88982155429938390d3f81",
+    "predicted_answer": "1911",
+    "question": "What year did the shopping centre on the street numbered B411 open in the space of in the retail space of the former William Whiteley Limited department store?"
+  },
+  "5a8af28555429951533613b5": {
+    "f1": 1.0,
+    "gold_answer": "Albert Park",
+    "id": "5a8af28555429951533613b5",
+    "predicted_answer": "Albert Park",
+    "question": "1956 Night Series Cup games were played at what inner suburb of Melbourne that is 3km south of Melbourne's central business district?"
+  },
+  "5a8ba3ff55429971feec4744": {
+    "f1": 0.0,
+    "gold_answer": "Mayor of the City of New York",
+    "id": "5a8ba3ff55429971feec4744",
+    "predicted_answer": "The White House",
+    "question": "Stokely Webster has paintings can be found at the official residence of whom?"
+  },
+  "5a8bc0485542995d1e6f143d": {
+    "f1": 0.0,
+    "gold_answer": "the Americas",
+    "id": "5a8bc0485542995d1e6f143d",
+    "predicted_answer": "North and South America",
+    "question": "What continents are the Moneuptychia found in?"
+  },
+  "5a8c52685542995e66a475bb": {
+    "f1": 1.0,
+    "gold_answer": "Minnesota's 8th congressional district",
+    "id": "5a8c52685542995e66a475bb",
+    "predicted_answer": "Minnesota's 8th congressional district",
+    "question": "The We The People Amendment was introduced by the U.S. Representative for what congressional district?"
+  },
+  "5a8dfae55542995085b3736b": {
+    "f1": 0.6666666666666666,
+    "gold_answer": "games",
+    "id": "5a8dfae55542995085b3736b",
+    "predicted_answer": "board games",
+    "question": "Cranium and Twin Tin Bots are both what?"
+  },
+  "5a8ef1e35542995a26add57a": {
+    "f1": 1.0,
+    "gold_answer": "1954",
+    "id": "5a8ef1e35542995a26add57a",
+    "predicted_answer": "1954",
+    "question": "The creator of the Lisa Simpson character was born in what year?"
+  },
+  "5a8efb5a55429918e830d172": {
+    "f1": 0.0,
+    "gold_answer": "Jamnagar",
+    "id": "5a8efb5a55429918e830d172",
+    "predicted_answer": "India",
+    "question": "What country is the member of Gujarat Legislative Assembly and parliament representing?"
+  },
+  "5a8f43555542992414482a21": {
+    "f1": 1.0,
+    "gold_answer": "The Tales of Hoffmann",
+    "id": "5a8f43555542992414482a21",
+    "predicted_answer": "The Tales of Hoffmann",
+    "question": "This film is an adaption of a Jacques Offenbach's opera that was written by a Hungarian British screenwriter?"
+  },
+  "5a8f45385542997ba9cb320a": {
+    "f1": 0.0,
+    "gold_answer": "genus",
+    "id": "5a8f45385542997ba9cb320a",
+    "predicted_answer": "plant species",
+    "question": "Dahlia and Aruncus are both examples of what type of plant catagorization?"
+  },
+  "5a8f55aa554299458435d5bc": {
+    "f1": 1.0,
+    "gold_answer": "Aksel Sandemose",
+    "id": "5a8f55aa554299458435d5bc",
+    "predicted_answer": "Aksel Sandemose",
+    "question": "Who created the term that the author of A Piece of Danish Happiness uses to explain why Danish people are the happiest in the world?"
+  },
+  "5a8f7a135542992414482adc": {
+    "f1": 0.0,
+    "gold_answer": "12 mi southeast of Rome",
+    "id": "5a8f7a135542992414482adc",
+    "predicted_answer": "Alba Longa",
+    "question": "In relation to Rome, where was the city whose king was the father of Ocnus?  "
+  },
+  "5a906c795542990a98493640": {
+    "f1": 0.0,
+    "gold_answer": "mastered recordings",
+    "id": "5a906c795542990a98493640",
+    "predicted_answer": "No specific activities",
+    "question": "What has David Bowie done in The Lodge?"
+  },
+  "5ab27389554299722f9b4d2f": {
+    "f1": 0.4,
+    "gold_answer": "Peter 'Drago' Sell",
+    "id": "5ab27389554299722f9b4d2f",
+    "predicted_answer": "Pete Sell",
+    "question": "What is the name of the black belt in Brizilian Jiu Jitsu who trains extensively under striking coach Ray Bronx Longo in Garden City, New York?"
+  },
+  "5ab27f7b554299722f9b4d4f": {
+    "f1": 0.0,
+    "gold_answer": "Rikki Farr's",
+    "id": "5ab27f7b554299722f9b4d4f",
+    "predicted_answer": "Not available",
+    "question": "Who was the head promotor of the singer of \"For The Good Times\"?"
+  },
+  "5ab2a1f35542997061209677": {
+    "f1": 1.0,
+    "gold_answer": "Anthony Lynn",
+    "id": "5ab2a1f35542997061209677",
+    "predicted_answer": "Anthony Lynn",
+    "question": "The 2017 Los Angeles Chargers season was the first season under which coach that began his professional coaching career with the Denver Broncos in 2000?"
+  },
+  "5ab2acbc55429929539467d2": {
+    "f1": 1.0,
+    "gold_answer": "Laysan",
+    "id": "5ab2acbc55429929539467d2",
+    "predicted_answer": "Laysan",
+    "question": "What island is located  808 nmi northwest of the capital of Hawaii?"
+  },
+  "5ab2b6fb5542992953946848": {
+    "f1": 1.0,
+    "gold_answer": "indoor ski slope",
+    "id": "5ab2b6fb5542992953946848",
+    "predicted_answer": "indoor ski slope",
+    "question": "The arena in which the Adelaide Adrenaline play is also home to the world's first what?"
+  },
+  "5ab2b7c1554299166977406a": {
+    "f1": 1.0,
+    "gold_answer": "John M. Dowd",
+    "id": "5ab2b7c1554299166977406a",
+    "predicted_answer": "John M. Dowd",
+    "question": "What was the name of the lawyer who took the main role in the report that helped land Pete Rose a lifetime suspension from baseball?"
+  },
+  "5ab3bcc55542992ade7c6e66": {
+    "f1": 1.0,
+    "gold_answer": "2002",
+    "id": "5ab3bcc55542992ade7c6e66",
+    "predicted_answer": "2002",
+    "question": "In which election did Norm Coleman won to become the last republican elected as of 2017?"
+  },
+  "5ab3bfd3554299233954ff99": {
+    "f1": 0.8,
+    "gold_answer": "Dirk Werner Nowitzki",
+    "id": "5ab3bfd3554299233954ff99",
+    "predicted_answer": "Dirk Nowitzki",
+    "question": " The Nike Hoop Summit has had many current NBA players as former participants, including what German player from the Dallas Mavericks?"
+  },
+  "5ab3c18b55429969a97a81b0": {
+    "f1": 0.33333333333333337,
+    "gold_answer": "St. Patrick's Day in 1988",
+    "id": "5ab3c18b55429969a97a81b0",
+    "predicted_answer": "1988",
+    "question": "When did Senator Ted Kennedy helped dedicate a new room at the location to his maternal grandfather, John F. Fitzgerald."
+  },
+  "5ab430f655429942dd415eca": {
+    "f1": 1.0,
+    "gold_answer": "John Sullivan",
+    "id": "5ab430f655429942dd415eca",
+    "predicted_answer": "John Sullivan",
+    "question": "\"The Chance of a Lunchtime\" is an episode of a BBC sitcom writtem by who?"
+  },
+  "5ab47cd75542991751b4d78d": {
+    "f1": 1.0,
+    "gold_answer": "2002",
+    "id": "5ab47cd75542991751b4d78d",
+    "predicted_answer": "2002",
+    "question": "In which year did this division, where Cleveland Browns placed fourth in 2009, adopt its current name?"
+  },
+  "5ab5d9af554299494045f07e": {
+    "f1": 0.0,
+    "gold_answer": "Mitchell Block and Michael Sarnoski",
+    "id": "5ab5d9af554299494045f07e",
+    "predicted_answer": "Steve Tisch",
+    "question": "The son of former Giants co-owner Bob Tisch worked with who to produce The Testimony?"
+  },
+  "5ab5ee055542997d4ad1f259": {
+    "f1": 1.0,
+    "gold_answer": "soccer",
+    "id": "5ab5ee055542997d4ad1f259",
+    "predicted_answer": "soccer",
+    "question": "What sport does America's first openly gay, actively playing, professional team sport athlete play?"
+  },
+  "5ab615cf554299488d4d9aa3": {
+    "f1": 0.0,
+    "gold_answer": "our greatest comedienne",
+    "id": "5ab615cf554299488d4d9aa3",
+    "predicted_answer": "Lucille Ball",
+    "question": "Dawn Lake described the star of \"I Love Lucy\" as what?"
+  },
+  "5ab67d2055429954757d3304": {
+    "f1": 1.0,
+    "gold_answer": "Labrador Retriever",
+    "id": "5ab67d2055429954757d3304",
+    "predicted_answer": "Labrador Retriever",
+    "question": "Which is a type of gun dog, the Labrador Retriever or the Tibetan Terrier?"
+  },
+  "5ab74eb85542993667793fb8": {
+    "f1": 1.0,
+    "gold_answer": "Dra\u017een Petrovi\u0107",
+    "id": "5ab74eb85542993667793fb8",
+    "predicted_answer": "Dra\u017een Petrovi\u0107",
+    "question": "Which Croatian professional basketball player (a shooting guard) did New Jersey Nets acquire during their 1990\u201391 season?"
+  },
+  "5ab809bb5542990e739ec7f9": {
+    "f1": 0.0,
+    "gold_answer": "Anomalisa",
+    "id": "5ab809bb5542990e739ec7f9",
+    "predicted_answer": "Naked",
+    "question": "Name a movie that David Thewlis has performed in after the premiere of Fargo?"
+  },
+  "5ab8372255429919ba4e226b": {
+    "f1": 1.0,
+    "gold_answer": "Fleetwood Mac",
+    "id": "5ab8372255429919ba4e226b",
+    "predicted_answer": "Fleetwood Mac",
+    "question": "What band wrote the song \"Blue Letter\" and was inducted into the Rock and Roll Hall of Fame in 1998?"
+  },
+  "5ab83f9f5542990e739ec891": {
+    "f1": 1.0,
+    "gold_answer": "North America",
+    "id": "5ab83f9f5542990e739ec891",
+    "predicted_answer": "North America",
+    "question": "\"Waputik\" is the Stoney Indian word for a large hoofed mammal endemic to what continet?"
+  },
+  "5ab84dea55429934fafe6d4f": {
+    "f1": 1.0,
+    "gold_answer": "no",
+    "id": "5ab84dea55429934fafe6d4f",
+    "predicted_answer": "No",
+    "question": "Were H. G. Wells and Rub\u00e9n Dar\u00edo both English?"
+  },
+  "5ab9668c55429970cfb8eaba": {
+    "f1": 0.0,
+    "gold_answer": "City of Onkaparinga",
+    "id": "5ab9668c55429970cfb8eaba",
+    "predicted_answer": "Adelaide",
+    "question": "What major city is John Bice Memorial Oval located within?"
+  },
+  "5ab98e2b5542996be202054e": {
+    "f1": 1.0,
+    "gold_answer": "1887",
+    "id": "5ab98e2b5542996be202054e",
+    "predicted_answer": "1887",
+    "question": "The person that William Flannery was an architect for entered the publishing business in what year?"
+  },
+  "5abd74c95542993062266ca2": {
+    "f1": 0.0,
+    "gold_answer": "Premier League club",
+    "id": "5abd74c95542993062266ca2",
+    "predicted_answer": "Tottenham Hotspur",
+    "question": "Who does the current PFA Young Player of the Year currently play for?"
+  },
+  "5abd920e55429924427fd05d": {
+    "f1": 0.0,
+    "gold_answer": "yes",
+    "id": "5abd920e55429924427fd05d",
+    "predicted_answer": "No",
+    "question": "Were both Peter Duffell and Fred Niblo actors?"
+  },
+  "5abef8fd5542990832d3a111": {
+    "f1": 1.0,
+    "gold_answer": "seven",
+    "id": "5abef8fd5542990832d3a111",
+    "predicted_answer": "seven",
+    "question": "The evil clown is a subversion of the traditional comic clown character with the modern archetype popularised by a book that follows the experiences of how many children?"
+  },
+  "5abf63f15542997ec76fd3ea": {
+    "f1": 0.6666666666666666,
+    "gold_answer": "October 1922",
+    "id": "5abf63f15542997ec76fd3ea",
+    "predicted_answer": "1922",
+    "question": "Alexander Kerensky was defeated and destroyed by the Bolsheviks in the course of a civil war that ended when ?"
+  },
+  "5abfdc185542994516f45513": {
+    "f1": 0.5,
+    "gold_answer": "Bachelor of Commerce",
+    "id": "5abfdc185542994516f45513",
+    "predicted_answer": "Commerce",
+    "question": "The chairman of Westfield Corporation has a son who holds a Bachelor's degree in what?"
+  },
+  "5abffc0d5542990832d3a1e2": {
+    "f1": 0.0,
+    "gold_answer": "nuclear weapons",
+    "id": "5abffc0d5542990832d3a1e2",
+    "predicted_answer": "",
+    "question": "What instrument of war was only used by the President of the United States who was born in Lamar, Missouri?"
+  },
+  "5ac07327554299012d1db5f2": {
+    "f1": 0.0,
+    "gold_answer": "an American football quarterback",
+    "id": "5ac07327554299012d1db5f2",
+    "predicted_answer": "Kaep",
+    "question": "Who is Colin Kaepernick and what is his preferred nickname?"
+  },
+  "5ac0b1835542992a796ded65": {
+    "f1": 0.6666666666666666,
+    "gold_answer": "Viglen",
+    "id": "5ac0b1835542992a796ded65",
+    "predicted_answer": "Viglen Ltd",
+    "question": "Bordan Tkachuk was the former CEO of which company, which provides IT products?"
+  },
+  "5ac175635542994ab5c67d4b": {
+    "f1": 1.0,
+    "gold_answer": "Martin O'Neill",
+    "id": "5ac175635542994ab5c67d4b",
+    "predicted_answer": "Martin O'Neill",
+    "question": "Who replaced the manager of the Aston Villa that began at Leeds United?"
+  },
+  "5ac24d725542996366519966": {
+    "f1": 1.0,
+    "gold_answer": "Menges",
+    "id": "5ac24d725542996366519966",
+    "predicted_answer": "Menges",
+    "question": "Who was Germany's large-scale, low strength fortification unit, disbanded in 1919, named after? "
+  },
+  "5ac2583b55429951e9e68565": {
+    "f1": 0.0,
+    "gold_answer": "Xawery \u017bu\u0142awski",
+    "id": "5ac2583b55429951e9e68565",
+    "predicted_answer": "Brian G. Hutton",
+    "question": "Who has more scope of profession, Brian G. Hutton or Xawery \u017bu\u0142awski?"
+  },
+  "5ac289ff5542996366519a02": {
+    "f1": 1.0,
+    "gold_answer": "Marsilea",
+    "id": "5ac289ff5542996366519a02",
+    "predicted_answer": "Marsilea",
+    "question": "Is the Marsilea or the Brabejum the genus of more individual species of plants?"
+  },
+  "5ac2ab9455429967731025f0": {
+    "f1": 0.4444444444444445,
+    "gold_answer": "Best Actor in 2013",
+    "id": "5ac2ab9455429967731025f0",
+    "predicted_answer": "Golden Calf for Best Actor",
+    "question": "Which award did the Tunisian-Dutch actor that starred in Collide win? "
+  },
+  "5ac370ce5542995ef918c18c": {
+    "f1": 0.0,
+    "gold_answer": "no",
+    "id": "5ac370ce5542995ef918c18c",
+    "predicted_answer": "False",
+    "question": "Are Southwest Florida International Airport and Henry E. Rohlsen Airport both in Florida?"
+  },
+  "5ac371aa5542995ef918c191": {
+    "f1": 0.0,
+    "gold_answer": "self-directed work processes",
+    "id": "5ac371aa5542995ef918c191",
+    "predicted_answer": "worker-management",
+    "question": "Socialist Thought and Practice was a magazine that was regarded as an important veicle for a form of management based on what?"
+  },
+  "5ac3a0db554299391541383a": {
+    "f1": 0.0,
+    "gold_answer": "Saint Paul",
+    "id": "5ac3a0db554299391541383a",
+    "predicted_answer": "Minnesota",
+    "question": "Phyllis Kohn holds a seat in the House of Representatives which meets where?"
+  },
+  "5ac41b9e5542995c82c4acc4": {
+    "f1": 0.0,
+    "gold_answer": "flowers",
+    "id": "5ac41b9e5542995c82c4acc4",
+    "predicted_answer": "Orchidaceae and Myrtaceae",
+    "question": "what species of plants are Chamelaucium and Vanilla derived from?"
+  },
+  "5adc5b875542996e68525328": {
+    "f1": 0.6666666666666666,
+    "gold_answer": "2006 season",
+    "id": "5adc5b875542996e68525328",
+    "predicted_answer": "2006",
+    "question": "In which St. Louis Cardinal season did a player born in 1972 blow ten saves before undergoing season-ending hip surgery?"
+  },
+  "5adcca7f5542994ed6169c06": {
+    "f1": 1.0,
+    "gold_answer": "1961",
+    "id": "5adcca7f5542994ed6169c06",
+    "predicted_answer": "1961",
+    "question": "In what year was the drummer from the album \"Angel of Retribution\" born?"
+  },
+  "5add3a605542990dbb2f7ddb": {
+    "f1": 1.0,
+    "gold_answer": "no",
+    "id": "5add3a605542990dbb2f7ddb",
+    "predicted_answer": "No",
+    "question": "Were both Terence Fisher and Leopoldo Torre Nilsson British film directors?"
+  },
+  "5add433b5542997545bbbd02": {
+    "f1": 1.0,
+    "gold_answer": "Shohola Falls",
+    "id": "5add433b5542997545bbbd02",
+    "predicted_answer": "Shohola Falls",
+    "question": "What novel imagines the true story of a character based on a novel by Mark Twain first published in 1884?"
+  },
+  "5add97c15542997545bbbd80": {
+    "f1": 0.5,
+    "gold_answer": "professional tennis player",
+    "id": "5add97c15542997545bbbd80",
+    "predicted_answer": "tennis",
+    "question": "In which sport does both Virginia Ruzici and Andy Murray participate?"
+  },
+  "5adde2475542997545bbbdc1": {
+    "f1": 0.0,
+    "gold_answer": "Justin Brooks Verlander",
+    "id": "5adde2475542997545bbbdc1",
+    "predicted_answer": "John Donaldson",
+    "question": "Who, born February 20, 1983, played for The Monarchs and in the World Series?"
+  },
+  "5addf6135542990dbb2f7f23": {
+    "f1": 1.0,
+    "gold_answer": "Genderqueer",
+    "id": "5addf6135542990dbb2f7f23",
+    "predicted_answer": "genderqueer",
+    "question": "Which identifier: transwomen, cis women,or genderqueer, is a combination of masculinity and femininity or neither in gender expression? "
+  },
+  "5ade858a55429975fa854eea": {
+    "f1": 1.0,
+    "gold_answer": "tennis",
+    "id": "5ade858a55429975fa854eea",
+    "predicted_answer": "Tennis",
+    "question": "What sport is played by both Justin Gimelstob and Angelique Kerber?"
+  },
+  "5ade881f5542992fa25da7af": {
+    "f1": 0.8,
+    "gold_answer": "Alan Mathison Turing",
+    "id": "5ade881f5542992fa25da7af",
+    "predicted_answer": "Alan Turing",
+    "question": "Heinrich Scholz was a peer of what English computer scientist, mathematician, logician, cryptanalyst, philosopher and theoretical biologist?"
+  },
+  "5adf4b335542993a75d264a5": {
+    "f1": 1.0,
+    "gold_answer": "Rockstar San Diego",
+    "id": "5adf4b335542993a75d264a5",
+    "predicted_answer": "Rockstar San Diego",
+    "question": "Paul DeBoy is known for an appearance in the Western action-adventure game developed by which company?"
+  },
+  "5adf8f675542995534e8c7eb": {
+    "f1": 1.0,
+    "gold_answer": "Outside",
+    "id": "5adf8f675542995534e8c7eb",
+    "predicted_answer": "Outside",
+    "question": "John Valliant\u2019s work has appeared in which outdoor-focused magazine whose first issue was published in September 1977?"
+  },
+  "5adfecd755429942ec259b90": {
+    "f1": 1.0,
+    "gold_answer": "1933",
+    "id": "5adfecd755429942ec259b90",
+    "predicted_answer": "1933",
+    "question": "What year was the magazine that Stanley Bing spent a decade at founded in?"
+  },
+  "5adff056554299603e4183cc": {
+    "f1": 1.0,
+    "gold_answer": "1988",
+    "id": "5adff056554299603e4183cc",
+    "predicted_answer": "1988",
+    "question": "What year did The Chronicle of Philanthropy's publishing overlap with Antic?"
+  },
+  "5ae058e855429945ae959331": {
+    "f1": 1.0,
+    "gold_answer": "yes",
+    "id": "5ae058e855429945ae959331",
+    "predicted_answer": "Yes",
+    "question": "Are  Chrysalis and Look both women's magazines?"
+  },
+  "5ae0613d5542993d6555eb22": {
+    "f1": 1.0,
+    "gold_answer": "Monticello",
+    "id": "5ae0613d5542993d6555eb22",
+    "predicted_answer": "Monticello",
+    "question": "Castle Hill is a plantation near what primary residence of Thomas Jefferson?"
+  },
+  "5ae1b53b5542997283cd2255": {
+    "f1": 0.0,
+    "gold_answer": "Geographical Indication tag",
+    "id": "5ae1b53b5542997283cd2255",
+    "predicted_answer": "shawl",
+    "question": "What Indian government tag was given to the handicraft known for making simple loose clothing worn over the shoulders?"
+  },
+  "5ae2e61455429928c423953e": {
+    "f1": 0.0,
+    "gold_answer": "Marx Brothers film",
+    "id": "5ae2e61455429928c423953e",
+    "predicted_answer": "Flash Gordon",
+    "question": "What is the inspirational source behind the name of this studio album by the British rock band Queen released by EMI Records that was included in the The Crown Jewels? "
+  },
+  "5ae3e0535542992e3233c496": {
+    "f1": 0.6666666666666666,
+    "gold_answer": "Labour",
+    "id": "5ae3e0535542992e3233c496",
+    "predicted_answer": "Labour Party",
+    "question": "The 1948 Commonwealth Prime Ministers' Conference was hosted by the Prime Minister from what British party?"
+  },
+  "5ae40b2b55429970de88d8b3": {
+    "f1": 1.0,
+    "gold_answer": "California Polytechnic State University",
+    "id": "5ae40b2b55429970de88d8b3",
+    "predicted_answer": "California Polytechnic State University",
+    "question": "In between  Polytechnic University of the Philippines and California Polytechnic State University which was founded as a vocational high school?"
+  },
+  "5ae4843455429970de88d997": {
+    "f1": 0.0,
+    "gold_answer": "The club",
+    "id": "5ae4843455429970de88d997",
+    "predicted_answer": "Derry City F.C.",
+    "question": "Which club, founded in 1928, did Bob Johnson played for "
+  },
+  "5ae552bb55429908b63265d9": {
+    "f1": 0.0,
+    "gold_answer": "July 14, 2009",
+    "id": "5ae552bb55429908b63265d9",
+    "predicted_answer": "1995",
+    "question": "An American football quarterback for the Chicago Bears was a star of a game released when?"
+  },
+  "5ae554ce55429960a22e02b7": {
+    "f1": 1.0,
+    "gold_answer": "You Can Be a Star",
+    "id": "5ae554ce55429960a22e02b7",
+    "predicted_answer": "\"You Can Be a Star\"",
+    "question": " \"I Will Not Say Goodbye\" is a song written in part by a music artist who first gained national attention as a winner of what talent competition?"
+  },
+  "5ae5691055429960a22e02f3": {
+    "f1": 1.0,
+    "gold_answer": "1,800",
+    "id": "5ae5691055429960a22e02f3",
+    "predicted_answer": "1800",
+    "question": "Boggle is a word game originally distributed by a toy and game manufacturer that published more than how many games?"
+  },
+  "5ae5a8435542992663a4f208": {
+    "f1": 1.0,
+    "gold_answer": "Dutch",
+    "id": "5ae5a8435542992663a4f208",
+    "predicted_answer": "Dutch",
+    "question": "What is the nationality of the scientist who invented in Tribometer?"
+  },
+  "5ae5d008554299546bf82f7d": {
+    "f1": 1.0,
+    "gold_answer": "StubHub Center",
+    "id": "5ae5d008554299546bf82f7d",
+    "predicted_answer": "StubHub Center",
+    "question": "The 2015 CrossFit Games were held at what multiple-use sports complex that is approximately 14 miles south of Downtown Los Angeles?"
+  },
+  "5ae5db98554299546bf82fa6": {
+    "f1": 0.6666666666666666,
+    "gold_answer": "1.7 billion",
+    "id": "5ae5db98554299546bf82fa6",
+    "predicted_answer": "more than 1.7 billion",
+    "question": "Shane and Friends have interviewed an American YouTube personality who has two active YouTube channels, which have a combined total of how many views?"
+  },
+  "5ae5e1985542996de7b71a54": {
+    "f1": 1.0,
+    "gold_answer": "Archbishop of Canterbury",
+    "id": "5ae5e1985542996de7b71a54",
+    "predicted_answer": "Archbishop of Canterbury",
+    "question": "Cardinal Pole Roman Catholic School was named after the last Roman Catholic to hold what position?"
+  },
+  "5ae61e7555429929b0807adf": {
+    "f1": 0.0,
+    "gold_answer": "MMA",
+    "id": "5ae61e7555429929b0807adf",
+    "predicted_answer": "Ultimate Fighting Championship (UFC)",
+    "question": "Renzo Gracie has a victory over the UFC champion who was one of the pioneers of what sports organization?"
+  },
+  "5ae6233c5542992ae0d1623e": {
+    "f1": 0.0,
+    "gold_answer": "schoolmaster at J. L. Young's Adelaide Educational Institution and at Saint Peter's College.",
+    "id": "5ae6233c5542992ae0d1623e",
+    "predicted_answer": "No specific role",
+    "question": "What was Thomas Boutflower Bennet's role at The Collegiate School of St Peter?"
+  },
+  "5ae70c7b5542991bbc9761aa": {
+    "f1": 0.5,
+    "gold_answer": "Francis Egerton",
+    "id": "5ae70c7b5542991bbc9761aa",
+    "predicted_answer": "Francis Egerton, 3rd Duke of Bridgewater",
+    "question": "Bridgewater Trustees major source of income came from a canal that was commissioned by whom/"
+  },
+  "5ae72e79554299572ea54763": {
+    "f1": 0.0,
+    "gold_answer": "Arkansas",
+    "id": "5ae72e79554299572ea54763",
+    "predicted_answer": "Washington State",
+    "question": "Command and Control was a book that discusses the 1980 incident in what state?"
+  },
+  "5ae73c00554299572ea5478a": {
+    "f1": 0.0,
+    "gold_answer": "1856",
+    "id": "5ae73c00554299572ea5478a",
+    "predicted_answer": "1867",
+    "question": "The Runge-Kutta methods were developed by M.W. Kutta and a German mathematician, physicist, and Spectroscopist that was born in what year?"
+  },
+  "5ae73c065542991e8301cc18": {
+    "f1": 0.0,
+    "gold_answer": "\"The Marshall Mathers LP 2\"",
+    "id": "5ae73c065542991e8301cc18",
+    "predicted_answer": "The Black Album",
+    "question": "Which Eminem album included vocals from a singer who had an album titled \"Unapologetic\"?"
+  },
+  "5ae73d235542991e8301cc29": {
+    "f1": 1.0,
+    "gold_answer": "Free Range Films",
+    "id": "5ae73d235542991e8301cc29",
+    "predicted_answer": "Free Range Films",
+    "question": "What production company co-owned by Kevin Loader and Rodger Michell produced My Cousin Rachel?"
+  },
+  "5ae73eca5542991e8301cc37": {
+    "f1": 0.0,
+    "gold_answer": "the voice of The Beast",
+    "id": "5ae73eca5542991e8301cc37",
+    "predicted_answer": "lead in the 1973 American romantic drama film \"Jeremy\"",
+    "question": "What other notable role did the star actor from Jeremy perform? "
+  },
+  "5ae7e8f55542994a481bbe06": {
+    "f1": 0.6666666666666666,
+    "gold_answer": "Commander James Bond RN",
+    "id": "5ae7e8f55542994a481bbe06",
+    "predicted_answer": "James Bond",
+    "question": "Which fictional MI6 agent is a fictional character created by the British journalist and novelist Ian Fleming in 1952?"
+  },
+  "5ae8164d5542994a481bbeb6": {
+    "f1": 1.0,
+    "gold_answer": "March 19, 2017",
+    "id": "5ae8164d5542994a481bbeb6",
+    "predicted_answer": "March 19, 2017",
+    "question": "Emily Beecham is best known for her role in a televsion series whose second season premiered on what date?"
+  }
+}

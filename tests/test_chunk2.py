@@ -83,7 +83,7 @@ def splits():
 
 
 EXPECTED_SIZES = {
-    "d_feedback": 100,
+    "d_feedback": 150,   # §5 fallback (100 -> 150); see DEVIATIONS.md entry 3
     "accept_batch": 20,
     "d_pareto": 75,
     "test": 300,
@@ -104,9 +104,9 @@ def test_split_sizes(splits):
         )
 
 
-def test_splits_total_495(splits):
+def test_splits_total_545(splits):
     total = sum(len(s) for s in splits)
-    assert total == 495, f"Splits total {total}, expected 495"
+    assert total == 545, f"Splits total {total}, expected 545 (100+50+20+75+300)"
 
 
 def test_splits_disjoint(splits):
@@ -165,9 +165,10 @@ def config():
 
 
 def test_config_locked_params(config):
-    # ADAPTED: experiment.yaml groups keys (splits, minibatch, stopping) for
-    # readability. The locked numbers themselves are unchanged.
-    assert config["splits"]["d_feedback"] == 100
+    # experiment.yaml groups keys (splits, minibatch, stopping) for readability.
+    # d_feedback bumped to 150 by the §5 fallback (DEVIATIONS.md entry 3);
+    # the rest are §15 locked values.
+    assert config["splits"]["d_feedback"] == 150
     assert config["splits"]["accept_batch"] == 20
     assert config["splits"]["d_pareto"] == 75
     assert config["splits"]["test"] == 300

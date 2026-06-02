@@ -41,6 +41,7 @@ from src.program import build_program  # noqa: E402
 from src.run_gepa import load_lm_configs_from_env  # noqa: E402
 
 SCORES_PATH = REPO / "results" / "d_feedback_scores.json"
+RECORDS_PATH = REPO / "results" / "d_feedback_records.json"
 TABLE_PATH = REPO / "results" / "difficulty_table.json"
 COST_CHECK_AT_N = 3
 ABORT_IF_PER_EXAMPLE_S_OVER = 60.0
@@ -48,18 +49,17 @@ APPROX_TOKENS_PER_ROLLOUT = 1500  # 3 LM calls x ~500 tokens (heuristic)
 QWEN_TOGETHER_USD_PER_1M = 0.20   # blended serverless price
 
 
-def _load_existing_scores() -> dict[str, float]:
-    """Return existing per-id scores keyed by HotpotQA id."""
-    if not SCORES_PATH.exists():
+def _load_json(path: Path) -> dict:
+    if not path.exists():
         return {}
-    return json.loads(SCORES_PATH.read_text())
+    return json.loads(path.read_text())
 
 
-def _save_scores(scores: dict[str, float]) -> None:
-    SCORES_PATH.parent.mkdir(parents=True, exist_ok=True)
-    tmp = SCORES_PATH.with_suffix(SCORES_PATH.suffix + ".tmp")
-    tmp.write_text(json.dumps(scores, indent=2, sort_keys=True))
-    os.replace(tmp, SCORES_PATH)
+def _save_json(path: Path, data: dict) -> None:
+    path.parent.mkdir(parents=True, exist_ok=True)
+    tmp = path.with_suffix(path.suffix + ".tmp")
+    tmp.write_text(json.dumps(data, indent=2, sort_keys=True))
+    os.replace(tmp, path)
 
 
 def main() -> int:
@@ -84,8 +84,9 @@ def main() -> int:
     dspy.settings.configure(lm=task_lm_config.to_lm())
     program = build_program()
 
-    scores = _load_existing_scores()
-    already_done = sum(1 for ex in d_feedback if ex["id"] in scores)
+    scores: dict[str, float] = _load_json(SCORES_PATH)
+    records: dict[str, dict] = _load_json(RECORDS_PATH)
+    already_done = sum(1 for ex in d_feedback if ex["id"] in records)
     if already_done:
         print(f"Resuming: {already_done}/{len(d_feedback)} ids already scored")
 
@@ -95,7 +96,7 @@ def main() -> int:
 
     for i, ex in enumerate(d_feedback):
         hid = ex["id"]
-        if hid in scores:
+        if hid in records:
             continue
 
         t0 = time.time()
@@ -105,14 +106,23 @@ def main() -> int:
         except Exception as e:
             print(f"\nERROR at i={i} id={hid!r}: {type(e).__name__}: {e}")
             print("Saving partial scores and aborting.")
-            _save_scores(scores)
+            _save_json(SCORES_PATH, scores)
+            _save_json(RECORDS_PATH, records)
             return 2
         dt = time.time() - t0
         per_example_times.append(dt)
 
         scores[hid] = f1
-        _save_scores(scores)
-        done = sum(1 for e in d_feedback if e["id"] in scores)
+        records[hid] = {
+            "id": hid,
+            "question": ex["question"],
+            "gold_answer": ex["answer"],
+            "predicted_answer": str(getattr(out, "answer", "") or ""),
+            "f1": f1,
+        }
+        _save_json(SCORES_PATH, scores)
+        _save_json(RECORDS_PATH, records)
+        done = sum(1 for e in d_feedback if e["id"] in records)
         print(
             f"  [{done:3d}/{len(d_feedback)}] id={hid}  F1={f1:.2f}  "
             f"({dt:.1f}s)"

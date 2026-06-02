@@ -102,19 +102,77 @@ middle tercile.
 switch `TASK_MODEL` in `.env` and re-score the base system on D_feedback for
 the new difficulty table. No code changes are required.
 
+## 3. D_feedback: 100 → 150 (§5 fallback)
+
+**Spec (§15):** "D_feedback 100 ... 100/20/75/300. Disjoint, fixed seeds."
+
+**Spec (§5, Fix 1 / band-size guidance):** "If you want larger bands for more
+reflection diversity, grow D_feedback to 150 and take thirds of 50. The
+non-negotiable is that the three band arms are equal size."
+
+**Live:** D_feedback grown from 100 to 150 by appending 50 additional
+HotpotQA-dev examples drawn from positions past the original 495-position
+shuffled block. The original 100 D_feedback ids, the 20 accept_batch ids,
+the 75 D_pareto ids, and the 300 test ids are bit-identical to the n=100
+layout (verified by shuffle position arithmetic; the original block uses
+indices `[0:100, 100:120, 120:195, 195:495]` of the seeded shuffle, the
+extra 50 use `[495:545]`). All 545 ids remain disjoint by construction.
+
+`config/experiment.yaml` updated: `splits.d_feedback: 150`. `src/data.py`
+extended with `ORIGINAL_D_FEEDBACK = 100` constant; `load_splits` now picks
+up the extra ids from the post-original block when the configured size
+exceeds the original. A=20, D_pareto=75, test=300, b=3, N=44 unchanged.
+
+**Cause:** Chunk-5 diagnostic on n=100 returned 18 strictly-partial
+instances overall (18% of the pool); the middle tercile held 52.9%
+strictly partial -- just above the 50% GO line. With only 18 partial
+instances across the entire pool, the 70/15/15 band sampler would have
+revisited the same partials many times over 44 iterations, and per-
+trajectory feedback diversity would be thin. The §5 fallback grows the
+pool to give the frontier band more distinct partial instances.
+
+**Decision date:** 2026-06-01.
+
+**Impact on the science:**
+- Frontier-band reflection sees ~70% of 132 = ~92 trajectory-instance
+  draws over the run; with the n=100 partial pool of 18, that's ~5x
+  revisits per partial. With n=150 we get 31 partials (the actual
+  observed count), or ~3x revisits -- still revisited but with more
+  distinct instances per revisit class.
+- The accept_batch / D_pareto / test composition is bit-identical; no
+  effect on the acceptance bar or the per-iteration D_pareto cost.
+- Per-arm rollouts grow proportionally only in the seed-evaluation step
+  (D_feedback scoring during base-system measurement). The optimization
+  loop's per-iteration cost is unchanged (b=3, A=20, P=75).
+- The §6 GO/NO-GO gate verdict moves from "borderline GO at 52.9%" to
+  "clean GO at 62.0% strictly partial in mid."
+
+**Mitigation:** none required -- this IS the mitigation. If 62.0% turns
+out to still be too thin in Chunk 7 analysis (e.g., if seed-pair
+variance dominates the arm contrast), the further §5 lever is to grow
+D_feedback to 180 or 210 (preserving equal-tercile sizes 60/60/60 or
+70/70/70). No code change required beyond bumping the config.
+
 ## Verification
 
-Both substitutions were verified end-to-end before this file was committed:
+All three substitutions were verified end-to-end before this file was
+committed:
 
-- Structural smoke (`src/smoke_chunk2.py`) green: split sizes 100/20/75/300,
-  disjoint (495 unique HotpotQA ids), reproducible under seed_splits=0,
-  three named predictors loaded with seed instructions verbatim.
+- Structural smoke (`src/smoke_chunk2.py`) green: split sizes
+  150/20/75/300 after the §5 fallback (was 100/20/75/300), disjoint
+  (545 unique HotpotQA ids), reproducible under seed_splits=0, three
+  named predictors loaded with seed instructions verbatim.
 - One-rollout LM smoke green: example `5abf63f15542997ec76fd3ea` returned a
   partial-credit answer ("1922" vs gold "October 1922"). Gold supporting
   titles (Socialist Revolutionary Party, Russian Civil War) both present in
   the 10-paragraph context, distributed one per hop bucket.
 - Full pytest (15/15 passing): 10 offline contract tests + 5 integration
   tests including `test_gold_paragraphs_in_context`.
+- Chunk-5 diagnostic on n=150: 50 / 69 / 31 (zero / one / strictly
+  partial); middle tercile 0 / 19 / 31 (62.0% partial); GO verdict.
 
 API spend during Chunk-2 verification: under 1¢ (one probe call of 31 tokens,
-one rollout under 10 LM calls).
+one rollout under 10 LM calls). API spend during Chunk-5 scoring at n=150:
+~$0.05 total across the 150 examples (the original 100 mostly hit the
+dspy.LM disk cache from the n=100 run; only the 50 new ids paid the real
+per-example cost).

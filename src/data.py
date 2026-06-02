@@ -45,6 +45,12 @@ SPLIT_ORDER = ("d_feedback", "accept_batch", "d_pareto", "test")
 
 INPUT_FIELDS = ("question", "context_titles", "context_paragraphs", "supporting_facts")
 
+# Original §15 D_feedback size. The §5 fallback grows D_feedback to 150 while
+# keeping accept_batch / d_pareto / test ids fixed; the extra ids come from
+# shuffle positions PAST the original 495-position layout. See DEVIATIONS.md
+# entry 3 ("D_feedback: 100 -> 150").
+ORIGINAL_D_FEEDBACK = 100
+
 
 def _row_to_example(row: dict[str, Any]) -> dspy.Example:
     sf_titles = list(row["supporting_facts"]["title"])
@@ -88,7 +94,6 @@ def load_splits(
     if seed is None:
         seed = int(sp.get("seed_splits", 0))
     sizes = {key: int(sp[key]) for key in SPLIT_ORDER}
-    total = sum(sizes.values())
 
     dataset_cfg = config.get("dataset", {})
     dataset_name = dataset_cfg.get("name", "hotpotqa/hotpot_qa")
@@ -96,26 +101,55 @@ def load_splits(
         dataset_name = "hotpotqa/hotpot_qa"
     split_name = _normalize_split_name(dataset_cfg.get("split", "validation"))
 
+    # Layout: the first `ORIGINAL_D_FEEDBACK + accept + pareto + test` positions
+    # of the seeded shuffle hold the original §15 splits. Any extra D_feedback
+    # is appended from positions PAST that block so accept_batch / d_pareto /
+    # test ids stay bit-identical to the n=100 layout.
+    if sizes["d_feedback"] < ORIGINAL_D_FEEDBACK:
+        raise ValueError(
+            f"d_feedback={sizes['d_feedback']} < ORIGINAL_D_FEEDBACK="
+            f"{ORIGINAL_D_FEEDBACK}; shrinking below the original is not supported."
+        )
+    n_extra = sizes["d_feedback"] - ORIGINAL_D_FEEDBACK
+    n_original_block = (
+        ORIGINAL_D_FEEDBACK + sizes["accept_batch"] + sizes["d_pareto"] + sizes["test"]
+    )
+    n_total = n_original_block + n_extra
+
     ds = load_dataset(
         dataset_name,
         "distractor",
         split=split_name,
         cache_dir=str(hf_cache_dir) if hf_cache_dir else None,
     )
-    if len(ds) < total:
-        raise ValueError(f"{dataset_name}/{split_name} has {len(ds)} examples; need {total}")
+    if len(ds) < n_total:
+        raise ValueError(
+            f"{dataset_name}/{split_name} has {len(ds)} examples; need {n_total}"
+        )
 
     rng = random.Random(seed)
     indices = list(range(len(ds)))
     rng.shuffle(indices)
-    chosen = indices[:total]
+
+    original_block = indices[:n_original_block]
+    extra_block = indices[n_original_block : n_original_block + n_extra]
 
     cursor = 0
-    split_lists: list[list[dspy.Example]] = []
-    for key in SPLIT_ORDER:
-        n = sizes[key]
-        split_lists.append([_row_to_example(ds[i]) for i in chosen[cursor : cursor + n]])
-        cursor += n
+    # d_feedback: original 100 ids + extra ids (preserves the original 100).
+    d_feedback_ids = original_block[cursor : cursor + ORIGINAL_D_FEEDBACK] + extra_block
+    cursor += ORIGINAL_D_FEEDBACK
+    accept_ids = original_block[cursor : cursor + sizes["accept_batch"]]
+    cursor += sizes["accept_batch"]
+    pareto_ids = original_block[cursor : cursor + sizes["d_pareto"]]
+    cursor += sizes["d_pareto"]
+    test_ids = original_block[cursor : cursor + sizes["test"]]
+
+    split_lists: list[list[dspy.Example]] = [
+        [_row_to_example(ds[i]) for i in d_feedback_ids],
+        [_row_to_example(ds[i]) for i in accept_ids],
+        [_row_to_example(ds[i]) for i in pareto_ids],
+        [_row_to_example(ds[i]) for i in test_ids],
+    ]
 
     _assert_disjoint(split_lists)
     return tuple(split_lists)  # type: ignore[return-value]

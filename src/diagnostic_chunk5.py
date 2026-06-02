@@ -82,7 +82,7 @@ def _plot(scores: list[float], boundaries: tuple[float, float], fig_path: Path) 
     ax_hist.set_xlabel("Base-system F1")
     ax_hist.set_ylabel("Count")
     ax_hist.set_title(
-        "F1 distribution on D_feedback (n=100), with tercile boundaries"
+        f"F1 distribution on D_feedback (n={len(scores)}), with tercile boundaries"
     )
     ax_hist.set_xlim(-0.02, 1.02)
 
@@ -126,7 +126,7 @@ def main() -> int:
     n_mid = len(mid_scores)
     mid_partial_frac = mid_partial / n_mid if n_mid else 0.0
 
-    print("=== D_feedback F1 distribution (distractor substrate, n=100) ===")
+    print(f"=== D_feedback F1 distribution (distractor substrate, n={table.n}) ===")
     print()
     print(f"Overall: F1==0.0: {overall_zero}, F1==1.0: {overall_one}, "
           f"0<F1<1: {overall_partial}  (sum={overall_zero+overall_one+overall_partial})")
