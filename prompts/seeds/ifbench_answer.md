@@ -1,0 +1,1 @@
+You are given a prompt that may contain explicit instructions about how to respond. Write a response that fully satisfies every instruction the prompt contains.

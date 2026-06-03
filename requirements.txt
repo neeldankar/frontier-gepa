@@ -16,5 +16,13 @@ litellm>=1.50
 openai>=1.40
 tqdm>=4.66
 
+# Vendored IFBench verifier runtime (src/ifbench_verifiers/) -- Chunk 12.
+# nltk data is pre-downloaded into src/ifbench_verifiers/data/nltk_data
+# and pinned offline; only the runtime is needed here.
+nltk>=3.9
+langdetect>=1.0
+immutabledict>=4.0
+absl-py>=2.0
+
 # Dev / test
 pytest>=8.0

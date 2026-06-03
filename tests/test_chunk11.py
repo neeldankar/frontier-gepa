@@ -114,6 +114,7 @@ def _synthetic_usable(n: int) -> IFBenchUsable:
         n_above_floor_pre_verifier_filter=n,
         uncovered_instruction_ids=(),
         n_excluded_for_uncovered_verifier=0,
+        n_excluded_for_incomplete_kwargs=0,
         n_usable=n,
         rows=rows,
     )
@@ -249,7 +250,19 @@ class TestIFMultiConstraintsLive:
         # catalog, so the verifier-filter excludes nothing.
         assert usable.n_excluded_for_uncovered_verifier == 0
         assert usable.uncovered_instruction_ids == ()
-        assert usable.n_usable == 48463
+        # The kwargs-completeness filter (Chunk-12 revision #1) should
+        # exclude very few rows -- the dataset was constructed with
+        # matching kwargs by design.
+        assert usable.n_excluded_for_incomplete_kwargs <= 100, (
+            f"unexpectedly many rows excluded for incomplete kwargs: "
+            f"{usable.n_excluded_for_incomplete_kwargs}"
+        )
+        # And n_usable accounts for the excluded rows.
+        assert usable.n_usable == (
+            usable.n_above_floor_pre_verifier_filter
+            - usable.n_excluded_for_uncovered_verifier
+            - usable.n_excluded_for_incomplete_kwargs
+        )
 
     def test_pool_comfortably_exceeds_target(self, usable):
         assert usable.n_usable >= TARGET_TOTAL * 10  # 48463 vs 545; ~89x

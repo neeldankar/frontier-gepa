@@ -173,6 +173,7 @@ class IFBenchUsable:
     n_above_floor_pre_verifier_filter: int
     uncovered_instruction_ids: tuple[str, ...]
     n_excluded_for_uncovered_verifier: int
+    n_excluded_for_incomplete_kwargs: int
     n_usable: int
     rows: list[dict[str, Any]] = field(default_factory=list)
 
@@ -183,6 +184,25 @@ def _extract_prompt(messages: list[dict[str, str]]) -> str:
         if m.get("role") == "user":
             return m.get("content") or ""
     return ""
+
+
+def _kwargs_complete(iids: list[str], kwargs_list: list[Any]) -> bool:
+    """Per-row check: every arg-requiring constraint carries a populated
+    kwargs dict (at least one non-None value). No-arg constraints may
+    carry None or an all-None placeholder dict; both are acceptable.
+
+    Imports the canonical arg-requiring set from `src.ifbench_verifiers`
+    so the loader and the verifier package stay aligned on which
+    instruction IDs need real args."""
+    from src.ifbench_verifiers import ARG_REQUIRING_VERIFIER_IDS
+    for iid, kw in zip(iids, kwargs_list):
+        if iid not in ARG_REQUIRING_VERIFIER_IDS:
+            continue
+        if not isinstance(kw, dict):
+            return False
+        if not any(v is not None for v in kw.values()):
+            return False
+    return True
 
 
 def _parse_ground_truth(gt: str) -> tuple[list[str], list[Any]]:
@@ -218,6 +238,7 @@ def load_ifbench_usable(
     raw_hist: Counter[int] = Counter()
     above_floor_raw = 0
     excluded_unknown_iid = 0
+    excluded_incomplete_kwargs = 0
     uncovered: Counter[str] = Counter()
     rows: list[dict[str, Any]] = []
     next_id = 0
@@ -237,6 +258,13 @@ def load_ifbench_usable(
             excluded_unknown_iid += 1
             for iid in not_known:
                 uncovered[iid] += 1
+            continue
+        # Completeness contract: for every arg-requiring constraint in
+        # this row, the dataset must supply a populated kwargs dict.
+        # IFEval verifiers silently random-generate missing args, which
+        # would corrupt the score. See CHUNK12_REPORT.md.
+        if not _kwargs_complete(iids, kw):
+            excluded_incomplete_kwargs += 1
             continue
         prompt = _extract_prompt(row["messages"])
         if not prompt.strip():
@@ -260,6 +288,7 @@ def load_ifbench_usable(
         n_above_floor_pre_verifier_filter=above_floor_raw,
         uncovered_instruction_ids=tuple(sorted(uncovered)),
         n_excluded_for_uncovered_verifier=excluded_unknown_iid,
+        n_excluded_for_incomplete_kwargs=excluded_incomplete_kwargs,
         n_usable=len(rows),
         rows=rows,
     )
