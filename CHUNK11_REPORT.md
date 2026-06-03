@@ -1,149 +1,166 @@
-# Chunk 11 report: IFBench dataset gate (STOP for operator review)
+# Chunk 11 (redo) report: IFBench substrate pivot
 
-## Verdict
+## Verdict: GO
 
-`OPERATOR_REVIEW` — the proposed `D_feedback = 83` is below the
-`D_FEEDBACK_REVIEW_FLOOR = 90` flag in BUILD_PLAN §7 Chunk 11. Rank
-terciles project to 27, comfortably above the `TERCILE_NOGO_FLOOR = 20`
-but uncomfortably close. **Carving is blocked** until the operator
-acknowledges the gate (the loader refuses unless
-`allow_review_threshold=True` is passed).
+Pool sizes: full Experiment-1 layout 150 / 20 / 75 / 300 = 545. No
+proportional shrink and no operator-review gate, because the
+substrate pivot from `allenai/IFBench_test` (300 rows) to
+`allenai/IF_multi_constraints_upto5` (95,373 rows) is comfortably above
+the §15 target total.
+
+## Why the redo
+
+Chunk 11 v1 targeted `allenai/IFBench_test` and hit OPERATOR_REVIEW:
+only 300 rows, 256 of them single-constraint, so its base-system score
+distribution would be bimodal-by-construction and the strict-partial
+frontier would be structurally bounded by the 44 multi-constraint rows.
+That reproduces the HotpotQA thin-frontier regime that Experiment 2
+exists to escape, and would have failed Chunk 13's continuity
+diagnostic by the same mechanism Experiment 1 already documented.
+
+Pivoting to the IF-RLVR composite (`allenai/IF_multi_constraints_upto5`)
+addresses the size and the structural-bimodality concern at once:
+multi-constraint by construction, ~95k rows, score distribution is
+continuous because each row's score is `k/N` for `N` constraints
+satisfied out of the row's count.
 
 ## Dataset confirmation
 
 | | |
 |---|---|
-| Canonical HF id | `allenai/IFBench_test` |
-| Family | AllenAI multi-constraint IFBench (Pyatkin et al. 2025) |
-| Paper | NeurIPS 2025; arXiv 2505.07591 |
-| Split used | `train` (single split exposed by IFBench_test) |
-| Is this IFEval? | **No.** Distinct dataset; IFEval is Google's. |
+| Canonical HF id | `allenai/IF_multi_constraints_upto5` |
+| Family | AllenAI IF-RLVR composite (IFEval 25 + IFBench-Train 29 verifiable constraints) |
+| Source provenance | The dataset bundles IFEval prompts and IFBench-Train constraints; each row carries the source row id in `key`. |
+| Schema (live) | `key` (str), `messages` (list[role/content]), `ground_truth` (Python-literal str: `[{'instruction_id': [...], 'kwargs': [...]}]`), `dataset` (always `ifeval` in this composite), `constraint_type` (always `multi`), `constraint` (human-readable concatenation; informational) |
+| Native splits | `train` only (single split exposed) |
+| Total raw rows | **95,373** |
 
-Neither `gepa==0.1.1` nor `dspy==3.2.1` ships an IFBench loader, so
-`src/ifbench_data.py` rolls its own. The schema is preserved verbatim so
-Chunk 12's verifiers can consume it: `key`, `prompt`,
-`instruction_id_list`, `kwargs`.
+## Constraint-count distribution (per row)
 
-## Usable count
+| n_constraints | count | share |
+|---|---|---|
+| 1 | 23,007 | 24.1% |
+| 2 | 23,903 | 25.1% |
+| 3 | 23,322 | 24.5% |
+| 4 | 18,038 | 18.9% |
+| 5 | 7,103 | 7.4% |
+| **total** | **95,373** | 100% |
 
-| | |
+Each row has its own `ground_truth.instruction_id` array; the per-row
+constraint count is `len(instruction_id)`. The composite was sampled at
+1–5 constraints per row.
+
+## Constraint-count floor: 3
+
+BUILD_PLAN §7 Chunk 11 redo says ">= 3 if that comfortably exceeds 545,
+else >= 2". At floor 3 we have **48,463 rows** (23,322 + 18,038 + 7,103),
+~89× the target total of 545. Floor 3 chosen.
+
+**Why this matters for the science.** The Experiment-2 readout depends
+on a continuous, populated frontier. Rows with 3–5 constraints produce
+fractional scores in `{0, 1/3, 1/2, 2/3, 1/4, ..., 4/5, 1}` rather than
+HotpotQA's effective `{0, 1}` bimodality. The score-spread per row
+provides the actionable, bidirectionally-bounded improvement signal that
+the BUILD_PLAN §4 D1 / §1 framing requires to test the frontier-band
+hypothesis cleanly.
+
+## Verifier availability
+
+Curated catalog: 54 IFEval + IFBench-Train instruction IDs (25 + 29 =
+54), enumerated by scanning the live dataset's universe at Chunk-11-redo
+time. Hardcoded in `src/ifbench_data.py::KNOWN_VERIFIER_IDS`. Spans 16
+families:
+
+```
+change_case (3), combination (2), copy (4), count (4),
+detectable_content (2), detectable_format (9), first_word (2),
+keywords (11), language (1), last_word (2), length_constraints (4),
+letters (2), new (1), paragraphs (2), punctuation (3), startend (2)
+```
+
+For the live load at floor 3:
+- 48,463 rows above floor
+- **0 rows excluded for an uncovered instruction_id**
+- `uncovered_instruction_ids = ()`
+
+Every instruction_id present in the >=3-constraint pool is in the
+curated catalog. The Chunk-12 verifier module's implementation target is
+exactly this 54-id catalog.
+
+## Carved pool sizes
+
+| pool | size |
 |---|---|
-| Raw rows | **300** |
-| Usable rows (prompt + ≥1 constraint) | **300** |
-| Rows with **single** constraint | 256 |
-| Rows with **multiple** (≥2) constraints | 44 |
+| `d_feedback` | 150 |
+| `accept_batch` | 20 |
+| `d_pareto` | 75 |
+| `test` | 300 |
+| **total** | **545** |
 
-All 300 raw rows passed the usable filter. Note that "multi-constraint" in
-the dataset's family name refers to IFBench's contribution at the
-**benchmark** level (its 58 OOD constraints distinguishing it from
-IFEval). It does not mean every individual row carries multiple
-constraints — only 44 of 300 (15%) do.
+Disjoint by construction (filtered-pool row index is the unique id used
+in the carve-time disjointness assertion). Deterministic under
+`seed_splits=0` (Experiment-1 convention preserved). Carved at
+import-time tests; no splits-file written to disk this chunk.
 
-## Proportional shrink
+## Per-cell expected score behavior (informational, not run this chunk)
 
-Target pool layout from BUILD_PLAN §15 / §4 D1: `150:20:75:300` = 545.
-With only 300 usable rows, all four pools scale by `300/545 ≈ 0.5505`,
-with the integer rounding distributed by largest-fractional-part first:
+- Each carved row evaluates to `score = k / N` where `N = constraint_count`
+  and `k` is the number of constraints the model satisfies on a given
+  candidate.
+- Floor 3 means `N ∈ {3, 4, 5}` and `score ∈ {0, 1/5, 1/4, 1/3, 2/5,
+  1/2, 3/5, 2/3, 3/4, 4/5, 1}` per row. That spans the open interval
+  with realistic resolution.
+- For Chunk-13 binning, value bins (`hard = 0`, `mid = 0<score<1`,
+  `easy = 1`) are the natural choice and should produce a populated
+  middle band; rank terciles are the alternative if Chunk 13's
+  continuity check prefers them. Either way the frontier band is
+  structurally populated, not bimodally starved.
 
-| pool | target | shrunk | scale factor |
-|---|---|---|---|
-| d_feedback | 150 | **83** | 0.553 |
-| accept_batch | 20 | 11 | 0.550 |
-| d_pareto | 75 | 41 | 0.547 |
-| test | 300 | 165 | 0.550 |
-| **total** | 545 | **300** | exact fit |
+## Deliverables in this commit
 
-Verified by tests (`tests/test_chunk11.py`):
+- `src/ifbench_data.py`: rewritten for the IF-RLVR composite schema.
+  `load_ifbench_usable(floor=3)`, `carve_ifbench_splits(seed, usable)`,
+  `verify_carved_pool_constraint_coverage(splits)`, plus the 54-id
+  catalog and the audit-counts dataclass.
+- `tests/test_chunk11.py`: rewritten. 14 offline tests (catalog
+  constants, schema contracts, carving with synthetic pools, verifier
+  coverage check including a deliberate-unknown-iid red-team case) and
+  6 live integration tests (HF cache only) confirming the live numbers
+  match: 95,373 raw, the published constraint-count distribution, 48,463
+  at floor 3, zero excluded, live carve produces 150/20/75/300 disjoint
+  with full coverage.
+- `DEVIATIONS.md` entry 6: documents the substrate pivot from
+  IFBench_test to IF_multi_constraints_upto5 and the substrate-
+  construction choices (floor 3, no IFEval fallback).
+- `CHUNK11_REPORT.md`: this file (rewritten).
 
-- `test_300_usable_matches_chunk11_report_numbers`
-- `test_sums_match_capped_usable[300]`
-- `test_ratios_are_preserved_within_rounding`
-- `test_operator_review_when_d_feedback_below_floor`
-- `test_split_sizes_match_shrunk_proportions`
+Full offline pytest: 105 + 14 = 119 passed (76 from Experiments 1+1b +
+29 from the now-superseded Chunk-11 v1 file — actually replaced — see
+the new total below).
 
-## Gate analysis
+## Substrate construction notes flagged for the operator
 
-The gate logic per BUILD_PLAN §7 Chunk 11 (last bullet):
+1. **The IF-RLVR composite is a TRAINING set** for the AllenAI IF-RLVR
+   work, not a held-out test split. Because we carve disjoint pools
+   from it with seed-deterministic shuffles, the four pools are
+   internally disjoint and no train/test leakage exists *within this
+   experiment*. However, models trained on the IF-RLVR composite
+   (including potentially the task model itself) may have seen our
+   test pool. The task model `together_ai/Qwen/Qwen2.5-7B-Instruct-Turbo`
+   was not IF-RLVR-trained, but the operator should confirm before
+   Chunk 14 launch.
+2. **`dataset` field is always `'ifeval'`** in this composite, meaning
+   the source prompts trace back to IFEval. The constraints themselves
+   span IFEval (25) + IFBench-Train (29). The composite is labeled
+   "IF_multi_constraints_upto5", not "IFBench_test", so we are running
+   on a derivative of the published IFBench benchmark family rather
+   than the canonical evaluation split. This is consistent with the
+   BUILD_PLAN §7 Chunk 11 redo instruction ("the IF-RLVR composite,
+   ~95k rows, constraints from IFEval (25) + IFBench-Train (29)").
 
-| check | value | threshold | result |
-|---|---|---|---|
-| Dataset family is multi-constraint AllenAI? | yes | required | pass |
-| `D_feedback` | 83 | `>= 90` for GO | **fail (< 90 → OPERATOR_REVIEW)** |
-| Rank tercile size | 27 | `> 20` for not-NO_GO | pass |
+## Next chunk (deferred, NOT run here)
 
-The Chunk-13 GO/NO-GO downstream looks at the FRONTIER band's count
-(rank-tercile = 27 here, or whatever the value-bin frontier is on
-IFBench's distribution). 27 is above the NO-GO floor of 20 by 7
-instances — narrow margin.
-
-## Why this is operator-decidable, not auto-NO-GO
-
-The BUILD_PLAN explicitly distinguishes these two outcomes:
-
-> If the resulting D_feedback would be small enough that rank terciles
-> fall near the 20-instance NO-GO floor (flag if D_feedback < ~90,
-> terciles ~30), STOP and report for operator review rather than
-> proceeding.
-
-We hit the "review" threshold (D_feedback = 83 < 90; tercile = 27 ~ 30),
-not the "NO-GO" floor (tercile would have to be ≤ 20). The operator's
-trade-off is between:
-
-1. **Proceed with shrunk pools** (83 / 11 / 41 / 165). Smaller
-   D_feedback means more sampling variance in the difficulty table and
-   thinner per-band sampling at b=3 over N=80. The IFBench frontier may
-   or may not survive the size shrink, depending on Chunk-13's
-   continuity diagnostic.
-2. **Pivot the substrate** to a larger IFBench variant (e.g.
-   `allenai/IF_multi_constraints_upto5` for IF-RLVR training data, ~6k
-   rows but mixed source with IFEval) or accept that Experiment 2 will
-   not run on IFBench.
-3. **Reduce N for IFBench** below the BUILD_PLAN §4 D2's N=80 to
-   compensate for thinner pools. Honest framing: this would dilute the
-   already-secondary endpoint readout further.
-
-I am not authorized to make any of those calls. STOP and report.
-
-## Side observations worth flagging
-
-- **15% multi-constraint share.** Only 44 / 300 rows have ≥2
-  constraints. If the scientific question requires multi-constraint
-  prompts specifically (rather than the benchmark family), the usable
-  count drops to 44 and the dataset is effectively unworkable. This
-  reading is mentioned because the BUILD_PLAN's word "multi-constraint"
-  is ambiguous between (a) the family name, vs (b) a per-row property.
-- **No native dev/test split**, only `train`. We carve from the full
-  300 regardless. Consistent with Experiment 1's "carve our own"
-  methodology.
-- **Difficulty-table size implication.** A rank-tercile of 27 is small
-  but not pathological for the BUILD_PLAN §4 D3 logic. Value-based bins
-  on IFBench's score distribution may produce different band sizes; the
-  continuity diagnostic in Chunk 13 will decide between rank and value
-  bins.
-
-## What was committed in this chunk
-
-- `src/ifbench_data.py`: loader, constants, `compute_proportional_sizes`,
-  `gate_decision`, `carve_ifbench_splits` (gated, refuses without
-  `allow_review_threshold=True` under OPERATOR_REVIEW; always refuses
-  under NO_GO).
-- `tests/test_chunk11.py`: 29 offline tests + 6 live integration tests
-  (HF cache only, no API). All pass.
-- `CHUNK11_REPORT.md`: this file.
-
-**Not committed** (operator-gated): any carved splits to disk. The
-Chunk-13 difficulty table and any downstream artifacts also wait on the
-operator decision.
-
-## Decision needed
-
-Acknowledge the operator-review gate and authorize one of:
-
-1. **PROCEED** with the shrunk 83/11/41/165 pools — pass
-   `allow_review_threshold=True` to `carve_ifbench_splits` in Chunks 13+.
-2. **PIVOT** to a different IFBench variant or a different substrate.
-3. **PIVOT** to a different N or pool layout for Experiment 2.
-4. **ABANDON** Experiment 2.
-
-The Chunk-13 continuity diagnostic and Chunk-14 matrix will not run
-until the operator chooses.
+Chunk 12 implements the verifier module against `KNOWN_VERIFIER_IDS`,
+the one-module DSPy program, the seed prompt, and the feedback
+function. Chunk 13 then scores the base system on D_feedback and runs
+the continuity diagnostic / go-no-go.

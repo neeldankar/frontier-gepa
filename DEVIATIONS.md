@@ -268,6 +268,76 @@ a result-aware change.
 future variant changes the difficulty table, the SHA-256 stored in
 each cell's provenance.json surfaces the drift.
 
+## 6. Experiment-2 substrate: IFBench_test → IF_multi_constraints_upto5
+
+**Spec (BUILD_PLAN.md §4 D1 / §7 Chunk 11 original):** "Confirm the
+dataset is the multi-constraint AllenAI IFBench (Pyatkin et al. 2025),
+the same instruction-following benchmark used in the GEPA paper, NOT
+Google IFEval."
+
+**Spec (BUILD_PLAN.md §7 Chunk 11 REDO, 2026-06-02):** "We pivot to the
+multi-constraint composite. Load `allenai/IF_multi_constraints_upto5`
+(the IF-RLVR composite, ~95k rows, up to 5 constraints per instruction,
+constraints from IFEval (25) + IFBench-Train (29))."
+
+**Live for Experiment 2:** `allenai/IF_multi_constraints_upto5`. 95,373
+rows. Per-row constraint-count distribution
+`{1: 23007, 2: 23903, 3: 23322, 4: 18038, 5: 7103}`. Carve at
+constraint_count floor 3 (48,463 usable, ~89× the 545 target).
+
+**Cause:** The first Chunk-11 cut targeted `allenai/IFBench_test` and
+hit the operator-review gate: only 300 rows total, and 256 of those
+single-constraint, so the score distribution would be
+bimodal-by-construction and the strict-partial frontier structurally
+bounded by the 44 multi-constraint rows. That would reproduce the
+HotpotQA thin-frontier regime that Experiment 2 was designed to escape,
+and would NO-GO at Chunk 13's continuity diagnostic for the same reason
+Experiment 1 reached a null on a thin frontier.
+
+The IF-RLVR composite addresses both axes at once:
+- **Size**: 95k rows >> 545, so no proportional shrink.
+- **Continuity**: at floor 3, every row produces a score in
+  `{0, 1/5, 1/4, 1/3, 2/5, 1/2, 3/5, 2/3, 3/4, 4/5, 1}`. This is a
+  populated continuous frontier by construction, not bimodal at `{0, 1}`.
+
+**Decision date:** 2026-06-02. Pre-launch, diagnostic-driven (the
+constraint-count distribution of `IFBench_test` was the diagnostic).
+
+**Impact on the science:**
+- Experiment 2 evaluates on a *derivative* of the published IFBench
+  benchmark family rather than the canonical `IFBench_test` evaluation
+  split. The composite was assembled for IF-RLVR training data, but is
+  used here purely for its constraint richness; we carve disjoint
+  pools, so no train/test leakage exists within Experiment 2.
+- Verifier inputs (the 25 IFEval + 29 IFBench-Train instruction IDs =
+  54 total) are the same verifiable types the BUILD_PLAN specified, so
+  the per-row scores are computable by IFBench's official verifiers
+  exactly as on the canonical split. Chunk 12 implements those 54
+  verifiers; Chunk 11 enumerated the catalog and confirmed the live
+  pool's instruction IDs are all in it (0 uncovered).
+- The score axis is `score = k/N` for `N = constraint_count` and `k =
+  satisfied`. With `N ∈ {3, 4, 5}`, the strict-partial range spans `k/N
+  ∈ (0, 1)` with realistic resolution and a populated middle band.
+- The substrate choice does not change the §15 design (5 arms × 3
+  seeds, decoupled acceptance on a fixed accept-batch, b=3,
+  100/0/0 sampling, etc.). Only the dataset under test changes.
+
+**Caveat flagged for operator review (CHUNK11_REPORT §"Substrate
+construction notes"):**
+- `IF_multi_constraints_upto5` is a TRAINING set for the IF-RLVR
+  work. The task model
+  `together_ai/Qwen/Qwen2.5-7B-Instruct-Turbo` was not IF-RLVR-trained,
+  but the operator should confirm before Chunk 14 launch.
+- All rows carry `dataset='ifeval'` in the composite metadata; the
+  source prompts trace to IFEval. The constraints themselves span
+  IFEval + IFBench-Train. This is consistent with BUILD_PLAN §7 Chunk
+  11 redo.
+
+**Mitigation:** none required — this is the substrate the experiment
+runs on. The Chunk-13 continuity diagnostic and the Chunk-14 matrix
+will use the Chunk-11-redo carve. Reverting to `IFBench_test` would
+re-introduce the thin-frontier problem the redo solves.
+
 ## Verification
 
 All four substitutions were verified end-to-end before this file was

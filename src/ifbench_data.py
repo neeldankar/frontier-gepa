@@ -1,48 +1,66 @@
-"""IFBench data loader and dataset-gate check (BUILD_PLAN.md §7 Chunk 11).
+"""IFBench data loader, dataset gate, and disjoint splits for Experiment 2.
 
-Substrate: AllenAI IFBench (Pyatkin et al. 2025, NeurIPS 2025;
-arXiv 2505.07591), the multi-constraint instruction-following benchmark. NOT
-Google IFEval. The canonical Hugging Face id is `allenai/IFBench_test`.
-The IF-RLVR training set (`allenai/IF_multi_constraints_upto5`) is
-out-of-scope for the Experiment-2 evaluation substrate.
+**Substrate pivot from Chunk-11 v1.** The first cut targeted
+`allenai/IFBench_test` and hit OPERATOR_REVIEW: only 300 rows, 256 of
+which are single-constraint, so its score distribution would be
+bimodal-by-construction and the strict-partial frontier would be
+structurally bounded by the 44 multi-constraint rows. That reproduces
+the HotpotQA thin-frontier regime Experiment 2 exists to escape. The
+substrate is therefore switched to `allenai/IF_multi_constraints_upto5`
+(IF-RLVR composite, ~95k rows, up to 5 constraints per instruction;
+constraints from IFEval (25) + IFBench-Train (29)). See DEVIATIONS.md
+entry 6.
 
-Neither the installed `gepa==0.1.1` nor `dspy==3.2.1` ships an IFBench
-data loader, so this module rolls its own. The per-row schema preserves
-what the IFBench verifiers will need in Chunk 12:
-  - `key`:                  stable id (integer in IFBench_test, kept as
-                            string for cross-system compatibility)
-  - `prompt`:               the instruction prompt the model sees
-  - `instruction_id_list`:  list of constraint identifier strings (the
-                            constraint family / kind, e.g.
-                            `count:keywords_multiple`); IFBench's official
-                            verifiers consume this plus `kwargs`.
-  - `kwargs`:               list of dicts (one per constraint), each with
-                            verifier-specific keyword arguments (mostly
-                            nulls; the non-null entries name the
-                            constraint payload).
+Schema (IF_multi_constraints_upto5):
+  - `key`:              source-row provenance string (NOT guaranteed
+                        unique across rows; we key disjointness by
+                        filtered-pool index instead).
+  - `messages`:         chat-style list `[{role, content}]`; for this
+                        dataset, all rows have a single role='user'
+                        entry.
+  - `ground_truth`:     a Python-literal-string list of one dict
+                        `[{'instruction_id': [...], 'kwargs': [...]}]`
+                        with parallel `instruction_id` and `kwargs`
+                        arrays; the constraint count of a row is
+                        `len(instruction_id)`.
+  - `constraint_type`:  always `'multi'` for this dataset.
+  - `constraint`:       human-readable concatenated constraint
+                        description (informational; not consumed by
+                        verifiers).
+  - `dataset`:          always `'ifeval'` for this dataset (the IF-RLVR
+                        composite tags its source family).
 
-The split layout mirrors Experiment 1's methodology: four disjoint
-pools (d_feedback, accept_batch, d_pareto, test) sliced from a single
-deterministic shuffle of the usable rows. When the dataset is smaller
-than the §15 target total (D_feedback=150, A=20, D_pareto=75, test=300
-= 545), this module shrinks all four pools proportionally on the
-150:20:75:300 ratio and records the actual sizes. It never falls back
-to IFEval.
+Per-row record produced by this loader:
+  - `id`:               sequential integer in the filtered (>=floor)
+                        pool; the canonical disjoint-id field.
+  - `source_key`:       raw IF_multi_constraints_upto5 `key`; provenance
+                        only.
+  - `prompt`:           the user message content.
+  - `instruction_id_list`: list of constraint IDs (the verifier names).
+  - `kwargs_list`:      parallel list of constraint kwargs.
+  - `constraint_count`: `len(instruction_id_list)`.
 
-Operator-review gate (BUILD_PLAN §7 Chunk 11, last bullet):
-  If the resulting D_feedback would be small enough that rank terciles
-  approach the 20-instance NO-GO floor (`D_feedback < D_FEEDBACK_REVIEW_FLOOR`,
-  default 90 → tercile ~30), `gate_decision()` returns "OPERATOR_REVIEW"
-  rather than "GO". `carve_ifbench_splits()` then refuses to carve unless
-  `allow_review_threshold=True` is passed explicitly. The runtime caller
-  must acknowledge the gate before any matrix work proceeds in Chunk 14.
+Constraint-count floor: BUILD_PLAN §7 Chunk-11-redo specifies ">=3 if
+that comfortably exceeds 545, else >=2". The live count at >=3 is
+48,463 rows (well above 545), so the floor is 3.
+
+Verifier-availability check: every constraint identifier in carved rows
+must appear in `KNOWN_VERIFIER_IDS`. That set is the curated catalog of
+the 54 IFEval + IFBench-Train instruction IDs canonical for this
+dataset (sourced by enumerating the dataset's universe at the time of
+Chunk-11-redo, cross-checked against the count user-specified: 25
+IFEval + 29 IFBench-Train = 54). If a future dataset version introduces
+a new ID, that row is excluded from the pools at carve time and
+reported by name. Chunk 12 implements the actual verifier functions
+against this exact list.
 """
 
 from __future__ import annotations
 
-import math
+import ast
 import random
-from dataclasses import dataclass
+from collections import Counter
+from dataclasses import dataclass, field
 from pathlib import Path
 from typing import Any
 
@@ -50,25 +68,90 @@ import dspy
 from datasets import load_dataset
 
 # Canonical dataset id and variant. Single source of truth.
-IFBENCH_DATASET_ID: str = "allenai/IFBench_test"
-IFBENCH_SPLIT_NAME: str = "train"  # IFBench_test exposes a single "train" split
-IFBENCH_FAMILY: str = "AllenAI multi-constraint IFBench (Pyatkin et al. 2025)"
+IFBENCH_DATASET_ID: str = "allenai/IF_multi_constraints_upto5"
+IFBENCH_SPLIT_NAME: str = "train"
+IFBENCH_FAMILY: str = (
+    "AllenAI IF-RLVR composite (IF_multi_constraints_upto5; "
+    "IFEval 25 + IFBench-Train 29 verifiable constraints)"
+)
 
-# Target Experiment-1 pool layout. Total = 545.
+# Constraint-count floor for the substrate. Chunk-11-redo requirement:
+# >=3 if that exceeds 545, else >=2. Live count at >=3 is 48,463 rows.
+CONSTRAINT_COUNT_FLOOR: int = 3
+
+# Pool layout. Full Experiment-1 target sizes; no proportional shrink
+# needed at 95k.
 TARGET_SIZES: dict[str, int] = {
     "d_feedback": 150,
     "accept_batch": 20,
     "d_pareto": 75,
     "test": 300,
 }
-SPLIT_ORDER = ("d_feedback", "accept_batch", "d_pareto", "test")
+SPLIT_ORDER: tuple[str, ...] = ("d_feedback", "accept_batch", "d_pareto", "test")
 TARGET_TOTAL: int = sum(TARGET_SIZES.values())
 
-# Operator-review thresholds (BUILD_PLAN §7 Chunk 11).
-D_FEEDBACK_REVIEW_FLOOR: int = 90
-TERCILE_NOGO_FLOOR: int = 20
+INPUT_FIELDS: tuple[str, ...] = ("prompt", "instruction_id_list", "kwargs_list")
 
-INPUT_FIELDS = ("prompt", "instruction_id_list", "kwargs")
+# The 54-element curated catalog of IFEval + IFBench-Train verifier IDs.
+# This is the implementation target for Chunk 12. Sourced by enumerating
+# `allenai/IF_multi_constraints_upto5` at Chunk-11-redo time.
+KNOWN_VERIFIER_IDS: frozenset[str] = frozenset({
+    "change_case:capital_word_frequency",
+    "change_case:english_capital",
+    "change_case:english_lowercase",
+    "combination:repeat_prompt",
+    "combination:two_responses",
+    "copy:copy",
+    "copy:copying_multiple",
+    "copy:copying_simple",
+    "copy:repeat_phrase",
+    "count:count_increment_word",
+    "count:count_unique",
+    "count:counting_composition",
+    "count:lowercase_counting",
+    "detectable_content:number_placeholders",
+    "detectable_content:postscript",
+    "detectable_format:bigram_wrapping",
+    "detectable_format:constrained_response",
+    "detectable_format:json_format",
+    "detectable_format:multiple_sections",
+    "detectable_format:number_bullet_lists",
+    "detectable_format:number_highlighted_sections",
+    "detectable_format:sentence_hyphens",
+    "detectable_format:square_brackets",
+    "detectable_format:title",
+    "first_word:first_word_answer",
+    "first_word:first_word_sent",
+    "keywords:exclude_word_harder",
+    "keywords:existence",
+    "keywords:forbidden_words",
+    "keywords:frequency",
+    "keywords:keyword_specific_position",
+    "keywords:letter_frequency",
+    "keywords:no_adjacent_consecutive",
+    "keywords:palindrome",
+    "keywords:start_end",
+    "keywords:word_count_different_numbers",
+    "keywords:word_once",
+    "language:response_language",
+    "last_word:last_word_answer",
+    "last_word:last_word_sent",
+    "length_constraints:nth_paragraph_first_word",
+    "length_constraints:number_paragraphs",
+    "length_constraints:number_sentences",
+    "length_constraints:number_words",
+    "letters:letter_counting",
+    "letters:letter_counting2",
+    "new:copy_span_idx",
+    "paragraphs:paragraphs",
+    "paragraphs:paragraphs2",
+    "punctuation:no_comma",
+    "punctuation:punctuation_dot",
+    "punctuation:punctuation_exclamation",
+    "startend:end_checker",
+    "startend:quotation",
+})
+assert len(KNOWN_VERIFIER_IDS) == 54, "verifier catalog size drift"
 
 
 # ---------------------------------------------------------------------------
@@ -78,157 +161,107 @@ INPUT_FIELDS = ("prompt", "instruction_id_list", "kwargs")
 
 @dataclass(frozen=True)
 class IFBenchUsable:
-    """Container for the result of the dataset-gate count step. Wraps the
-    loaded rows plus the audit fields we want to commit to provenance."""
+    """Result of loading IF_multi_constraints_upto5 and filtering to rows
+    with `constraint_count >= CONSTRAINT_COUNT_FLOOR` AND whose
+    instruction_ids are all in `KNOWN_VERIFIER_IDS`."""
 
     dataset_id: str
     family: str
+    constraint_count_floor: int
     n_rows_raw: int
+    constraint_count_histogram_raw: dict[int, int]
+    n_above_floor_pre_verifier_filter: int
+    uncovered_instruction_ids: tuple[str, ...]
+    n_excluded_for_uncovered_verifier: int
     n_usable: int
-    constraint_count_histogram: dict[int, int]
-    rows: list[dict[str, Any]]
+    rows: list[dict[str, Any]] = field(default_factory=list)
 
 
-def _is_usable(row: dict[str, Any]) -> bool:
-    """A row is 'usable' iff it has a non-empty prompt AND a non-empty
-    `instruction_id_list`."""
-    prompt = row.get("prompt") or ""
-    ids = row.get("instruction_id_list") or []
-    if not (isinstance(prompt, str) and prompt.strip()):
-        return False
-    if not (isinstance(ids, list) and len(ids) >= 1):
-        return False
-    return True
+def _extract_prompt(messages: list[dict[str, str]]) -> str:
+    """Pull the user-role content out of the messages list."""
+    for m in messages:
+        if m.get("role") == "user":
+            return m.get("content") or ""
+    return ""
 
 
-def _row_to_record(row: dict[str, Any]) -> dict[str, Any]:
-    """Project a raw IFBench row down to the fields downstream code reads.
-    Coerces `key` to string so split-level disjointness checks key on the
-    same type Experiment-1 used."""
-    return {
-        "id": str(row["key"]),
-        "prompt": row["prompt"],
-        "instruction_id_list": list(row["instruction_id_list"]),
-        "kwargs": list(row.get("kwargs") or []),
-    }
+def _parse_ground_truth(gt: str) -> tuple[list[str], list[Any]]:
+    """ground_truth is a Python-literal string like
+    `"[{'instruction_id': [...], 'kwargs': [...]}]"`. Returns
+    (instruction_id_list, kwargs_list). Raises if malformed."""
+    parsed = ast.literal_eval(gt)
+    if not isinstance(parsed, list) or not parsed:
+        raise ValueError("ground_truth is not a non-empty list")
+    head = parsed[0]
+    iids = head.get("instruction_id") or []
+    kw = head.get("kwargs") or []
+    if not isinstance(iids, list) or len(iids) == 0:
+        raise ValueError("instruction_id missing or empty")
+    if not isinstance(kw, list):
+        raise ValueError("kwargs not a list")
+    return list(iids), list(kw)
 
 
 def load_ifbench_usable(
+    constraint_count_floor: int = CONSTRAINT_COUNT_FLOOR,
     hf_cache_dir: str | Path | None = None,
 ) -> IFBenchUsable:
-    """Load `allenai/IFBench_test`, filter to usable rows, and report the
-    counts the dataset gate needs. Network call to the HF hub on first
-    run; subsequent runs hit the local HF cache."""
+    """Load the IF-RLVR composite, filter to multi-constraint rows whose
+    instruction_ids all map to a known verifier, and report the audit
+    counts."""
     ds = load_dataset(
         IFBENCH_DATASET_ID,
         split=IFBENCH_SPLIT_NAME,
         cache_dir=str(hf_cache_dir) if hf_cache_dir else None,
     )
     n_raw = len(ds)
-    usable_rows: list[dict[str, Any]] = []
-    counts: dict[int, int] = {}
+    raw_hist: Counter[int] = Counter()
+    above_floor_raw = 0
+    excluded_unknown_iid = 0
+    uncovered: Counter[str] = Counter()
+    rows: list[dict[str, Any]] = []
+    next_id = 0
+
     for row in ds:
-        if not _is_usable(row):
+        try:
+            iids, kw = _parse_ground_truth(row["ground_truth"])
+        except Exception:
             continue
-        usable_rows.append(_row_to_record(row))
-        n_constraints = len(row["instruction_id_list"])
-        counts[n_constraints] = counts.get(n_constraints, 0) + 1
+        cc = len(iids)
+        raw_hist[cc] += 1
+        if cc < constraint_count_floor:
+            continue
+        above_floor_raw += 1
+        not_known = [iid for iid in iids if iid not in KNOWN_VERIFIER_IDS]
+        if not_known:
+            excluded_unknown_iid += 1
+            for iid in not_known:
+                uncovered[iid] += 1
+            continue
+        prompt = _extract_prompt(row["messages"])
+        if not prompt.strip():
+            continue
+        rows.append({
+            "id": next_id,
+            "source_key": row["key"],
+            "prompt": prompt,
+            "instruction_id_list": iids,
+            "kwargs_list": kw,
+            "constraint_count": cc,
+        })
+        next_id += 1
+
     return IFBenchUsable(
         dataset_id=IFBENCH_DATASET_ID,
         family=IFBENCH_FAMILY,
+        constraint_count_floor=constraint_count_floor,
         n_rows_raw=n_raw,
-        n_usable=len(usable_rows),
-        constraint_count_histogram=dict(sorted(counts.items())),
-        rows=usable_rows,
-    )
-
-
-# ---------------------------------------------------------------------------
-# Proportional shrink + gate decision
-# ---------------------------------------------------------------------------
-
-
-def compute_proportional_sizes(
-    usable: int,
-    target_sizes: dict[str, int] = TARGET_SIZES,
-) -> dict[str, int]:
-    """Return per-pool sizes that fit within `usable` examples and preserve
-    the 150:20:75:300 ratio as closely as the integer rounding allows.
-
-    Strategy: floor each pool's raw fractional size, then distribute the
-    remainder (largest fractional parts first) so the four sizes sum
-    exactly to `min(usable, TARGET_TOTAL)`. When `usable >= TARGET_TOTAL`,
-    returns `TARGET_SIZES` unchanged.
-    """
-    total_target = sum(target_sizes.values())
-    if usable >= total_target:
-        return dict(target_sizes)
-
-    scale = usable / total_target
-    raw: dict[str, float] = {k: v * scale for k, v in target_sizes.items()}
-    floored: dict[str, int] = {k: int(math.floor(v)) for k, v in raw.items()}
-    deficit = usable - sum(floored.values())
-    # Distribute the remainder by largest fractional part first; tie-break
-    # on the SPLIT_ORDER tuple so the assignment is deterministic.
-    fracs = sorted(
-        ((k, raw[k] - floored[k]) for k in target_sizes),
-        key=lambda kv: (-kv[1], SPLIT_ORDER.index(kv[0])),
-    )
-    sizes = dict(floored)
-    for i in range(deficit):
-        sizes[fracs[i][0]] += 1
-    return sizes
-
-
-@dataclass(frozen=True)
-class GateDecision:
-    verdict: str  # "GO", "OPERATOR_REVIEW", or "NO_GO"
-    reason: str
-    sizes: dict[str, int]
-    rank_tercile_size: int  # floor(d_feedback / 3); the Chunk-13 NO-GO concern
-
-
-def gate_decision(usable_count: int) -> GateDecision:
-    """Apply BUILD_PLAN §7 Chunk 11's gate logic to the proposed pool sizes.
-
-    - "NO_GO" if the resulting d_feedback is small enough that rank
-      terciles would fall AT the 20-instance NO-GO floor or below.
-    - "OPERATOR_REVIEW" if d_feedback would be below
-      `D_FEEDBACK_REVIEW_FLOOR` (default 90) but the terciles are still
-      above the NO-GO floor.
-    - "GO" otherwise.
-
-    The verdict is advisory; the caller is responsible for honoring it.
-    """
-    sizes = compute_proportional_sizes(usable_count)
-    d_feedback = sizes["d_feedback"]
-    tercile = d_feedback // 3
-    if tercile <= TERCILE_NOGO_FLOOR:
-        return GateDecision(
-            verdict="NO_GO",
-            reason=(
-                f"projected D_feedback={d_feedback} would put rank terciles "
-                f"at {tercile} <= TERCILE_NOGO_FLOOR ({TERCILE_NOGO_FLOOR})"
-            ),
-            sizes=sizes,
-            rank_tercile_size=tercile,
-        )
-    if d_feedback < D_FEEDBACK_REVIEW_FLOOR:
-        return GateDecision(
-            verdict="OPERATOR_REVIEW",
-            reason=(
-                f"projected D_feedback={d_feedback} is below the review "
-                f"floor ({D_FEEDBACK_REVIEW_FLOOR}); rank terciles would be "
-                f"{tercile}, above the NO-GO floor but uncomfortably close"
-            ),
-            sizes=sizes,
-            rank_tercile_size=tercile,
-        )
-    return GateDecision(
-        verdict="GO",
-        reason=f"D_feedback={d_feedback} >= {D_FEEDBACK_REVIEW_FLOOR}; rank tercile={tercile}",
-        sizes=sizes,
-        rank_tercile_size=tercile,
+        constraint_count_histogram_raw=dict(sorted(raw_hist.items())),
+        n_above_floor_pre_verifier_filter=above_floor_raw,
+        uncovered_instruction_ids=tuple(sorted(uncovered)),
+        n_excluded_for_uncovered_verifier=excluded_unknown_iid,
+        n_usable=len(rows),
+        rows=rows,
     )
 
 
@@ -245,61 +278,16 @@ SplitTuple = tuple[
 def _record_to_example(record: dict[str, Any]) -> dspy.Example:
     return dspy.Example(
         id=record["id"],
+        source_key=record["source_key"],
         prompt=record["prompt"],
         instruction_id_list=record["instruction_id_list"],
-        kwargs=record["kwargs"],
+        kwargs_list=record["kwargs_list"],
+        constraint_count=record["constraint_count"],
     ).with_inputs(*INPUT_FIELDS)
 
 
-def carve_ifbench_splits(
-    seed: int = 0,
-    *,
-    usable: IFBenchUsable | None = None,
-    allow_review_threshold: bool = False,
-) -> tuple[SplitTuple, GateDecision]:
-    """Carve four disjoint pools from `usable.rows` with a deterministic
-    shuffle, returning the splits and the gate decision they were carved
-    under. Refuses if the gate is OPERATOR_REVIEW unless
-    `allow_review_threshold=True` is passed (the Chunk-11 contract). Always
-    refuses on NO_GO."""
-    if usable is None:
-        usable = load_ifbench_usable()
-    gate = gate_decision(usable.n_usable)
-    if gate.verdict == "NO_GO":
-        raise RuntimeError(
-            f"IFBench dataset gate: NO_GO. {gate.reason}. Refusing to carve."
-        )
-    if gate.verdict == "OPERATOR_REVIEW" and not allow_review_threshold:
-        raise RuntimeError(
-            f"IFBench dataset gate: OPERATOR_REVIEW. {gate.reason}. "
-            f"Pass allow_review_threshold=True to acknowledge and proceed."
-        )
-
-    sizes = gate.sizes
-    rng = random.Random(seed)
-    indices = list(range(usable.n_usable))
-    rng.shuffle(indices)
-    total_needed = sum(sizes.values())
-    if total_needed > usable.n_usable:
-        raise RuntimeError(
-            f"requested total {total_needed} > usable {usable.n_usable}"
-        )
-    chosen = indices[:total_needed]
-
-    cursor = 0
-    split_lists: list[list[dspy.Example]] = []
-    for key in SPLIT_ORDER:
-        n = sizes[key]
-        sl = [_record_to_example(usable.rows[i]) for i in chosen[cursor : cursor + n]]
-        split_lists.append(sl)
-        cursor += n
-
-    _assert_disjoint(split_lists)
-    return tuple(split_lists), gate  # type: ignore[return-value]
-
-
 def _assert_disjoint(splits: list[list[dspy.Example]]) -> None:
-    seen: dict[str, str] = {}
+    seen: dict[int, str] = {}
     for split_idx, items in enumerate(splits):
         for ex in items:
             eid = ex["id"]
@@ -309,3 +297,65 @@ def _assert_disjoint(splits: list[list[dspy.Example]]) -> None:
                     f"{SPLIT_ORDER[split_idx]!r}"
                 )
             seen[eid] = SPLIT_ORDER[split_idx]
+
+
+@dataclass(frozen=True)
+class CarveResult:
+    splits: SplitTuple
+    sizes: dict[str, int]
+    seed: int
+    constraint_count_floor: int
+    n_usable_pool: int
+    uncovered_instruction_ids: tuple[str, ...]
+
+
+def carve_ifbench_splits(
+    seed: int = 0,
+    usable: IFBenchUsable | None = None,
+) -> CarveResult:
+    """Carve the four disjoint pools from the usable >=floor verifier-
+    covered pool using a deterministic shuffle. No operator gate this
+    time: 48,463 rows at >=3 is comfortably above the 545 target."""
+    if usable is None:
+        usable = load_ifbench_usable()
+    if usable.n_usable < TARGET_TOTAL:
+        raise RuntimeError(
+            f"usable pool ({usable.n_usable}) smaller than target total "
+            f"({TARGET_TOTAL}); cannot carve at constraint_count_floor="
+            f"{usable.constraint_count_floor}"
+        )
+
+    rng = random.Random(seed)
+    indices = list(range(usable.n_usable))
+    rng.shuffle(indices)
+    chosen = indices[:TARGET_TOTAL]
+
+    cursor = 0
+    split_lists: list[list[dspy.Example]] = []
+    for key in SPLIT_ORDER:
+        n = TARGET_SIZES[key]
+        sl = [_record_to_example(usable.rows[i]) for i in chosen[cursor : cursor + n]]
+        split_lists.append(sl)
+        cursor += n
+
+    _assert_disjoint(split_lists)
+    return CarveResult(
+        splits=tuple(split_lists),  # type: ignore[arg-type]
+        sizes=dict(TARGET_SIZES),
+        seed=seed,
+        constraint_count_floor=usable.constraint_count_floor,
+        n_usable_pool=usable.n_usable,
+        uncovered_instruction_ids=usable.uncovered_instruction_ids,
+    )
+
+
+def verify_carved_pool_constraint_coverage(splits: SplitTuple) -> tuple[bool, list[str]]:
+    """Verify every instruction_id in the carved pools is in
+    `KNOWN_VERIFIER_IDS`. Returns (all_covered, uncovered_list)."""
+    uncovered: set[str] = set()
+    for items in splits:
+        for ex in items:
+            for iid in ex["instruction_id_list"]:
+                if iid not in KNOWN_VERIFIER_IDS:
+                    uncovered.add(iid)
+    return (len(uncovered) == 0, sorted(uncovered))
