@@ -1,34 +1,50 @@
 """Frozen difficulty table for D_feedback.
 
-Bins D_feedback ids by base-system F1 *value* (not rank). The table is
-constructed once (Chunk 5 scores D_feedback on the base system) and never
-mutated thereafter: each draw of a reflection minibatch reads it; nothing
-writes to it. The frozen-difficulty principle from §15 is preserved.
+Bins D_feedback ids into easy / mid / hard. The table is constructed
+once (Chunk 5 for HotpotQA, Chunk 13 for IFBench, scoring D_feedback on
+the base system) and never mutated thereafter: each draw of a reflection
+minibatch reads it; nothing writes to it. The frozen-difficulty
+principle from §15 is preserved.
 
 The data structure is intentionally minimal -- a dataclass with frozen=True
 and explicit factory + validation -- so accidental mutation surfaces as a
 runtime error, not a silent science breakage.
 
-DataId in this experiment is the integer list index of the D_feedback list,
-because gepa wraps a `list[DataInst]` in ListDataLoader and uses list index
-as DataId (see `gepa/core/data_loader.py:50`).
+DataId in these experiments is the integer list index of the D_feedback
+list, because gepa wraps a `list[DataInst]` in ListDataLoader and uses
+list index as DataId (see `gepa/core/data_loader.py:50`).
 
-Band definition (value-based, as of DEVIATIONS.md entry 4 / 2026-06-01):
-  - 'hard':  F1 == 0.0       (complete failure -- no overlap with gold)
-  - 'mid':   0.0 < F1 < 1.0   (frontier band; the experiment's method-under-test)
-  - 'easy':  F1 == 1.0        (complete success)
+Two binning rules are supported (BUILD_PLAN §4 D3 governs which to use):
 
-HotpotQA F1 is an exact token-overlap ratio, so equality at 0 and 1 is exact;
-nothing between is degenerate. Band sizes are unequal in general -- on the
-n=150 D_feedback under Qwen2.5-7B-Instruct-Turbo (distractor substrate) we
-observe 50 / 31 / 69 (hard / mid / easy). The earlier equal-rank-tercile
-binning padded the frontier with F1==1 instances on this distribution; this
-value-based partition makes the frontier band literally the set of partial
-successes.
+  Value-based bins (`build_difficulty_table`):
+    - 'hard':  score == 0.0
+    - 'mid':   0.0 < score < 1.0
+    - 'easy':  score == 1.0
+    Right for bimodal distributions where the strict-partial set is the
+    natural frontier. HotpotQA Experiment 1 uses this rule
+    (DEVIATIONS.md entry 4).
+
+  Rank terciles (`build_rank_tercile_table`):
+    - Sort ids by score ascending (ties broken by id ascending).
+    - Bottom n//3 -> 'hard', top n//3 -> 'easy', remainder -> 'mid'.
+    Extras land in 'mid' so the frontier is the largest band when n is
+    not divisible by 3. Right for continuous distributions where exact
+    extremes do not anchor a meaningful partition. IFBench Experiment 2
+    will use this rule iff the Chunk-13 continuity gate
+    (`continuity_gate`) selects it.
+
+The dispatcher `build_chosen_table` runs the gate and returns the
+appropriate table plus the gate diagnostics. The gate is BUILD_PLAN §4
+D3 verbatim: rank terciles stand if the middle tercile is at least 80%
+strictly-partial AND less than 50% of the count sits at exact 0 or 1.
+Otherwise fall back to value bins. NO-GO at the diagnostic layer if the
+frontier band has fewer than 20 instances; the table itself is still
+constructible.
 """
 
 from __future__ import annotations
 
+import hashlib
 import json
 from dataclasses import dataclass
 from pathlib import Path
@@ -37,6 +53,16 @@ from typing import Any, Literal, Mapping
 
 BandName = Literal["easy", "mid", "hard"]
 BAND_NAMES: tuple[BandName, BandName, BandName] = ("easy", "mid", "hard")
+
+BinningRule = Literal["value_bins", "rank_terciles"]
+
+# BUILD_PLAN §4 D3 thresholds. The middle-tercile partial fraction must
+# be at least this value AND the extreme-mass fraction must be strictly
+# less than its threshold, for rank terciles to stand.
+GATE_MIDDLE_PARTIAL_MIN: float = 0.80
+GATE_EXTREME_MASS_MAX: float = 0.50
+# Frontier-size GO criterion (count of mid-band ids).
+GATE_FRONTIER_MIN_GO: int = 20
 
 
 @dataclass(frozen=True)
@@ -180,3 +206,164 @@ def build_difficulty_table(scores: list[float]) -> DifficultyTable:
             "hard": hard_ids,
         }),
     )
+
+
+def build_rank_tercile_table(scores: list[float]) -> DifficultyTable:
+    """Construct a rank-tercile DifficultyTable.
+
+    Sort ids by (score, id) ascending. Take the bottom ``n//3`` as
+    'hard', the top ``n//3`` as 'easy', and the remaining middle slice
+    as 'mid'. When n is not divisible by 3, the extras land in 'mid' so
+    the frontier is the largest band -- the Chunk-13 design wants the
+    method-under-test band to absorb any uneven remainder rather than
+    starve.
+
+    Scores must lie in [0, 1]; values outside that range raise so a
+    metric bug surfaces here rather than as a silent miscategorisation
+    later. Ties are broken deterministically by id ascending, so the
+    same scores produce the same partition across runs.
+    """
+    n = len(scores)
+    if n == 0:
+        raise ValueError("build_rank_tercile_table: scores must be non-empty.")
+    for i, s in enumerate(scores):
+        if not (0.0 <= s <= 1.0):
+            raise ValueError(
+                f"build_rank_tercile_table: score for id={i} is {s!r}; must be in [0,1]"
+            )
+
+    n_h = n // 3
+    n_e = n // 3
+    n_m = n - n_h - n_e
+
+    order = sorted(range(n), key=lambda i: (scores[i], i))
+    hard_ids = tuple(sorted(order[:n_h]))
+    mid_ids = tuple(sorted(order[n_h : n_h + n_m]))
+    easy_ids = tuple(sorted(order[n_h + n_m : n_h + n_m + n_e]))
+
+    band_for_id: dict[int, BandName] = {}
+    for i in hard_ids:
+        band_for_id[i] = "hard"
+    for i in mid_ids:
+        band_for_id[i] = "mid"
+    for i in easy_ids:
+        band_for_id[i] = "easy"
+
+    return DifficultyTable(
+        scores=tuple(float(s) for s in scores),
+        band_for_id=MappingProxyType(dict(band_for_id)),
+        ids_in_band=MappingProxyType({
+            "easy": easy_ids,
+            "mid": mid_ids,
+            "hard": hard_ids,
+        }),
+    )
+
+
+def _middle_tercile_partial_fraction(scores: list[float]) -> float:
+    """Fraction of the middle-tercile of `scores` (by rank) whose value
+    lies strictly in (0, 1). Mirrors the partition rule of
+    `build_rank_tercile_table` so the gate measures the actual middle
+    tercile that would be installed if rank terciles were chosen."""
+    n = len(scores)
+    if n == 0:
+        return 0.0
+    n_h = n // 3
+    n_e = n // 3
+    n_m = n - n_h - n_e
+    if n_m == 0:
+        return 0.0
+    order = sorted(range(n), key=lambda i: (scores[i], i))
+    mid_slice_scores = [scores[i] for i in order[n_h : n_h + n_m]]
+    n_partial = sum(1 for s in mid_slice_scores if 0.0 < s < 1.0)
+    return n_partial / n_m
+
+
+def _extreme_mass_fraction(scores: list[float]) -> float:
+    """Fraction of `scores` sitting at exactly 0.0 or exactly 1.0
+    (count-based, not score-sum-based: 'mass' in BUILD_PLAN §4 D3
+    reads as the count of instances at the extremes)."""
+    n = len(scores)
+    if n == 0:
+        return 0.0
+    n_extreme = sum(1 for s in scores if s == 0.0 or s == 1.0)
+    return n_extreme / n
+
+
+def continuity_gate(scores: list[float]) -> dict[str, Any]:
+    """BUILD_PLAN §4 D3 continuity gate.
+
+    Returns a diagnostics dict naming the chosen binning rule and the
+    measured fractions that drove the choice, plus the per-binning
+    frontier sizes and a GO/NO-GO verdict.
+
+    Rule (verbatim from D3):
+      - Rank terciles stand iff the middle tercile is at least 80%
+        strictly-partial (0 < score < 1) AND less than 50% of the count
+        sits at exactly 0 or 1.
+      - Otherwise fall back to value-based bins.
+      - NO-GO at the diagnostic layer iff the frontier band (under the
+        chosen binning) has fewer than 20 instances.
+    """
+    n = len(scores)
+    if n == 0:
+        raise ValueError("continuity_gate: scores must be non-empty.")
+
+    middle_partial_frac = _middle_tercile_partial_fraction(scores)
+    extreme_mass_frac = _extreme_mass_fraction(scores)
+    middle_partial_ok = middle_partial_frac >= GATE_MIDDLE_PARTIAL_MIN
+    extreme_mass_ok = extreme_mass_frac < GATE_EXTREME_MASS_MAX
+    rank_terciles_stand = middle_partial_ok and extreme_mass_ok
+    chosen: BinningRule = "rank_terciles" if rank_terciles_stand else "value_bins"
+
+    # Probe both partitions so the operator can compare without rerunning.
+    n_frontier_value = sum(1 for s in scores if 0.0 < s < 1.0)
+    n_h = n // 3
+    n_e = n // 3
+    n_frontier_rank = n - n_h - n_e
+    n_frontier_chosen = (
+        n_frontier_rank if chosen == "rank_terciles" else n_frontier_value
+    )
+
+    frontier_ok = n_frontier_chosen >= GATE_FRONTIER_MIN_GO
+    verdict = "GO" if frontier_ok else "NO-GO"
+
+    return {
+        "n": n,
+        "middle_tercile_partial_frac": middle_partial_frac,
+        "middle_tercile_partial_threshold": GATE_MIDDLE_PARTIAL_MIN,
+        "middle_tercile_partial_ok": middle_partial_ok,
+        "extreme_mass_frac": extreme_mass_frac,
+        "extreme_mass_threshold": GATE_EXTREME_MASS_MAX,
+        "extreme_mass_ok": extreme_mass_ok,
+        "rank_terciles_stand": rank_terciles_stand,
+        "chosen_binning": chosen,
+        "frontier_size_under_rank_terciles": n_frontier_rank,
+        "frontier_size_under_value_bins": n_frontier_value,
+        "frontier_size_under_chosen": n_frontier_chosen,
+        "frontier_min_for_go": GATE_FRONTIER_MIN_GO,
+        "frontier_ok": frontier_ok,
+        "verdict": verdict,
+    }
+
+
+def build_chosen_table(
+    scores: list[float],
+) -> tuple[DifficultyTable, dict[str, Any]]:
+    """Run the D3 continuity gate, build whichever DifficultyTable it
+    selects, and return both. The table is always constructible (the
+    verdict is a separate signal); callers act on the gate dict's
+    'verdict' field to decide whether to proceed to Chunk 14."""
+    gate = continuity_gate(scores)
+    if gate["chosen_binning"] == "rank_terciles":
+        table = build_rank_tercile_table(scores)
+    else:
+        table = build_difficulty_table(scores)
+    return table, gate
+
+
+def difficulty_table_sha256(path: Path | str) -> str:
+    """SHA-256 of the on-disk difficulty-table JSON. Used by Chunks 9
+    and 14 to assert the table was not re-scored between freezing and
+    matrix launch."""
+    return hashlib.sha256(Path(path).read_bytes()).hexdigest()

@@ -1,0 +1,54 @@
+{
+  "band_composition": {
+    "easy": {
+      "one": 12,
+      "partial": 38,
+      "zero": 0
+    },
+    "hard": {
+      "one": 0,
+      "partial": 32,
+      "zero": 18
+    },
+    "mid": {
+      "one": 0,
+      "partial": 50,
+      "zero": 0
+    }
+  },
+  "band_sizes": {
+    "easy": 50,
+    "hard": 50,
+    "mid": 50
+  },
+  "boundaries": {
+    "b1": 0.3333333333333333,
+    "b2": 0.6
+  },
+  "chosen_binning": "rank_terciles",
+  "difficulty_table_sha256": "e7878d44450e7e67fa58d58b1664899da79ebf3d7298ba3d384a7b558c649365",
+  "gate": {
+    "chosen_binning": "rank_terciles",
+    "extreme_mass_frac": 0.2,
+    "extreme_mass_ok": true,
+    "extreme_mass_threshold": 0.5,
+    "frontier_min_for_go": 20,
+    "frontier_ok": true,
+    "frontier_size_under_chosen": 50,
+    "frontier_size_under_rank_terciles": 50,
+    "frontier_size_under_value_bins": 120,
+    "middle_tercile_partial_frac": 1.0,
+    "middle_tercile_partial_ok": true,
+    "middle_tercile_partial_threshold": 0.8,
+    "n": 150,
+    "rank_terciles_stand": true,
+    "verdict": "GO"
+  },
+  "n": 150,
+  "overall_composition": {
+    "one": 12,
+    "partial": 120,
+    "zero": 18
+  },
+  "verdict": "GO"
+}
