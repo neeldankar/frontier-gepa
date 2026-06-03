@@ -11,12 +11,19 @@ The four arms differ only in `target_band`:
   - "hard":     mostly draws from the bottom-F1 tercile.
 
 For the three static-band arms, each of the `b` picks chooses a band by the
-mix `(target, off_band_1, off_band_2) = (0.70, 0.15, 0.15)` and then samples
-one id from that band uniformly. Per-call sampling is **without replacement
-within the same minibatch** (ARCHITECTURE.md §4.1): if the same id is drawn
-twice in one call, the second draw retries until a fresh id appears. Across
-calls, repeats are allowed (the run will revisit instances over 44 iters x
-3 picks = 132 reflection touches against ~33 ids per band).
+mix `(target, off_band_1, off_band_2)` and then samples one id from that
+band uniformly. Two regimes are supported:
+  - **`DEFAULT_MIX = (0.70, 0.15, 0.15)`** — the Experiment-1 default; 70%
+    of draws hit the target band, 15% each off-band.
+  - **`PURE_ON_BAND_MIX = (1.0, 0.0, 0.0)`** — the Experiment-1b isolation
+    variant. Every draw hits the target band; no off-band leakage. Requires
+    `|target_band| >= b`; smaller bands raise `ValueError` at draw time
+    rather than silently leaking off-band via the bounded-retry fallback.
+Per-call sampling is **without replacement within the same minibatch**
+(ARCHITECTURE.md §4.1): if the same id is drawn twice in one call, the
+second draw retries until a fresh id appears. Across calls, repeats are
+allowed (the run will revisit instances over 44 iters x 3 picks = 132
+reflection touches against ~33 ids per band).
 
 The sampler is deterministic given a `random.Random` instance passed at
 construction. For the §3 stop-and-resume requirement, the runner snapshots
@@ -38,7 +45,22 @@ TargetBand = Literal["easy", "mid", "hard", "random"]
 TARGET_BAND_VALUES: tuple[TargetBand, ...] = ("easy", "mid", "hard", "random")
 
 DEFAULT_MIX: tuple[float, float, float] = (0.70, 0.15, 0.15)
+# Experiment-1b isolation variant (BUILD_PLAN.md §7 Chunk 8, §4 D5): pure on-
+# band sampling. With target_weight=1.0 and both off-band weights=0.0, every
+# draw lands in the target band; the cross-arm contrast is no longer diluted
+# by the 30% off-band leakage that drove static_easy's 5.3 accepts/cell in
+# Experiment 1.
+PURE_ON_BAND_MIX: tuple[float, float, float] = (1.0, 0.0, 0.0)
 DEFAULT_MINIBATCH_SIZE: int = 3
+
+
+def _is_pure_on_band(mix: tuple[float, float, float]) -> bool:
+    """True iff `mix` is the pure on-band (100/0/0) regime within float
+    tolerance. Off-band weights must be exactly zero for the contract to
+    hold; we still permit a tiny tolerance on the target weight to avoid
+    surprising the operator with floating-point construction."""
+    target, off1, off2 = mix
+    return (abs(target - 1.0) < 1e-9) and (off1 == 0.0) and (off2 == 0.0)
 
 
 def off_bands_for(target: BandName) -> tuple[BandName, BandName]:
@@ -69,8 +91,10 @@ class BandBatchSampler(BatchSampler):
     b:
         Minibatch size. Default 3 per spec.
     mix:
-        `(target_weight, off1_weight, off2_weight)`. Default (0.70, 0.15,
-        0.15). Ignored for "random".
+        `(target_weight, off1_weight, off2_weight)`. Default `DEFAULT_MIX`
+        (0.70, 0.15, 0.15). Pass `PURE_ON_BAND_MIX` (1.0, 0.0, 0.0) for
+        the Experiment-1b isolation variant. Ignored for "random" (which
+        always samples uniformly over loader ids).
     """
 
     def __init__(
@@ -122,6 +146,23 @@ class BandBatchSampler(BatchSampler):
 
         if self.target_band == "random":
             return self._sample_random(all_ids)
+
+        # Under pure on-band sampling the bounded-retry fallback at the end
+        # of `_draw_one` would silently leak off-band ids if the target
+        # band were smaller than b. Make that case loud rather than
+        # corrupting the experiment.
+        if _is_pure_on_band(self.mix):
+            assert self.difficulty_table is not None
+            target_band_size = len(self.difficulty_table.ids(self.target_band))  # type: ignore[arg-type]
+            if target_band_size < self.b:
+                raise ValueError(
+                    f"pure on-band sampling: target band {self.target_band!r} "
+                    f"has {target_band_size} ids, smaller than b={self.b}; "
+                    "without-replacement draws cannot be satisfied without "
+                    "leaking off-band. Grow D_feedback so the target band "
+                    "has at least b ids, or relax the mix."
+                )
+
         return self._sample_band(all_ids)
 
     def _sample_random(self, all_ids: list[DataId]) -> list[DataId]:

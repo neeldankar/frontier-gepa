@@ -54,7 +54,12 @@ from gepa.strategies.component_selector import RoundRobinReflectionComponentSele
 from gepa.strategies.eval_policy import FullEvaluationPolicy
 from gepa.utils import MaxCandidateProposalsStopper
 
-from src.band_sampler import BandBatchSampler, off_bands_for
+from src.band_sampler import (
+    DEFAULT_MIX,
+    PURE_ON_BAND_MIX,
+    BandBatchSampler,
+    off_bands_for,
+)
 from src.decoupled_proposer import DecoupledReflectiveMutationProposer
 from src.difficulty import (
     BAND_NAMES,
@@ -449,6 +454,108 @@ class TestBandSampler:
                 mix=(0.5, 0.3, 0.3),  # sums to 1.1
             )
 
+    # ---- Chunk 8: pure on-band (100/0/0) sampling -----------------------
+
+    @pytest.mark.parametrize("target", ["mid", "hard", "easy"])
+    def test_pure_on_band_no_off_band_leakage(
+        self, target, unequal_bands_150, loader_150,
+    ):
+        """Under PURE_ON_BAND_MIX, 10000 draws land entirely in the target
+        band; the off-band fraction is exactly 0. This is the design
+        guarantee of the Experiment-1b isolation variant."""
+        s = BandBatchSampler(
+            target_band=target,
+            rng=random.Random(7),
+            difficulty_table=unequal_bands_150,
+            mix=PURE_ON_BAND_MIX,
+        )
+        n_draws = 10_000
+        off_band_count = 0
+        target_count = 0
+        for _ in range(n_draws):
+            for did in s.next_minibatch_ids(loader_150, MagicMock()):
+                if unequal_bands_150.band(did) == target:
+                    target_count += 1
+                else:
+                    off_band_count += 1
+        assert off_band_count == 0, (
+            f"pure on-band leaked: {off_band_count} off-band picks out of "
+            f"{target_count + off_band_count} (target={target!r})"
+        )
+        assert target_count == n_draws * 3
+
+    def test_random_arm_byte_identical_under_70_15_15_and_100_0_0(
+        self, loader_150,
+    ):
+        """The random arm path never reads `self.mix`. Two samplers with
+        the same fresh `random.Random(seed)` produce byte-identical id
+        sequences under 70/15/15 and 100/0/0. This is the design hinge
+        for reusing Experiment 1's random + vanilla cells unchanged in
+        Experiment 1b -- the random baseline does not need re-running."""
+        s_default = BandBatchSampler(
+            target_band="random", rng=random.Random(42), mix=DEFAULT_MIX,
+        )
+        s_pure = BandBatchSampler(
+            target_band="random", rng=random.Random(42), mix=PURE_ON_BAND_MIX,
+        )
+        seq_default = [
+            s_default.next_minibatch_ids(loader_150, MagicMock())
+            for _ in range(100)
+        ]
+        seq_pure = [
+            s_pure.next_minibatch_ids(loader_150, MagicMock())
+            for _ in range(100)
+        ]
+        assert seq_default == seq_pure
+
+    def test_pure_on_band_band_smaller_than_b_raises(self):
+        """Defensive check: under pure-on-band, a target band smaller than
+        b cannot be served without leaking off-band via the bounded-retry
+        fallback. We raise loudly rather than silently corrupt the
+        experiment."""
+        # mid has 2 ids; b defaults to 3.
+        scores = [0.0, 0.0, 0.0, 0.0, 0.5, 0.5, 1.0, 1.0, 1.0]
+        small_mid_table = build_difficulty_table(scores)
+        assert len(small_mid_table.ids("mid")) == 2
+        s = BandBatchSampler(
+            target_band="mid",
+            rng=random.Random(0),
+            difficulty_table=small_mid_table,
+            mix=PURE_ON_BAND_MIX,
+        )
+
+        class _StubLoader:
+            def all_ids(self):
+                return list(range(len(scores)))
+
+            def __len__(self):
+                return len(scores)
+
+        with pytest.raises(ValueError, match=r"pure on-band sampling"):
+            s.next_minibatch_ids(_StubLoader(), MagicMock())
+
+    @pytest.mark.parametrize("target", ["mid", "easy"])
+    def test_pure_on_band_determinism(
+        self, target, unequal_bands_150, loader_150,
+    ):
+        """Same seed produces identical 100/0/0 draws across fresh sampler
+        instances."""
+        s1 = BandBatchSampler(
+            target_band=target,
+            rng=random.Random(11),
+            difficulty_table=unequal_bands_150,
+            mix=PURE_ON_BAND_MIX,
+        )
+        s2 = BandBatchSampler(
+            target_band=target,
+            rng=random.Random(11),
+            difficulty_table=unequal_bands_150,
+            mix=PURE_ON_BAND_MIX,
+        )
+        seq1 = [s1.next_minibatch_ids(loader_150, MagicMock()) for _ in range(50)]
+        seq2 = [s2.next_minibatch_ids(loader_150, MagicMock()) for _ in range(50)]
+        assert seq1 == seq2
+
 
 # =========================================================================
 # Engine-building helper for tests 3-5
@@ -467,8 +574,13 @@ def _build_test_engine(
     run_dir: Path,
     decoupled: bool = True,
     skip_perfect_score: bool = True,
+    mix: tuple[float, float, float] = DEFAULT_MIX,
 ):
-    """Build a GEPAEngine wired to a StubAdapter; returns (engine, adapter, state_after_init)."""
+    """Build a GEPAEngine wired to a StubAdapter; returns (engine, adapter, state_after_init).
+
+    The `mix` kwarg lets a test opt into 100/0/0 pure-on-band sampling
+    (`PURE_ON_BAND_MIX`) without touching any other call site; default is
+    the Experiment-1 70/15/15. Ignored for arm='random'."""
     components = COMPONENTS
     seed_cand = _seed_candidate()
     d_feedback = [_stub_example(i) for i in range(n_feedback)]
@@ -486,10 +598,10 @@ def _build_test_engine(
         diff = build_difficulty_table(scores)
         target = {"static_easy": "easy", "static_frontier": "mid", "static_hard": "hard"}[arm]
         batch_sampler = BandBatchSampler(
-            target_band=target, rng=rng, difficulty_table=diff,
+            target_band=target, rng=rng, difficulty_table=diff, mix=mix,
         )
     elif decoupled and arm == "random":
-        batch_sampler = BandBatchSampler(target_band="random", rng=rng)
+        batch_sampler = BandBatchSampler(target_band="random", rng=rng, mix=mix)
     else:
         from gepa.strategies.batch_sampler import EpochShuffledBatchSampler
         batch_sampler = EpochShuffledBatchSampler(minibatch_size=3, rng=rng)
@@ -708,6 +820,42 @@ class TestDecoupledAcceptance:
             assert ids == first, (
                 f"accept batch ids changed across calls: {first} vs {ids}"
             )
+
+    def test_pure_on_band_all_perfect_minibatch_no_exception(self, tmp_path: Path):
+        """Static-easy + PURE_ON_BAND_MIX draws only from the F1==1 band,
+        so every minibatch is all-perfect. The inherited skip_perfect_score
+        branch must return None, the engine must continue, and N iterations
+        must complete with zero accepts -- no exception."""
+        def score_fn(eid, candidate):
+            is_feedback = (
+                isinstance(eid, str) and eid.startswith("ex_")
+                and int(eid.split("_")[1]) < 12
+            )
+            if is_feedback:
+                # Every D_feedback example is perfect under the seed
+                # candidate. The difficulty table built inside
+                # _build_test_engine then puts all 12 ids in the easy band.
+                return 1.0
+            # accept_batch + d_pareto: arbitrary non-perfect score so the
+            # engine has something to log but it never matters because no
+            # proposal is ever made.
+            return 0.5
+
+        N = 3
+        engine, adapter, proposer, _ = _build_test_engine(
+            score_fn=score_fn,
+            n_iterations=N,
+            arm="static_easy",
+            run_dir=tmp_path,
+            mix=PURE_ON_BAND_MIX,
+            skip_perfect_score=True,
+        )
+        state = engine.run()
+        # Exactly N iterations ran (state.i == N-1 after the loop).
+        assert state.i == N - 1
+        # No proposals were ever made, so no candidates were ever accepted.
+        assert len(state.program_candidates) == 1
+        assert len(state.full_program_trace) == N
 
 
 # =========================================================================
