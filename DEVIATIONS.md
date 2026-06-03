@@ -215,6 +215,59 @@ value-based binning collapses one of the bands toward zero, the §5
 fallback "grow D_feedback further" still applies. If |mid| ever falls
 below GO_MIN_FRONTIER_COUNT under a new run, the verdict will say so.
 
+## 5. Sampling mix: 70/15/15 → 100/0/0 for the Experiment-1b isolation variant
+
+**Spec (§15, DEFAULT_MIX):** "Band draw mix 70% target tercile, 15/15
+off-band."
+
+**Live (Experiment 1b, three static arms only):** PURE_ON_BAND_MIX =
+(1.0, 0.0, 0.0). The three static arms (static_easy, static_frontier,
+static_hard) are re-run at this mix into `results/logs_hotpot_100/`.
+Random and vanilla cells are NOT re-run; the Chunk-8 regression test
+`test_random_arm_byte_identical_under_70_15_15_and_100_0_0` proves the
+random-arm draw sequence is bit-identical under both mixes for the same
+seed, so Experiment 1's `results/logs/random_{0,1,2}/` and
+`vanilla_coupled_gepa_{0,1,2}/` cells are reused without re-running.
+
+The frozen `results/difficulty_table.json` from Experiment 1 (n=150,
+value bins, SHA-256 `bfeaf82ce55eb7917d8d3c786b8a4fb2d9d4f80b759fe124ad0b62f16c1fb47d`)
+is reused byte-unchanged; no re-scoring. Each Chunk-9 cell's
+provenance.json records that hash to prove it.
+
+**Cause:** Experiment 1's Chunk-7 analysis
+(`results/analysis_chunk7/FINDINGS.md`) diagnosed two mechanisms behind
+the null. Mechanism 2 was off-band leakage: the 70/15/15 mix's 30% off-
+band exposure was sufficient to push several strictly-partial and
+several F1==0 instances into every static arm's reflection minibatch
+over N=44, including `static_easy` which still accepted 5.3 prompt
+edits per cell on average despite drawing from a band that should have
+been "nothing to correct." That diluted the cross-arm contrast the
+experiment was built around. 100/0/0 removes the leakage entirely.
+
+**Decision date:** 2026-06-02. Pre-launch and isolation-driven; not
+a result-aware change.
+
+**Impact on the science:**
+- The three static arms now sample purely from their target band, so
+  the band-arm contrast is the unconfounded comparison the original
+  design intended.
+- **Static_easy is expected to flatline** under 100/0/0 (zero or near-
+  zero accepts per cell) because its all-F1==1 target band cannot
+  drive the `skip_perfect_score` branch into proposing anything. That
+  collapse (from Experiment 1's 5.3 accepts/cell to ~0) IS the
+  validation that off-band leakage was the mechanism behind
+  static_easy's Experiment-1 activity. The Chunk 8 engine-level test
+  `test_pure_on_band_all_perfect_minibatch_no_exception` confirms the
+  no-exception path.
+- Random and vanilla are not re-run; the chunk-8 byte-identical
+  regression test is the sound basis for the reuse.
+- The Chunk-10 analysis (deferred) reads both `results/logs/` and
+  `results/logs_hotpot_100/` and recomputes paired contrasts.
+
+**Mitigation:** none required -- this is the isolation variant. If a
+future variant changes the difficulty table, the SHA-256 stored in
+each cell's provenance.json surfaces the drift.
+
 ## Verification
 
 All four substitutions were verified end-to-end before this file was

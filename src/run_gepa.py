@@ -57,6 +57,7 @@ from gepa.utils.stop_condition import StopperProtocol
 
 from src.band_sampler import (
     DEFAULT_MINIBATCH_SIZE,
+    DEFAULT_MIX,
     BandBatchSampler,
     TargetBand,
 )
@@ -312,6 +313,7 @@ def run(
     logger: LoggerProtocol | None = None,
     raise_on_exception: bool = True,
     lm_capture: dict | None = None,
+    mix: tuple[float, float, float] = DEFAULT_MIX,
 ) -> GEPAState:
     """Run one (arm, seed) cell. Returns the final GEPAState.
 
@@ -409,6 +411,7 @@ def run(
             rng=rng,
             difficulty_table=(difficulty_table if target_band != "random" else None),
             b=int(config["minibatch"]["b"]),
+            mix=mix,
         )
         proposer_cls = DecoupledReflectiveMutationProposer
         # Build proposer below with the A-batch kwargs.

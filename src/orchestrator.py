@@ -51,6 +51,7 @@ from __future__ import annotations
 
 import argparse
 import copy
+import hashlib
 import json
 import os
 import random as _random
@@ -64,16 +65,56 @@ REPO = Path(__file__).resolve().parents[1]
 if str(REPO) not in sys.path:
     sys.path.insert(0, str(REPO))
 
-LOGS_ROOT = REPO / "results" / "logs"
+from src.band_sampler import DEFAULT_MIX, PURE_ON_BAND_MIX  # noqa: E402
+
 DIFFICULTY_PATH = REPO / "results" / "difficulty_table.json"
 
-ARMS: tuple[str, ...] = (
-    "random",
-    "static_easy",
-    "static_frontier",
-    "static_hard",
-    "vanilla_coupled_gepa",
-)
+# Variants supported by this orchestrator. The current variant is set by
+# main() (via the --variant CLI flag) before any phase function runs, so the
+# module-level LOGS_ROOT / ARMS / CURRENT_MIX / VARIANT_NAME are read
+# correctly by the existing _run_single_cell / run_matrix code paths.
+#
+#   default:    Experiment 1 (BUILD_PLAN.md context). 5 arms x 3 seeds at
+#               70/15/15 into results/logs/. The completed Experiment-1
+#               matrix used this variant.
+#   hotpot_100: Experiment 1b (BUILD_PLAN.md §7 Chunk 9). 3 static arms x
+#               3 seeds at 100/0/0 into results/logs_hotpot_100/. Reuses
+#               the frozen Experiment-1 difficulty table; random and
+#               vanilla cells are reused unchanged from Experiment 1
+#               (Chunk-8 byte-identical regression test proves this is
+#               sound).
+VARIANTS: dict[str, dict[str, Any]] = {
+    "default": {
+        "logs_root": REPO / "results" / "logs",
+        "arms": (
+            "random",
+            "static_easy",
+            "static_frontier",
+            "static_hard",
+            "vanilla_coupled_gepa",
+        ),
+        "mix": DEFAULT_MIX,
+        "n_iter": 44,
+        "sampler_name": "70/15/15",
+    },
+    "hotpot_100": {
+        "logs_root": REPO / "results" / "logs_hotpot_100",
+        "arms": ("static_easy", "static_frontier", "static_hard"),
+        "mix": PURE_ON_BAND_MIX,
+        "n_iter": 44,
+        "sampler_name": "100/0/0",
+    },
+}
+
+# Module-level current-variant state. Defaults to the Experiment-1
+# layout so a bare `python -m src.orchestrator pilot` still reproduces
+# the Experiment-1 entry point.
+LOGS_ROOT: Path = VARIANTS["default"]["logs_root"]
+ARMS: tuple[str, ...] = VARIANTS["default"]["arms"]
+CURRENT_MIX: tuple[float, float, float] = VARIANTS["default"]["mix"]
+CURRENT_VARIANT_NAME: str = "default"
+SAMPLER_NAME: str = VARIANTS["default"]["sampler_name"]
+
 SEEDS: tuple[int, ...] = (0, 1, 2)
 
 PILOT_ARM = "static_frontier"
@@ -82,6 +123,27 @@ PILOT_N_ITER = 4
 
 PROJECTION_GATE_USD = 100.0
 HARD_KILL_USD = 150.0
+
+
+def _set_variant(name: str) -> None:
+    """Swap the module-level variant state. Must be called BEFORE any
+    phase function runs."""
+    global LOGS_ROOT, ARMS, CURRENT_MIX, CURRENT_VARIANT_NAME, SAMPLER_NAME
+    if name not in VARIANTS:
+        raise SystemExit(f"unknown variant {name!r}; supported: {list(VARIANTS)}")
+    v = VARIANTS[name]
+    LOGS_ROOT = v["logs_root"]
+    ARMS = v["arms"]
+    CURRENT_MIX = v["mix"]
+    CURRENT_VARIANT_NAME = name
+    SAMPLER_NAME = v["sampler_name"]
+
+
+def _difficulty_table_hash() -> str:
+    """SHA-256 of the frozen difficulty table file. Used in cell
+    provenance to prove the table was not re-scored between Experiments
+    1 and 1b."""
+    return hashlib.sha256(DIFFICULTY_PATH.read_bytes()).hexdigest()
 
 
 # ============================================================================
@@ -140,6 +202,10 @@ def _run_single_cell(arm: str, seed: int, n_iter_override: int | None = None) ->
         "git_commit": git_head,
         "config_resolved": config,
         "n_iter_target": int(config["stopping"]["n"]),
+        "variant": CURRENT_VARIANT_NAME,
+        "sampler": SAMPLER_NAME,           # e.g. "70/15/15" or "100/0/0"
+        "sampler_mix": list(CURRENT_MIX),  # numeric weights
+        "difficulty_table_hash": _difficulty_table_hash() if needs_difficulty else None,
         "started_at": time.strftime("%Y-%m-%dT%H:%M:%S"),
     }
     (run_dir / "provenance.json").write_text(json.dumps(provenance, indent=2))
@@ -158,6 +224,7 @@ def _run_single_cell(arm: str, seed: int, n_iter_override: int | None = None) ->
             config=config,
             raise_on_exception=True,
             lm_capture=lm_capture,
+            mix=CURRENT_MIX,
         )
     except Exception as exc:
         wall = time.time() - t0
@@ -374,6 +441,7 @@ def _run_pilot_into_dir(pilot_dir: Path) -> dict:
         config=config,
         raise_on_exception=True,
         lm_capture=lm_capture,
+        mix=CURRENT_MIX,
     )
     wall = time.time() - t0
     task_lm = lm_capture.get("task_lm")
@@ -538,15 +606,30 @@ def run_matrix() -> dict:
 
 
 def main() -> int:
-    parser = argparse.ArgumentParser(description="Chunk 6 matrix orchestrator")
+    parser = argparse.ArgumentParser(description="Chunk 6 / 9 matrix orchestrator")
     parser.add_argument("phase", choices=("pilot", "matrix", "all", "cell"))
+    parser.add_argument(
+        "--variant",
+        type=str,
+        default="default",
+        choices=sorted(VARIANTS),
+        help="Which variant to run. 'default' = Experiment 1 (Chunk 6, "
+             "70/15/15, 5 arms, results/logs/). 'hotpot_100' = Experiment "
+             "1b (Chunk 9, 100/0/0, 3 static arms, results/logs_hotpot_100/).",
+    )
     parser.add_argument("--arm", type=str)
     parser.add_argument("--seed", type=int)
     parser.add_argument("--n-iter", type=int, default=None,
                         help="Override config N (for the `cell` subcommand)")
     args = parser.parse_args()
 
+    _set_variant(args.variant)
     LOGS_ROOT.mkdir(parents=True, exist_ok=True)
+    print(
+        f"variant: {CURRENT_VARIANT_NAME!r} "
+        f"(sampler={SAMPLER_NAME}, arms={list(ARMS)}, "
+        f"logs_root={LOGS_ROOT.relative_to(REPO)})"
+    )
 
     if args.phase == "cell":
         if args.arm is None or args.seed is None:
