@@ -1,0 +1,9 @@
+{
+  "n_completed": 9,
+  "n_total": 9,
+  "n_skipped_already_done": 0,
+  "errored": [],
+  "cumulative_cost_usd": 4.0867,
+  "cumulative_wall_time_s": 3147.59,
+  "completed_at": "2026-06-02T18:35:06"
+}

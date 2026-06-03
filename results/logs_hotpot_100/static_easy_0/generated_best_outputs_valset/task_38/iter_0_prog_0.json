@@ -1,0 +1,39 @@
+{
+    "answer": "yes",
+    "summary_1": "Todd Solondz is a director known for his independent films, including \"Storytelling\". There is no mention of Daniel Mann in the provided passages.",
+    "summary_2": "Daniel Mann and Todd Solondz were both directors. Todd Solondz is known for his work in independent films, including \"Fear, Anxiety & Depression\" and \"Palindromes\". He directed \"Life During Wartime\" in 2009. Daniel Mann was an American film and television director, with notable works such as \"Desperately Seeking Susan\" and \"A Prairie Home Companion\".",
+    "hop1_titles": [
+        "James Chinlund",
+        "Todd Solondz",
+        "Wiener-Dog (film)",
+        "Jason Kliot",
+        "Storytelling (Belle and Sebastian album)"
+    ],
+    "hop2_titles": [
+        "Edward Lachman",
+        "Fear, Anxiety &amp; Depression",
+        "Palindromes (film)",
+        "Daniel Mann",
+        "Life During Wartime (film)"
+    ],
+    "hop1_paragraphs": [
+        "James Chinlund (born March 17, 1971) was born and raised in New York City.  He studied Fine Art at CalArts in Los Angeles, with a focus on sculpture and large scale installation work.  After graduating, Chinlund returned to New York and started his career in film, first as a carpenter, before finding opportunities as a Production Designer on music videos and independent films.  During this period he first worked with frequent collaborator Darren Aronofsky (\"Requiem for a Dream\", \"The Fountain\") in addition to other directors in the New York independent film world including: Todd Solondz (\"Storytelling\"), Paul Schrader (\"Auto Focus\") and Spike Lee (\"25th Hour\").  Over the years James has been active in the worlds of commercials and fashion as well.  Collaborators include: Inez van Lamsweerde and Vinoodh Matadin, Rupert Sanders, Spike Jonze, Fredrik Bond, Lance Acord, Gus Van Sant and Harmony Korine.  In 2010 he won both the Art Directors Guild and the AICP awards for \"Absolut World\", a commercial collaboration with director Rupert Sanders.  After a short break from features to care for his young daughter, Chinlund returned to the feature world in 2012 to work on \"The Avengers\" for Marvel which set a record for the highest grossing opening weekend of all time.  In 2015 he was nominated for an Art Director\u2019s Guild Award and the Saturn Award for his work on the Fox film \"Dawn of the Planet of the Apes\" directed by Matt Reeves.  Most recently James has completed work on the next film in the Apes series \"War for the Planet of the Apes\".",
+        "Todd Solondz (born October 15, 1959) is an American independent film screenwriter and director known for his style of dark, thought-provoking, socially conscious satire.  Solondz has been critically acclaimed for his examination of the \"dark underbelly of middle class American suburbia,\" a reflection of his own background in New Jersey.  His work includes \"Welcome to the Dollhouse\" (1995), \"Happiness\" (1998), \"Storytelling\" (2001), \"Palindromes\" (2004), \"Life During Wartime\" (2009), \"Dark Horse\" (2011), and \"Wiener-Dog (2016).",
+        "Wiener-Dog is a 2016 American dark comedy-drama film directed and written by Todd Solondz.  Starring an ensemble cast led by Ellen Burstyn, Kieran Culkin, Julie Delpy, Danny DeVito, Greta Gerwig, Tracy Letts, and Zosia Mamet, the film serves as a spin-off from Solondz's 1995 film \"Welcome to the Dollhouse\", which also features the character of Dawn Wiener.",
+        "Jason Kliot (born 1963) is an American independent film producer based in New York.  Kliot emerged with the American indie wave of the 1990s, producing alongside his wife and business partner Joana Vicente.  In 1995 Kliot and Vicente associate produced Todd Solondz's feature debut, \"Welcome to the Dollhouse\", which won the Sundance Grand Jury Prize.  Kliot and Vicente have since worked with directors such as Steven Soderbergh, Brian De Palma, Hal Hartley, Nicole Holofcener, Jim Jarmusch, and Alex Gibney.",
+        "Storytelling is a soundtrack by Scottish indie pop band Belle and Sebastian.  It is the score to the Todd Solondz movie \"Storytelling\".  Belle and Sebastian experienced many problems in communication with Solondz while scoring the film, and as such only about six minutes of their music was actually used in the movie .  The album contains five tracks that are recorded dialogues.  The instrumental track \"Fuck This Shit\" uses the prosody of the title phrase in a number of different keys but never the words themselves.  It was the band's final release on Jeepster, as they went on to sign a deal with Rough Trade the following year."
+    ],
+    "hop2_paragraphs": [
+        "Edward Lachman, A.S.C. (born March 31, 1948) is an American cinematographer and director.  Lachman is mostly associated with the American independent film movement, and has served as director of photography on films by Todd Haynes (including \"Far From Heaven\" in 2002, which earned Lachman an Academy Award nomination), Ulrich Seidl, Wim Wenders, Steven Soderbergh and Paul Schrader.  His other work includes Werner Herzog's \"La Soufri\u00e8re\" (1977), \"Desperately Seeking Susan\" (1985), Sofia Coppola's directorial debut, \"The Virgin Suicides\" (1999), Robert Altman's last picture \"A Prairie Home Companion\" (2006), and Todd Solondz's \"Life During Wartime\" (2009).  He is a member of the American Society of Cinematographers.",
+        "Fear, Anxiety & Depression is a 1989 American comedy film written and directed by Todd Solondz and starring Solondz, Stanley Tucci and Jill Wisoff.",
+        "Palindromes is a 2004 American comedy-drama film written and directed by Todd Solondz.  It references Solondz's 1995 film, \"Welcome to the Dollhouse\".  It competed for the Golden Lion award at the 61st Venice International Film Festival.",
+        "Daniel Mann, also known as Daniel Chugerman (August 8, 1912 \u2013 November 21, 1991), was an American film and television director.",
+        "Life During Wartime is a 2009 American comedy-drama film written and directed by Todd Solondz, which premiered at the 2009 Venice Film Festival.  It is a direct, but loose sequel to his 1998 film \"Happiness\", with new actors playing the same characters.  It stars Allison Janney, Shirley Henderson, and Ciar\u00e1n Hinds, among others."
+    ],
+    "hop1_gold_titles": [
+        "Todd Solondz"
+    ],
+    "hop2_gold_titles": [
+        "Daniel Mann"
+    ]
+}

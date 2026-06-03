@@ -1,0 +1,38 @@
+{
+    "answer": "film industry",
+    "summary_1": "Shoba Chandrasekhar and Ithu Engal Neethi's director, S. A. Chandrasekhar, are both involved in the film industry. Shoba Chandrasekhar is a film playback singer, director, writer, and producer, while S. A. Chandrasekhar is a film director.",
+    "summary_2": "Both Shoba Chandrasekhar and S. A. Chandrasekhar are involved in the film industry. Shoba Chandrasekhar has a diverse career as a film playback singer, director, writer, and producer. S. A. Chandrasekhar is a film director, and he has directed several films including \"Neethikku Thandanai,\" \"Naalaiya Theerpu,\" \"Pudhu Yugam,\" and \"Neethiyin Marupakkam.\" Additionally, Shoba Chandrasekhar has produced films such as \"Neethikku Thandanai\" and \"Pudhu Yugam,\" and she also wrote the script for \"Neethikku Thandanai.\" Therefore, the common profession between Ithu Engal Neethi and Shoba Chandrasekhar is that they are both involved in the film industry, with Shoba Chandrasekhar having a more diverse role.",
+    "hop1_titles": [
+        "V. V. Creations",
+        "Sattam Oru Vilayaattu",
+        "Shoba Chandrasekhar",
+        "Ithu Engal Neethi",
+        "Rajanadai"
+    ],
+    "hop2_titles": [
+        "Neethikku Thandanai",
+        "Naalaiya Theerpu",
+        "Pudhu Yugam",
+        "Neethiyin Marupakkam",
+        "Palaivana Solai (1981 film)"
+    ],
+    "hop1_paragraphs": [
+        "V. V. Creations is a Tamil film production company owned by S. A. Chandrasekhar's wife Shoba Chandrasekhar.",
+        "Sattam Oru Vilaiyaattu is a 1987 Indian Tamil film, directed by S A Chandrasekhar and produced by Shoba Chandrasekhar.  The film stars Vijayakanth, Radha, Ravichandran and S A Chandrasekhar in lead roles.  The film had musical score by M S Viswanathan.",
+        "Shoba Chandrasekhar is an Indian film playback singer, director, writer and producer.  She is best known as the mother of Tamil Leading Star Vijay.",
+        "Ithu Engal Neethi is a 1988 Indian Tamil film, directed by S. A. Chandrasekhar and produced by S. S. Neelakandan and Shoba Chandrasekhar.  The film stars Ramki, Radhika, Ramki and Vani Viswanath in lead roles.  The film had musical score by Ilayaraja.",
+        "Rajanadai is a 1989 Tamil crime film directed by S. A. Chandrasekhar.  The film features Vijayakanth, Gouthami, Vidhyashree and Seetha in lead roles.  The film, produced by Shoba Chandrasekhar, had musical score by M. S. Viswanathan and was released on 28 October 1989.  This movie did well in the box office at the time of its release.  The film was later remade in Hindi as \"Jeevan Ki Shatranj\"."
+    ],
+    "hop2_paragraphs": [
+        "Neethikku Thandanai (Tamil: \u0ba8\u0bc0\u0ba4\u0bbf\u0b95\u0bcd\u0b95\u0bc1 \u0ba4\u0ba3\u0bcd\u0b9f\u0ba9\u0bc8 / English : Punishment for Law) is a 1987 Indian Tamil film, directed by S. A. Chandrasekhar and produced by S. S. Neelakantan and Shoba Chandrasekhar.  The film stars Raadhika, Nizhalgal Ravi, Charan Raj and Senthil in lead roles.  The film had musical score by M. S. Viswanathan.  The film was remade in Telugu as \"Nyayaniki Siksha\" and in Kannada as \"Nyayakke Sikshe\".",
+        "Naalaiya Theerpu (\"Tomorrow's Verdict\") is a Tamil action-drama film directed by S. A. Chandrasekhar and produced and written by his wife Shoba Chandrasekhar which marked the debut of their son Vijay in the lead role alongside Keerthana and Easwari Rao.  The film which also featured Srividya, Radharavi and Sarath Babu, had music composed by newcomer Manimekalai, cinematography by R. P. Imayavaramban and editing by Gautham Raju.  The film released to mixed reviews on 4 December 1992 and ended as a box office failure.  It was later dubbed in Hindi as \"Faisla Uparwale Ka\".",
+        "Pudhu Yugam (English: New Era) is a 1985 Indian Tamil film, directed by S A Chandrasekhar and produced by Shoba Chandrasekhar.  The film stars Sivakumar, Vijayakanth, K. R. Vijaya and Suresh in lead roles.  The film had musical score by Gangai Amaran.",
+        "Neethiyin Marupakkam is a 1985 Indian Tamil film directed by S. A. Chandrasekhar and produced by Shoba Chandrasekhar.  The film features Vijayakanth, Radhika, Vadivukkarasi and V. K. Ramasamy in lead roles.  The film, had musical score by Ilaiyaraaja.",
+        "Palaivana Solai is a 1981 Tamil drama film directed by the duo Robert\u00a0\u2014 Rajasekhar.  The film features Suhasini Maniratnam, Chandrasekhar, Janagaraj, Rajeev, Kailash Nath and Thyagu in lead roles.  The film, produced by R. Vadivel, had musical score by Sankar Ganesh and was released on 17 October 1981.  The film was declared blockbuster at the box-office and the film has grown a strong cult film.  It was remade in Telugu as \"Manchu Pallaki\", in Malayalam as \"Ithu Njangalude Katha\" and it was remade in Tamil in 2009 under the same title."
+    ],
+    "hop1_gold_titles": [
+        "Shoba Chandrasekhar",
+        "Ithu Engal Neethi"
+    ],
+    "hop2_gold_titles": []
+}

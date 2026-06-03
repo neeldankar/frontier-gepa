@@ -1,0 +1,11 @@
+Fresh run: arm='static_frontier', seed=0, run_dir=/Users/neeldankar/Desktop/frontier-gepa/results/logs_hotpot_100/static_frontier_0_pilot.
+2026/06/02 17:32:17 INFO dspy.evaluate.evaluate: Average Metric: 44.72417027417026 / 75 (59.6%)
+2026/06/02 17:32:17 INFO dspy.evaluate.evaluate: Average Metric: 1.2333333333333334 / 3 (41.1%)
+2026/06/02 17:32:25 INFO dspy.evaluate.evaluate: Average Metric: 11.238095238095237 / 20 (56.2%)
+2026/06/02 17:32:32 INFO dspy.evaluate.evaluate: Average Metric: 9.640579710144928 / 20 (48.2%)
+2026/06/02 17:32:32 INFO dspy.evaluate.evaluate: Average Metric: 2.1333333333333333 / 3 (71.1%)
+2026/06/02 17:32:42 INFO dspy.evaluate.evaluate: Average Metric: 10.133333333333333 / 20 (50.7%)
+2026/06/02 17:32:43 INFO dspy.evaluate.evaluate: Average Metric: 1.9238095238095236 / 3 (64.1%)
+2026/06/02 17:32:48 INFO dspy.evaluate.evaluate: Average Metric: 10.343358395989974 / 20 (51.7%)
+2026/06/02 17:32:48 INFO dspy.evaluate.evaluate: Average Metric: 1.9333333333333336 / 3 (64.4%)
+2026/06/02 17:32:48 INFO dspy.evaluate.evaluate: Average Metric: 8.8 / 20 (44.0%)

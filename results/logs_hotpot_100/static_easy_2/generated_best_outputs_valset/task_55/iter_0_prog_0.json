@@ -1,0 +1,39 @@
+{
+    "answer": "London Heathrow Airport",
+    "summary_1": "Neither of the passages directly mention the locations where British Airways and EasyJet are based. However, it can be inferred that British Airways has a significant presence in Cardiff, as it has a major aircraft maintenance facility there. EasyJet is based at London Luton Airport.",
+    "summary_2": "British Airways is based at London Heathrow Airport and has a significant presence in Cardiff, where it has a major aircraft maintenance facility. EasyJet, on the other hand, is based at London Luton Airport.",
+    "hop1_titles": [
+        "British Airways Maintenance Cardiff",
+        "EasyJet",
+        "British Airways World Cargo",
+        "British Airways Engineering",
+        "British Airways Ltd (2012\u201315)"
+    ],
+    "hop2_titles": [
+        "International Airlines Group",
+        "History of British Airways",
+        "British Overseas Airways Corporation",
+        "British Airways franchise destinations",
+        "GB Airways"
+    ],
+    "hop1_paragraphs": [
+        "British Airways Maintenance Cardiff (BAMC), also known as British Airways Maintenance is a major aircraft maintenance facility located near Cardiff Airport and a wholly owned subsidiary of British Airways and part of British Airways Engineering.  It carries out heavy maintenance on all British Airways Boeing longhaul aircraft.",
+        "EasyJet (styled as easyJet; ) is a British airline, operating under the low-cost carrier model, based at London Luton Airport.  It operates domestic and international scheduled services on over 820 routes in more than 30 countries.  easyJet plc is listed on the London Stock Exchange and is a constituent of the FTSE 100 Index.  easyGroup Holdings Ltd (the investment vehicle of the airline's founder Stelios Haji-Ioannou and his family) is the largest shareholder with a 34.62% stake (as of July 2014).  It employs nearly 11,000 people, based throughout Europe but mainly in the UK.",
+        "British Airways World Cargo formerly British Airways Cargo was a division of IAG Cargo, operating air cargo services under the British Airways brand.  It was the twelfth-largest cargo airline in the world by total freight tonne-kilometres flown.  Freight services were provided using the main British Airways fleet, as well as dedicated freighter aircraft operating under a wet lease agreement with Global Supply Systems.",
+        "British Airways Engineering is the aircraft maintenance subsidiary of British Airways which provides support services to British Airways and other airlines.  It is responsible for the entire BA Boeing 747 fleet maintenance, cabin interior conversions and general ramp maintenance work for both their own fleet and other airlines.  It also sends some of its own heavy maintenance work out to other companies, although the vast majority of aircraft and cabin interior work is still carried out by BA Engineering itself.",
+        "British Airways (BA) Limited was a British airline created in 2012 by British Airways to operate the executive service between London City Airport and New York under the brand name Club World London City.  The Club World London City services returned to being operated directly by British Airways PLC in 2015 although no changes were made to the aircraft, crews or product offered."
+    ],
+    "hop2_paragraphs": [
+        "International Consolidated Airlines Group, S.A., often shortened to IAG, is an Anglo-Spanish multinational airline holding company with its operational headquarters in London, England and its registered office in Madrid, Spain.  It was formed in January 2011 after a merger agreement between British Airways and Iberia, the flag carrier airlines of the United Kingdom and Spain respectively.  As British Airways was the larger company, those holding shares in British Airways at the time of the merger were given 55% of the shares in the new, merged company.  British Airways and Iberia ceased to be independent companies and instead became 100% owned subsidiaries of IAG.  It is the sixth-largest airline company in the world, producing \u20ac22.567\u00a0billion revenue in 2016.  The company is listed on the London Stock Exchange and the Madrid Stock Exchange.  It is a constituent of the FTSE 100 Index and IBEX 35 Index.",
+        "British Airways (BA) is the flag carrier airline of the United Kingdom.  It is the largest airline in the UK based on fleet size, international flights and international destinations.  British Airways was considered the largest UK airline by passenger numbers from its creation in 1974 until 2008, when it was displaced by low-cost rival EasyJet.  Since its inception, British Airways has been centred at its main hub at London Heathrow Airport, with a second major hub at London Gatwick Airport.",
+        "British Overseas Airways Corporation (BOAC) was the British state-owned airline created in 1940 by the merger of Imperial Airways and British Airways Ltd.  It continued operating overseas services throughout World War II.  After the passing of the Civil Aviation Act of 1946, European and South American services passed to two further state-owned airlines, British European Airways (BEA) and British South American Airways (BSAA).  BOAC absorbed BSAA in 1949, but BEA continued to operate British domestic and European routes for the next quarter century.  A 1971 Act of Parliament merged BOAC and BEA with effect from 31 March 1974, forming today's British Airways.",
+        "British Airways flies to destinations on every inhabited continent.  In addition to the comprehensive list of destinations offered by British Airways itself, many more towns and cities can be reached through BA's franchise and subsidiary operations.  Together with wholly owned subsidiary BA CityFlyer, franchise carriers Sun Air and Comair operate aircraft in full British Airways livery, offer full BA service and staff wear BA uniform.  Bookings are made through British Airways and the carriers are affiliate members of the oneworld alliance.",
+        "GB Airways was a UK airline; prior to its dissolution it was headquartered in \"The Beehive,\" a former terminal building, at City Place Gatwick, London Gatwick Airport in Crawley, West Sussex, England.  It operated scheduled services as a British Airways franchise to 30 destinations in Europe and North Africa from Gatwick and as well as Heathrow and Manchester.  The company ceased operations on 30 March 2008 following its purchase by EasyJet in January 2008."
+    ],
+    "hop1_gold_titles": [
+        "EasyJet"
+    ],
+    "hop2_gold_titles": [
+        "History of British Airways"
+    ]
+}
