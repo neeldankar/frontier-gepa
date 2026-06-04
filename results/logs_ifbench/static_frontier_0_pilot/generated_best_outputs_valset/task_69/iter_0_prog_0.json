@@ -1,0 +1,3 @@
+{
+    "response": "Sec. 1\nMaximize \u03a3Ri(50+0.1ci^0.5,ci,2000+0.05ci) subject to \u03a3(2000+0.05ci)\u2264M\nSec. 2\nRi=1.5(50+0.1ci^0.5)\u221aci ln(2000+0.05ci+1)\nSec. 3\nTo find conditions under which Ri reaches its maximum for a given ci take derivative of Ri with respect to ci set it to zero and solve\nSec. 4\ndRi/dci=1.5[0.1*0.5ci^-0.5(50+0.1ci^0.5)+\u221aci(1+0.05/2000+0.05ci)ln(2000+0.05ci+1)+ln(2000+0.05ci+1)*0.05/2000+0.05ci]=0\nSec. 5\nLogloglogloglog\nSec. 6\nSolving this equation requires numerical methods or graphical analysis\nSec. 7\nAibniba"
+}

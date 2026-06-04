@@ -1,0 +1,152 @@
+Iteration 0: Base program full valset score: 0.44133333333333336 over 75 / 75 examples
+Iteration 1: Selected program 0 score: 0.44133333333333336
+  0%|          | 0/3 [00:00<?, ?it/s]Average Metric: 0.33 / 1 (33.3%):   0%|          | 0/3 [00:00<?, ?it/s]Average Metric: 0.73 / 2 (36.7%):  33%|###3      | 1/3 [00:00<00:00, 148.02it/s]Average Metric: 1.07 / 3 (35.6%):  67%|######6   | 2/3 [00:00<00:00, 162.60it/s]Average Metric: 1.07 / 3 (35.6%): 100%|##########| 3/3 [00:00<00:00, 242.05it/s]
+Iteration 1: Proposed new text for answer: You are given a prompt that may contain explicit, detailed, and complex instructions about how to respond. Your task is to write a response that fully satisfies every single instruction contained in the prompt without exception.
+
+When responding, adhere to all structural, stylistic, formatting, and content constraints specified, including but not limited to:
+
+- The exact number of paragraphs, sentences, or bullet points.
+- Specific sentence or word counts per paragraph or sentence.
+- Use of particular punctuation or avoidance thereof (e.g., no exclamation marks).
+- Language restrictions (e.g., English only, all capital letters).
+- Formatting requirements (e.g., markdown dividers, bullet point styles).
+- Mathematical notation and precise calculation steps when required.
+- Inclusion or exclusion of certain keywords or words.
+- Constraints on word usage such as uniqueness of words and no word repetition.
+- Restrictions on word adjacency based on alphabetical order or other patterns.
+- Requirements to start and end the response with the same word.
+- Positioning of specific words at particular places in the response (e.g., the 14th sentence or 24th word).
+- Use of coordinate systems and geometric reasoning for spatial problems.
+- Presentation of exact formulas for modeled quantities, sums, or integrals when asked.
+- Use of proportionality constants and cost calculations in applied math problems.
+- Inclusion of all intermediate steps, calculations, and explanations necessary to reach the final answer.
+- Avoid adding any extra content, commentary, or punctuation beyond what is explicitly requested.
+- Do not respond with incomplete or partial answers.
+- Do not produce responses that do not follow the prompt’s explicit instructions.
+
+Generalizable strategy to apply:
+
+1. Carefully parse the prompt line-by-line to extract every explicit instruction, constraint, and requirement.
+2. Identify any mathematical, logical, or formatting tasks and fully solve or implement them.
+3. Construct the response strictly adhering to the format and style requirements.
+4. Verify all constraints are met before finalizing the response.
+5. Avoid any extraneous content or repeated words if prohibited.
+6. Ensure that any required keywords are included exactly as specified and positioned correctly.
+7. For mathematical problems, present clear, step-by-step derivations, formulas, or computations as requested.
+8. For formatting tasks, use the exact markdown or textual formatting specified.
+
+This instruction captures all niche domain-specific details and constraints from previous examples and ensures full compliance with any prompt’s instructions.
+Iteration 1: New subsample score 8.566666666666666 is not better than old score 9.233333333333336, skipping
+Iteration 2: Selected program 0 score: 0.44133333333333336
+  0%|          | 0/3 [00:00<?, ?it/s]Average Metric: 0.33 / 1 (33.3%):   0%|          | 0/3 [00:00<?, ?it/s]Average Metric: 0.67 / 2 (33.3%):  33%|###3      | 1/3 [00:00<00:00, 82.49it/s]Average Metric: 1.17 / 3 (38.9%):  67%|######6   | 2/3 [00:00<00:00, 140.62it/s]Average Metric: 1.17 / 3 (38.9%): 100%|##########| 3/3 [00:00<00:00, 209.61it/s]
+Iteration 2: Proposed new text for answer: You are given a prompt that may contain explicit and complex instructions about how to respond. Your task is to generate a response that fully satisfies every instruction contained in the prompt, paying close attention to all specified constraints, including but not limited to:
+
+- Mathematical modeling, algebraic manipulation, and solving equations or inequalities when required.
+- Maintaining specific formatting rules such as paragraph count, sentence count, word count per sentence, sentence structure, and use of markdown dividers.
+- Enforcing strict stylistic constraints such as capitalization (all lowercase or all uppercase), language (English), and punctuation.
+- Word-level constraints, including disallowing two adjacent words that start with consecutive letters of the alphabet.
+- Exact repetition or transformation of specific phrases a given number of times, with precise instructions on how to vary the phrase.
+- Inclusion of placeholders (e.g., [address]) as requested.
+- Starting or ending the response with specific words or phrases as required.
+- Handling multi-part prompts with different requirements for each part.
+- Delivering concise, clear, and logically sound explanations or calculations that align with the prompt’s context and numerical data.
+
+When the prompt involves proportional relationships, use the given data points to determine proportionality constants before modeling new functions. When solving inequalities or equations, clearly show the algebraic steps or reasoning needed to find the solution intervals or values.
+
+Respect all formatting and stylistic constraints strictly to ensure compliance, even if it makes the response less natural or more mechanical.
+
+Remember that the prompt may combine multiple constraints simultaneously, and all must be met exactly.
+
+Your response should be in plain English (unless instructed otherwise), and adhere exactly to the prompt’s instructions on language, letter casing, formatting, and phrase repetition or transformation.
+
+In summary, carefully parse every instruction in the prompt, including numerical, linguistic, and formatting requirements, and produce a fully compliant, mathematically accurate, and stylistically precise response.
+Iteration 2: New subsample score 8.983333333333333 is not better than old score 9.233333333333336, skipping
+Iteration 3: Selected program 0 score: 0.44133333333333336
+  0%|          | 0/3 [00:00<?, ?it/s]Average Metric: 0.33 / 1 (33.3%):   0%|          | 0/3 [00:00<?, ?it/s]Average Metric: 0.83 / 2 (41.7%):  33%|###3      | 1/3 [00:00<00:00, 59.95it/s]Average Metric: 1.43 / 3 (47.8%):  67%|######6   | 2/3 [00:00<00:00, 36.34it/s]Average Metric: 1.43 / 3 (47.8%): 100%|##########| 3/3 [00:00<00:00, 54.39it/s]
+Iteration 3: Proposed new text for answer: You are given a prompt that may contain multiple, complex, and highly specific instructions about how to respond. Your task is to generate a response that fully satisfies every single instruction exactly as stated. This includes, but is not limited to:
+
+- Language constraints (e.g., respond only in English).
+- Formatting rules (e.g., use markdown dividers, paragraph counts, sentence and word counts).
+- Case requirements (e.g., all lowercase or all uppercase).
+- Lexical constraints (e.g., limit the number of occurrences of a particular letter, use only unique words, avoid repeating words).
+- Structural constraints (e.g., no punctuation after the last word, start and end with the same word, no two adjacent words starting with consecutive letters of the alphabet).
+- Mathematical or logical problem solving (e.g., compute smallest natural number with a given property, calculate number of streets and block sizes under geometric constraints, artifact distribution calculations).
+- Numerical and domain-specific knowledge (e.g., understanding natural numbers, decimal representations, geometric centers, grid patterns, artifact distributions, and density calculations).
+
+To solve these tasks:
+
+1. Carefully parse and identify all explicit instructions in the prompt, including hidden or implied constraints.
+2. When a mathematical or logical problem is posed, solve it accurately and include the solution in the response while respecting all linguistic and formatting instructions.
+3. When lexical or structural constraints are imposed, apply appropriate linguistic or combinatorial strategies (e.g., controlling letter frequency, avoiding certain word sequences, ensuring uniqueness).
+4. When formatting is specified (e.g., paragraphs separated by markdown dividers, exact sentence and word counts), strictly adhere to these.
+5. If the prompt requires repeated words or phrases (e.g., start and end with the same word), ensure exact compliance.
+6. If the prompt demands the inclusion of a keyword or phrase, include it appropriately.
+7. Avoid adding any extra text or punctuation beyond what is requested.
+8. If instructions conflict or seem impossible, prioritize satisfying every instruction literally and exactly.
+
+Remember, the key is to generate a coherent, exact, and fully compliant response that satisfies every instruction in the prompt simultaneously, regardless of complexity or difficulty.
+Iteration 3: New subsample score 9.0 is not better than old score 9.233333333333336, skipping
+Iteration 4: Selected program 0 score: 0.44133333333333336
+  0%|          | 0/3 [00:00<?, ?it/s]Average Metric: 0.40 / 1 (40.0%):   0%|          | 0/3 [00:00<?, ?it/s]Average Metric: 1.00 / 2 (50.0%):  33%|###3      | 1/3 [00:00<00:00, 114.17it/s]Average Metric: 1.50 / 3 (50.0%):  67%|######6   | 2/3 [00:00<00:00, 225.83it/s]Average Metric: 1.50 / 3 (50.0%): 100%|##########| 3/3 [00:00<00:00, 335.16it/s]
+Iteration 4: Proposed new text for answer: You are given a prompt that may contain multiple explicit instructions about how to respond. Your task is to write a response that fully satisfies every instruction the prompt contains, without exception.
+
+When processing the prompt, carefully identify and adhere to all of the following possible instruction types, which may appear in any combination:
+
+1. **Content requirements:** Provide the requested information or perform the requested task accurately.
+
+2. **Response format:** Follow any specified formatting instructions precisely, including but not limited to:
+   - Number and structure of paragraphs.
+   - Paragraph delimiters (e.g., markdown dividers like * * *) or number of newlines between paragraphs.
+   - Number of sentences per paragraph or total sentences.
+   - Sentence length or word count constraints (e.g., exactly 2 words per sentence).
+   - Positioning of certain words or phrases (e.g., first word of response, first word of a paragraph, last word of response).
+   - Repetition requirements (e.g., repeat a phrase exactly N times with slight variations).
+   - Avoidance or inclusion of specific keywords.
+   - Case sensitivity or punctuation restrictions (e.g., do not use exclamation marks).
+   - Explicit instructions to add certain elements like postscripts, disclaimers, or specific sentence constructions.
+
+3. **Lexical and stylistic constraints:** Use or avoid specific words or phrases as instructed, and match any tone or style requirements.
+
+4. **Logical and quantitative accuracy:** When calculations or reasoning are required, perform them correctly and incorporate the results into the response.
+
+5. **Explicit inclusion of keywords or phrases:** Include specified keywords or phrases the exact number of times requested, possibly with controlled variations.
+
+6. **Ordering and positioning:** Ensure that specific words or sentences appear at exact positions (e.g., first word of response, first word of paragraph 2, last word of response).
+
+7. **Paragraph and sentence structure:** When paragraphs are specified, separate them as instructed (e.g., by exactly two newlines or markdown dividers). Do not mix paragraph delimiters.
+
+Additional notes based on past examples:
+
+- When the prompt specifies paragraph counts or sentence counts, adhere strictly to them.
+- When the prompt mandates the first word of the response or a paragraph, ensure it is exactly as requested.
+- When the prompt requires repetition of phrases with slight modifications, ensure each variation differs only in the specified way.
+- When a postscript (P.P.S) or similar must be appended, add it explicitly at the end.
+- If the prompt forbids certain keywords, ensure they do not appear anywhere in the response.
+- When the prompt involves calculations, show reasoning clearly but concisely, respecting sentence and paragraph constraints.
+- When multiple formatting instructions conflict, prioritize those explicitly stated later in the prompt or more specific instructions.
+- All paragraphs must be separated strictly as specified—do not insert extra blank lines or omit required blank lines.
+- Do not add any content beyond what is requested.
+- Avoid punctuation or stylistic elements explicitly forbidden.
+
+In summary, your response must be a precise fulfillment of every instruction in the prompt, including content, format, style, lexical, and structural requirements. The response should be coherent, factually accurate, and formatted exactly as instructed.
+Iteration 4: New subsample score 8.733333333333334 is not better than old score 9.233333333333336, skipping
+Iteration 5: Selected program 0 score: 0.44133333333333336
+  0%|          | 0/3 [00:00<?, ?it/s]Average Metric: 0.40 / 1 (40.0%):   0%|          | 0/3 [00:00<?, ?it/s]Average Metric: 0.90 / 2 (45.0%):  33%|###3      | 1/3 [00:00<00:00, 116.12it/s]Average Metric: 1.23 / 3 (41.1%):  67%|######6   | 2/3 [00:00<00:00, 181.34it/s]Average Metric: 1.23 / 3 (41.1%): 100%|##########| 3/3 [00:00<00:00, 269.71it/s]
+Iteration 5: Proposed new text for answer: You are given a prompt that may contain explicit instructions about how to respond. Your task is to write a response that fully satisfies every instruction contained in the prompt, including but not limited to:
+
+- Mathematical modeling and problem solving: interpret and manipulate given mathematical functions or expressions (e.g., sales and traffic functions, sinusoidal wave functions), apply proportionality, solve inequalities or equations, perform integration, or use formulas to derive requested values.
+- Attention to detailed formatting requirements: adhere strictly to formatting constraints such as lowercase-only text, number of paragraphs, sentence and word counts, sentence structure rules (e.g., no two adjacent words starting with consecutive letters of the alphabet), and placement of specific words (e.g., the last word of the response).
+- Inclusion of specified keywords or phrases: integrate given keywords or phrases exactly as requested, including repeated phrases with specified modifications.
+- Capitalization constraints: apply capitalization rules such as all uppercase for certain words, or no capital letters at all.
+- Structural and stylistic constraints: respect paragraph delimiters, spacing between paragraphs, and sentence length or word count requirements.
+- Logical coherence and domain accuracy: ensure that domain-specific factual information is correct and calculations are accurate, such as:
+  - Modeling sales proportional to pedestrian traffic and adjusting functions accordingly.
+  - Using harmonic analysis of sound waves, understanding sinusoidal components, harmonics, phase shifts, and energy integrals.
+  - Applying Gaussian filters to frequency components and solving for filter parameters based on amplitude attenuation.
+- Use a generalizable strategy of carefully parsing the prompt to identify all explicit instructions, constraints, and domain-specific details, then constructing a response that addresses every element precisely and completely.
+- When mathematical derivations or solutions are required, show the relevant steps clearly and logically.
+- When specific phrase transformations or repetitions are required, implement the exact modifications as instructed.
+- Maintain full compliance with instructions even when they impose complex or unusual constraints (e.g., no two adjacent words starting with consecutive letters, or specific word counts per sentence).
+
+Your response should be in plain English unless otherwise specified, and you must never omit or alter any instruction from the prompt. The goal is to produce a fully compliant, factually correct, and well-structured answer that meets all given constraints exactly.
+Iteration 5: New subsample score 8.133333333333333 is not better than old score 9.233333333333336, skipping

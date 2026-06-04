@@ -63,8 +63,6 @@ from src.band_sampler import (
 )
 from src.decoupled_proposer import DecoupledReflectiveMutationProposer
 from src.difficulty import DifficultyTable
-from src.feedback import compute_feedback, metric_fn as module_metric
-from src.program import COMPONENT_NAMES, build_program
 from src.retry import retryable
 
 _REPO = Path(__file__).resolve().parents[1]
@@ -156,10 +154,64 @@ def load_lm_configs_from_env(
     )
 
 
-# ---- Feedback wiring for DspyAdapter ----
+# ---- Substrate: the bag of substrate-specific callables. ----
+#
+# Chunk-14 wiring: the runner used to import directly from src.feedback +
+# src.program (HotpotQA-shaped). To wire IFBench (Experiment 2) without
+# changing the HotpotQA path bit-for-bit, the substrate-specific bits are
+# packaged into a `Substrate` and threaded through `run()`. The default
+# substrate is HotpotQA, so existing call sites are unchanged.
+#
+# A Substrate carries:
+#   - build_program:  callable returning a dspy.Module with predictors
+#                     whose names match `component_names`.
+#   - metric_fn:      module-level metric the adapter uses for evaluation
+#                     (returns float in [0,1]).
+#   - feedback_fn:    (example, prediction) -> dict with keys 'score' and
+#                     'feedback'. Used by the per-predictor reflective
+#                     callback (DspyAdapter.feedback_map).
+#   - component_names: the tuple of optimisable predictor names; mirrors
+#                     `seed_candidate` keys.
 
 
-def _make_feedback_map() -> dict[str, Callable]:
+@dataclass
+class Substrate:
+    name: str
+    build_program: Callable[[], dspy.Module]
+    metric_fn: Callable[..., float]
+    feedback_fn: Callable[..., Mapping[str, Any]]
+    component_names: tuple[str, ...]
+    # `num_threads` is the dspy.Evaluate concurrency for adapter.evaluate
+    # calls and for the temp-0 drift rescoring. None = serial (preserves
+    # the HotpotQA Experiment-1 / 1b behaviour byte-for-byte). IFBench
+    # sets this to 16 because per-call generations are ~12s and the
+    # serial pilot demonstrated that the loop is wall-time bound, not
+    # rate-limit bound (no throttle/backoff observed under serial).
+    num_threads: int | None = None
+
+
+def _default_hotpot_substrate() -> Substrate:
+    """The Experiment-1 / 1b HotpotQA substrate. Imported lazily so the
+    HotpotQA modules don't have to load for an IFBench-only call site.
+
+    Threading: stays serial (num_threads=None) to preserve byte-identical
+    HotpotQA reproduction; the existing matrices already ran and have
+    cell_summary.json's the orchestrator will skip-resume from."""
+    from src.feedback import compute_feedback, metric_fn as hotpot_metric_fn
+    from src.program import COMPONENT_NAMES as HOTPOT_COMPONENT_NAMES
+    from src.program import build_program as hotpot_build_program
+
+    return Substrate(
+        name="hotpot",
+        build_program=hotpot_build_program,
+        metric_fn=hotpot_metric_fn,
+        feedback_fn=compute_feedback,
+        component_names=HOTPOT_COMPONENT_NAMES,
+        num_threads=None,
+    )
+
+
+def _make_feedback_map(substrate: Substrate) -> dict[str, Callable]:
     """Same trajectory-level feedback for every predictor (per the
     feedback-template spec: 'a single trajectory-level string ... shown for
     whichever module round-robin selects this iteration')."""
@@ -171,10 +223,10 @@ def _make_feedback_map() -> dict[str, Callable]:
         module_outputs: Any,
         captured_trace: Any,
     ) -> ScoreWithFeedback:
-        out = compute_feedback(module_inputs, module_outputs)
+        out = substrate.feedback_fn(module_inputs, module_outputs)
         return ScoreWithFeedback(score=float(out["score"]), feedback=str(out["feedback"]))
 
-    return {name: feedback_fn for name in COMPONENT_NAMES}
+    return {name: feedback_fn for name in substrate.component_names}
 
 
 # ---- Validation (fail-fast before any spend) ----
@@ -314,6 +366,7 @@ def run(
     raise_on_exception: bool = True,
     lm_capture: dict | None = None,
     mix: tuple[float, float, float] = DEFAULT_MIX,
+    substrate: Substrate | None = None,
 ) -> GEPAState:
     """Run one (arm, seed) cell. Returns the final GEPAState.
 
@@ -330,6 +383,8 @@ def run(
     """
     if config is None:
         config = yaml.safe_load((_REPO / "config" / "experiment.yaml").read_text())
+    if substrate is None:
+        substrate = _default_hotpot_substrate()
 
     _validate_invariants(config, arm, seed, splits, difficulty_table)
 
@@ -383,13 +438,17 @@ def run(
         return reflection_lm_obj(messages=x)
 
     # ---- Adapter: dspy program + module-level F1 + per-predictor feedback ----
-    program = build_program()
+    program = substrate.build_program()
     base_adapter = _PatchedDspyAdapter(
         student_module=program,
-        metric_fn=module_metric,
-        feedback_map=_make_feedback_map(),
+        metric_fn=substrate.metric_fn,
+        feedback_map=_make_feedback_map(substrate),
         failure_score=0.0,
-        num_threads=None,  # serial; parallelism is a Chunk-6 decision
+        # Per-substrate parallelism. HotpotQA stays serial (None) so the
+        # Experiment-1 / 1b cells reproduce byte-identically; IFBench sets
+        # 16 because per-call generations are output-heavy and the serial
+        # baseline was wall-time bound.
+        num_threads=substrate.num_threads,
         add_format_failure_as_feedback=True,
         rng=random.Random(seed),  # internal rng used for trace-instance selection
         reflection_lm=reflection_lm_callable,
@@ -454,7 +513,9 @@ def run(
     )
 
     # ---- Engine ----
-    seed_candidate = {name: program.get_module_instruction(name) for name in COMPONENT_NAMES}
+    seed_candidate = {
+        name: program.get_module_instruction(name) for name in substrate.component_names
+    }
     stop_callback: StopperProtocol = MaxCandidateProposalsStopper(
         max_proposals=int(config["stopping"]["n"])
     )

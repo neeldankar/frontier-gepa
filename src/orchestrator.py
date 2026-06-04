@@ -67,22 +67,25 @@ if str(REPO) not in sys.path:
 
 from src.band_sampler import DEFAULT_MIX, PURE_ON_BAND_MIX  # noqa: E402
 
-DIFFICULTY_PATH = REPO / "results" / "difficulty_table.json"
+HOTPOT_DIFFICULTY_PATH = REPO / "results" / "difficulty_table.json"
+IFBENCH_DIFFICULTY_PATH = REPO / "results" / "ifbench" / "difficulty_table.json"
 
 # Variants supported by this orchestrator. The current variant is set by
 # main() (via the --variant CLI flag) before any phase function runs, so the
 # module-level LOGS_ROOT / ARMS / CURRENT_MIX / VARIANT_NAME are read
 # correctly by the existing _run_single_cell / run_matrix code paths.
 #
-#   default:    Experiment 1 (BUILD_PLAN.md context). 5 arms x 3 seeds at
-#               70/15/15 into results/logs/. The completed Experiment-1
-#               matrix used this variant.
-#   hotpot_100: Experiment 1b (BUILD_PLAN.md §7 Chunk 9). 3 static arms x
-#               3 seeds at 100/0/0 into results/logs_hotpot_100/. Reuses
-#               the frozen Experiment-1 difficulty table; random and
-#               vanilla cells are reused unchanged from Experiment 1
-#               (Chunk-8 byte-identical regression test proves this is
-#               sound).
+#   default:      Experiment 1 (BUILD_PLAN.md context). 5 arms x 3 seeds
+#                 at 70/15/15 into results/logs/.
+#   hotpot_100:   Experiment 1b (BUILD_PLAN.md §7 Chunk 9). 3 static arms
+#                 at 100/0/0 into results/logs_hotpot_100/. Reuses the
+#                 frozen Experiment-1 difficulty table.
+#   ifbench_100:  Experiment 2 (BUILD_PLAN.md §7 Chunk 14). 5 arms x 3
+#                 seeds at 100/0/0, N=80, IFBench substrate (one-module
+#                 program + IFEval verifier feedback), into
+#                 results/logs_ifbench/. Hash-verifies the frozen Chunk-13
+#                 IFBench difficulty table; runs the D4 temp-0 drift
+#                 instrumentation after each cell.
 VARIANTS: dict[str, dict[str, Any]] = {
     "default": {
         "logs_root": REPO / "results" / "logs",
@@ -96,6 +99,9 @@ VARIANTS: dict[str, dict[str, Any]] = {
         "mix": DEFAULT_MIX,
         "n_iter": 44,
         "sampler_name": "70/15/15",
+        "substrate": "hotpot",
+        "difficulty_path": HOTPOT_DIFFICULTY_PATH,
+        "drift_enabled": False,
     },
     "hotpot_100": {
         "logs_root": REPO / "results" / "logs_hotpot_100",
@@ -103,6 +109,25 @@ VARIANTS: dict[str, dict[str, Any]] = {
         "mix": PURE_ON_BAND_MIX,
         "n_iter": 44,
         "sampler_name": "100/0/0",
+        "substrate": "hotpot",
+        "difficulty_path": HOTPOT_DIFFICULTY_PATH,
+        "drift_enabled": False,
+    },
+    "ifbench_100": {
+        "logs_root": REPO / "results" / "logs_ifbench",
+        "arms": (
+            "random",
+            "static_easy",
+            "static_frontier",
+            "static_hard",
+            "vanilla_coupled_gepa",
+        ),
+        "mix": PURE_ON_BAND_MIX,
+        "n_iter": 80,
+        "sampler_name": "100/0/0",
+        "substrate": "ifbench",
+        "difficulty_path": IFBENCH_DIFFICULTY_PATH,
+        "drift_enabled": True,
     },
 }
 
@@ -114,6 +139,10 @@ ARMS: tuple[str, ...] = VARIANTS["default"]["arms"]
 CURRENT_MIX: tuple[float, float, float] = VARIANTS["default"]["mix"]
 CURRENT_VARIANT_NAME: str = "default"
 SAMPLER_NAME: str = VARIANTS["default"]["sampler_name"]
+CURRENT_DIFFICULTY_PATH: Path = VARIANTS["default"]["difficulty_path"]
+CURRENT_SUBSTRATE_NAME: str = VARIANTS["default"]["substrate"]
+CURRENT_DRIFT_ENABLED: bool = bool(VARIANTS["default"]["drift_enabled"])
+CURRENT_N_ITER: int = int(VARIANTS["default"]["n_iter"])
 
 SEEDS: tuple[int, ...] = (0, 1, 2)
 
@@ -127,8 +156,14 @@ HARD_KILL_USD = 150.0
 
 def _set_variant(name: str) -> None:
     """Swap the module-level variant state. Must be called BEFORE any
-    phase function runs."""
+    phase function runs.
+
+    For variants whose `substrate` is 'ifbench', also assert the frozen
+    Chunk-13 IFBench table hash. The HotpotQA variants don't hash-check
+    here (Chunk-9 invariant is hash-checked per cell as before)."""
     global LOGS_ROOT, ARMS, CURRENT_MIX, CURRENT_VARIANT_NAME, SAMPLER_NAME
+    global CURRENT_DIFFICULTY_PATH, CURRENT_SUBSTRATE_NAME, CURRENT_DRIFT_ENABLED
+    global CURRENT_N_ITER
     if name not in VARIANTS:
         raise SystemExit(f"unknown variant {name!r}; supported: {list(VARIANTS)}")
     v = VARIANTS[name]
@@ -137,13 +172,44 @@ def _set_variant(name: str) -> None:
     CURRENT_MIX = v["mix"]
     CURRENT_VARIANT_NAME = name
     SAMPLER_NAME = v["sampler_name"]
+    CURRENT_DIFFICULTY_PATH = v["difficulty_path"]
+    CURRENT_SUBSTRATE_NAME = v["substrate"]
+    CURRENT_DRIFT_ENABLED = bool(v["drift_enabled"])
+    CURRENT_N_ITER = int(v["n_iter"])
+
+    if CURRENT_SUBSTRATE_NAME == "ifbench":
+        from src.ifbench_substrate import verify_ifbench_difficulty_table_hash
+        h = verify_ifbench_difficulty_table_hash()
+        print(f"  IFBench difficulty table hash-verified: {h}")
 
 
 def _difficulty_table_hash() -> str:
-    """SHA-256 of the frozen difficulty table file. Used in cell
-    provenance to prove the table was not re-scored between Experiments
-    1 and 1b."""
-    return hashlib.sha256(DIFFICULTY_PATH.read_bytes()).hexdigest()
+    """SHA-256 of the current variant's frozen difficulty table file.
+    Used in cell provenance."""
+    return hashlib.sha256(CURRENT_DIFFICULTY_PATH.read_bytes()).hexdigest()
+
+
+def _load_substrate_for_current_variant():
+    """Resolve the variant's `substrate` string into the `Substrate`
+    dataclass instance that `run_gepa.run()` expects."""
+    if CURRENT_SUBSTRATE_NAME == "hotpot":
+        from src.run_gepa import _default_hotpot_substrate
+        return _default_hotpot_substrate()
+    if CURRENT_SUBSTRATE_NAME == "ifbench":
+        from src.ifbench_substrate import ifbench_substrate
+        return ifbench_substrate()
+    raise ValueError(f"unknown substrate name: {CURRENT_SUBSTRATE_NAME!r}")
+
+
+def _load_splits_for_current_variant(config):
+    """Carve splits for the current variant's substrate."""
+    if CURRENT_SUBSTRATE_NAME == "hotpot":
+        from src.data import load_splits
+        return load_splits(config=config)
+    if CURRENT_SUBSTRATE_NAME == "ifbench":
+        from src.ifbench_substrate import load_ifbench_splits
+        return load_ifbench_splits(config=config)
+    raise ValueError(f"unknown substrate name: {CURRENT_SUBSTRATE_NAME!r}")
 
 
 # ============================================================================
@@ -161,27 +227,26 @@ def _run_single_cell(arm: str, seed: int, n_iter_override: int | None = None) ->
     import yaml
 
     from src.cost_tracker import cost_from_lms
-    from src.data import load_splits
     from src.difficulty import DifficultyTable
     from src.run_gepa import (
-        _make_feedback_map,
-        _PatchedDspyAdapter,
-        _RetryingAdapter,
         load_lm_configs_from_env,
         run,
     )
-    from src.feedback import metric_fn as module_metric
-    from src.program import build_program
 
     config = yaml.safe_load((REPO / "config" / "experiment.yaml").read_text())
+    if n_iter_override is None and CURRENT_N_ITER != int(config["stopping"]["n"]):
+        # Variant overrides config's N (e.g. ifbench_100 sets N=80, config has 44).
+        config = copy.deepcopy(config)
+        config["stopping"]["n"] = CURRENT_N_ITER
     if n_iter_override is not None:
         config = copy.deepcopy(config)
         config["stopping"]["n"] = int(n_iter_override)
 
-    splits = load_splits(config=config)
+    splits = _load_splits_for_current_variant(config)
+    substrate = _load_substrate_for_current_variant()
     needs_difficulty = arm in ("static_easy", "static_frontier", "static_hard")
     difficulty_table = (
-        DifficultyTable.load(DIFFICULTY_PATH) if needs_difficulty else None
+        DifficultyTable.load(CURRENT_DIFFICULTY_PATH) if needs_difficulty else None
     )
 
     task_lm_config, refl_lm_config = load_lm_configs_from_env(config=config)
@@ -203,11 +268,22 @@ def _run_single_cell(arm: str, seed: int, n_iter_override: int | None = None) ->
         "config_resolved": config,
         "n_iter_target": int(config["stopping"]["n"]),
         "variant": CURRENT_VARIANT_NAME,
+        "substrate": CURRENT_SUBSTRATE_NAME,
         "sampler": SAMPLER_NAME,           # e.g. "70/15/15" or "100/0/0"
         "sampler_mix": list(CURRENT_MIX),  # numeric weights
         "difficulty_table_hash": _difficulty_table_hash() if needs_difficulty else None,
+        "difficulty_table_path": str(CURRENT_DIFFICULTY_PATH.relative_to(REPO)),
         "started_at": time.strftime("%Y-%m-%dT%H:%M:%S"),
     }
+    if CURRENT_SUBSTRATE_NAME == "ifbench":
+        from src.ifbench_data import (
+            CONSTRAINT_COUNT_FLOOR,
+            IFBENCH_DATASET_ID,
+            TARGET_SIZES,
+        )
+        provenance["dataset"] = IFBENCH_DATASET_ID
+        provenance["constraint_count_floor"] = CONSTRAINT_COUNT_FLOOR
+        provenance["carved_sizes"] = dict(TARGET_SIZES)
     (run_dir / "provenance.json").write_text(json.dumps(provenance, indent=2))
 
     lm_capture: dict[str, Any] = {}
@@ -225,6 +301,7 @@ def _run_single_cell(arm: str, seed: int, n_iter_override: int | None = None) ->
             raise_on_exception=True,
             lm_capture=lm_capture,
             mix=CURRENT_MIX,
+            substrate=substrate,
         )
     except Exception as exc:
         wall = time.time() - t0
@@ -255,13 +332,39 @@ def _run_single_cell(arm: str, seed: int, n_iter_override: int | None = None) ->
         # Baseline histories so we can attribute test-eval cost separately.
         task_baseline = len(task_lm.history) if task_lm and task_lm.history else 0
         refl_baseline = len(refl_lm.history) if refl_lm and refl_lm.history else 0
-        test_summary = _eval_best_on_test(state, splits[3], task_lm_config, refl_lm_config)
+        test_summary = _eval_best_on_test(
+            state, splits[3], task_lm_config, refl_lm_config, substrate
+        )
         test_eval_path.write_text(json.dumps(test_summary, indent=2))
         # Note: _eval_best_on_test built its OWN LM instances; we
         # cannot diff our task_lm/refl_lm baselines to capture test cost.
         # We report total cost from the run LMs PLUS an estimate of the
         # test cost from the in-function LMs (returned via test_summary).
         test_cost_report = test_summary.get("cost_report")
+
+    # D4 drift instrumentation (only for variants that enable it).
+    drift_summary: dict[str, Any] | None = None
+    if CURRENT_DRIFT_ENABLED:
+        drift_path = run_dir / "drift.json"
+        if drift_path.exists():
+            drift_summary = json.loads(drift_path.read_text())
+        else:
+            from src.ifbench_drift import compute_drift_for_cell
+            # Final best candidate = the one the test eval just scored.
+            best_idx = test_summary["best_idx"]
+            final_candidate = state.program_candidates[best_idx]
+            # Seed/base candidate: by gepa convention, program_candidates[0]
+            # is the seed.
+            base_candidate = state.program_candidates[0]
+            drift_summary = compute_drift_for_cell(
+                base_seed_candidate=base_candidate,
+                final_candidate=final_candidate,
+                d_feedback=list(splits[0]),
+                task_lm_config=task_lm_config,
+                substrate=substrate,
+                drift_cache_dir=LOGS_ROOT / "_drift",
+            )
+            drift_path.write_text(json.dumps(drift_summary, indent=2))
 
     # Final cumulative cost from the run LMs
     final_cost = cost_from_lms(task_lm, refl_lm)
@@ -294,7 +397,22 @@ def _run_single_cell(arm: str, seed: int, n_iter_override: int | None = None) ->
         "cost": final_cost.as_dict(),
         "git_commit": git_head,
         "completed_at": time.strftime("%Y-%m-%dT%H:%M:%S"),
+        "variant": CURRENT_VARIANT_NAME,
+        "substrate": CURRENT_SUBSTRATE_NAME,
     }
+    if drift_summary is not None:
+        # Inline the compact drift fields into the cell summary; the full
+        # per-id score arrays stay in drift.json.
+        summary["drift"] = {
+            "spearman_base_vs_final_temp0": drift_summary["spearman_base_vs_final_temp0"],
+            "frontier_leaving_rate": drift_summary["frontier_leaving"]["frontier_leaving_rate"],
+            "n_base_frontier": drift_summary["frontier_leaving"]["n_base_frontier"],
+            "n_final_frontier": drift_summary["frontier_leaving"]["n_final_frontier"],
+            "n_left_frontier": drift_summary["frontier_leaving"]["n_left_frontier"],
+            "base_binning": drift_summary["frontier_leaving"]["base_binning"],
+            "final_binning": drift_summary["frontier_leaving"]["final_binning"],
+            "base_temp0_reused": drift_summary["base_temp0_reused"],
+        }
     summary_path.write_text(json.dumps(summary, indent=2))
     print(json.dumps(summary, indent=2))
     return summary
@@ -305,22 +423,29 @@ def _eval_best_on_test(
     test_examples: list,
     task_lm_config: Any,
     reflection_lm_config: Any,
+    substrate: Any = None,
 ) -> dict:
     """Evaluate the best-by-D_pareto-avg candidate on the held-out test set.
 
     Returns a dict with best_idx, best_val_f1, avg_test_f1, n_test,
     per_instance_f1, and a cost_report for the test eval itself.
+
+    `substrate` is the Chunk-14 injectable: defaults to the HotpotQA
+    substrate when omitted, so Experiment 1 / 1b call sites are
+    byte-identical.
     """
     import dspy
     from src.cost_tracker import cost_from_lms
-    from src.feedback import metric_fn as module_metric
-    from src.program import build_program
     from src.run_gepa import (
+        _default_hotpot_substrate,
         _make_feedback_map,
         _PatchedDspyAdapter,
         _RetryingAdapter,
         retryable,
     )
+
+    if substrate is None:
+        substrate = _default_hotpot_substrate()
 
     # Pick the program with the highest D_pareto average F1.
     scores = state.program_full_scores_val_set
@@ -331,7 +456,7 @@ def _eval_best_on_test(
     task_lm = task_lm_config.to_lm()
     refl_lm_obj = reflection_lm_config.to_lm()
     dspy.settings.configure(lm=task_lm)
-    program = build_program()
+    program = substrate.build_program()
 
     @retryable(max_attempts=5, base_delay=1.0, max_delay=30.0, label="test_eval_refl_lm")
     def refl_callable(x):
@@ -341,10 +466,11 @@ def _eval_best_on_test(
 
     base_adapter = _PatchedDspyAdapter(
         student_module=program,
-        metric_fn=module_metric,
-        feedback_map=_make_feedback_map(),
+        metric_fn=substrate.metric_fn,
+        feedback_map=_make_feedback_map(substrate),
         failure_score=0.0,
-        num_threads=None,
+        # Per-substrate parallelism (see run_gepa.Substrate docstring).
+        num_threads=substrate.num_threads,
         add_format_failure_as_feedback=True,
         rng=_random.Random(0),
         reflection_lm=refl_callable,
@@ -384,30 +510,38 @@ def _git_head_safe() -> str:
 # ============================================================================
 
 
-def run_pilot() -> dict:
+def run_pilot(pilot_n_iter: int = PILOT_N_ITER) -> dict:
     print()
     print("=" * 72)
-    print("PHASE 1: PILOT  (static_frontier seed=0, N=4, full pool sizes)")
+    print(
+        f"PHASE 1: PILOT  (static_frontier seed=0, N={pilot_n_iter}, "
+        f"full pool sizes, variant={CURRENT_VARIANT_NAME!r})"
+    )
     print("=" * 72)
     print()
-    # Run pilot in the same process by calling _run_single_cell with override.
     pilot_dir = LOGS_ROOT / f"{PILOT_ARM}_{PILOT_SEED}_pilot"
-    # We use a SEPARATE run_dir so the pilot does not corrupt the eventual
-    # matrix cell's run_dir at the same (arm, seed).
-    # NOTE: _run_single_cell hardcodes the run_dir to logs/<arm>_<seed>;
-    # to give the pilot its own directory we shadow LOGS_ROOT temporarily.
-    summary = _run_pilot_into_dir(pilot_dir)
+    summary = _run_pilot_into_dir(pilot_dir, pilot_n_iter=pilot_n_iter)
     print()
     print(f"Pilot wall time:       {summary['wall_time_s']:.1f}s")
     print(f"Pilot total_num_evals: {summary['total_num_evals']}")
     print(f"Pilot iters completed: {summary['state_i_final'] + 1} (target {summary['n_iter_target']})")
     print(f"Pilot cost (USD):      ${summary['cost']['cost_usd']:.4f}")
+    if "drift" in summary:
+        d = summary["drift"]
+        print(f"Pilot drift Spearman:  {d['spearman_base_vs_final_temp0']:.4f}")
+        print(
+            f"Pilot frontier-leaving rate: {d['frontier_leaving_rate']:.4f}  "
+            f"(base_frontier={d['n_base_frontier']}, "
+            f"final_frontier={d['n_final_frontier']}, "
+            f"left={d['n_left_frontier']})"
+        )
     return summary
 
 
-def _run_pilot_into_dir(pilot_dir: Path) -> dict:
+def _run_pilot_into_dir(pilot_dir: Path, pilot_n_iter: int = PILOT_N_ITER) -> dict:
     """Run a pilot cell into a sandboxed directory so it doesn't corrupt the
-    eventual matrix cell's run_dir."""
+    eventual matrix cell's run_dir. Pilot N may be overridden by the caller
+    (Chunk 14 uses 5)."""
     from dotenv import load_dotenv
     load_dotenv(REPO / ".env")
 
@@ -415,16 +549,16 @@ def _run_pilot_into_dir(pilot_dir: Path) -> dict:
     import yaml
 
     from src.cost_tracker import cost_from_lms
-    from src.data import load_splits
     from src.difficulty import DifficultyTable
     from src.run_gepa import load_lm_configs_from_env, run
 
     config = yaml.safe_load((REPO / "config" / "experiment.yaml").read_text())
     config = copy.deepcopy(config)
-    config["stopping"]["n"] = PILOT_N_ITER
+    config["stopping"]["n"] = int(pilot_n_iter)
 
-    splits = load_splits(config=config)
-    difficulty_table = DifficultyTable.load(DIFFICULTY_PATH)
+    splits = _load_splits_for_current_variant(config)
+    substrate = _load_substrate_for_current_variant()
+    difficulty_table = DifficultyTable.load(CURRENT_DIFFICULTY_PATH)
     task_lm_config, refl_lm_config = load_lm_configs_from_env(config=config)
 
     pilot_dir.mkdir(parents=True, exist_ok=True)
@@ -442,6 +576,7 @@ def _run_pilot_into_dir(pilot_dir: Path) -> dict:
         raise_on_exception=True,
         lm_capture=lm_capture,
         mix=CURRENT_MIX,
+        substrate=substrate,
     )
     wall = time.time() - t0
     task_lm = lm_capture.get("task_lm")
@@ -449,31 +584,73 @@ def _run_pilot_into_dir(pilot_dir: Path) -> dict:
     cost_iter = cost_from_lms(task_lm, refl_lm)
 
     # Held-out test eval
-    test_summary = _eval_best_on_test(state, splits[3], task_lm_config, refl_lm_config)
+    test_summary = _eval_best_on_test(
+        state, splits[3], task_lm_config, refl_lm_config, substrate
+    )
     (pilot_dir / "test_eval.json").write_text(json.dumps(test_summary, indent=2))
     test_cost_dict = test_summary["cost_report"]
 
-    total_cost = cost_iter.cost_usd + float(test_cost_dict["cost_usd"])
+    # D4 drift instrumentation (if the variant enables it).
+    drift_summary: dict[str, Any] | None = None
+    drift_cost = 0.0
+    drift_wall = 0.0
+    if CURRENT_DRIFT_ENABLED:
+        from src.ifbench_drift import compute_drift_for_cell
+        best_idx = test_summary["best_idx"]
+        final_candidate = state.program_candidates[best_idx]
+        base_candidate = state.program_candidates[0]
+        t_drift = time.time()
+        drift_summary = compute_drift_for_cell(
+            base_seed_candidate=base_candidate,
+            final_candidate=final_candidate,
+            d_feedback=list(splits[0]),
+            task_lm_config=task_lm_config,
+            substrate=substrate,
+            drift_cache_dir=pilot_dir / "_drift",
+        )
+        drift_wall = time.time() - t_drift
+        (pilot_dir / "drift.json").write_text(json.dumps(drift_summary, indent=2))
+
+    total_cost = cost_iter.cost_usd + float(test_cost_dict["cost_usd"]) + drift_cost
     summary = {
         "arm": PILOT_ARM,
         "seed": PILOT_SEED,
-        "n_iter_target": PILOT_N_ITER,
+        "n_iter_target": int(pilot_n_iter),
         "state_i_final": int(state.i),
         "total_num_evals": int(state.total_num_evals),
         "wall_time_s": round(wall, 2),
+        "test_eval_wall_time_s": round(test_summary.get("wall_time_s", 0.0), 2)
+            if "wall_time_s" in test_summary else None,
+        "drift_wall_time_s": round(drift_wall, 2) if CURRENT_DRIFT_ENABLED else None,
         "cost": {
             "iter_cost_usd": round(cost_iter.cost_usd, 6),
             "test_cost_usd": round(float(test_cost_dict["cost_usd"]), 6),
             "cost_usd": round(total_cost, 6),
         },
-        "iter_cost_per_iter_usd": round(cost_iter.cost_usd / max(PILOT_N_ITER, 1), 6),
+        "iter_cost_per_iter_usd": round(cost_iter.cost_usd / max(pilot_n_iter, 1), 6),
         "test_eval": {
             "best_idx": test_summary["best_idx"],
             "best_val_f1": test_summary["best_val_f1"],
             "avg_test_f1": test_summary["avg_test_f1"],
             "n_test": test_summary["n_test"],
         },
+        "variant": CURRENT_VARIANT_NAME,
+        "substrate": CURRENT_SUBSTRATE_NAME,
+        "matrix_n_iter": CURRENT_N_ITER,
+        "matrix_n_cells": len(ARMS) * len(SEEDS),
     }
+    if drift_summary is not None:
+        summary["drift"] = {
+            "spearman_base_vs_final_temp0": drift_summary["spearman_base_vs_final_temp0"],
+            "frontier_leaving_rate": drift_summary["frontier_leaving"]["frontier_leaving_rate"],
+            "n_base_frontier": drift_summary["frontier_leaving"]["n_base_frontier"],
+            "n_final_frontier": drift_summary["frontier_leaving"]["n_final_frontier"],
+            "n_left_frontier": drift_summary["frontier_leaving"]["n_left_frontier"],
+            "base_binning": drift_summary["frontier_leaving"]["base_binning"],
+            "final_binning": drift_summary["frontier_leaving"]["final_binning"],
+            "wall_s_base": drift_summary["wall_s_base"],
+            "wall_s_final": drift_summary["wall_s_final"],
+        }
     (pilot_dir / "pilot_summary.json").write_text(json.dumps(summary, indent=2))
     return summary
 
@@ -482,11 +659,11 @@ def project_matrix_cost(pilot: dict) -> dict:
     per_iter = float(pilot["iter_cost_per_iter_usd"])
     test_cost = float(pilot["cost"]["test_cost_usd"])
     n_cells = len(ARMS) * len(SEEDS)
-    n_iter = 44
+    n_iter = CURRENT_N_ITER
     projected_iter = n_cells * n_iter * per_iter
     projected_test = n_cells * test_cost
     projected_total = projected_iter + projected_test
-    return {
+    out = {
         "per_iter_usd": per_iter,
         "test_cost_usd": test_cost,
         "n_cells": n_cells,
@@ -495,6 +672,21 @@ def project_matrix_cost(pilot: dict) -> dict:
         "projected_test_total_usd": projected_test,
         "projected_total_usd": projected_total,
     }
+    # Drift-enabled variants project the temp-0 base + per-cell final
+    # passes as a separate line item (one base pass shared, N cells of
+    # final passes). Cost per pass is taken from the pilot's drift
+    # final pass: it touched 150 examples at temp 0 just like the
+    # matrix cells will.
+    if "drift" in pilot:
+        # Estimate per-pass cost as (pilot.drift_wall / pilot.wall) * pilot.iter_cost,
+        # taking the pilot's mean per-call cost as a proxy. The
+        # measured pilot cost reflects the ACTUAL temp-0 pass cost in
+        # the lm_capture, but is collapsed into iter_cost_usd above
+        # because both share the same task_lm instance. We expose the
+        # walltime-derived projection separately and let the operator
+        # judge.
+        out["matrix_n_drift_passes"] = n_cells + 1  # +1 for shared base
+    return out
 
 
 def check_gate(projection: dict) -> bool:
@@ -621,6 +813,12 @@ def main() -> int:
     parser.add_argument("--seed", type=int)
     parser.add_argument("--n-iter", type=int, default=None,
                         help="Override config N (for the `cell` subcommand)")
+    parser.add_argument(
+        "--pilot-n-iter",
+        type=int,
+        default=PILOT_N_ITER,
+        help="Pilot iteration count override (default 4). Chunk-14 uses 5.",
+    )
     args = parser.parse_args()
 
     _set_variant(args.variant)
@@ -639,7 +837,7 @@ def main() -> int:
         return 0
 
     if args.phase in ("pilot", "all"):
-        pilot = run_pilot()
+        pilot = run_pilot(pilot_n_iter=int(args.pilot_n_iter))
         projection = project_matrix_cost(pilot)
         gate_passed = check_gate(projection)
         if args.phase == "pilot":

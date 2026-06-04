@@ -1,0 +1,3 @@
+{
+    "response": "description: Jessica has answered 16 out of 80 questions in 12 minutes. To find out how many minutes she will have left when she finishes, we first need to calculate her pace. She has [address] 16 questions in [address] 12 minutes, so her pace is [address] 16/12 = 4/3 questions per minute. To finish the exam, she needs to answer [address] 80 - 16 = 64 questions. At her current pace, it will take her [address] 64 * (3/4) = 48 minutes to finish the remaining questions. Since she has [address] 60 minutes in total, she will have [address] 60 - 12 = 48 minutes left when she finishes the exam. That's my answer."
+}
