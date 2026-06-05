@@ -1,0 +1,52 @@
+{
+  "n_examples_total": 75,
+  "per_bucket_target": 25,
+  "num_threads": 48,
+  "bucket_sample_seed": 42,
+  "wall_time_s": 166.57,
+  "frozen_table_sha256": "e7878d44450e7e67fa58d58b1664899da79ebf3d7298ba3d384a7b558c649365",
+  "task_model": "together_ai/Qwen/Qwen2.5-7B-Instruct-Turbo",
+  "task_temperature": 0.6,
+  "buckets": [
+    {
+      "constraint_count": 3,
+      "n": 25,
+      "fraction_mean": 0.4266666666666667,
+      "fraction_std": 0.29089898972361905,
+      "strict_mean": 0.04,
+      "strict_std": 0.19595917942265428,
+      "strict_n_all_satisfied": 1
+    },
+    {
+      "constraint_count": 4,
+      "n": 25,
+      "fraction_mean": 0.57,
+      "fraction_std": 0.2181742422927143,
+      "strict_mean": 0.12,
+      "strict_std": 0.32496153618543855,
+      "strict_n_all_satisfied": 3
+    },
+    {
+      "constraint_count": 5,
+      "n": 25,
+      "fraction_mean": 0.512,
+      "fraction_std": 0.21967248348393567,
+      "strict_mean": 0.04,
+      "strict_std": 0.19595917942265437,
+      "strict_n_all_satisfied": 1
+    }
+  ],
+  "raw_constraint_count_histogram": {
+    "n_rows_raw": 95373,
+    "constraint_count_histogram_raw": {
+      "1": 23007,
+      "2": 23903,
+      "3": 23322,
+      "4": 18038,
+      "5": 7103
+    },
+    "cc1_count": 23007,
+    "cc2_count": 23903,
+    "constraint_count_floor_in_loader": 3
+  }
+}

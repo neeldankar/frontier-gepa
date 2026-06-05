@@ -1,0 +1,1266 @@
+[
+  {
+    "id": 1572,
+    "source_key": "science.mslr2022_cochrane_multidoc_summarization.2192",
+    "constraint_count": 4,
+    "n_satisfied": 2,
+    "n_violated": 2,
+    "satisfied_ids": [
+      "detectable_content:postscript",
+      "detectable_format:number_bullet_lists"
+    ],
+    "violated_ids": [
+      "detectable_format:bigram_wrapping",
+      "count:lowercase_counting"
+    ],
+    "fraction_score": 0.5,
+    "strict_score": 0.0
+  },
+  {
+    "id": 1584,
+    "source_key": "ai2-adapt-dev/tulu_v3.9_aya_100k_24848",
+    "constraint_count": 5,
+    "n_satisfied": 4,
+    "n_violated": 1,
+    "satisfied_ids": [
+      "change_case:capital_word_frequency",
+      "change_case:english_capital",
+      "keywords:forbidden_words",
+      "letters:letter_counting2"
+    ],
+    "violated_ids": [
+      "copy:repeat_phrase"
+    ],
+    "fraction_score": 0.8,
+    "strict_score": 0.0
+  },
+  {
+    "id": 1623,
+    "source_key": "personahub_iqii5igei3uz5vnltokq2wmt",
+    "constraint_count": 5,
+    "n_satisfied": 2,
+    "n_violated": 3,
+    "satisfied_ids": [
+      "detectable_format:title",
+      "paragraphs:paragraphs2"
+    ],
+    "violated_ids": [
+      "copy:repeat_phrase",
+      "keywords:keyword_specific_position",
+      "detectable_format:square_brackets"
+    ],
+    "fraction_score": 0.4,
+    "strict_score": 0.0
+  },
+  {
+    "id": 1878,
+    "source_key": "ai2-adapt-dev/tulu_v3.9_wildchat_100k_62610",
+    "constraint_count": 4,
+    "n_satisfied": 3,
+    "n_violated": 1,
+    "satisfied_ids": [
+      "keywords:palindrome",
+      "detectable_content:number_placeholders",
+      "length_constraints:number_words"
+    ],
+    "violated_ids": [
+      "combination:two_responses"
+    ],
+    "fraction_score": 0.75,
+    "strict_score": 0.0
+  },
+  {
+    "id": 2930,
+    "source_key": "ai2-adapt-dev/tulu_v3.9_open_math_2_gsm8k_50k_36229",
+    "constraint_count": 3,
+    "n_satisfied": 2,
+    "n_violated": 1,
+    "satisfied_ids": [
+      "detectable_content:number_placeholders",
+      "keywords:forbidden_words"
+    ],
+    "violated_ids": [
+      "copy:copy"
+    ],
+    "fraction_score": 0.6666666666666666,
+    "strict_score": 0.0
+  },
+  {
+    "id": 2982,
+    "source_key": "ai2-adapt-dev/flan_v2_converted_87961",
+    "constraint_count": 3,
+    "n_satisfied": 1,
+    "n_violated": 2,
+    "satisfied_ids": [
+      "length_constraints:number_sentences"
+    ],
+    "violated_ids": [
+      "keywords:frequency",
+      "keywords:letter_frequency"
+    ],
+    "fraction_score": 0.3333333333333333,
+    "strict_score": 0.0
+  },
+  {
+    "id": 3456,
+    "source_key": "personahub_a0z6lt06cs3ult9bqvs4l4wf",
+    "constraint_count": 3,
+    "n_satisfied": 0,
+    "n_violated": 3,
+    "satisfied_ids": [],
+    "violated_ids": [
+      "length_constraints:number_sentences",
+      "length_constraints:nth_paragraph_first_word",
+      "keywords:no_adjacent_consecutive"
+    ],
+    "fraction_score": 0.0,
+    "strict_score": 0.0
+  },
+  {
+    "id": 5761,
+    "source_key": "personahub_14i9tz4zekx8qetgw1y62emk",
+    "constraint_count": 5,
+    "n_satisfied": 4,
+    "n_violated": 1,
+    "satisfied_ids": [
+      "length_constraints:number_sentences",
+      "keywords:palindrome",
+      "change_case:english_capital",
+      "keywords:no_adjacent_consecutive"
+    ],
+    "violated_ids": [
+      "detectable_format:bigram_wrapping"
+    ],
+    "fraction_score": 0.8,
+    "strict_score": 0.0
+  },
+  {
+    "id": 6315,
+    "source_key": "ai2-adapt-dev/evol_codealpaca_heval_decontaminated_62347",
+    "constraint_count": 4,
+    "n_satisfied": 2,
+    "n_violated": 2,
+    "satisfied_ids": [
+      "change_case:english_capital",
+      "detectable_format:multiple_sections"
+    ],
+    "violated_ids": [
+      "keywords:no_adjacent_consecutive",
+      "keywords:word_once"
+    ],
+    "fraction_score": 0.5,
+    "strict_score": 0.0
+  },
+  {
+    "id": 7019,
+    "source_key": "personahub_apea6rc82gi7bb3r1agbhpvt",
+    "constraint_count": 5,
+    "n_satisfied": 3,
+    "n_violated": 2,
+    "satisfied_ids": [
+      "detectable_format:multiple_sections",
+      "keywords:forbidden_words",
+      "keywords:exclude_word_harder"
+    ],
+    "violated_ids": [
+      "startend:end_checker",
+      "detectable_format:bigram_wrapping"
+    ],
+    "fraction_score": 0.6,
+    "strict_score": 0.0
+  },
+  {
+    "id": 7098,
+    "source_key": "personahub_f295xzy2n993n7y8bk8ybihy",
+    "constraint_count": 5,
+    "n_satisfied": 3,
+    "n_violated": 2,
+    "satisfied_ids": [
+      "change_case:english_capital",
+      "keywords:forbidden_words",
+      "keywords:frequency"
+    ],
+    "violated_ids": [
+      "copy:copying_multiple",
+      "keywords:no_adjacent_consecutive"
+    ],
+    "fraction_score": 0.6,
+    "strict_score": 0.0
+  },
+  {
+    "id": 7944,
+    "source_key": "personahub_dqjsehgpos10ytr2yaivea02",
+    "constraint_count": 4,
+    "n_satisfied": 1,
+    "n_violated": 3,
+    "satisfied_ids": [
+      "detectable_format:sentence_hyphens"
+    ],
+    "violated_ids": [
+      "first_word:first_word_sent",
+      "detectable_format:square_brackets",
+      "count:counting_composition"
+    ],
+    "fraction_score": 0.25,
+    "strict_score": 0.0
+  },
+  {
+    "id": 8408,
+    "source_key": "personas_math_easy_sfbe22cuhdej65cyxv8f7x8k",
+    "constraint_count": 3,
+    "n_satisfied": 0,
+    "n_violated": 3,
+    "satisfied_ids": [],
+    "violated_ids": [
+      "keywords:word_once",
+      "detectable_format:bigram_wrapping",
+      "count:lowercase_counting"
+    ],
+    "fraction_score": 0.0,
+    "strict_score": 0.0
+  },
+  {
+    "id": 8794,
+    "source_key": "ai2-adapt-dev/tulu_v3.9_aya_100k_37006",
+    "constraint_count": 5,
+    "n_satisfied": 2,
+    "n_violated": 3,
+    "satisfied_ids": [
+      "detectable_format:title",
+      "keywords:exclude_word_harder"
+    ],
+    "violated_ids": [
+      "detectable_format:number_highlighted_sections",
+      "first_word:first_word_sent",
+      "length_constraints:nth_paragraph_first_word"
+    ],
+    "fraction_score": 0.4,
+    "strict_score": 0.0
+  },
+  {
+    "id": 10175,
+    "source_key": "ai2-adapt-dev/tulu_v3.9_synthetic_finalresp_wildguardmixtrain_decontaminated_50k_8058",
+    "constraint_count": 3,
+    "n_satisfied": 1,
+    "n_violated": 2,
+    "satisfied_ids": [
+      "startend:quotation"
+    ],
+    "violated_ids": [
+      "count:counting_composition",
+      "keywords:no_adjacent_consecutive"
+    ],
+    "fraction_score": 0.3333333333333333,
+    "strict_score": 0.0
+  },
+  {
+    "id": 10307,
+    "source_key": "ai2-adapt-dev/tulu_v3.9_synthetic_finalresp_wildguardmixtrain_decontaminated_50k_6355",
+    "constraint_count": 4,
+    "n_satisfied": 2,
+    "n_violated": 2,
+    "satisfied_ids": [
+      "detectable_content:postscript",
+      "length_constraints:nth_paragraph_first_word"
+    ],
+    "violated_ids": [
+      "detectable_format:constrained_response",
+      "count:count_unique"
+    ],
+    "fraction_score": 0.5,
+    "strict_score": 0.0
+  },
+  {
+    "id": 11557,
+    "source_key": "ai2-adapt-dev/tulu_v3.9_open_math_2_gsm8k_50k_8740",
+    "constraint_count": 3,
+    "n_satisfied": 2,
+    "n_violated": 1,
+    "satisfied_ids": [
+      "language:response_language",
+      "paragraphs:paragraphs2"
+    ],
+    "violated_ids": [
+      "keywords:no_adjacent_consecutive"
+    ],
+    "fraction_score": 0.6666666666666666,
+    "strict_score": 0.0
+  },
+  {
+    "id": 12911,
+    "source_key": "personahub_jhsrjujk8a081n4chpr04njh",
+    "constraint_count": 5,
+    "n_satisfied": 3,
+    "n_violated": 2,
+    "satisfied_ids": [
+      "keywords:existence",
+      "change_case:english_capital",
+      "keywords:exclude_word_harder"
+    ],
+    "violated_ids": [
+      "count:count_increment_word",
+      "paragraphs:paragraphs2"
+    ],
+    "fraction_score": 0.6,
+    "strict_score": 0.0
+  },
+  {
+    "id": 13538,
+    "source_key": "ai2-adapt-dev/tulu_v3.9_wildjailbreak_decontaminated_50k_7092",
+    "constraint_count": 4,
+    "n_satisfied": 2,
+    "n_violated": 2,
+    "satisfied_ids": [
+      "first_word:first_word_answer",
+      "punctuation:punctuation_dot"
+    ],
+    "violated_ids": [
+      "startend:quotation",
+      "length_constraints:nth_paragraph_first_word"
+    ],
+    "fraction_score": 0.5,
+    "strict_score": 0.0
+  },
+  {
+    "id": 13577,
+    "source_key": "ai2-adapt-dev/evol_codealpaca_heval_decontaminated_15652",
+    "constraint_count": 4,
+    "n_satisfied": 2,
+    "n_violated": 2,
+    "satisfied_ids": [
+      "detectable_format:multiple_sections",
+      "punctuation:punctuation_exclamation"
+    ],
+    "violated_ids": [
+      "detectable_format:sentence_hyphens",
+      "punctuation:no_comma"
+    ],
+    "fraction_score": 0.5,
+    "strict_score": 0.0
+  },
+  {
+    "id": 14032,
+    "source_key": "ai2-adapt-dev/tulu_v3.9_synthetic_finalresp_wildguardmixtrain_decontaminated_50k_30885",
+    "constraint_count": 4,
+    "n_satisfied": 1,
+    "n_violated": 3,
+    "satisfied_ids": [
+      "detectable_format:number_bullet_lists"
+    ],
+    "violated_ids": [
+      "language:response_language",
+      "first_word:first_word_sent",
+      "change_case:english_capital"
+    ],
+    "fraction_score": 0.25,
+    "strict_score": 0.0
+  },
+  {
+    "id": 14227,
+    "source_key": "ai2-adapt-dev/tulu_v3.9_open_math_2_gsm8k_50k_16790",
+    "constraint_count": 3,
+    "n_satisfied": 2,
+    "n_violated": 1,
+    "satisfied_ids": [
+      "keywords:palindrome",
+      "punctuation:punctuation_exclamation"
+    ],
+    "violated_ids": [
+      "length_constraints:nth_paragraph_first_word"
+    ],
+    "fraction_score": 0.6666666666666666,
+    "strict_score": 0.0
+  },
+  {
+    "id": 15352,
+    "source_key": "ai2-adapt-dev/tulu_v3.9_aya_100k_5454",
+    "constraint_count": 3,
+    "n_satisfied": 1,
+    "n_violated": 2,
+    "satisfied_ids": [
+      "detectable_content:number_placeholders"
+    ],
+    "violated_ids": [
+      "count:count_unique",
+      "length_constraints:number_words"
+    ],
+    "fraction_score": 0.3333333333333333,
+    "strict_score": 0.0
+  },
+  {
+    "id": 17128,
+    "source_key": "ai2-adapt-dev/tulu_v3.9_open_math_2_gsm8k_50k_35958",
+    "constraint_count": 5,
+    "n_satisfied": 3,
+    "n_violated": 2,
+    "satisfied_ids": [
+      "letters:letter_counting",
+      "count:lowercase_counting",
+      "language:response_language"
+    ],
+    "violated_ids": [
+      "detectable_content:postscript",
+      "last_word:last_word_sent"
+    ],
+    "fraction_score": 0.6,
+    "strict_score": 0.0
+  },
+  {
+    "id": 18324,
+    "source_key": "ai2-adapt-dev/flan_v2_converted_7925",
+    "constraint_count": 4,
+    "n_satisfied": 3,
+    "n_violated": 1,
+    "satisfied_ids": [
+      "punctuation:no_comma",
+      "length_constraints:number_sentences",
+      "first_word:first_word_answer"
+    ],
+    "violated_ids": [
+      "keywords:keyword_specific_position"
+    ],
+    "fraction_score": 0.75,
+    "strict_score": 0.0
+  },
+  {
+    "id": 18951,
+    "source_key": "ai2-adapt-dev/evol_codealpaca_heval_decontaminated_56897",
+    "constraint_count": 5,
+    "n_satisfied": 1,
+    "n_violated": 4,
+    "satisfied_ids": [
+      "combination:two_responses"
+    ],
+    "violated_ids": [
+      "keywords:start_end",
+      "detectable_format:square_brackets",
+      "copy:repeat_phrase",
+      "change_case:capital_word_frequency"
+    ],
+    "fraction_score": 0.2,
+    "strict_score": 0.0
+  },
+  {
+    "id": 20676,
+    "source_key": "ai2-adapt-dev/evol_codealpaca_heval_decontaminated_24216",
+    "constraint_count": 5,
+    "n_satisfied": 4,
+    "n_violated": 1,
+    "satisfied_ids": [
+      "combination:two_responses",
+      "detectable_content:postscript",
+      "keywords:exclude_word_harder",
+      "keywords:word_once"
+    ],
+    "violated_ids": [
+      "detectable_format:square_brackets"
+    ],
+    "fraction_score": 0.8,
+    "strict_score": 0.0
+  },
+  {
+    "id": 20924,
+    "source_key": "ai2-adapt-dev/evol_codealpaca_heval_decontaminated_69680",
+    "constraint_count": 5,
+    "n_satisfied": 3,
+    "n_violated": 2,
+    "satisfied_ids": [
+      "last_word:last_word_answer",
+      "punctuation:punctuation_dot",
+      "first_word:first_word_sent"
+    ],
+    "violated_ids": [
+      "detectable_format:title",
+      "startend:end_checker"
+    ],
+    "fraction_score": 0.6,
+    "strict_score": 0.0
+  },
+  {
+    "id": 23551,
+    "source_key": "ai2-adapt-dev/flan_v2_converted_10537",
+    "constraint_count": 5,
+    "n_satisfied": 2,
+    "n_violated": 3,
+    "satisfied_ids": [
+      "length_constraints:number_words",
+      "paragraphs:paragraphs"
+    ],
+    "violated_ids": [
+      "detectable_format:number_bullet_lists",
+      "count:count_increment_word",
+      "detectable_format:number_highlighted_sections"
+    ],
+    "fraction_score": 0.4,
+    "strict_score": 0.0
+  },
+  {
+    "id": 23910,
+    "source_key": "ai2-adapt-dev/tulu_v3.9_aya_100k_36965",
+    "constraint_count": 4,
+    "n_satisfied": 3,
+    "n_violated": 1,
+    "satisfied_ids": [
+      "change_case:capital_word_frequency",
+      "change_case:english_capital",
+      "paragraphs:paragraphs"
+    ],
+    "violated_ids": [
+      "last_word:last_word_sent"
+    ],
+    "fraction_score": 0.75,
+    "strict_score": 0.0
+  },
+  {
+    "id": 24609,
+    "source_key": "ai2-adapt-dev/tulu_v3.9_wildchat_100k_20015",
+    "constraint_count": 3,
+    "n_satisfied": 1,
+    "n_violated": 2,
+    "satisfied_ids": [
+      "detectable_format:number_highlighted_sections"
+    ],
+    "violated_ids": [
+      "keywords:keyword_specific_position",
+      "punctuation:no_comma"
+    ],
+    "fraction_score": 0.3333333333333333,
+    "strict_score": 0.0
+  },
+  {
+    "id": 24769,
+    "source_key": "ai2-adapt-dev/evol_codealpaca_heval_decontaminated_26940",
+    "constraint_count": 4,
+    "n_satisfied": 4,
+    "n_violated": 0,
+    "satisfied_ids": [
+      "detectable_format:multiple_sections",
+      "keywords:frequency",
+      "detectable_content:postscript",
+      "first_word:first_word_answer"
+    ],
+    "violated_ids": [],
+    "fraction_score": 1.0,
+    "strict_score": 1.0
+  },
+  {
+    "id": 25792,
+    "source_key": "ai2-adapt-dev/tulu_v3.9_aya_100k_92109",
+    "constraint_count": 5,
+    "n_satisfied": 2,
+    "n_violated": 3,
+    "satisfied_ids": [
+      "punctuation:punctuation_dot",
+      "startend:quotation"
+    ],
+    "violated_ids": [
+      "keywords:keyword_specific_position",
+      "count:counting_composition",
+      "length_constraints:nth_paragraph_first_word"
+    ],
+    "fraction_score": 0.4,
+    "strict_score": 0.0
+  },
+  {
+    "id": 25833,
+    "source_key": "ai2-adapt-dev/numinamath_tir_math_decontaminated_60375",
+    "constraint_count": 3,
+    "n_satisfied": 2,
+    "n_violated": 1,
+    "satisfied_ids": [
+      "letters:letter_counting2",
+      "detectable_content:postscript"
+    ],
+    "violated_ids": [
+      "count:lowercase_counting"
+    ],
+    "fraction_score": 0.6666666666666666,
+    "strict_score": 0.0
+  },
+  {
+    "id": 26800,
+    "source_key": "personahub_8f5xf7qen7sqlo14efzmdo3l",
+    "constraint_count": 4,
+    "n_satisfied": 3,
+    "n_violated": 1,
+    "satisfied_ids": [
+      "length_constraints:number_words",
+      "keywords:frequency",
+      "length_constraints:number_sentences"
+    ],
+    "violated_ids": [
+      "count:counting_composition"
+    ],
+    "fraction_score": 0.75,
+    "strict_score": 0.0
+  },
+  {
+    "id": 26857,
+    "source_key": "personahub_b22qbvnzynuxmvkgrvty9xet",
+    "constraint_count": 5,
+    "n_satisfied": 3,
+    "n_violated": 2,
+    "satisfied_ids": [
+      "detectable_format:title",
+      "keywords:forbidden_words",
+      "letters:letter_counting2"
+    ],
+    "violated_ids": [
+      "new:copy_span_idx",
+      "count:count_unique"
+    ],
+    "fraction_score": 0.6,
+    "strict_score": 0.0
+  },
+  {
+    "id": 28018,
+    "source_key": "ai2-adapt-dev/tulu_v3.9_synthetic_finalresp_wildguardmixtrain_decontaminated_50k_980",
+    "constraint_count": 4,
+    "n_satisfied": 2,
+    "n_violated": 2,
+    "satisfied_ids": [
+      "keywords:word_once",
+      "change_case:english_lowercase"
+    ],
+    "violated_ids": [
+      "length_constraints:nth_paragraph_first_word",
+      "count:lowercase_counting"
+    ],
+    "fraction_score": 0.5,
+    "strict_score": 0.0
+  },
+  {
+    "id": 28160,
+    "source_key": "personahub_fx2ls7f4omruhnpdu70zk076",
+    "constraint_count": 4,
+    "n_satisfied": 2,
+    "n_violated": 2,
+    "satisfied_ids": [
+      "first_word:first_word_answer",
+      "punctuation:punctuation_exclamation"
+    ],
+    "violated_ids": [
+      "detectable_format:square_brackets",
+      "length_constraints:number_paragraphs"
+    ],
+    "fraction_score": 0.5,
+    "strict_score": 0.0
+  },
+  {
+    "id": 28940,
+    "source_key": "ai2-adapt-dev/evol_codealpaca_heval_decontaminated_70737",
+    "constraint_count": 3,
+    "n_satisfied": 2,
+    "n_violated": 1,
+    "satisfied_ids": [
+      "keywords:exclude_word_harder",
+      "keywords:palindrome"
+    ],
+    "violated_ids": [
+      "detectable_format:number_highlighted_sections"
+    ],
+    "fraction_score": 0.6666666666666666,
+    "strict_score": 0.0
+  },
+  {
+    "id": 29064,
+    "source_key": "personahub_8ru61aws5ggdikbka7rw7488",
+    "constraint_count": 3,
+    "n_satisfied": 2,
+    "n_violated": 1,
+    "satisfied_ids": [
+      "change_case:english_lowercase",
+      "paragraphs:paragraphs2"
+    ],
+    "violated_ids": [
+      "keywords:keyword_specific_position"
+    ],
+    "fraction_score": 0.6666666666666666,
+    "strict_score": 0.0
+  },
+  {
+    "id": 29340,
+    "source_key": "ai2-adapt-dev/flan_v2_converted_76484",
+    "constraint_count": 3,
+    "n_satisfied": 0,
+    "n_violated": 3,
+    "satisfied_ids": [],
+    "violated_ids": [
+      "count:count_increment_word",
+      "punctuation:punctuation_dot",
+      "copy:repeat_phrase"
+    ],
+    "fraction_score": 0.0,
+    "strict_score": 0.0
+  },
+  {
+    "id": 29392,
+    "source_key": "personahub_9dpqxhqh0abvxqi9fmael5ar",
+    "constraint_count": 4,
+    "n_satisfied": 2,
+    "n_violated": 2,
+    "satisfied_ids": [
+      "detectable_format:number_highlighted_sections",
+      "paragraphs:paragraphs"
+    ],
+    "violated_ids": [
+      "startend:end_checker",
+      "keywords:no_adjacent_consecutive"
+    ],
+    "fraction_score": 0.5,
+    "strict_score": 0.0
+  },
+  {
+    "id": 30041,
+    "source_key": "personahub_x5njuum2xu4vnrf58ja6xyg4",
+    "constraint_count": 3,
+    "n_satisfied": 1,
+    "n_violated": 2,
+    "satisfied_ids": [
+      "keywords:palindrome"
+    ],
+    "violated_ids": [
+      "length_constraints:number_paragraphs",
+      "detectable_format:square_brackets"
+    ],
+    "fraction_score": 0.3333333333333333,
+    "strict_score": 0.0
+  },
+  {
+    "id": 30045,
+    "source_key": "personahub_8qdzr1cuzim4jht0tpts5ptn",
+    "constraint_count": 5,
+    "n_satisfied": 1,
+    "n_violated": 4,
+    "satisfied_ids": [
+      "startend:quotation"
+    ],
+    "violated_ids": [
+      "count:counting_composition",
+      "last_word:last_word_sent",
+      "length_constraints:number_paragraphs",
+      "paragraphs:paragraphs2"
+    ],
+    "fraction_score": 0.2,
+    "strict_score": 0.0
+  },
+  {
+    "id": 30318,
+    "source_key": "personas_math_easy_kdjremh7bfwfz7w21fivadgb",
+    "constraint_count": 3,
+    "n_satisfied": 2,
+    "n_violated": 1,
+    "satisfied_ids": [
+      "letters:letter_counting2",
+      "detectable_format:number_highlighted_sections"
+    ],
+    "violated_ids": [
+      "count:lowercase_counting"
+    ],
+    "fraction_score": 0.6666666666666666,
+    "strict_score": 0.0
+  },
+  {
+    "id": 30873,
+    "source_key": "ai2-adapt-dev/numinamath_tir_math_decontaminated_13437",
+    "constraint_count": 4,
+    "n_satisfied": 2,
+    "n_violated": 2,
+    "satisfied_ids": [
+      "change_case:english_capital",
+      "keywords:frequency"
+    ],
+    "violated_ids": [
+      "punctuation:punctuation_dot",
+      "keywords:existence"
+    ],
+    "fraction_score": 0.5,
+    "strict_score": 0.0
+  },
+  {
+    "id": 32422,
+    "source_key": "personahub_yyzz4nn0lk1eyq3ebgnm7ase",
+    "constraint_count": 3,
+    "n_satisfied": 2,
+    "n_violated": 1,
+    "satisfied_ids": [
+      "keywords:frequency",
+      "keywords:existence"
+    ],
+    "violated_ids": [
+      "detectable_format:bigram_wrapping"
+    ],
+    "fraction_score": 0.6666666666666666,
+    "strict_score": 0.0
+  },
+  {
+    "id": 32729,
+    "source_key": "oasst1_5487",
+    "constraint_count": 5,
+    "n_satisfied": 1,
+    "n_violated": 4,
+    "satisfied_ids": [
+      "letters:letter_counting2"
+    ],
+    "violated_ids": [
+      "change_case:english_lowercase",
+      "count:lowercase_counting",
+      "length_constraints:number_words",
+      "detectable_content:postscript"
+    ],
+    "fraction_score": 0.2,
+    "strict_score": 0.0
+  },
+  {
+    "id": 32730,
+    "source_key": "personahub_xsp1bpvw1x354vqy1pp8yfvs",
+    "constraint_count": 3,
+    "n_satisfied": 1,
+    "n_violated": 2,
+    "satisfied_ids": [
+      "punctuation:punctuation_dot"
+    ],
+    "violated_ids": [
+      "detectable_content:postscript",
+      "startend:quotation"
+    ],
+    "fraction_score": 0.3333333333333333,
+    "strict_score": 0.0
+  },
+  {
+    "id": 33434,
+    "source_key": "personahub_d7n6rhroewiws7t3al81wfcz",
+    "constraint_count": 3,
+    "n_satisfied": 0,
+    "n_violated": 3,
+    "satisfied_ids": [],
+    "violated_ids": [
+      "keywords:word_once",
+      "keywords:letter_frequency",
+      "length_constraints:number_paragraphs"
+    ],
+    "fraction_score": 0.0,
+    "strict_score": 0.0
+  },
+  {
+    "id": 34197,
+    "source_key": "personas_math_easy_b2vn28qe8mossz8vk04l6h9x",
+    "constraint_count": 5,
+    "n_satisfied": 1,
+    "n_violated": 4,
+    "satisfied_ids": [
+      "language:response_language"
+    ],
+    "violated_ids": [
+      "count:count_increment_word",
+      "detectable_content:postscript",
+      "keywords:start_end",
+      "detectable_format:square_brackets"
+    ],
+    "fraction_score": 0.2,
+    "strict_score": 0.0
+  },
+  {
+    "id": 34334,
+    "source_key": "personahub_8of4pf3gci4oh0iqrw1kxg6g",
+    "constraint_count": 3,
+    "n_satisfied": 0,
+    "n_violated": 3,
+    "satisfied_ids": [],
+    "violated_ids": [
+      "copy:copying_simple",
+      "paragraphs:paragraphs",
+      "length_constraints:number_words"
+    ],
+    "fraction_score": 0.0,
+    "strict_score": 0.0
+  },
+  {
+    "id": 34595,
+    "source_key": "ai2-adapt-dev/tulu_v3.9_aya_100k_51599",
+    "constraint_count": 5,
+    "n_satisfied": 3,
+    "n_violated": 2,
+    "satisfied_ids": [
+      "language:response_language",
+      "length_constraints:number_words",
+      "punctuation:punctuation_exclamation"
+    ],
+    "violated_ids": [
+      "change_case:english_lowercase",
+      "last_word:last_word_sent"
+    ],
+    "fraction_score": 0.6,
+    "strict_score": 0.0
+  },
+  {
+    "id": 35403,
+    "source_key": "ai2-adapt-dev/tulu_v3.9_synthetic_finalresp_wildguardmixtrain_decontaminated_50k_43165",
+    "constraint_count": 3,
+    "n_satisfied": 0,
+    "n_violated": 3,
+    "satisfied_ids": [],
+    "violated_ids": [
+      "keywords:start_end",
+      "detectable_format:number_bullet_lists",
+      "paragraphs:paragraphs"
+    ],
+    "fraction_score": 0.0,
+    "strict_score": 0.0
+  },
+  {
+    "id": 35757,
+    "source_key": "personahub_46osd030e24qwr735ooyves5",
+    "constraint_count": 4,
+    "n_satisfied": 2,
+    "n_violated": 2,
+    "satisfied_ids": [
+      "punctuation:punctuation_exclamation",
+      "language:response_language"
+    ],
+    "violated_ids": [
+      "last_word:last_word_answer",
+      "detectable_format:bigram_wrapping"
+    ],
+    "fraction_score": 0.5,
+    "strict_score": 0.0
+  },
+  {
+    "id": 35833,
+    "source_key": "ai2-adapt-dev/tulu_v3.9_wildchat_100k_14103",
+    "constraint_count": 4,
+    "n_satisfied": 1,
+    "n_violated": 3,
+    "satisfied_ids": [
+      "letters:letter_counting2"
+    ],
+    "violated_ids": [
+      "keywords:keyword_specific_position",
+      "detectable_format:bigram_wrapping",
+      "last_word:last_word_answer"
+    ],
+    "fraction_score": 0.25,
+    "strict_score": 0.0
+  },
+  {
+    "id": 36326,
+    "source_key": "personahub_kqjzokcfxu7odhg8fj4c7wuw",
+    "constraint_count": 5,
+    "n_satisfied": 2,
+    "n_violated": 3,
+    "satisfied_ids": [
+      "change_case:capital_word_frequency",
+      "keywords:forbidden_words"
+    ],
+    "violated_ids": [
+      "startend:end_checker",
+      "copy:repeat_phrase",
+      "count:count_increment_word"
+    ],
+    "fraction_score": 0.4,
+    "strict_score": 0.0
+  },
+  {
+    "id": 37179,
+    "source_key": "ai2-adapt-dev/tulu_v3.9_aya_100k_95968",
+    "constraint_count": 4,
+    "n_satisfied": 4,
+    "n_violated": 0,
+    "satisfied_ids": [
+      "keywords:frequency",
+      "keywords:forbidden_words",
+      "keywords:word_count_different_numbers",
+      "detectable_format:number_bullet_lists"
+    ],
+    "violated_ids": [],
+    "fraction_score": 1.0,
+    "strict_score": 1.0
+  },
+  {
+    "id": 37646,
+    "source_key": "ai2-adapt-dev/tulu_v3.9_open_math_2_gsm8k_50k_6978",
+    "constraint_count": 4,
+    "n_satisfied": 2,
+    "n_violated": 2,
+    "satisfied_ids": [
+      "punctuation:punctuation_dot",
+      "length_constraints:number_words"
+    ],
+    "violated_ids": [
+      "keywords:no_adjacent_consecutive",
+      "keywords:word_once"
+    ],
+    "fraction_score": 0.5,
+    "strict_score": 0.0
+  },
+  {
+    "id": 38518,
+    "source_key": "ai2-adapt-dev/evol_codealpaca_heval_decontaminated_61989",
+    "constraint_count": 4,
+    "n_satisfied": 2,
+    "n_violated": 2,
+    "satisfied_ids": [
+      "detectable_format:multiple_sections",
+      "keywords:existence"
+    ],
+    "violated_ids": [
+      "startend:quotation",
+      "detectable_content:number_placeholders"
+    ],
+    "fraction_score": 0.5,
+    "strict_score": 0.0
+  },
+  {
+    "id": 39735,
+    "source_key": "ai2-adapt-dev/tulu_v3.9_aya_100k_17258",
+    "constraint_count": 3,
+    "n_satisfied": 2,
+    "n_violated": 1,
+    "satisfied_ids": [
+      "detectable_content:postscript",
+      "keywords:word_count_different_numbers"
+    ],
+    "violated_ids": [
+      "startend:quotation"
+    ],
+    "fraction_score": 0.6666666666666666,
+    "strict_score": 0.0
+  },
+  {
+    "id": 40782,
+    "source_key": "personas_math_easy_pbg7wmwv8szeoatu0k5wk6mv",
+    "constraint_count": 3,
+    "n_satisfied": 2,
+    "n_violated": 1,
+    "satisfied_ids": [
+      "detectable_content:number_placeholders",
+      "paragraphs:paragraphs"
+    ],
+    "violated_ids": [
+      "keywords:start_end"
+    ],
+    "fraction_score": 0.6666666666666666,
+    "strict_score": 0.0
+  },
+  {
+    "id": 41385,
+    "source_key": "ai2-adapt-dev/no_robots_converted_2498",
+    "constraint_count": 3,
+    "n_satisfied": 2,
+    "n_violated": 1,
+    "satisfied_ids": [
+      "keywords:word_once",
+      "detectable_format:multiple_sections"
+    ],
+    "violated_ids": [
+      "punctuation:punctuation_dot"
+    ],
+    "fraction_score": 0.6666666666666666,
+    "strict_score": 0.0
+  },
+  {
+    "id": 41722,
+    "source_key": "ai2-adapt-dev/numinamath_tir_math_decontaminated_13339",
+    "constraint_count": 3,
+    "n_satisfied": 1,
+    "n_violated": 2,
+    "satisfied_ids": [
+      "keywords:letter_frequency"
+    ],
+    "violated_ids": [
+      "first_word:first_word_sent",
+      "detectable_format:number_highlighted_sections"
+    ],
+    "fraction_score": 0.3333333333333333,
+    "strict_score": 0.0
+  },
+  {
+    "id": 42807,
+    "source_key": "ai2-adapt-dev/flan_v2_converted_65492",
+    "constraint_count": 3,
+    "n_satisfied": 3,
+    "n_violated": 0,
+    "satisfied_ids": [
+      "length_constraints:number_paragraphs",
+      "change_case:english_capital",
+      "keywords:exclude_word_harder"
+    ],
+    "violated_ids": [],
+    "fraction_score": 1.0,
+    "strict_score": 1.0
+  },
+  {
+    "id": 43147,
+    "source_key": "ai2-adapt-dev/numinamath_tir_math_decontaminated_26149",
+    "constraint_count": 5,
+    "n_satisfied": 2,
+    "n_violated": 3,
+    "satisfied_ids": [
+      "keywords:forbidden_words",
+      "keywords:palindrome"
+    ],
+    "violated_ids": [
+      "length_constraints:number_paragraphs",
+      "detectable_format:number_highlighted_sections",
+      "keywords:start_end"
+    ],
+    "fraction_score": 0.4,
+    "strict_score": 0.0
+  },
+  {
+    "id": 43191,
+    "source_key": "ai2-adapt-dev/tulu_v3.9_synthetic_finalresp_wildguardmixtrain_decontaminated_50k_25303",
+    "constraint_count": 4,
+    "n_satisfied": 4,
+    "n_violated": 0,
+    "satisfied_ids": [
+      "change_case:capital_word_frequency",
+      "paragraphs:paragraphs",
+      "keywords:palindrome",
+      "keywords:existence"
+    ],
+    "violated_ids": [],
+    "fraction_score": 1.0,
+    "strict_score": 1.0
+  },
+  {
+    "id": 43452,
+    "source_key": "ai2-adapt-dev/numinamath_tir_math_decontaminated_32825",
+    "constraint_count": 5,
+    "n_satisfied": 4,
+    "n_violated": 1,
+    "satisfied_ids": [
+      "punctuation:no_comma",
+      "length_constraints:number_paragraphs",
+      "detectable_format:title",
+      "language:response_language"
+    ],
+    "violated_ids": [
+      "detectable_format:bigram_wrapping"
+    ],
+    "fraction_score": 0.8,
+    "strict_score": 0.0
+  },
+  {
+    "id": 44103,
+    "source_key": "personas_math_easy_kx4r99ed1ttnn7duiskj37yr",
+    "constraint_count": 4,
+    "n_satisfied": 1,
+    "n_violated": 3,
+    "satisfied_ids": [
+      "punctuation:punctuation_exclamation"
+    ],
+    "violated_ids": [
+      "count:count_increment_word",
+      "keywords:existence",
+      "keywords:word_count_different_numbers"
+    ],
+    "fraction_score": 0.25,
+    "strict_score": 0.0
+  },
+  {
+    "id": 44422,
+    "source_key": "ai2-adapt-dev/flan_v2_converted_13443",
+    "constraint_count": 5,
+    "n_satisfied": 3,
+    "n_violated": 2,
+    "satisfied_ids": [
+      "detectable_format:number_highlighted_sections",
+      "keywords:palindrome",
+      "punctuation:no_comma"
+    ],
+    "violated_ids": [
+      "paragraphs:paragraphs",
+      "length_constraints:nth_paragraph_first_word"
+    ],
+    "fraction_score": 0.6,
+    "strict_score": 0.0
+  },
+  {
+    "id": 46358,
+    "source_key": "bferjoa",
+    "constraint_count": 5,
+    "n_satisfied": 5,
+    "n_violated": 0,
+    "satisfied_ids": [
+      "punctuation:no_comma",
+      "change_case:capital_word_frequency",
+      "detectable_format:title",
+      "count:count_increment_word",
+      "keywords:palindrome"
+    ],
+    "violated_ids": [],
+    "fraction_score": 1.0,
+    "strict_score": 1.0
+  },
+  {
+    "id": 46573,
+    "source_key": "ai2-adapt-dev/flan_v2_converted_12370",
+    "constraint_count": 4,
+    "n_satisfied": 2,
+    "n_violated": 2,
+    "satisfied_ids": [
+      "punctuation:punctuation_dot",
+      "change_case:capital_word_frequency"
+    ],
+    "violated_ids": [
+      "copy:copy",
+      "paragraphs:paragraphs2"
+    ],
+    "fraction_score": 0.5,
+    "strict_score": 0.0
+  },
+  {
+    "id": 46745,
+    "source_key": "personahub_ywbophj1zfyeazqp17cuudza",
+    "constraint_count": 4,
+    "n_satisfied": 3,
+    "n_violated": 1,
+    "satisfied_ids": [
+      "change_case:english_lowercase",
+      "keywords:word_count_different_numbers",
+      "length_constraints:number_sentences"
+    ],
+    "violated_ids": [
+      "keywords:keyword_specific_position"
+    ],
+    "fraction_score": 0.75,
+    "strict_score": 0.0
+  },
+  {
+    "id": 46756,
+    "source_key": "ai2-adapt-dev/tulu_v3.9_synthetic_finalresp_wildguardmixtrain_decontaminated_50k_47143",
+    "constraint_count": 5,
+    "n_satisfied": 1,
+    "n_violated": 4,
+    "satisfied_ids": [
+      "detectable_format:number_bullet_lists"
+    ],
+    "violated_ids": [
+      "keywords:word_count_different_numbers",
+      "detectable_format:bigram_wrapping",
+      "keywords:letter_frequency",
+      "keywords:frequency"
+    ],
+    "fraction_score": 0.2,
+    "strict_score": 0.0
+  },
+  {
+    "id": 47279,
+    "source_key": "ai2-adapt-dev/tulu_v3.9_aya_100k_22704",
+    "constraint_count": 5,
+    "n_satisfied": 2,
+    "n_violated": 3,
+    "satisfied_ids": [
+      "keywords:no_adjacent_consecutive",
+      "detectable_format:square_brackets"
+    ],
+    "violated_ids": [
+      "detectable_format:number_highlighted_sections",
+      "letters:letter_counting",
+      "keywords:word_count_different_numbers"
+    ],
+    "fraction_score": 0.4,
+    "strict_score": 0.0
+  }
+]

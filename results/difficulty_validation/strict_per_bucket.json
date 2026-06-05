@@ -1,0 +1,29 @@
+[
+  {
+    "constraint_count": 3,
+    "n": 25,
+    "fraction_mean": 0.4266666666666667,
+    "fraction_std": 0.29089898972361905,
+    "strict_mean": 0.04,
+    "strict_std": 0.19595917942265428,
+    "strict_n_all_satisfied": 1
+  },
+  {
+    "constraint_count": 4,
+    "n": 25,
+    "fraction_mean": 0.57,
+    "fraction_std": 0.2181742422927143,
+    "strict_mean": 0.12,
+    "strict_std": 0.32496153618543855,
+    "strict_n_all_satisfied": 3
+  },
+  {
+    "constraint_count": 5,
+    "n": 25,
+    "fraction_mean": 0.512,
+    "fraction_std": 0.21967248348393567,
+    "strict_mean": 0.04,
+    "strict_std": 0.19595917942265437,
+    "strict_n_all_satisfied": 1
+  }
+]
