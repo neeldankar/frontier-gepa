@@ -1,0 +1,3 @@
+{
+    "response": "* To initiate the creation of a web server tailored for hosting an online site use a framework like Flask in Python -\n* Install Flask by running pip install flask in terminal then create a file named app.py and within it import Flask from flask and create an instance of the Flask class\n* Use the instance to route requests to specific functions that handle the site's content and return responses to the client\n* Deploy the server on a hosting service like Heroku or DigitalOcean to make the site accessible to users over the internet\n* * This is point 1."
+}

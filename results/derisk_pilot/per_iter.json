@@ -1,0 +1,322 @@
+[
+  {
+    "iter": 1,
+    "accepted": false,
+    "new_program_idx": null,
+    "parent_program_idx": null,
+    "parent_a_sum": 9.233333333333336,
+    "new_a_sum": 8.366666666666667
+  },
+  {
+    "iter": 2,
+    "accepted": false,
+    "new_program_idx": null,
+    "parent_program_idx": null,
+    "parent_a_sum": 9.233333333333336,
+    "new_a_sum": 9.166666666666666
+  },
+  {
+    "iter": 3,
+    "accepted": false,
+    "new_program_idx": null,
+    "parent_program_idx": null,
+    "parent_a_sum": 9.233333333333336,
+    "new_a_sum": 8.383333333333333
+  },
+  {
+    "iter": 4,
+    "accepted": false,
+    "new_program_idx": null,
+    "parent_program_idx": null,
+    "parent_a_sum": 9.233333333333336,
+    "new_a_sum": 8.450000000000001
+  },
+  {
+    "iter": 5,
+    "accepted": false,
+    "new_program_idx": null,
+    "parent_program_idx": null,
+    "parent_a_sum": 9.233333333333336,
+    "new_a_sum": 9.233333333333334
+  },
+  {
+    "iter": 6,
+    "accepted": false,
+    "new_program_idx": null,
+    "parent_program_idx": null,
+    "parent_a_sum": 9.233333333333336,
+    "new_a_sum": 8.399999999999999
+  },
+  {
+    "iter": 7,
+    "accepted": false,
+    "new_program_idx": null,
+    "parent_program_idx": null,
+    "parent_a_sum": 9.233333333333336,
+    "new_a_sum": 7.6
+  },
+  {
+    "iter": 8,
+    "accepted": true,
+    "new_program_idx": 1,
+    "parent_program_idx": null,
+    "parent_a_sum": 9.233333333333336,
+    "new_a_sum": 9.25
+  },
+  {
+    "iter": 9,
+    "accepted": false,
+    "new_program_idx": null,
+    "parent_program_idx": null,
+    "parent_a_sum": 9.233333333333336,
+    "new_a_sum": 8.433333333333334
+  },
+  {
+    "iter": 10,
+    "accepted": true,
+    "new_program_idx": 2,
+    "parent_program_idx": null,
+    "parent_a_sum": 8.583333333333332,
+    "new_a_sum": 8.85
+  },
+  {
+    "iter": 11,
+    "accepted": false,
+    "new_program_idx": null,
+    "parent_program_idx": null,
+    "parent_a_sum": 8.85,
+    "new_a_sum": 7.983333333333333
+  },
+  {
+    "iter": 12,
+    "accepted": true,
+    "new_program_idx": 3,
+    "parent_program_idx": null,
+    "parent_a_sum": 8.583333333333332,
+    "new_a_sum": 9.533333333333335
+  },
+  {
+    "iter": 13,
+    "accepted": false,
+    "new_program_idx": null,
+    "parent_program_idx": null,
+    "parent_a_sum": 9.333333333333334,
+    "new_a_sum": 7.533333333333334
+  },
+  {
+    "iter": 14,
+    "accepted": false,
+    "new_program_idx": null,
+    "parent_program_idx": null,
+    "parent_a_sum": 9.333333333333334,
+    "new_a_sum": 9.183333333333334
+  },
+  {
+    "iter": 15,
+    "accepted": false,
+    "new_program_idx": null,
+    "parent_program_idx": null,
+    "parent_a_sum": 8.583333333333332,
+    "new_a_sum": 7.966666666666667
+  },
+  {
+    "iter": 16,
+    "accepted": true,
+    "new_program_idx": 4,
+    "parent_program_idx": null,
+    "parent_a_sum": 8.583333333333332,
+    "new_a_sum": 8.650000000000002
+  },
+  {
+    "iter": 17,
+    "accepted": false,
+    "new_program_idx": null,
+    "parent_program_idx": null,
+    "parent_a_sum": 9.333333333333334,
+    "new_a_sum": 7.8500000000000005
+  },
+  {
+    "iter": 18,
+    "accepted": true,
+    "new_program_idx": 5,
+    "parent_program_idx": null,
+    "parent_a_sum": 9.333333333333334,
+    "new_a_sum": 9.683333333333332
+  },
+  {
+    "iter": 19,
+    "accepted": false,
+    "new_program_idx": null,
+    "parent_program_idx": null,
+    "parent_a_sum": 10.016666666666667,
+    "new_a_sum": 9.633333333333335
+  },
+  {
+    "iter": 20,
+    "accepted": true,
+    "new_program_idx": 6,
+    "parent_program_idx": null,
+    "parent_a_sum": 8.583333333333332,
+    "new_a_sum": 9.983333333333334
+  },
+  {
+    "iter": 21,
+    "accepted": false,
+    "new_program_idx": null,
+    "parent_program_idx": null,
+    "parent_a_sum": 9.233333333333336,
+    "new_a_sum": 8.05
+  },
+  {
+    "iter": 22,
+    "accepted": false,
+    "new_program_idx": null,
+    "parent_program_idx": null,
+    "parent_a_sum": 8.650000000000002,
+    "new_a_sum": 8.483333333333334
+  },
+  {
+    "iter": 23,
+    "accepted": false,
+    "new_program_idx": null,
+    "parent_program_idx": null,
+    "parent_a_sum": 9.333333333333334,
+    "new_a_sum": 8.316666666666668
+  },
+  {
+    "iter": 24,
+    "accepted": true,
+    "new_program_idx": 7,
+    "parent_program_idx": null,
+    "parent_a_sum": 9.333333333333334,
+    "new_a_sum": 9.583333333333334
+  },
+  {
+    "iter": 25,
+    "accepted": false,
+    "new_program_idx": null,
+    "parent_program_idx": null,
+    "parent_a_sum": 9.250000000000002,
+    "new_a_sum": 8.233333333333334
+  },
+  {
+    "iter": 26,
+    "accepted": false,
+    "new_program_idx": null,
+    "parent_program_idx": null,
+    "parent_a_sum": 9.233333333333336,
+    "new_a_sum": 8.600000000000001
+  },
+  {
+    "iter": 27,
+    "accepted": false,
+    "new_program_idx": null,
+    "parent_program_idx": null,
+    "parent_a_sum": 9.333333333333334,
+    "new_a_sum": 8.65
+  },
+  {
+    "iter": 28,
+    "accepted": true,
+    "new_program_idx": 8,
+    "parent_program_idx": null,
+    "parent_a_sum": 8.583333333333332,
+    "new_a_sum": 9.233333333333334
+  },
+  {
+    "iter": 29,
+    "accepted": false,
+    "new_program_idx": null,
+    "parent_program_idx": null,
+    "parent_a_sum": 9.250000000000002,
+    "new_a_sum": 7.6499999999999995
+  },
+  {
+    "iter": 30,
+    "accepted": true,
+    "new_program_idx": 9,
+    "parent_program_idx": null,
+    "parent_a_sum": 9.250000000000002,
+    "new_a_sum": 9.700000000000001
+  },
+  {
+    "iter": 31,
+    "accepted": false,
+    "new_program_idx": null,
+    "parent_program_idx": null,
+    "parent_a_sum": 9.233333333333336,
+    "new_a_sum": 8.716666666666667
+  },
+  {
+    "iter": 32,
+    "accepted": false,
+    "new_program_idx": null,
+    "parent_program_idx": null,
+    "parent_a_sum": 9.250000000000002,
+    "new_a_sum": 8.016666666666667
+  },
+  {
+    "iter": 33,
+    "accepted": true,
+    "new_program_idx": 10,
+    "parent_program_idx": null,
+    "parent_a_sum": 8.85,
+    "new_a_sum": 10.566666666666665
+  },
+  {
+    "iter": 34,
+    "accepted": true,
+    "new_program_idx": 11,
+    "parent_program_idx": null,
+    "parent_a_sum": 8.85,
+    "new_a_sum": 9.0
+  },
+  {
+    "iter": 35,
+    "accepted": false,
+    "new_program_idx": null,
+    "parent_program_idx": null,
+    "parent_a_sum": 8.85,
+    "new_a_sum": 8.316666666666666
+  },
+  {
+    "iter": 36,
+    "accepted": true,
+    "new_program_idx": 12,
+    "parent_program_idx": null,
+    "parent_a_sum": 8.650000000000002,
+    "new_a_sum": 10.0
+  },
+  {
+    "iter": 37,
+    "accepted": false,
+    "new_program_idx": null,
+    "parent_program_idx": null,
+    "parent_a_sum": 10.016666666666667,
+    "new_a_sum": 9.233333333333334
+  },
+  {
+    "iter": 38,
+    "accepted": true,
+    "new_program_idx": 13,
+    "parent_program_idx": null,
+    "parent_a_sum": 8.85,
+    "new_a_sum": 8.983333333333334
+  },
+  {
+    "iter": 39,
+    "accepted": true,
+    "new_program_idx": 14,
+    "parent_program_idx": null,
+    "parent_a_sum": 8.85,
+    "new_a_sum": 9.750000000000002
+  },
+  {
+    "iter": 40,
+    "accepted": false,
+    "new_program_idx": null,
+    "parent_program_idx": null,
+    "parent_a_sum": 8.650000000000002,
+    "new_a_sum": 8.466666666666665
+  }
+]

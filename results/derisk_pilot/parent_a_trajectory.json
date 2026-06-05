@@ -1,0 +1,72 @@
+[
+  {
+    "iter": 8,
+    "parent_a_sum_before_accept": 9.233333333333336,
+    "new_a_sum_at_accept": 9.25
+  },
+  {
+    "iter": 10,
+    "parent_a_sum_before_accept": 8.583333333333332,
+    "new_a_sum_at_accept": 8.85
+  },
+  {
+    "iter": 12,
+    "parent_a_sum_before_accept": 8.583333333333332,
+    "new_a_sum_at_accept": 9.533333333333335
+  },
+  {
+    "iter": 16,
+    "parent_a_sum_before_accept": 8.583333333333332,
+    "new_a_sum_at_accept": 8.650000000000002
+  },
+  {
+    "iter": 18,
+    "parent_a_sum_before_accept": 9.333333333333334,
+    "new_a_sum_at_accept": 9.683333333333332
+  },
+  {
+    "iter": 20,
+    "parent_a_sum_before_accept": 8.583333333333332,
+    "new_a_sum_at_accept": 9.983333333333334
+  },
+  {
+    "iter": 24,
+    "parent_a_sum_before_accept": 9.333333333333334,
+    "new_a_sum_at_accept": 9.583333333333334
+  },
+  {
+    "iter": 28,
+    "parent_a_sum_before_accept": 8.583333333333332,
+    "new_a_sum_at_accept": 9.233333333333334
+  },
+  {
+    "iter": 30,
+    "parent_a_sum_before_accept": 9.250000000000002,
+    "new_a_sum_at_accept": 9.700000000000001
+  },
+  {
+    "iter": 33,
+    "parent_a_sum_before_accept": 8.85,
+    "new_a_sum_at_accept": 10.566666666666665
+  },
+  {
+    "iter": 34,
+    "parent_a_sum_before_accept": 8.85,
+    "new_a_sum_at_accept": 9.0
+  },
+  {
+    "iter": 36,
+    "parent_a_sum_before_accept": 8.650000000000002,
+    "new_a_sum_at_accept": 10.0
+  },
+  {
+    "iter": 38,
+    "parent_a_sum_before_accept": 8.85,
+    "new_a_sum_at_accept": 8.983333333333334
+  },
+  {
+    "iter": 39,
+    "parent_a_sum_before_accept": 8.85,
+    "new_a_sum_at_accept": 9.750000000000002
+  }
+]

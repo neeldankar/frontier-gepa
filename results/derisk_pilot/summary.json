@@ -1,0 +1,29 @@
+{
+  "arm": "random",
+  "seed": 0,
+  "n_iter_target": 40,
+  "state_i_final": 39,
+  "total_num_evals": 2205,
+  "n_candidates": 15,
+  "first_accept_iter": 8,
+  "cumulative_accepts_at_N": 14,
+  "accepted_iters": [
+    8,
+    10,
+    12,
+    16,
+    18,
+    20,
+    24,
+    28,
+    30,
+    33,
+    34,
+    36,
+    38,
+    39
+  ],
+  "wall_time_s": 9880.73,
+  "smoke": false,
+  "parent_a_trajectory_events": 14
+}

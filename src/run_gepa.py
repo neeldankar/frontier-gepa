@@ -367,6 +367,7 @@ def run(
     lm_capture: dict | None = None,
     mix: tuple[float, float, float] = DEFAULT_MIX,
     substrate: Substrate | None = None,
+    extra_callbacks: list[GEPACallback] | None = None,
 ) -> GEPAState:
     """Run one (arm, seed) cell. Returns the final GEPAState.
 
@@ -520,6 +521,9 @@ def run(
         max_proposals=int(config["stopping"]["n"])
     )
     rng_callback = _RNGSnapshotCallback(rng, run_dir)
+    callbacks: list[GEPACallback] = [rng_callback]
+    if extra_callbacks:
+        callbacks.extend(extra_callbacks)
 
     engine = GEPAEngine(
         adapter=adapter,
@@ -533,7 +537,7 @@ def run(
         frontier_type="instance",
         logger=logger,
         experiment_tracker=experiment_tracker,
-        callbacks=[rng_callback],
+        callbacks=callbacks,
         track_best_outputs=False,
         display_progress_bar=False,
         raise_on_exception=raise_on_exception,
