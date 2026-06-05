@@ -1,0 +1,32 @@
+[
+  {
+    "constraint_count": 1,
+    "n": 0,
+    "mean_score": null,
+    "std_score": null
+  },
+  {
+    "constraint_count": 2,
+    "n": 0,
+    "mean_score": null,
+    "std_score": null
+  },
+  {
+    "constraint_count": 3,
+    "n": 25,
+    "mean_score": 0.42666666666666664,
+    "std_score": 0.27519689920733725
+  },
+  {
+    "constraint_count": 4,
+    "n": 25,
+    "mean_score": 0.55,
+    "std_score": 0.23452078799117151
+  },
+  {
+    "constraint_count": 5,
+    "n": 25,
+    "mean_score": 0.44800000000000006,
+    "std_score": 0.22824548188299373
+  }
+]

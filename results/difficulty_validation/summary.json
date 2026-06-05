@@ -1,0 +1,53 @@
+{
+  "n_examples_total": 75,
+  "per_bucket_target": 25,
+  "num_threads": 48,
+  "bucket_sample_seed": 42,
+  "wall_time_s": 148.54,
+  "monotonic_decreasing_across_buckets_with_data": false,
+  "monotonicity_breaks": [
+    {
+      "from_cc": 3,
+      "to_cc": 4,
+      "mean_from": 0.42666666666666664,
+      "mean_to": 0.55
+    }
+  ],
+  "buckets": [
+    {
+      "constraint_count": 1,
+      "n": 0,
+      "mean_score": null,
+      "std_score": null
+    },
+    {
+      "constraint_count": 2,
+      "n": 0,
+      "mean_score": null,
+      "std_score": null
+    },
+    {
+      "constraint_count": 3,
+      "n": 25,
+      "mean_score": 0.42666666666666664,
+      "std_score": 0.27519689920733725
+    },
+    {
+      "constraint_count": 4,
+      "n": 25,
+      "mean_score": 0.55,
+      "std_score": 0.23452078799117151
+    },
+    {
+      "constraint_count": 5,
+      "n": 25,
+      "mean_score": 0.44800000000000006,
+      "std_score": 0.22824548188299373
+    }
+  ],
+  "carved_test_split_size": 300,
+  "carved_test_split_min_cc": 3,
+  "frozen_table_sha256": "e7878d44450e7e67fa58d58b1664899da79ebf3d7298ba3d384a7b558c649365",
+  "task_model": "together_ai/Qwen/Qwen2.5-7B-Instruct-Turbo",
+  "task_temperature": 0.6
+}
