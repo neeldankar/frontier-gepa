@@ -56,40 +56,67 @@ The full cross-probe writeup is in [`FINDINGS.md`](FINDINGS.md).
 
 ### HotpotQA Experiment 1 (70/15/15, 5 arms × 3 seeds)
 
-- [`results/analysis_chunk7/FINDINGS.md`](results/analysis_chunk7/FINDINGS.md) — narrative + interview-ready summary
-- [`results/analysis_chunk7/iteration_curves.png`](results/analysis_chunk7/iteration_curves.png) — best-so-far val F1 per arm
-- [`results/analysis_chunk7/endpoint_test_f1.png`](results/analysis_chunk7/endpoint_test_f1.png) — forest plot (paired-hierarchical bootstrap CIs)
-- [`results/analysis_chunk7/iterations_to_target.png`](results/analysis_chunk7/iterations_to_target.png) — iterations-to-target at T=0.63
-- [`results/analysis_chunk7/summary.json`](results/analysis_chunk7/summary.json) — every number, bootstrap seed 20260602
+- [`results/hotpotqa/exp1_static_bands/analysis_chunk7/FINDINGS.md`](results/hotpotqa/exp1_static_bands/analysis_chunk7/FINDINGS.md) — narrative + interview-ready summary
+- [`results/hotpotqa/exp1_static_bands/analysis_chunk7/iteration_curves.png`](results/hotpotqa/exp1_static_bands/analysis_chunk7/iteration_curves.png) — best-so-far val F1 per arm
+- [`results/hotpotqa/exp1_static_bands/analysis_chunk7/endpoint_test_f1.png`](results/hotpotqa/exp1_static_bands/analysis_chunk7/endpoint_test_f1.png) — forest plot (paired-hierarchical bootstrap CIs)
+- [`results/hotpotqa/exp1_static_bands/analysis_chunk7/iterations_to_target.png`](results/hotpotqa/exp1_static_bands/analysis_chunk7/iterations_to_target.png) — iterations-to-target at T=0.63
+- [`results/hotpotqa/exp1_static_bands/analysis_chunk7/summary.json`](results/hotpotqa/exp1_static_bands/analysis_chunk7/summary.json) — every number, bootstrap seed 20260602
 
 ### HotpotQA Experiment 1b (100/0/0 isolation)
 
-- [`results/analysis_chunk10/FINDINGS_hotpot_100.md`](results/analysis_chunk10/FINDINGS_hotpot_100.md) — accept-count collapse + paired contrasts
-- [`results/analysis_chunk10/accept_collapse.png`](results/analysis_chunk10/accept_collapse.png) — the leakage mechanism, visualised
-- [`results/analysis_chunk10/iteration_curves_isolation.png`](results/analysis_chunk10/iteration_curves_isolation.png) — 70/15/15 vs 100/0/0 curves
-- [`results/analysis_chunk10/endpoint_test_f1_isolation.png`](results/analysis_chunk10/endpoint_test_f1_isolation.png) — endpoint F1 under both mixes
-- [`results/analysis_chunk10/summary.json`](results/analysis_chunk10/summary.json) — every isolation number
+- [`results/hotpotqa/exp1_static_bands/analysis_chunk10/FINDINGS_hotpot_100.md`](results/hotpotqa/exp1_static_bands/analysis_chunk10/FINDINGS_hotpot_100.md) — accept-count collapse + paired contrasts
+- [`results/hotpotqa/exp1_static_bands/analysis_chunk10/accept_collapse.png`](results/hotpotqa/exp1_static_bands/analysis_chunk10/accept_collapse.png) — the leakage mechanism, visualised
+- [`results/hotpotqa/exp1_static_bands/analysis_chunk10/iteration_curves_isolation.png`](results/hotpotqa/exp1_static_bands/analysis_chunk10/iteration_curves_isolation.png) — 70/15/15 vs 100/0/0 curves
+- [`results/hotpotqa/exp1_static_bands/analysis_chunk10/endpoint_test_f1_isolation.png`](results/hotpotqa/exp1_static_bands/analysis_chunk10/endpoint_test_f1_isolation.png) — endpoint F1 under both mixes
+- [`results/hotpotqa/exp1_static_bands/analysis_chunk10/summary.json`](results/hotpotqa/exp1_static_bands/analysis_chunk10/summary.json) — every isolation number
 
 ### IFBench Experiment 2 (designed, built, pilot-validated; matrix NOT run)
 
-- [`CHUNK13_REPORT.md`](CHUNK13_REPORT.md) — base scoring + continuity gate (GO; frontier=50, rank terciles)
+- [`docs/archive/CHUNK13_REPORT.md`](docs/archive/CHUNK13_REPORT.md) — base scoring + continuity gate (GO; frontier=50, rank terciles)
 - [`results/ifbench/diagnostic_chunk13/histogram.png`](results/ifbench/diagnostic_chunk13/histogram.png) — score distribution with chosen boundaries
 - [`results/ifbench/difficulty_table.sha256`](results/ifbench/difficulty_table.sha256) — frozen-table hash (verified at variant selection)
-- [`CHUNK14_PILOT_REPORT.md`](CHUNK14_PILOT_REPORT.md) — wiring report + parallel-eval pilot + substrate-cost diagnosis
-- [`results/logs_ifbench/static_frontier_0_pilot/pilot_summary.json`](results/logs_ifbench/static_frontier_0_pilot/pilot_summary.json) — pilot numbers
-- [`results/logs_ifbench/static_frontier_0_pilot/drift.json`](results/logs_ifbench/static_frontier_0_pilot/drift.json) — D4 temp-0 Spearman + frontier-leaving rate
+- [`docs/archive/CHUNK14_PILOT_REPORT.md`](docs/archive/CHUNK14_PILOT_REPORT.md) — wiring report + parallel-eval pilot + substrate-cost diagnosis
+- [`results/ifbench/pilot/logs_ifbench/static_frontier_0_pilot/pilot_summary.json`](results/ifbench/pilot/logs_ifbench/static_frontier_0_pilot/pilot_summary.json) — pilot numbers
+- [`results/ifbench/pilot/logs_ifbench/static_frontier_0_pilot/drift.json`](results/ifbench/pilot/logs_ifbench/static_frontier_0_pilot/drift.json) — D4 temp-0 Spearman + frontier-leaving rate
 
 ## Design and protocol
 
-- [`DEVIATIONS.md`](DEVIATIONS.md) — six forced substitutions from the
+- [`docs/archive/DEVIATIONS.md`](docs/archive/DEVIATIONS.md) — six forced substitutions from the
   §15 settled-decisions list, each with cause, decision date, and impact
   on the science.
-- [`ARCHITECTURE.md`](ARCHITECTURE.md) — Chunk-1 GEPA source recon and
+- [`docs/archive/ARCHITECTURE.md`](docs/archive/ARCHITECTURE.md) — Chunk-1 GEPA source recon and
   the hook plan (no engine fork).
 - [`CLAUDE.md`](CLAUDE.md) — build plan, chunk-by-chunk status, locked
   parameters.
-- [`gepa_band_selection_handoff.md`](gepa_band_selection_handoff.md) —
+- [`docs/archive/gepa_band_selection_handoff.md`](docs/archive/gepa_band_selection_handoff.md) —
   original design spec.
+
+## Repository layout
+
+```
+docs/archive/        prior design specs and per-chunk reports (BUILD_PLAN, ARCHITECTURE,
+                     DEVIATIONS, CHUNK*_REPORT, PILOT/DIFFICULTY validation, the two
+                     handoffs). Historical record; not loaded by code.
+results/
+  difficulty_table.json          frozen HotpotQA difficulty table (kept at root)
+  d_feedback_records.json        frozen HotpotQA D_feedback artifacts (kept at root)
+  d_feedback_scores.json
+  hotpotqa/exp1_static_bands/    Exp 1 + 1b outputs (logs, logs_hotpot_100,
+                                 analysis_chunk7/10, diagnostic_chunk5)
+  ifbench/                       Exp 2 frozen table + d_feedback + diagnostic_chunk13,
+    pilot/                       and the pilot outputs (logs_ifbench, derisk_pilot)
+    difficulty_validation/       IFBench seed/difficulty validation
+  exp3_curriculum/               Exp 3 (curriculum) writes here; empty until built
+src/                 implementation
+config/experiment.yaml
+tests/
+```
+
+Note: prior-experiment scripts under `src/` still hardcode the old flat `results/`
+paths (e.g. `results/logs`, `results/logs_ifbench`); they were intentionally left
+unedited in the Exp-3 cleanup, so re-running them recreates the old flat layout rather
+than writing into the substrate folders above. The reorganized folders are the archived
+record of the runs that already happened.
 
 ## Reproducing
 
