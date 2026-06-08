@@ -179,6 +179,7 @@ def run_cell(
     raise_on_exception: bool = True,
     logger: Any | None = None,
     extra_callbacks: Optional[list[GEPACallback]] = None,
+    state_capture: Optional[dict] = None,
 ) -> dict[str, Any]:
     """Run one (arm, seed) cell with an injected adapter; write + return the
     Exp-3 run summary.
@@ -277,17 +278,30 @@ def run_cell(
         evaluation_cache=None,
     )
 
+    import time as _time
+
+    _t_engine = _time.perf_counter()
     with experiment_tracker:
         state = engine.run()
+    engine_run_seconds = _time.perf_counter() - _t_engine
 
-    # ---- Final held-out test F1 (single eval of the best candidate) ----
+    if state_capture is not None:
+        state_capture["state"] = state
+        state_capture["engine_run_seconds"] = engine_run_seconds
+
+    # ---- Final held-out test F1 (single eval of the best candidate by
+    #      D_pareto aggregate; GEPA Algorithm 1 line 21) ----
     val_scores = list(state.program_full_scores_val_set)
     best_idx = max(range(len(val_scores)), key=lambda k: val_scores[k]) if val_scores else 0
     best_candidate = state.program_candidates[best_idx]
+    _t_test = _time.perf_counter()
     test_eval = adapter.evaluate(list(test), best_candidate, capture_traces=False)
+    test_eval_seconds = _time.perf_counter() - _t_test
     final_test_f1 = (
         sum(test_eval.scores) / len(test_eval.scores) if test_eval.scores else None
     )
+    if state_capture is not None:
+        state_capture["test_eval_seconds"] = test_eval_seconds
 
     # ---- Summary ----
     records = log_callback.records
@@ -326,6 +340,8 @@ def build_and_run(
     task_lm_config: Any | None = None,
     reflection_lm_config: Any | None = None,
     raise_on_exception: bool = True,
+    extra_callbacks: Optional[list[GEPACallback]] = None,
+    state_capture: Optional[dict] = None,
 ) -> dict[str, Any]:
     """Build the real HotpotQA program/adapter/LMs and run one (arm, seed) cell.
 
@@ -410,4 +426,6 @@ def build_and_run(
         b=int(config["minibatch"]["b"]),
         reflection_lm=reflection_lm_callable,
         raise_on_exception=raise_on_exception,
+        extra_callbacks=extra_callbacks,
+        state_capture=state_capture,
     )

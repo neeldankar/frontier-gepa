@@ -1,0 +1,132 @@
+{
+  "arm": "hard_to_easy",
+  "seed": 0,
+  "T": 8,
+  "confirmations": {
+    "c1_exactly_T_iters": true,
+    "c1_state_i_span_0_to_T-1": true,
+    "c2_bin_schedule_matches": true,
+    "c3_A_eq_20": true,
+    "c3_a20_are_averages_in_0_1": true,
+    "c3_accept_decided_on_A20": true,
+    "c4_best_is_dpareto_argmax": true
+  },
+  "first_accept_iter": 1,
+  "cumulative_accepts": 2,
+  "final_test_f1": 0.6399179900147642,
+  "best_candidate_idx": 2,
+  "n_candidates_discovered": 3,
+  "val_aggregate_scores": [
+    0.5963222703222701,
+    0.6024704184704183,
+    0.6218672438672437
+  ],
+  "expected_bins": [
+    "hard",
+    "hard",
+    "hard",
+    "medium",
+    "medium",
+    "medium",
+    "easy",
+    "easy"
+  ],
+  "actual_bins": [
+    "hard",
+    "hard",
+    "hard",
+    "medium",
+    "medium",
+    "medium",
+    "easy",
+    "easy"
+  ],
+  "timing": {
+    "total_wall_seconds": 128.1428071669652,
+    "engine_run_seconds": 72.41206074994989,
+    "base_eval_seconds_est": 0.7189473760081455,
+    "test_eval_seconds": 50.99342204199638,
+    "per_iter_seconds": [
+      9.798,
+      20.14,
+      7.094,
+      3.775,
+      7.545,
+      20.142,
+      1.46,
+      1.738
+    ],
+    "mean_iter_seconds": 8.961639171742718,
+    "min_iter_seconds": 1.4601726250257343,
+    "max_iter_seconds": 20.141784582985565
+  },
+  "bin_to_a20": [
+    {
+      "iter": 0,
+      "bin": "hard",
+      "parent_a20": 0.5619047619047619,
+      "candidate_a20": 0.5603703703703704,
+      "accepted": false
+    },
+    {
+      "iter": 1,
+      "bin": "hard",
+      "parent_a20": 0.5619047619047619,
+      "candidate_a20": 0.6041666666666666,
+      "accepted": true
+    },
+    {
+      "iter": 2,
+      "bin": "hard",
+      "parent_a20": 0.6041666666666666,
+      "candidate_a20": 0.6041666666666666,
+      "accepted": false
+    },
+    {
+      "iter": 3,
+      "bin": "medium",
+      "parent_a20": 0.5619047619047619,
+      "candidate_a20": 0.5402448428764218,
+      "accepted": false
+    },
+    {
+      "iter": 4,
+      "bin": "medium",
+      "parent_a20": 0.5619047619047619,
+      "candidate_a20": 0.42333333333333323,
+      "accepted": false
+    },
+    {
+      "iter": 5,
+      "bin": "medium",
+      "parent_a20": 0.5619047619047619,
+      "candidate_a20": 0.6066666666666667,
+      "accepted": true
+    },
+    {
+      "iter": 6,
+      "bin": "easy",
+      "parent_a20": null,
+      "candidate_a20": null,
+      "accepted": false
+    },
+    {
+      "iter": 7,
+      "bin": "easy",
+      "parent_a20": null,
+      "candidate_a20": null,
+      "accepted": false
+    }
+  ],
+  "projection": {
+    "assumptions": "per-cell = base_eval + 40*mean_iter + test_eval; concurrency is idealized wall = serial/N (ignores Together rate limits and shared-endpoint contention; real speedup will be lower).",
+    "mean_iter_seconds": 8.961639171742718,
+    "base_eval_seconds_est": 0.7189473760081455,
+    "test_eval_seconds": 50.99342204199638,
+    "per_cell_seconds": 410.17793628771324,
+    "serial_total_hours": 1.3672597876257109,
+    "concurrent_N4_hours": 0.3418149469064277,
+    "concurrent_N6_hours": 0.22787663127095178,
+    "concurrent_N12_hours": 0.11393831563547589
+  }
+}

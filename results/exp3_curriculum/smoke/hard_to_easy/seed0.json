@@ -1,0 +1,107 @@
+{
+  "arm": "hard_to_easy",
+  "seed": 0,
+  "T": 8,
+  "first_accept_iter": 1,
+  "cumulative_accepts": 2,
+  "final_test_f1": 0.6399179900147642,
+  "best_candidate_idx": 2,
+  "iterations": [
+    {
+      "iter": 0,
+      "bin_sampled": "hard",
+      "minibatch_ids": [
+        147,
+        72,
+        11
+      ],
+      "parent_a20": 0.5619047619047619,
+      "candidate_a20": 0.5603703703703704,
+      "accepted": false
+    },
+    {
+      "iter": 1,
+      "bin_sampled": "hard",
+      "minibatch_ids": [
+        93,
+        91,
+        69
+      ],
+      "parent_a20": 0.5619047619047619,
+      "candidate_a20": 0.6041666666666666,
+      "accepted": true
+    },
+    {
+      "iter": 2,
+      "bin_sampled": "hard",
+      "minibatch_ids": [
+        87,
+        63,
+        103
+      ],
+      "parent_a20": 0.6041666666666666,
+      "candidate_a20": 0.6041666666666666,
+      "accepted": false
+    },
+    {
+      "iter": 3,
+      "bin_sampled": "medium",
+      "minibatch_ids": [
+        90,
+        18,
+        32
+      ],
+      "parent_a20": 0.5619047619047619,
+      "candidate_a20": 0.5402448428764218,
+      "accepted": false
+    },
+    {
+      "iter": 4,
+      "bin_sampled": "medium",
+      "minibatch_ids": [
+        121,
+        17,
+        108
+      ],
+      "parent_a20": 0.5619047619047619,
+      "candidate_a20": 0.42333333333333323,
+      "accepted": false
+    },
+    {
+      "iter": 5,
+      "bin_sampled": "medium",
+      "minibatch_ids": [
+        142,
+        92,
+        117
+      ],
+      "parent_a20": 0.5619047619047619,
+      "candidate_a20": 0.6066666666666667,
+      "accepted": true
+    },
+    {
+      "iter": 6,
+      "bin_sampled": "easy",
+      "minibatch_ids": [
+        40,
+        83,
+        24
+      ],
+      "parent_a20": null,
+      "candidate_a20": null,
+      "accepted": false
+    },
+    {
+      "iter": 7,
+      "bin_sampled": "easy",
+      "minibatch_ids": [
+        16,
+        89,
+        131
+      ],
+      "parent_a20": null,
+      "candidate_a20": null,
+      "accepted": false
+    }
+  ]
+}

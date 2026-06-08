@@ -224,3 +224,6 @@ __marimo__/
 # the runner; do not version them).
 results/smoke_*/
 results/run_*/
+# Exp-3 per-cell GEPA run dirs (gepa_state.bin, generated outputs) are
+# reproducible; keep only the seed<seed>.json summaries + reports.
+results/exp3_curriculum/**/seed*/
