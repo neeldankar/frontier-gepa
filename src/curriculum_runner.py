@@ -60,7 +60,7 @@ EXP3_ARMS: tuple[str, ...] = ("random", "easy_to_hard", "hard_to_easy", "static_
 BINNED_ARMS: frozenset[str] = frozenset(SCHEDULE_ARMS) - {"random"}
 DEFAULT_T: int = 40
 DEFAULT_B: int = 3
-DEFAULT_OUT_ROOT = _REPO / "results" / "exp3_curriculum"
+DEFAULT_OUT_ROOT = _REPO / "experiments" / "exp3_curriculum"
 
 
 class _NoopLogger:

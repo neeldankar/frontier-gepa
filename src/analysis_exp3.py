@@ -23,7 +23,7 @@ matplotlib.use("Agg")
 import matplotlib.pyplot as plt
 
 _REPO = Path(__file__).resolve().parents[1]
-OUT = _REPO / "results" / "exp3_curriculum"
+OUT = _REPO / "experiments" / "exp3_curriculum"
 
 ARMS = ("random", "easy_to_hard", "hard_to_easy", "static_medium")
 SEEDS = (0, 1, 2)

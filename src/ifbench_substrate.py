@@ -30,10 +30,10 @@ _REPO = Path(__file__).resolve().parents[1]
 
 # Frozen-table provenance constants from Chunk 13.
 IFBENCH_DIFFICULTY_PATH: Path = (
-    _REPO / "results" / "ifbench" / "difficulty_table.json"
+    _REPO / "experiments" / "exp2_ifbench" / "difficulty_table.json"
 )
 IFBENCH_DIFFICULTY_HASH_PATH: Path = (
-    _REPO / "results" / "ifbench" / "difficulty_table.sha256"
+    _REPO / "experiments" / "exp2_ifbench" / "difficulty_table.sha256"
 )
 # The SHA-256 baked at Chunk 13. Source of truth: the on-disk
 # .sha256 file. Duplicated here as a constant so a tampering of the

@@ -22,7 +22,7 @@ from src.bins import (
 )
 
 REPO = Path(__file__).resolve().parents[1]
-TABLE_PATH = REPO / "results" / "difficulty_table.json"
+TABLE_PATH = REPO / "experiments" / "exp1_bands" / "difficulty_table.json"
 
 
 class TestAssignBin:

@@ -1,3 +1,0 @@
-{
-    "response": "def validate_emails(email_list):\n    \"\"\"\n    Validates a list of email addresses.\n    \"\"\"\n    def is_valid_email(email):\n        \"\"\"\n        Checks if an email is valid based on the given criteria.\n        \"\"\"\n        at_count = email.count('@')\n        if at_count != 1:\n            return False\n        \n        parts = email.split('@')\n        domain = parts[1]\n        if '.' not in domain:\n            return False\n        \n        return True\n    \n    return [is_valid_email(email) for email in email_list]\n\ninput_list = [\"example@example.com\", \"test.email@domain\", \"invalid@.com\", \"noatsymbol.com\"]\nprint(validate_emails(input_list))\n\nThe END.."
-}

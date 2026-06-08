@@ -1,3 +1,0 @@
-{
-    "response": "import mido\nfrom mido import MidiFile\nfrom pygame import mixer\n\ndef play_midi oil file_path:\n    try:\n        mid = MidiFile file_path\n        mixer.init()\n        for message in mid.play():\n            mixer.music.play()\n    except mido.errors.MidiError:\n        print file_path does not exist or is not a valid MIDI file oil\n    except Exception as e:\n        print e oil\n\nplay_midi 'example.mid'\n\nin patience 10-th sentence, as 22-th word is oil"
-}

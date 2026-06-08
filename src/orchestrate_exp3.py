@@ -39,7 +39,7 @@ _REPO = Path(__file__).resolve().parents[1]
 ARMS: tuple[str, ...] = ("random", "easy_to_hard", "hard_to_easy", "static_medium")
 SEEDS: tuple[int, ...] = (0, 1, 2)
 T: int = 40
-OUT_ROOT = _REPO / "results" / "exp3_curriculum"
+OUT_ROOT = _REPO / "experiments" / "exp3_curriculum"
 
 
 def all_cells() -> list[tuple[str, int]]:

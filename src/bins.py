@@ -42,8 +42,8 @@ EASY_MIN: float = 0.99
 HARD_MAX: float = 0.01
 
 REPO = Path(__file__).resolve().parents[1]
-DEFAULT_TABLE_PATH = REPO / "results" / "difficulty_table.json"
-SUMMARY_PATH = REPO / "results" / "exp3_curriculum" / "bins_summary.json"
+DEFAULT_TABLE_PATH = REPO / "experiments" / "exp1_bands" / "difficulty_table.json"
+SUMMARY_PATH = REPO / "experiments" / "exp3_curriculum" / "bins_summary.json"
 
 # Minimum members the medium (frontier) bin must have for the experiment to be
 # runnable as designed: b=3 draws (with replacement, but we still require the

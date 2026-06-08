@@ -1,149 +1,132 @@
 # frontier-gepa
 
-A GEPA feasibility probe testing whether the **difficulty band of the
-examples GEPA reflects on** changes its sample efficiency, at matched
-iteration budget. Built as two independent experiments:
+Controlled experiments on **which examples GEPA should reflect on** — does the
+difficulty (or failure composition) of the examples fed to GEPA's reflective mutation
+change its optimization, at matched budget? Four studies, two substrates (HotpotQA
+distractor, IFBench `allenai/IF_multi_constraints_upto5`). Task LM
+`together_ai/Qwen/Qwen2.5-7B-Instruct-Turbo` @ temp 0.6; reflection LM `gpt-4.1-mini`.
+Stack pinned at `dspy==3.2.1`, `gepa==0.1.1` (bridged by a small `_PatchedDspyAdapter`).
 
-- **Experiment 1 + 1b (HotpotQA):** 5 arms × 3 seeds × N=44, decoupled
-  acceptance on a fixed 20-example A-batch, 100/0/0 isolation re-run
-  of the three static arms. Substrate is HotpotQA distractor (the §9
-  fallback after the hosted ColBERTv2 index proved unreachable); task LM
-  is Qwen2.5-7B-Instruct-Turbo on Together (the §15 forced
-  substitution); reflection LM is `gpt-4.1-mini`. Both matrices ran;
-  total matrix spend ~$8.62.
+## The four studies
 
-- **Experiment 2 (IFBench):** the populated-frontier substrate
-  (`allenai/IF_multi_constraints_upto5`). Designed and built end-to-end:
-  one-module program, vendored IFEval verifiers, frozen Chunk-13
-  difficulty table (continuity gate GO at frontier=50), full Chunk-14
-  wiring with D4 temp-0 drift instrumentation, and a parallel-eval pilot
-  that confirmed the pipeline works. **Matrix NOT executed** because of
-  a substrate-cost diagnosis at pilot time — see headline #3 below.
+1. **Exp 1 / 1b — static difficulty bands (HotpotQA).** 5 arms × 3 seeds, N=44,
+   decoupled acceptance on a fixed 20-example A-batch, plus a 100/0/0 isolation re-run.
+   → `experiments/exp1_bands/`
+2. **Exp 2 — IFBench substrate (designed, diagnosed, pilot-validated; matrix not run).**
+   One-module program, vendored IFEval verifiers, frozen difficulty table (continuity
+   gate GO), parallel-eval pilot; full matrix shelved on a wall-time diagnosis.
+   → `experiments/exp2_ifbench/`
+3. **Exp 3 — curriculum schedule (HotpotQA).** 4 arms × 3 seeds, T=40; a temporal
+   easy→hard / hard→easy / static-medium / random schedule over the reflection minibatch.
+   Primary endpoint = accept dynamics. → `experiments/exp3_curriculum/`
+4. **Phase 0 — active example selection (IFBench).** Does failure composition
+   (`addressability`) predict whether reflecting on an example generalizes, beyond base
+   score? → `experiments/phase0_selection/`
 
-## Headline
+## Headline findings
 
-1. **HotpotQA, 5 arms × 3 seeds, 70/15/15.** Clean null. Between-arm
-   endpoint test-F1 mean spans 0.0121, dwarfed by a within-arm seed
-   spread of 0.0395. The frontier-band hypothesis is not supported by
-   these data at this scale.
+1. **Exp 1 (70/15/15).** Clean null on held-out test F1 — between-arm mean spans 0.0121
+   vs a within-arm seed spread of 0.0395.
+2. **Exp 1b (100/0/0 isolation).** The off-band-leakage mechanism is real:
+   `static_easy` accepts/cell collapse 5.3 → 0.0 when 30% off-band exposure is removed —
+   but removing it does not manufacture a frontier effect. The cleaner null is still null.
+3. **Exp 2 (IFBench).** Difficulty table cleared the continuity gate (rank terciles,
+   frontier 50/150). Matrix shelved: output-heavy temp-0.6 generations hit the 16K-token
+   ceiling, projecting ~57–82 h wall for the 15-cell matrix (spend was fine; wall was not).
+4. **Exp 3 (curriculum).** Schedule changes accept *dynamics* but not generalization.
+   Iteration-to-first-accept (mean): `hard_to_easy` 4.0, `static_medium` 3.3,
+   `random` 9.3, `easy_to_hard` 17.0 — `easy_to_hard` sits at **0 cumulative accepts
+   through phase 1 (iters 0–13) across all seeds** while the others rise earlier. Test F1
+   is a null (the prediction comparison lives in the writeup, not the results file).
+5. **Phase 0 (selection).** Failure composition does **not** predict reflection
+   generalization beyond base score: binary strict-improvement is near-degenerate (42/45
+   improved; LR p=0.75), and the continuous after-margin OLS gives addressability
+   t=0.44, p=0.66 (R² 0.004→0.008). The base-score×addressability correlation is ~0
+   (Pearson 0.036), so the scalar carried independent variance but no predictive signal.
 
-2. **HotpotQA, 100/0/0 isolation.** The off-band-leakage mechanism is
-   real and measurable: static_easy's accepts/cell collapse from 5.3
-   → 0.0 when 30% off-band exposure is removed. Removing the leakage
-   does NOT manufacture a frontier effect. The cleaner null is still a
-   null.
-
-3. **IFBench, designed and built; matrix intractable.** Chunk-13
-   difficulty table cleared the continuity gate (rank terciles,
-   frontier = 50/150, GO). Chunk-14 wiring complete; pilot validated
-   the pipeline end-to-end. At measured per-call wall (~17 s/example
-   on temp-0.6 output-heavy generations hitting the 16K max_tokens
-   ceiling), the 15-cell matrix projects to **57 h at N=40, 69 h at
-   N=60, 82 h at N=80**. The $100 cost gate passes ($5–7 projected);
-   the binding constraint is wall time, not spend. We do not ship a
-   matrix at a deviation cost (lower max_tokens / smaller test pool /
-   smaller N / skip drift) without operator-level methodology
-   guidance.
-
-The full cross-probe writeup is in [`FINDINGS.md`](FINDINGS.md).
-
-## Combined writeup
-
-- [`FINDINGS.md`](FINDINGS.md) — cross-probe narrative, with the
-  IFBench substrate-cost diagnosis presented as the IFBench result.
-
-## Per-probe pointers
-
-### HotpotQA Experiment 1 (70/15/15, 5 arms × 3 seeds)
-
-- [`results/hotpotqa/exp1_static_bands/analysis_chunk7/FINDINGS.md`](results/hotpotqa/exp1_static_bands/analysis_chunk7/FINDINGS.md) — narrative + interview-ready summary
-- [`results/hotpotqa/exp1_static_bands/analysis_chunk7/iteration_curves.png`](results/hotpotqa/exp1_static_bands/analysis_chunk7/iteration_curves.png) — best-so-far val F1 per arm
-- [`results/hotpotqa/exp1_static_bands/analysis_chunk7/endpoint_test_f1.png`](results/hotpotqa/exp1_static_bands/analysis_chunk7/endpoint_test_f1.png) — forest plot (paired-hierarchical bootstrap CIs)
-- [`results/hotpotqa/exp1_static_bands/analysis_chunk7/iterations_to_target.png`](results/hotpotqa/exp1_static_bands/analysis_chunk7/iterations_to_target.png) — iterations-to-target at T=0.63
-- [`results/hotpotqa/exp1_static_bands/analysis_chunk7/summary.json`](results/hotpotqa/exp1_static_bands/analysis_chunk7/summary.json) — every number, bootstrap seed 20260602
-
-### HotpotQA Experiment 1b (100/0/0 isolation)
-
-- [`results/hotpotqa/exp1_static_bands/analysis_chunk10/FINDINGS_hotpot_100.md`](results/hotpotqa/exp1_static_bands/analysis_chunk10/FINDINGS_hotpot_100.md) — accept-count collapse + paired contrasts
-- [`results/hotpotqa/exp1_static_bands/analysis_chunk10/accept_collapse.png`](results/hotpotqa/exp1_static_bands/analysis_chunk10/accept_collapse.png) — the leakage mechanism, visualised
-- [`results/hotpotqa/exp1_static_bands/analysis_chunk10/iteration_curves_isolation.png`](results/hotpotqa/exp1_static_bands/analysis_chunk10/iteration_curves_isolation.png) — 70/15/15 vs 100/0/0 curves
-- [`results/hotpotqa/exp1_static_bands/analysis_chunk10/endpoint_test_f1_isolation.png`](results/hotpotqa/exp1_static_bands/analysis_chunk10/endpoint_test_f1_isolation.png) — endpoint F1 under both mixes
-- [`results/hotpotqa/exp1_static_bands/analysis_chunk10/summary.json`](results/hotpotqa/exp1_static_bands/analysis_chunk10/summary.json) — every isolation number
-
-### IFBench Experiment 2 (designed, built, pilot-validated; matrix NOT run)
-
-- [`docs/archive/CHUNK13_REPORT.md`](docs/archive/CHUNK13_REPORT.md) — base scoring + continuity gate (GO; frontier=50, rank terciles)
-- [`results/ifbench/diagnostic_chunk13/histogram.png`](results/ifbench/diagnostic_chunk13/histogram.png) — score distribution with chosen boundaries
-- [`results/ifbench/difficulty_table.sha256`](results/ifbench/difficulty_table.sha256) — frozen-table hash (verified at variant selection)
-- [`docs/archive/CHUNK14_PILOT_REPORT.md`](docs/archive/CHUNK14_PILOT_REPORT.md) — wiring report + parallel-eval pilot + substrate-cost diagnosis
-- [`results/ifbench/pilot/logs_ifbench/static_frontier_0_pilot/pilot_summary.json`](results/ifbench/pilot/logs_ifbench/static_frontier_0_pilot/pilot_summary.json) — pilot numbers
-- [`results/ifbench/pilot/logs_ifbench/static_frontier_0_pilot/drift.json`](results/ifbench/pilot/logs_ifbench/static_frontier_0_pilot/drift.json) — D4 temp-0 Spearman + frontier-leaving rate
-
-## Design and protocol
-
-- [`docs/archive/DEVIATIONS.md`](docs/archive/DEVIATIONS.md) — six forced substitutions from the
-  §15 settled-decisions list, each with cause, decision date, and impact
-  on the science.
-- [`docs/archive/ARCHITECTURE.md`](docs/archive/ARCHITECTURE.md) — Chunk-1 GEPA source recon and
-  the hook plan (no engine fork).
-- [`CLAUDE.md`](CLAUDE.md) — build plan, chunk-by-chunk status, locked
-  parameters.
-- [`docs/archive/gepa_band_selection_handoff.md`](docs/archive/gepa_band_selection_handoff.md) —
-  original design spec.
+Cross-probe narrative: [`docs/FINDINGS.md`](docs/FINDINGS.md).
 
 ## Repository layout
 
 ```
-docs/archive/        prior design specs and per-chunk reports (BUILD_PLAN, ARCHITECTURE,
-                     DEVIATIONS, CHUNK*_REPORT, PILOT/DIFFICULTY validation, the two
-                     handoffs). Historical record; not loaded by code.
-results/
-  difficulty_table.json          frozen HotpotQA difficulty table (kept at root)
-  d_feedback_records.json        frozen HotpotQA D_feedback artifacts (kept at root)
-  d_feedback_scores.json
-  hotpotqa/exp1_static_bands/    Exp 1 + 1b outputs (logs, logs_hotpot_100,
-                                 analysis_chunk7/10, diagnostic_chunk5)
-  ifbench/                       Exp 2 frozen table + d_feedback + diagnostic_chunk13,
-    pilot/                       and the pilot outputs (logs_ifbench, derisk_pilot)
-    difficulty_validation/       IFBench seed/difficulty validation
-  exp3_curriculum/               Exp 3 (curriculum) writes here; empty until built
-src/                 implementation
-config/experiment.yaml
-tests/
+README.md  CLAUDE.md  ARCHITECTURE.md  LICENSE  requirements.txt  pytest.ini
+.gitignore  .env.example
+config/  prompts/  src/  tests/
+
+docs/
+  FINDINGS.md            cross-probe writeup
+  DEVIATIONS.md          forced substitutions from the settled-decisions list
+  BUILD_PLAN.md          original chunked build plan
+  handoffs/              original design specs (band-selection, exp3 curriculum)
+  prereg/                pre-registrations (exp3 curriculum)
+  reports/               per-chunk session reports + validation diagnostics
+
+experiments/
+  exp1_bands/            HotpotQA static bands: frozen difficulty table + d_feedback,
+                         per-cell run summaries (logs/, logs_hotpot_100/),
+                         analysis_chunk7 (70/15/15) + analysis_chunk10 (100/0/0) figures
+  exp2_ifbench/          IFBench: frozen table (+sha256), diagnostic_chunk13,
+                         difficulty_validation, pilot/ run summaries
+  exp3_curriculum/       curriculum spec, schedule, per-(arm,seed) summaries,
+                         RESULTS.md + cumulative_accepts.png
+  phase0_selection/      inspection + active-selection validation scripts, cached
+                         results, reports (type_landscape, active_selection, margin)
 ```
 
-Note: prior-experiment scripts under `src/` still hardcode the old flat `results/`
-paths (e.g. `results/logs`, `results/logs_ifbench`); they were intentionally left
-unedited in the Exp-3 cleanup, so re-running them recreates the old flat layout rather
-than writing into the substrate folders above. The reorganized folders are the archived
+Note: per-cell **raw run artifacts** (`generated_best_outputs_valset/`, `gepa_state.bin`,
+`shared_rng.pkl`, `candidate_tree.html`) were pruned for a portfolio-sized repo and remain
+in git history; the per-cell `cell_summary.json` / `run_log*` / `test_eval.json`, the
+analysis figures, and all frozen inputs are kept. The active Exp-3 modules (`bins`,
+`curriculum_runner`, `orchestrate_exp3`, `analysis_exp3`) and the IFBench substrate
+read/write under `experiments/`; the older Exp-1/2 scripts (`orchestrator`, `score_*`,
+`analysis_chunk*`, `diagnostic_chunk*`) predate this layout and still use a legacy
+`results/` path when re-run. The committed artifacts under `experiments/` are the archived
 record of the runs that already happened.
+
+## Per-study pointers
+
+- **Exp 1:** [`experiments/exp1_bands/analysis_chunk7/FINDINGS.md`](experiments/exp1_bands/analysis_chunk7/FINDINGS.md),
+  `iteration_curves.png`, `endpoint_test_f1.png`, `summary.json`.
+- **Exp 1b:** [`experiments/exp1_bands/analysis_chunk10/FINDINGS_hotpot_100.md`](experiments/exp1_bands/analysis_chunk10/FINDINGS_hotpot_100.md),
+  `accept_collapse.png`, `summary.json`.
+- **Exp 2:** [`docs/reports/CHUNK13_REPORT.md`](docs/reports/CHUNK13_REPORT.md),
+  [`docs/reports/CHUNK14_PILOT_REPORT.md`](docs/reports/CHUNK14_PILOT_REPORT.md),
+  [`experiments/exp2_ifbench/diagnostic_chunk13/histogram.png`](experiments/exp2_ifbench/diagnostic_chunk13/histogram.png).
+- **Exp 3:** [`experiments/exp3_curriculum/RESULTS.md`](experiments/exp3_curriculum/RESULTS.md),
+  [`cumulative_accepts.png`](experiments/exp3_curriculum/cumulative_accepts.png),
+  [`docs/prereg/PREREGISTRATION_exp3_curriculum.md`](docs/prereg/PREREGISTRATION_exp3_curriculum.md),
+  [spec](experiments/exp3_curriculum/CLAUDE_CODE_BUILD_PROMPT_exp3_curriculum.md).
+- **Phase 0:** [`experiments/phase0_selection/PHASE0_REPORT.md`](experiments/phase0_selection/PHASE0_REPORT.md),
+  [`type_landscape.md`](experiments/phase0_selection/type_landscape.md),
+  [`active_selection_report.md`](experiments/phase0_selection/active_selection_report.md),
+  [`active_selection_margin_report.md`](experiments/phase0_selection/active_selection_margin_report.md).
+
+## Design and protocol
+- [`ARCHITECTURE.md`](ARCHITECTURE.md) — GEPA source recon + the hook plan (no engine fork).
+- [`CLAUDE.md`](CLAUDE.md) — build plan, locked parameters, guardrails.
+- [`docs/DEVIATIONS.md`](docs/DEVIATIONS.md), [`docs/handoffs/`](docs/handoffs/),
+  [`docs/reports/`](docs/reports/).
 
 ## Reproducing
 
 ```
 uv venv --python 3.10 .venv
 uv pip install -r requirements.txt
-cp .env.example .env  # fill in TASK_MODEL + TOGETHER_API_KEY + OPENAI_API_KEY
-.venv/bin/python -m pytest tests/ -m "not integration"     # 142 offline tests
+cp .env.example .env  # TASK_MODEL + TASK_MODEL_API_KEY (Together) + OPENAI_API_KEY
+.venv/bin/python -m pytest tests/ -m "not integration"      # offline test suite
 
-# HotpotQA Experiment 1 (~$5, 1.5-2 hours)
-.venv/bin/python -m src.score_d_feedback                    # builds difficulty_table.json
-.venv/bin/python -m src.diagnostic_chunk5                   # GO/NO-GO + figure
-.venv/bin/python -m src.orchestrator all                    # runs the 70/15/15 matrix
-.venv/bin/python -m src.analysis_chunk7                     # offline; rebuilds FINDINGS + figures
+# Exp 3 curriculum (HotpotQA): score base system, build value bins, run the 4x3 matrix, analyse
+.venv/bin/python -m src.score_d_feedback                     # frozen difficulty table
+.venv/bin/python -m src.bins                                 # value-based bins + gate
+.venv/bin/python -m src.orchestrate_exp3 --workers 4         # 4 arms x 3 seeds, T=40
+.venv/bin/python -m src.analysis_exp3                        # figures + RESULTS.md
 
-# HotpotQA Experiment 1b (100/0/0 isolation, ~$3, 1-1.5 hours)
-.venv/bin/python -m src.orchestrator matrix --variant hotpot_100  # 3 static arms × 3 seeds
-.venv/bin/python -m src.analysis_chunk10                    # offline; rebuilds isolation FINDINGS
-
-# IFBench Experiment 2 (Chunk-13 base scoring + continuity gate; Chunk-14 NOT run)
-.venv/bin/python -m src.score_ifbench_d_feedback            # ~$0.20, builds ifbench difficulty table
-.venv/bin/python -m src.diagnostic_chunk13                  # continuity gate + figure
-.venv/bin/python -m src.orchestrator pilot --variant ifbench_100 --pilot-n-iter 5
-                                                            # validates pipeline; ~$0.14, ~2h 20min
-# .venv/bin/python -m src.orchestrator matrix --variant ifbench_100
-#   NOT recommended without methodology guidance; see CHUNK14_PILOT_REPORT.md
-#   for the substrate-cost diagnosis (57-82h projected wall at N=40-80).
+# Phase 0 selection (IFBench): inspection + active-selection validation (reuses cached scores)
+.venv/bin/python experiments/phase0_selection/inspect_ifbench_selection.py
+.venv/bin/python experiments/phase0_selection/active_selection_validation.py   # pre-flight (no LLM)
+.venv/bin/python experiments/phase0_selection/active_selection_validation.py --run
 ```
 
-Pinned versions in `requirements.txt`: `dspy==3.2.1`, `gepa==0.1.1`.
+Earlier studies (Exp 1/1b/2) used `src.orchestrator` / `src.score_ifbench_d_feedback` /
+`src.diagnostic_chunk*`; see [`docs/reports/`](docs/reports/) for their session reports.
+Pinned: `dspy==3.2.1`, `gepa==0.1.1`.

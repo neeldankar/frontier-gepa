@@ -1,3 +1,0 @@
-{
-    "response": "def calculate_revenue(dishes):\n    total = 0\n    for album in dishes:\n        total = total + (album[\"units_sold\"] * album[\"price_per_unit\"])\n    return total\n\nalbums = [ {\"album_name\": \"Album A\", \"units_sold\": 1500, \"price_per_unit\": 1299}, {\"album_name\": \"Album B\", \"units_sold\": 2000, \"price_per_unit\": 999}, {\"album_name\": \"Album C\", \"units_sold\": 500, \"price_per_unit\": 1599} ]\nprint calculate_revenue(albums) dish"
-}
