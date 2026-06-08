@@ -1,0 +1,491 @@
+{
+  "arm": "random",
+  "seed": 1,
+  "T": 40,
+  "first_accept_iter": 2,
+  "cumulative_accepts": 4,
+  "final_test_f1": 0.6181673517641262,
+  "best_candidate_idx": 4,
+  "iterations": [
+    {
+      "iter": 0,
+      "bin_sampled": null,
+      "minibatch_ids": [
+        116,
+        57,
+        103
+      ],
+      "parent_a20": 0.5619047619047619,
+      "candidate_a20": 0.36205128205128206,
+      "accepted": false
+    },
+    {
+      "iter": 1,
+      "bin_sampled": null,
+      "minibatch_ids": [
+        144,
+        40,
+        21
+      ],
+      "parent_a20": 0.5619047619047619,
+      "candidate_a20": 0.5208333333333333,
+      "accepted": false
+    },
+    {
+      "iter": 2,
+      "bin_sampled": null,
+      "minibatch_ids": [
+        78,
+        129,
+        130
+      ],
+      "parent_a20": 0.5619047619047619,
+      "candidate_a20": 0.5785714285714285,
+      "accepted": true
+    },
+    {
+      "iter": 3,
+      "bin_sampled": null,
+      "minibatch_ids": [
+        121,
+        9,
+        108
+      ],
+      "parent_a20": 0.5619047619047619,
+      "candidate_a20": 0.5677777777777777,
+      "accepted": true
+    },
+    {
+      "iter": 4,
+      "bin_sampled": null,
+      "minibatch_ids": [
+        62,
+        33,
+        128
+      ],
+      "parent_a20": 0.5619047619047619,
+      "candidate_a20": 0.5619047619047619,
+      "accepted": false
+    },
+    {
+      "iter": 5,
+      "bin_sampled": null,
+      "minibatch_ids": [
+        52,
+        96,
+        91
+      ],
+      "parent_a20": 0.5677777777777777,
+      "candidate_a20": 0.5358333333333334,
+      "accepted": false
+    },
+    {
+      "iter": 6,
+      "bin_sampled": null,
+      "minibatch_ids": [
+        131,
+        59,
+        119
+      ],
+      "parent_a20": 0.5619047619047619,
+      "candidate_a20": 0.5119047619047619,
+      "accepted": false
+    },
+    {
+      "iter": 7,
+      "bin_sampled": null,
+      "minibatch_ids": [
+        105,
+        18,
+        125
+      ],
+      "parent_a20": 0.5619047619047619,
+      "candidate_a20": 0.39705128205128204,
+      "accepted": false
+    },
+    {
+      "iter": 8,
+      "bin_sampled": null,
+      "minibatch_ids": [
+        94,
+        60,
+        66
+      ],
+      "parent_a20": 0.5619047619047619,
+      "candidate_a20": 0.4708333333333333,
+      "accepted": false
+    },
+    {
+      "iter": 9,
+      "bin_sampled": null,
+      "minibatch_ids": [
+        127,
+        43,
+        55
+      ],
+      "parent_a20": 0.5785714285714285,
+      "candidate_a20": 0.5769047619047618,
+      "accepted": false
+    },
+    {
+      "iter": 10,
+      "bin_sampled": null,
+      "minibatch_ids": [
+        148,
+        8,
+        106
+      ],
+      "parent_a20": 0.5619047619047619,
+      "candidate_a20": 0.5119047619047619,
+      "accepted": false
+    },
+    {
+      "iter": 11,
+      "bin_sampled": null,
+      "minibatch_ids": [
+        133,
+        17,
+        107
+      ],
+      "parent_a20": 0.5785714285714285,
+      "candidate_a20": 0.4375,
+      "accepted": false
+    },
+    {
+      "iter": 12,
+      "bin_sampled": null,
+      "minibatch_ids": [
+        123,
+        84,
+        73
+      ],
+      "parent_a20": 0.5785714285714285,
+      "candidate_a20": 0.5535714285714286,
+      "accepted": false
+    },
+    {
+      "iter": 13,
+      "bin_sampled": null,
+      "minibatch_ids": [
+        98,
+        79,
+        77
+      ],
+      "parent_a20": 0.5785714285714285,
+      "candidate_a20": 0.42333333333333334,
+      "accepted": false
+    },
+    {
+      "iter": 14,
+      "bin_sampled": null,
+      "minibatch_ids": [
+        35,
+        34,
+        104
+      ],
+      "parent_a20": 0.5619047619047619,
+      "candidate_a20": 0.4608333333333333,
+      "accepted": false
+    },
+    {
+      "iter": 15,
+      "bin_sampled": null,
+      "minibatch_ids": [
+        135,
+        14,
+        32
+      ],
+      "parent_a20": 0.5677777777777777,
+      "candidate_a20": 0.4066666666666666,
+      "accepted": false
+    },
+    {
+      "iter": 16,
+      "bin_sampled": null,
+      "minibatch_ids": [
+        49,
+        10,
+        41
+      ],
+      "parent_a20": null,
+      "candidate_a20": null,
+      "accepted": false
+    },
+    {
+      "iter": 17,
+      "bin_sampled": null,
+      "minibatch_ids": [
+        25,
+        74,
+        93
+      ],
+      "parent_a20": 0.5785714285714285,
+      "candidate_a20": 0.54,
+      "accepted": false
+    },
+    {
+      "iter": 18,
+      "bin_sampled": null,
+      "minibatch_ids": [
+        39,
+        89,
+        45
+      ],
+      "parent_a20": 0.5785714285714285,
+      "candidate_a20": 0.5785714285714285,
+      "accepted": false
+    },
+    {
+      "iter": 19,
+      "bin_sampled": null,
+      "minibatch_ids": [
+        19,
+        101,
+        146
+      ],
+      "parent_a20": 0.5619047619047619,
+      "candidate_a20": 0.6108333333333333,
+      "accepted": true
+    },
+    {
+      "iter": 20,
+      "bin_sampled": null,
+      "minibatch_ids": [
+        139,
+        72,
+        76
+      ],
+      "parent_a20": 0.5785714285714285,
+      "candidate_a20": 0.4435714285714286,
+      "accepted": false
+    },
+    {
+      "iter": 21,
+      "bin_sampled": null,
+      "minibatch_ids": [
+        137,
+        95,
+        20
+      ],
+      "parent_a20": 0.5785714285714285,
+      "candidate_a20": 0.6233333333333333,
+      "accepted": true
+    },
+    {
+      "iter": 22,
+      "bin_sampled": null,
+      "minibatch_ids": [
+        13,
+        147,
+        122
+      ],
+      "parent_a20": 0.6108333333333333,
+      "candidate_a20": 0.5358333333333334,
+      "accepted": false
+    },
+    {
+      "iter": 23,
+      "bin_sampled": null,
+      "minibatch_ids": [
+        11,
+        47,
+        136
+      ],
+      "parent_a20": 0.5677777777777777,
+      "candidate_a20": 0.29642857142857143,
+      "accepted": false
+    },
+    {
+      "iter": 24,
+      "bin_sampled": null,
+      "minibatch_ids": [
+        46,
+        22,
+        100
+      ],
+      "parent_a20": 0.5785714285714285,
+      "candidate_a20": 0.5619047619047619,
+      "accepted": false
+    },
+    {
+      "iter": 25,
+      "bin_sampled": null,
+      "minibatch_ids": [
+        51,
+        31,
+        61
+      ],
+      "parent_a20": 0.5677777777777777,
+      "candidate_a20": 0.48761904761904756,
+      "accepted": false
+    },
+    {
+      "iter": 26,
+      "bin_sampled": null,
+      "minibatch_ids": [
+        4,
+        149,
+        50
+      ],
+      "parent_a20": 0.6108333333333333,
+      "candidate_a20": 0.4816666666666666,
+      "accepted": false
+    },
+    {
+      "iter": 27,
+      "bin_sampled": null,
+      "minibatch_ids": [
+        88,
+        111,
+        75
+      ],
+      "parent_a20": 0.5677777777777777,
+      "candidate_a20": 0.5161904761904761,
+      "accepted": false
+    },
+    {
+      "iter": 28,
+      "bin_sampled": null,
+      "minibatch_ids": [
+        36,
+        38,
+        140
+      ],
+      "parent_a20": 0.6233333333333333,
+      "candidate_a20": 0.6233333333333333,
+      "accepted": false
+    },
+    {
+      "iter": 29,
+      "bin_sampled": null,
+      "minibatch_ids": [
+        85,
+        90,
+        118
+      ],
+      "parent_a20": 0.6108333333333333,
+      "candidate_a20": 0.5733333333333333,
+      "accepted": false
+    },
+    {
+      "iter": 30,
+      "bin_sampled": null,
+      "minibatch_ids": [
+        64,
+        42,
+        15
+      ],
+      "parent_a20": 0.5677777777777777,
+      "candidate_a20": 0.4161904761904761,
+      "accepted": false
+    },
+    {
+      "iter": 31,
+      "bin_sampled": null,
+      "minibatch_ids": [
+        102,
+        117,
+        80
+      ],
+      "parent_a20": 0.6233333333333333,
+      "candidate_a20": 0.45500000000000007,
+      "accepted": false
+    },
+    {
+      "iter": 32,
+      "bin_sampled": null,
+      "minibatch_ids": [
+        23,
+        12,
+        82
+      ],
+      "parent_a20": 0.6108333333333333,
+      "candidate_a20": 0.5608333333333333,
+      "accepted": false
+    },
+    {
+      "iter": 33,
+      "bin_sampled": null,
+      "minibatch_ids": [
+        71,
+        141,
+        2
+      ],
+      "parent_a20": null,
+      "candidate_a20": null,
+      "accepted": false
+    },
+    {
+      "iter": 34,
+      "bin_sampled": null,
+      "minibatch_ids": [
+        37,
+        132,
+        113
+      ],
+      "parent_a20": 0.5677777777777777,
+      "candidate_a20": 0.4161904761904762,
+      "accepted": false
+    },
+    {
+      "iter": 35,
+      "bin_sampled": null,
+      "minibatch_ids": [
+        134,
+        86,
+        109
+      ],
+      "parent_a20": 0.5785714285714285,
+      "candidate_a20": 0.33999999999999997,
+      "accepted": false
+    },
+    {
+      "iter": 36,
+      "bin_sampled": null,
+      "minibatch_ids": [
+        44,
+        29,
+        70
+      ],
+      "parent_a20": 0.5785714285714285,
+      "candidate_a20": 0.47857142857142854,
+      "accepted": false
+    },
+    {
+      "iter": 37,
+      "bin_sampled": null,
+      "minibatch_ids": [
+        63,
+        56,
+        142
+      ],
+      "parent_a20": 0.6108333333333333,
+      "candidate_a20": 0.29833333333333334,
+      "accepted": false
+    },
+    {
+      "iter": 38,
+      "bin_sampled": null,
+      "minibatch_ids": [
+        28,
+        67,
+        3
+      ],
+      "parent_a20": 0.6108333333333333,
+      "candidate_a20": 0.5066666666666666,
+      "accepted": false
+    },
+    {
+      "iter": 39,
+      "bin_sampled": null,
+      "minibatch_ids": [
+        92,
+        54,
+        27
+      ],
+      "parent_a20": 0.6108333333333333,
+      "candidate_a20": 0.5608333333333333,
+      "accepted": false
+    }
+  ]
+}
