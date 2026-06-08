@@ -227,3 +227,8 @@ results/run_*/
 # Exp-3 per-cell GEPA run dirs (gepa_state.bin, generated outputs) are
 # reproducible; keep only the seed<seed>.json summaries + reports.
 results/exp3_curriculum/**/seed*/
+# Portfolio layout: per-cell run dirs + per-task generated outputs under
+# experiments/ are reproducible; keep summaries/analysis/figures only so a
+# re-run does not re-commit the pruned bulk.
+experiments/**/seed*/
+experiments/**/generated_best_outputs_valset/
