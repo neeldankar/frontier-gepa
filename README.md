@@ -7,6 +7,14 @@ distractor, IFBench `allenai/IF_multi_constraints_upto5`). Task LM
 `together_ai/Qwen/Qwen2.5-7B-Instruct-Turbo` @ temp 0.6; reflection LM `gpt-4.1-mini`.
 Stack pinned at `dspy==3.2.1`, `gepa==0.1.1` (bridged by a small `_PatchedDspyAdapter`).
 
+Across all four studies the result converges: example selection reliably changes
+optimization dynamics (when and how often GEPA accepts) but not outcomes (total accepts
+over budget, held-out test F1). This holds across two substrates and three distinct levers,
+static difficulty bands, temporal curriculum schedule, and failure composition. The
+mechanism is substrate-independent: GEPA maintains a Pareto population with a fixed
+acceptance bar, so there is no single learner for a selection strategy to shape. A clean
+null, arrived at by pre-registered predictions and reported in full, is the finding.
+
 ## The four studies
 
 1. **Exp 1 / 1b — static difficulty bands (HotpotQA).** 5 arms × 3 seeds, N=44,
@@ -129,4 +137,10 @@ cp .env.example .env  # TASK_MODEL + TASK_MODEL_API_KEY (Together) + OPENAI_API_
 
 Earlier studies (Exp 1/1b/2) used `src.orchestrator` / `src.score_ifbench_d_feedback` /
 `src.diagnostic_chunk*`; see [`docs/reports/`](docs/reports/) for their session reports.
+
+Caveat: the committed frozen tables and summaries make these command blocks illustrative
+of the runs that already happened (a re-run reproduces, it is not required to read the
+results). The older `score_*` and `diagnostic_chunk*` scripts still write to the legacy
+`results/` path rather than `experiments/`.
+
 Pinned: `dspy==3.2.1`, `gepa==0.1.1`.
