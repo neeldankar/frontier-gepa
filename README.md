@@ -57,11 +57,12 @@ Cross-probe narrative: [`docs/FINDINGS.md`](docs/FINDINGS.md).
 ## Repository layout
 
 ```
-README.md  CLAUDE.md  ARCHITECTURE.md  LICENSE  requirements.txt  pytest.ini
-.gitignore  .env.example
+README.md  LICENSE  requirements.txt  pytest.ini  .gitignore  .env.example
 config/  prompts/  src/  tests/
 
 docs/
+  ARCHITECTURE.md        GEPA source recon + the hook plan (no engine fork)
+  CLAUDE.md              build plan, locked parameters, guardrails
   FINDINGS.md            cross-probe writeup
   DEVIATIONS.md          forced substitutions from the settled-decisions list
   BUILD_PLAN.md          original chunked build plan
@@ -110,8 +111,8 @@ record of the runs that already happened.
   [`active_selection_margin_report.md`](experiments/phase0_selection/active_selection_margin_report.md).
 
 ## Design and protocol
-- [`ARCHITECTURE.md`](ARCHITECTURE.md) — GEPA source recon + the hook plan (no engine fork).
-- [`CLAUDE.md`](CLAUDE.md) — build plan, locked parameters, guardrails.
+- [`docs/ARCHITECTURE.md`](docs/ARCHITECTURE.md) — GEPA source recon + the hook plan (no engine fork).
+- [`docs/CLAUDE.md`](docs/CLAUDE.md) — build plan, locked parameters, guardrails.
 - [`docs/DEVIATIONS.md`](docs/DEVIATIONS.md), [`docs/handoffs/`](docs/handoffs/),
   [`docs/reports/`](docs/reports/).
 
