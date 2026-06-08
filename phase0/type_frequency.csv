@@ -1,0 +1,51 @@
+instruction_id,n_fail_examples,n_satisfied_examples,mean_score_when_failing,min_score_when_failing,max_score_when_failing,description
+length_constraints:nth_paragraph_first_word,14,0,0.3488,0.0,0.75,must have exactly N paragraphs (split on blank lines) AND the nth paragraph's first word equals a given word
+count:counting_composition,13,0,0.2731,0.0,0.5,"must have exactly 3 '***'-split paragraphs, each with exactly n_sent sentences, each sentence exactly n_words words"
+detectable_format:bigram_wrapping,13,4,0.2641,0.0,0.6667,words taken in non-overlapping pairs must be wrapped so each pair starts with '<<' and ends with '>>'
+copy:repeat_phrase,12,0,0.2667,0.0,0.75,"the given phrase must appear exactly small_n times, each occurrence with exactly one word changed"
+detectable_format:sentence_hyphens,12,0,0.3264,0.0,0.75,all sentences must be joined by hyphens with no spaces between them
+keywords:keyword_specific_position,12,0,0.2292,0.0,0.6667,the m-th word of the n-th sentence must equal the given keyword
+count:lowercase_counting,10,3,0.3367,0.0,0.6667,the number of all-lowercase words must be <= N
+detectable_format:square_brackets,10,2,0.3083,0.0,0.6667,EVERY word in the response must be enclosed in [square brackets]
+keywords:start_end,10,3,0.3583,0.0,0.6667,the response's first and last token (nltk) must be the same word
+keywords:word_once,10,1,0.3467,0.0,0.8,a given keyword must occur exactly once (regex count == 1)
+paragraphs:paragraphs2,10,4,0.215,0.0,0.4,must have exactly 2 paragraphs separated by a blank line (\n\n)
+count:count_increment_word,9,2,0.4722,0.25,0.75,keyword1 must occur exactly once AND keyword2 exactly twice
+count:count_unique,9,0,0.3593,0.0,0.8,every tokenized word in the response must be unique (no repeated tokens at all)
+detectable_format:number_highlighted_sections,9,7,0.3815,0.0,0.75,must contain >= N markdown-highlighted spans (text wrapped in *...* or **...**)
+detectable_format:number_bullet_lists,8,2,0.2875,0.0,0.75,number of markdown bullet lines (lines starting '*' or '-') must equal exactly N
+first_word:first_word_answer,8,6,0.2792,0.0,0.8,the first word of the whole response must equal the given word
+keywords:no_adjacent_consecutive,8,6,0.3833,0.0,0.75,no two adjacent words may start with consecutive letters of the alphabet
+startend:quotation,8,5,0.1562,0.0,0.5,the response must be wrapped in double-quote characters at both start and end
+change_case:english_lowercase,7,8,0.169,0.0,0.6,the entire response must be lowercase AND langdetect-detected as English (langdetect; non-deterministic)
+detectable_content:number_placeholders,7,3,0.2548,0.0,0.75,must contain >= N bracketed [placeholders] (regex on [...])
+first_word:first_word_sent,7,3,0.4524,0.25,0.6667,the first word of EVERY sentence must equal the given word
+last_word:last_word_sent,7,3,0.3381,0.0,0.6667,the last word of EVERY sentence (punctuation stripped) must equal the given word
+change_case:capital_word_frequency,6,8,0.1444,0.0,0.3333,"count of ALL-CAPS words must be < N ('less than') or >= N (else), nltk tokenized"
+change_case:english_capital,6,3,0.2778,0.0,0.75,the entire response must be uppercase AND langdetect-detected as English (langdetect; non-deterministic)
+keywords:letter_frequency,6,9,0.15,0.0,0.25,a given single letter must occur < N or >= N times across the whole response (case-insensitive char count)
+last_word:last_word_answer,6,7,0.2722,0.0,0.6,the last word of the whole response (punctuation stripped) must equal the given word
+length_constraints:number_words,6,9,0.2583,0.0,0.5,word count must be < N ('less than') or >= N ('at least')
+startend:end_checker,6,4,0.3722,0.0,0.75,response (stripped of quotes/case) must end with the given phrase
+copy:copying_multiple,5,0,0.3167,0.0,0.6667,"the response must be the given prompt repeated exactly N times, separated by '******'"
+length_constraints:number_sentences,5,8,0.3867,0.2,0.6667,sentence count must be < N ('less than') or >= N ('at least')
+punctuation:punctuation_dot,5,4,0.3233,0.0,0.6667,the response must contain no '.' (dot) characters
+keywords:frequency,4,12,0.3333,0.25,0.5,"a given keyword must occur < N times ('less than') or >= N times ('at least'), counted by regex"
+keywords:word_count_different_numbers,4,3,0.2083,0.0,0.3333,a given keyword must occur < N or >= N times (same logic as keywords:frequency)
+length_constraints:number_paragraphs,4,3,0.15,0.0,0.6,number of paragraphs split on the '***' divider must equal exactly N
+letters:letter_counting,4,5,0.4458,0.2,0.75,the total count of alphabetic letters must be >= N ('at least') or < N ('less than')
+new:copy_span_idx,4,0,0.45,0.2,0.6667,"the response must equal the substring prompt[n_start:n_end] verbatim (stripped, case-insensitive)"
+paragraphs:paragraphs,4,6,0.1833,0.0,0.3333,must have exactly 2 paragraphs separated by the '***' divider
+detectable_content:postscript,3,6,0.0833,0.0,0.25,must contain a postscript section starting with the given marker (e.g. 'P.S.' / 'P.P.S')
+detectable_format:json_format,3,0,0.3833,0.25,0.5,the whole response (stripped of ``` fences) must parse as valid JSON
+keywords:exclude_word_harder,3,5,0.3611,0.25,0.5,the given keyword must not appear as a space-delimited token (' keyword ')
+letters:letter_counting2,3,3,0.2167,0.0,0.4,a given single letter must occur < N or >= N times (case-insensitive char count; same class as keywords:letter_frequency)
+copy:copy,2,0,0.375,0.25,0.5,"the response must equal the given prompt text verbatim (stripped, case-insensitive)"
+copy:copying_simple,2,0,0.4667,0.3333,0.6,"the response must equal the given prompt verbatim (stripped, case-insensitive)"
+keywords:existence,2,7,0.2667,0.2,0.3333,response must contain ALL of the given keywords (case-insensitive regex search)
+keywords:palindrome,2,8,0.2917,0.25,0.3333,the response must contain at least one palindrome word
+language:response_language,2,4,0.3333,0.0,0.6667,langdetect-detected language of the whole response must equal the given code (langdetect; non-deterministic across runs)
+combination:repeat_prompt,1,1,0.25,0.25,0.25,response must start with the given prompt text verbatim (then answer)
+combination:two_responses,1,1,0.3333,0.3333,0.3333,must contain exactly two distinct responses separated by '******'
+detectable_format:title,1,14,0.0,0.0,0.0,must contain a non-empty title wrapped in << >>
+punctuation:no_comma,1,13,0.0,0.0,0.0,the response must contain no commas
