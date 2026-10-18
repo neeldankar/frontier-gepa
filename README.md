@@ -10,9 +10,10 @@ Stack pinned at `dspy==3.2.1`, `gepa==0.1.1` (bridged by a small `_PatchedDspyAd
 Across all four studies the result converges: example selection reliably changes
 optimization dynamics (when and how often GEPA accepts) but not outcomes (total accepts
 over budget, held-out test F1). This holds across two substrates and three distinct levers,
-static difficulty bands, temporal curriculum schedule, and failure composition. The
-mechanism is substrate-independent: GEPA maintains a Pareto population with a fixed
-acceptance bar, so there is no single learner for a selection strategy to shape. A clean
+static difficulty bands, temporal curriculum schedule, and failure composition. One
+hypothesis, not tested here, is that the mechanism is substrate-independent: GEPA
+maintains a Pareto population with a fixed acceptance bar, so there may be no single
+learner for a selection strategy to shape. A clean
 null, arrived at by pre-registered predictions and reported in full, is the finding.
 
 ## The four studies
@@ -32,6 +33,11 @@ null, arrived at by pre-registered predictions and reported in full, is the find
    score? → `experiments/phase0_selection/`
 
 ## Headline findings
+
+**Caveat.** Stock GEPA itself barely beat the unoptimized starting prompt on HotpotQA
+test F1 (+0.007, and every arm mean is within 0.007 of it). There was little gain for
+better selection to add to, so these nulls say little about selection. See
+[`docs/BASELINE-CHECK-2026-09-29.md`](docs/BASELINE-CHECK-2026-09-29.md).
 
 1. **Exp 1 (70/15/15).** Clean null on held-out test F1 — between-arm mean spans 0.0121
    vs a within-arm seed spread of 0.0395.
