@@ -1,6 +1,6 @@
 # frontier-gepa
 
-Controlled experiments on **which examples GEPA should reflect on** — does the
+Controlled experiments on **which examples GEPA should reflect on**: does the
 difficulty (or failure composition) of the examples fed to GEPA's reflective mutation
 change its optimization, at matched budget? Four studies, two substrates (HotpotQA
 distractor, IFBench `allenai/IF_multi_constraints_upto5`). Task LM
@@ -18,17 +18,17 @@ null, arrived at by pre-registered predictions and reported in full, is the find
 
 ## The four studies
 
-1. **Exp 1 / 1b — static difficulty bands (HotpotQA).** 5 arms × 3 seeds, N=44,
+1. **Exp 1 / 1b: static difficulty bands (HotpotQA).** 5 arms × 3 seeds, N=44,
    decoupled acceptance on a fixed 20-example A-batch, plus a 100/0/0 isolation re-run.
    → `experiments/exp1_bands/`
-2. **Exp 2 — IFBench substrate (designed, diagnosed, pilot-validated; matrix not run).**
+2. **Exp 2: IFBench substrate (designed, diagnosed, pilot-validated; matrix not run).**
    One-module program, vendored IFEval verifiers, frozen difficulty table (continuity
    gate GO), parallel-eval pilot; full matrix shelved on a wall-time diagnosis.
    → `experiments/exp2_ifbench/`
-3. **Exp 3 — curriculum schedule (HotpotQA).** 4 arms × 3 seeds, T=40; a temporal
+3. **Exp 3: curriculum schedule (HotpotQA).** 4 arms × 3 seeds, T=40; a temporal
    easy→hard / hard→easy / static-medium / random schedule over the reflection minibatch.
    Primary endpoint = accept dynamics. → `experiments/exp3_curriculum/`
-4. **Phase 0 — active example selection (IFBench).** Does failure composition
+4. **Phase 0: active example selection (IFBench).** Does failure composition
    (`addressability`) predict whether reflecting on an example generalizes, beyond base
    score? → `experiments/phase0_selection/`
 
@@ -39,17 +39,17 @@ test F1 (+0.007, and every arm mean is within 0.007 of it). There was little gai
 better selection to add to, so these nulls say little about selection. See
 [`docs/BASELINE-CHECK-2026-09-29.md`](docs/BASELINE-CHECK-2026-09-29.md).
 
-1. **Exp 1 (70/15/15).** Clean null on held-out test F1 — between-arm mean spans 0.0121
+1. **Exp 1 (70/15/15).** Clean null on held-out test F1: between-arm mean spans 0.0121
    vs a within-arm seed spread of 0.0395.
 2. **Exp 1b (100/0/0 isolation).** The off-band-leakage mechanism is real:
-   `static_easy` accepts/cell collapse 5.3 → 0.0 when 30% off-band exposure is removed —
+   `static_easy` accepts/cell collapse 5.3 → 0.0 when 30% off-band exposure is removed,
    but removing it does not manufacture a frontier effect. The cleaner null is still null.
 3. **Exp 2 (IFBench).** Difficulty table cleared the continuity gate (rank terciles,
    frontier 50/150). Matrix shelved: output-heavy temp-0.6 generations hit the 16K-token
    ceiling, projecting ~57–82 h wall for the 15-cell matrix (spend was fine; wall was not).
 4. **Exp 3 (curriculum).** Schedule changes accept *dynamics* but not generalization.
    Iteration-to-first-accept (mean): `hard_to_easy` 4.0, `static_medium` 3.3,
-   `random` 9.3, `easy_to_hard` 17.0 — `easy_to_hard` sits at **0 cumulative accepts
+   `random` 9.3, `easy_to_hard` 17.0; `easy_to_hard` sits at **0 cumulative accepts
    through phase 1 (iters 0–13) across all seeds** while the others rise earlier. Test F1
    is a null (the prediction comparison lives in the writeup, not the results file).
 5. **Phase 0 (selection).** Failure composition does **not** predict reflection
@@ -117,8 +117,8 @@ record of the runs that already happened.
   [`active_selection_margin_report.md`](experiments/phase0_selection/active_selection_margin_report.md).
 
 ## Design and protocol
-- [`docs/ARCHITECTURE.md`](docs/ARCHITECTURE.md) — GEPA source recon + the hook plan (no engine fork).
-- [`docs/CLAUDE.md`](docs/CLAUDE.md) — build plan, locked parameters, guardrails.
+- [`docs/ARCHITECTURE.md`](docs/ARCHITECTURE.md): GEPA source recon + the hook plan (no engine fork).
+- [`docs/CLAUDE.md`](docs/CLAUDE.md): build plan, locked parameters, guardrails.
 - [`docs/DEVIATIONS.md`](docs/DEVIATIONS.md), [`docs/handoffs/`](docs/handoffs/),
   [`docs/reports/`](docs/reports/).
 
